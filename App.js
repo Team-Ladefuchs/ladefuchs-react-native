@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AboutScreen } from './screens/about';
@@ -22,7 +22,7 @@ function App() {
                   source={require('./assets/ladefuchs.png')} // Passen Sie den Pfad zum Bild an
                   style={styles.headerImage}
                 />
-                
+
               </View>
             ),
             headerRight: () => (
