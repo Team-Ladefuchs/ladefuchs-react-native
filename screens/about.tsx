@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, ScrollView,ZFlatList,TouchableOpacity, Linking } from 'react-native';
+import { Text, View, Image, ScrollView,TouchableOpacity, Linking } from 'react-native';
 import { colors, fonts} from '../theme';
 import { useFonts } from 'expo-font';
 
@@ -7,13 +7,16 @@ import { useFonts } from 'expo-font';
 export function AboutScreen() {
 
   const [fontsLoaded] = useFonts({
-    Bitter: require('../assets/fonts/Bitter-Regular.ttf'),
+
     'Bitter': require('../assets/fonts/Bitter-Italic.ttf'),
     // Fügen Sie hier weitere Schriftarten hinzu, falls erforderlich
-    Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
+
     'Roboto': require('../assets/fonts/Roboto-Bold.ttf'),
   });
 
+  if(!fontsLoaded){
+	return <View></View>
+}
   return (
     <ScrollView style={{ backgroundColor: colors.background }} bounces>
 
