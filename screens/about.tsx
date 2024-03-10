@@ -68,7 +68,7 @@ export function AboutScreen() {
 				/>
 
 				{/* Text mit Zeilenumbrüchen rechts */}
-				<View style={{ padding: 20 }}>
+				<View style={{ paddingVertical: 10 }}>
 					{[
 						{
 							text: "MALIK",
@@ -76,6 +76,7 @@ export function AboutScreen() {
 								color: colors.ladefuchsOrange,
 								fontSize: 20,
 								fontFamily: "Roboto",
+								lineHeight: 20,
 							},
 						}, // Stil für die erste Zeile
 						{
@@ -84,17 +85,53 @@ export function AboutScreen() {
 								color: "black",
 								fontFamily: "Bitter",
 								fontSize: 15,
+								lineHeight: 20,
 							},
 						}, // Stil für die zweite Zeile
 						{
+							text: "@malik",
+							style: {
+								fontFamily: "Bitter",
+								fontSize: 15,
+								lineHeight: 30,
+							},
+							onPress: () =>
+								Linking.openURL(
+									"https://mastodon.social/@malik"
+								),
+							imageSource: require("../assets/icon_masto.png"), // Pfad zum Bild
+						}, // Stil für die dritte Zeile mit der onPress-Funktion für den Link zur Website
+						{
 							text: "malik@ladefuchs.app",
-							style: { fontFamily: "Bitter", fontSize: 15 },
+							style: {
+								fontFamily: "Bitter",
+								fontSize: 15,
+								lineHeight: 20,
+							},
 							onPress: () =>
 								Linking.openURL("mailto:malik@ladefuchs.app"),
+							imageSource: require("../assets/icon_mail.png"), // Pfad zum Bild
 						}, // Stil für die dritte Zeile mit der onPress-Funktion für den Link zur E-Mail
 					].map((line, index) => (
 						<TouchableOpacity key={index} onPress={line.onPress}>
-							<Text style={line.style}>{line.text}</Text>
+							<View
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+								}}
+							>
+								{line.imageSource && ( // Überprüfen, ob ein Bild vorhanden ist
+									<Image
+										source={line.imageSource}
+										style={{
+											width: 20, // Breite des Bildes anpassen
+											height: 20, // Höhe des Bildes anpassen
+											marginRight: 5, // Abstand zwischen Bild und Text anpassen
+										}}
+									/>
+								)}
+								<Text style={line.style}>{line.text}</Text>
+							</View>
 						</TouchableOpacity>
 					))}
 				</View>
@@ -119,7 +156,7 @@ export function AboutScreen() {
 				/>
 
 				{/* Text mit Zeilenumbrüchen rechts */}
-				<View style={{ padding: 20 }}>
+				<View style={{ paddingVertical: 10 }}>
 					{[
 						{
 							text: "DOMINIC",
@@ -127,27 +164,68 @@ export function AboutScreen() {
 								color: colors.ladefuchsOrange,
 								fontSize: 20,
 								fontFamily: "Roboto",
+								lineHeight: 20,
 							},
 						}, // Stil für die erste Zeile
 						{
 							text: "APIfuchs",
-							style: { fontFamily: "Bitter", fontSize: 15 },
+							style: {
+								fontFamily: "Bitter",
+								fontSize: 15,
+								lineHeight: 20,
+							},
 						}, // Stil für die zweite Zeile
 						{
+							text: "@dominic",
+							style: {
+								fontFamily: "Bitter",
+								fontSize: 15,
+								lineHeight: 30,
+							},
+							onPress: () =>
+								Linking.openURL(
+									"https://social.linux.pizza/@dominicwrege"
+								),
+							imageSource: require("../assets/icon_mail.png"), // Pfad zum Bild
+						}, // Stil für die dritte Zeile mit der onPress-Funktion für den Link zur Website
+						{
 							text: "api@ladefuchs.app",
-							style: { fontFamily: "Bitter", fontSize: 15 },
+							style: {
+								fontFamily: "Bitter",
+								fontSize: 15,
+								lineHeight: 20,
+							},
 							onPress: () =>
 								Linking.openURL("mailto:api@ladefuchs.app"),
+							imageSource: require("../assets/icon_masto.png"), // Pfad zum Bild
 						}, // Stil für die dritte Zeile mit der onPress-Funktion für den Link zur E-Mail
 					].map((line, index) => (
 						<TouchableOpacity key={index} onPress={line.onPress}>
-							<Text style={line.style}>{line.text}</Text>
+							<View
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+								}}
+							>
+								{line.imageSource && ( // Überprüfen, ob ein Bild vorhanden ist
+									<Image
+										source={line.imageSource}
+										style={{
+											width: 20, // Breite des Bildes anpassen
+											height: 20, // Höhe des Bildes anpassen
+											marginRight: 5, // Abstand zwischen Bild und Text anpassen
+										}}
+									/>
+								)}
+								<Text style={line.style}>{line.text}</Text>
+							</View>
 						</TouchableOpacity>
 					))}
 				</View>
 			</View>
 
 			{/* next Memberview*/}
+
 			<View
 				style={{
 					flexDirection: "row",
@@ -166,7 +244,7 @@ export function AboutScreen() {
 				/>
 
 				{/* Text mit Zeilenumbrüchen rechts */}
-				<View style={{ padding: 20 }}>
+				<View style={{ paddingVertical: 10 }}>
 					{[
 						{
 							text: "SVEN",
@@ -174,6 +252,7 @@ export function AboutScreen() {
 								color: colors.ladefuchsOrange,
 								fontSize: 20,
 								fontFamily: "Roboto",
+								lineHeight: 20,
 							},
 						}, // Stil für die erste Zeile
 						{
@@ -181,27 +260,53 @@ export function AboutScreen() {
 							style: {
 								fontFamily: "Bitter",
 								fontSize: 15,
+								lineHeight: 20,
 							},
 						}, // Stil für die zweite Zeile
 						{
-							text: "hexer@chaos.social",
+							text: "@hexer",
 							style: {
 								fontFamily: "Bitter",
 								fontSize: 15,
+								lineHeight: 30,
 							},
-						}, // Stil für die zweite Zeile
+							onPress: () =>
+								Linking.openURL(
+									"https://chaos.social/@svenraskin"
+								),
+							imageSource: require("../assets/icon_masto.png"), // Pfad zum Bild
+						}, // Stil für die dritte Zeile mit der onPress-Funktion für den Link zur Website
 						{
 							text: "sven@ladefuchs.app",
 							style: {
 								fontFamily: "Bitter",
 								fontSize: 15,
+								lineHeight: 20,
 							},
 							onPress: () =>
 								Linking.openURL("mailto:sven@ladefuchs.app"),
-						}, // Stil für die dritte Zeile mit der onPress-Funktion für den Link zur E-Mail
+							imageSource: require("../assets/icon_mail.png"), // Pfad zum Bild
+						}, // Stil für die vierte Zeile mit der onPress-Funktion für den Link zur E-Mail
 					].map((line, index) => (
 						<TouchableOpacity key={index} onPress={line.onPress}>
-							<Text style={line.style}>{line.text}</Text>
+							<View
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+								}}
+							>
+								{line.imageSource && ( // Überprüfen, ob ein Bild vorhanden ist
+									<Image
+										source={line.imageSource}
+										style={{
+											width: 15, // Breite des Bildes anpassen
+											height: 15, // Höhe des Bildes anpassen
+											marginRight: 5, // Abstand zwischen Bild und Text anpassen
+										}}
+									/>
+								)}
+								<Text style={line.style}>{line.text}</Text>
+							</View>
 						</TouchableOpacity>
 					))}
 				</View>
