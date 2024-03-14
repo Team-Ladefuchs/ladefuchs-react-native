@@ -1,29 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Button, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../theme";
+import { Picker } from "@react-native-picker/picker";
+import CustomPicker from "../components/CustomPickers";
 
 export function HomeScreen(props) {
 	const navigation = useNavigation();
+	const [selectedValue, setSelectedValue] = useState(""); // Zustand für die ausgewählte Option im Picker
+	const handlePickerSelect = (value) => {
+		console.log("Selected value:", value);
+		// Fügen Sie hier die gewünschte Logik für die Behandlung des ausgewählten Werts hinzu
+	};
+
 	return (
 		<View
-			style={{
-				flex: 1,
-				alignItems: "center",
-				justifyContent: "center",
-				backgroundColor: colors.background,
-			}}
+			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
 		>
-			{/* Anstatt des Textes wird hier das runde Bild eingefügt */}
-			{/* <Image
-        source={require("../assets/LFfake.jpg")} // Pfad zum Bild anpassen
-        style={{ width: 380, height: 735 }} // Stil des Bildes anpassen, um es rund zu machen
-      /> */}
-			<Text style={{ color: colors.ladefuchsOrange }}>
-				Hier steht der Ladefuchs
-			</Text>
-
-			{/*<Text>Props: {JSON.stringify(props)}</Text>*/}
+			<CustomPicker onSelect={handlePickerSelect} />
 		</View>
 	);
 }
