@@ -2,6 +2,7 @@
 
 ```sh
 npm install
+npm i lottie-react-native
 ```
 
 ## HOW TO Run

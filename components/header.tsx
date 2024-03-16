@@ -41,15 +41,15 @@ const styles = StyleSheet.create({
 		paddingBottom: 0,
 		backgroundColor: colors.background,
 		width: "100%",
-		height: 120,
+		height: 110,
 	},
 	headerLogoContainer: {
-		marginTop: 5,
+		marginBottom: -7,
 	},
 	headerSettingsIcon: {
 		position: "absolute",
 		right: 8,
-		bottom: 20,
+		bottom: 15,
 		paddingRight: 16,
 	},
 	headerTitle: {

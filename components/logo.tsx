@@ -7,7 +7,7 @@ export function LogoAnimation(props) {
 			source={require("../assets/flunkerfuchs.json")}
 			autoPlay
 			loop
-			style={{ width: 64, height: 64 }}
+			style={{ width:75, height: 75 }}
 		/>
 	);
 }

@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { colors } from "../theme";
 import { Picker } from "@react-native-picker/picker";
 import CustomPicker from "../components/CustomPickers";
+import { useFonts } from "expo-font";
 
 export function HomeScreen(props) {
 	const navigation = useNavigation();
@@ -12,12 +13,107 @@ export function HomeScreen(props) {
 		console.log("Selected value:", value);
 		// Fügen Sie hier die gewünschte Logik für die Behandlung des ausgewählten Werts hinzu
 	};
+	const [fontsLoaded] = useFonts({
+		Bitter: require("../assets/fonts/Bitter-Italic.ttf"),
+		// Fügen Sie hier weitere Schriftarten hinzu, falls erforderlich
+		Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
+	});
+
+	if (!fontsLoaded) {
+		return <View></View>;
+	}
 
 	return (
-		<View
-			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-		>
-			<CustomPicker onSelect={handlePickerSelect} />
+		<View>
+			<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<View
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						paddingVertical: 15,
+						backgroundColor: colors.ladefuchsDarkBackground,
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+				>
+					<Text
+						style={{
+							color: "black",
+							fontFamily: "Roboto",
+							fontSize: 26,
+						}}
+					>
+						AC{" "}
+					</Text>
+					<Image
+						source={require("../assets/typ2.png")} // Pfad zum Bild für AC anpassen
+						style={{ width: 26, height: 26, resizeMode: "contain" }} // Stil des Bildes anpassen
+					/>
+				</View>
+				<View
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						paddingVertical: 15,
+						backgroundColor: colors.ladefuchsDarkBackground,
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+				>
+					<Text
+						style={{
+							color: "black",
+							fontFamily: "Roboto",
+							fontSize: 26,
+						}}
+					>
+						DC{" "}
+					</Text>
+					<Image
+    source={require("../assets/ccs.png")} // Pfad zum Bild für DC anpassen
+    style={{ width: 26, height: 29, resizeMode: "contain" }} // Stil des Bildes anpassen
+/>
+				</View>
+			</View>
+
+			<View
+				style={{
+					paddingVertical: "45%",
+					backgroundColor: colors.background,
+				}}
+			></View>
+			<View
+				style={{
+					paddingVertical: 10,
+					backgroundColor: colors.ladefuchsDarkBackground,
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				{[
+					{
+						text: "AN WELCHER SÄULE STEHST DU?",
+						style: {
+							color: "black",
+							fontFamily: "Roboto",
+							fontSize: 16,
+						},
+					}, // Stil für die zweite Zeile
+				].map((line, index) => (
+					<Text key={index} style={line.style}>
+						{line.text}
+					</Text>
+				))}
+			</View>
+			<View
+				style={{
+					flex: 1,
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<CustomPicker onSelect={handlePickerSelect} />
+			</View>
 		</View>
 	);
 }
