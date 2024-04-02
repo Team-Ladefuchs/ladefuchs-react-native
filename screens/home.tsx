@@ -85,13 +85,13 @@ export function HomeScreen(props) {
 
 			<View
 				style={{
-					flex: 50, // 40% Höhe des verfügbaren Platzes
+					flex: 58, // 40% Höhe des verfügbaren Platzes
 					backgroundColor: colors.background,
 				}}
 			></View>
 			<View
 				style={{
-					flex: 3, // 20% Höhe des verfügbaren Platzes
+					flex: 3, // 3% Höhe des verfügbaren Platzes
 					paddingVertical: 10,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
