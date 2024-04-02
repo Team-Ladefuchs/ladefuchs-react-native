@@ -19,7 +19,7 @@ export function AppHeader() {
 			</View>
 
 			<TouchableOpacity
-				onPress={() => navigation.navigate("About")}
+				onPress={() => navigation.navigate("Einstellungen")}
 				style={styles.headerSettingsIcon}
 			>
 				<Image

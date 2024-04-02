@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Button, Image } from "react-native";
+import {
+	View,
+	Text,
+	Button,
+	Image,
+	TouchableOpacity,
+	Linking,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../theme";
 import { Picker } from "@react-native-picker/picker";
@@ -24,7 +31,7 @@ export function HomeScreen(props) {
 	}
 
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<View
 					style={{
@@ -70,15 +77,15 @@ export function HomeScreen(props) {
 						DC{" "}
 					</Text>
 					<Image
-    source={require("../assets/ccs.png")} // Pfad zum Bild für DC anpassen
-    style={{ width: 26, height: 29, resizeMode: "contain" }} // Stil des Bildes anpassen
-/>
+						source={require("../assets/ccs.png")} // Pfad zum Bild für DC anpassen
+						style={{ width: 26, height: 29, resizeMode: "contain" }} // Stil des Bildes anpassen
+					/>
 				</View>
 			</View>
 
 			<View
 				style={{
-					paddingVertical: "45%",
+					paddingVertical: "50%",
 					backgroundColor: colors.background,
 				}}
 			></View>
@@ -109,10 +116,36 @@ export function HomeScreen(props) {
 				style={{
 					flex: 1,
 					alignItems: "center",
-					justifyContent: "center",
+					justifyContent: "top",
 				}}
 			>
 				<CustomPicker onSelect={handlePickerSelect} />
+			</View>
+			{/* Footer beginnt hier */}
+			<View
+				style={{
+					flex: 0,
+					backgroundColor: colors.ladefuchsDarkBackground,
+					alignItems: "center",
+					height: 65,
+					overflow: "visible", // Damit das Bild über den View hinausragt
+				}}
+			>
+				{/* Fügen Sie hier die gewünschten Komponenten für den neuen View ein*/}
+				<TouchableOpacity
+					onPress={() =>
+						Linking.openURL("https://shop.ladefuchs.app")
+					}
+				>
+					<Image
+						source={require("../assets/Footershop.png")} // Pfad zum Bild für AC anpassen
+						style={{
+							width: 250,
+							height: 89,
+							marginTop: -10,
+						}} // Stil des Bildes anpassen
+					/>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

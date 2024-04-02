@@ -34,7 +34,7 @@ function App() {
 						headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 					})}
 				/>
-				<Stack.Screen name="About" component={AboutScreen} />
+				<Stack.Screen name="Einstellungen" component={AboutScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

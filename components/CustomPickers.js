@@ -8,6 +8,7 @@ const CustomPicker = ({ onSelect }) => {
     <Picker
       selectedValue={selectedValue}
       style={{ height: 50, width: '100%' }}
+	  itemStyle={{ fontSize: 20 }} // Hier ändern Sie die Höhe der Picker Items
       onValueChange={(itemValue, itemIndex) => {
         setSelectedValue(itemValue);
         onSelect(itemValue); // Die Anbieter werden vermutlich aus dem Backend geladen
