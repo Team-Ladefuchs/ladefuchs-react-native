@@ -85,12 +85,13 @@ export function HomeScreen(props) {
 
 			<View
 				style={{
-					paddingVertical: "50%",
+					flex: 50, // 40% Höhe des verfügbaren Platzes
 					backgroundColor: colors.background,
 				}}
 			></View>
 			<View
 				style={{
+					flex: 3, // 20% Höhe des verfügbaren Platzes
 					paddingVertical: 10,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
@@ -114,7 +115,7 @@ export function HomeScreen(props) {
 			</View>
 			<View
 				style={{
-					flex: 1,
+					flex: 30,
 					alignItems: "center",
 					justifyContent: "top",
 				}}
@@ -124,7 +125,7 @@ export function HomeScreen(props) {
 			{/* Footer beginnt hier */}
 			<View
 				style={{
-					flex: 0,
+					flex: 10,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
 					height: 65,
