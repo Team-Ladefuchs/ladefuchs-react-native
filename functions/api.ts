@@ -14,9 +14,13 @@ export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 			authHeader
 		);
 		if (!response.ok) {
-			throw new Error(`Failed to fetch operators: ${response}`);
+			console.error(response);
+			throw new Error(
+				`Failed to fetch operators: status: ${response.status}`
+			);
 		}
 		const data = (await response.json()) as OperatorsResponse;
+
 		return data.operators;
 	} catch (error) {
 		console.error(error);
