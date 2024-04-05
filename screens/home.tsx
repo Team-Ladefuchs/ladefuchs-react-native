@@ -1,21 +1,10 @@
-import React, { useState } from "react";
-import {
-	View,
-	Text,
-	Button,
-	Image,
-	TouchableOpacity,
-	Linking,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { View, Text, Image, TouchableOpacity, Linking } from "react-native";
 import { colors } from "../theme";
-import { Picker } from "@react-native-picker/picker";
-import CustomPicker from "../components/CustomPickers";
+import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
 
 export function HomeScreen(props) {
-	const navigation = useNavigation();
-	const [selectedValue, setSelectedValue] = useState(""); // Zustand für die ausgewählte Option im Picker
 	const handlePickerSelect = (value) => {
 		console.log("Selected value:", value);
 		// Fügen Sie hier die gewünschte Logik für die Behandlung des ausgewählten Werts hinzu
@@ -120,7 +109,7 @@ export function HomeScreen(props) {
 					justifyContent: "top",
 				}}
 			>
-				<CustomPicker onSelect={handlePickerSelect} />
+				<OperatorPicker onSelect={handlePickerSelect} />
 			</View>
 			{/* Footer beginnt hier */}
 			<View

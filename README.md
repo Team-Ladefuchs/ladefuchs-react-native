@@ -1,4 +1,4 @@
-## HOW TO Install
+## How to install
 
 ```sh
 npm install
@@ -6,7 +6,14 @@ npm i lottie-react-native
 npm install @react-native-picker/picker --save
 ```
 
-## HOW TO Run
+## Create .env file
+
+```
+API_TOKEN=12xxxxxxxxxxx
+
+```
+
+## How to run
 
 iOS
 
