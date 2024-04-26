@@ -1,8 +1,16 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, Linking } from "react-native";
+import {
+	View,
+	Text,
+	Image,
+	TouchableOpacity,
+	Linking,
+	ScrollView,
+} from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
+import Tariffs from "../components/tariffs";
 
 export function HomeScreen(props) {
 	const handlePickerSelect = (value) => {
@@ -18,6 +26,16 @@ export function HomeScreen(props) {
 	if (!fontsLoaded) {
 		return <View></View>;
 	}
+
+	const left = {
+		cardImage: require("../assets/icon_mail.png"),
+		priceString: "0,45" /* Add other properties */,
+	};
+	const right = {
+		cardImage: require("../assets/icon_masto.png"),
+		priceString: "0,66" /* Add other properties */,
+	};
+	const viewModel = { left, right /* Add other properties */ };
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -74,10 +92,14 @@ export function HomeScreen(props) {
 
 			<View
 				style={{
-					flex: 58, // 40% Höhe des verfügbaren Platzes
+					flex: 58, // Höhe des verfügbaren Platzes
 					backgroundColor: colors.background,
 				}}
-			></View>
+			>
+				<ScrollView>
+					<Tariffs viewModel={viewModel} />
+				</ScrollView>
+			</View>
 			<View
 				style={{
 					flex: 3, // 3% Höhe des verfügbaren Platzes
