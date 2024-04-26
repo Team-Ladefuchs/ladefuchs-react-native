@@ -13,15 +13,15 @@ const CardAndPriceView = ({ viewModel }) => {
 
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
-		height: 99,
+		height: 75,
 		flexDirection: "row", // Horizontal layout
 		alignItems: "center", // Align items vertically
-		paddingHorizontal: 10, // Adjust as needed
+		paddingHorizontal: 20, // Adjust as needed
 	},
 	cardImage: {
-		width: 100, // Adjust as needed
-		height: 60, // Adjust as needed
-		marginRight: 25, // Adjust as needed
+		width: 80, // Adjust as needed
+		height: 48, // Adjust as needed
+		marginRight: 20, // Adjust as needed
 	},
 	priceText: {
 		fontSize: 20, // Adjust font size as needed

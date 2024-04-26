@@ -64,6 +64,10 @@ export function HomeScreen(props) {
 						style={{ width: 26, height: 26, resizeMode: "contain" }} // Stil des Bildes anpassen
 					/>
 				</View>
+				<View style={{
+			  width: 1, // Adjust space width as needed
+			  backgroundColor: 'white', // Set space background color
+			}} />
 				<View
 					style={{
 						flex: 1,

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 0, // Adjust as needed
 	},
 	space: {
-		width: 2, // Adjust space width as needed
+		width: 1, // Adjust space width as needed
 		backgroundColor: "white", // Set space background color
 	},
 });
