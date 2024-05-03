@@ -11,11 +11,13 @@ import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
 import Tariffs from "../components/tariffs";
+import { setSelectedValue } from "../types/operator";
 
 export function HomeScreen(props) {
 	const handlePickerSelect = (value) => {
-		console.log("Selected value:", value);
-		// Fügen Sie hier die gewünschte Logik für die Behandlung des ausgewählten Werts hinzu
+		setSelectedValue(value);
+		console.log("Home value:", value);
+		// OperatorId aus dem Picker
 	};
 	const [fontsLoaded] = useFonts({
 		Bitter: require("../assets/fonts/Bitter-Italic.ttf"),
@@ -64,10 +66,12 @@ export function HomeScreen(props) {
 						style={{ width: 26, height: 26, resizeMode: "contain" }} // Stil des Bildes anpassen
 					/>
 				</View>
-				<View style={{
-			  width: 1, // Adjust space width as needed
-			  backgroundColor: 'white', // Set space background color
-			}} />
+				<View
+					style={{
+						width: 1, // Adjust space width as needed
+						backgroundColor: "white", // Set space background color
+					}}
+				/>
 				<View
 					style={{
 						flex: 1,

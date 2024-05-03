@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOperators } from "../functions/api";
+
 const OperatorPicker = ({ onSelect }) => {
 	const [selectedValue, setSelectedValue] = useState("");
 
