@@ -1,32 +1,32 @@
 {
-  "name": "ladefuchs",
-  "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
-  },
-  "dependencies": {
-    "@react-native-picker/picker": "^2.6.1",
-    "@tanstack/react-query": "^5.28.14",
-    "@types/react": "~18.2.45",
-    "expo": "~50.0.8",
-    "expo-constants": "~15.4.5",
-    "expo-linking": "~6.2.2",
-    "expo-router": "~3.4.8",
-    "expo-status-bar": "~1.11.1",
-    "lottie-react-native": "^6.7.0",
-    "react": "18.2.0",
-    "react-native": "0.73.4",
-    "react-native-safe-area-context": "4.8.2",
-    "react-native-screens": "~3.29.0",
-    "typescript": "^5.3.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "react-native-dotenv": "^3.4.11"
-  },
-  "private": true
+	"name": "ladefuchs",
+	"version": "1.0.0",
+	"main": "node_modules/expo/AppEntry.js",
+	"scripts": {
+		"start": "expo start",
+		"android": "expo start --android",
+		"ios": "expo start --ios",
+		"web": "expo start --web"
+	},
+	"dependencies": {
+		"@react-native-picker/picker": "^2.7.5",
+		"@tanstack/react-query": "^5.35.1",
+		"@types/react": "~18.3.1",
+		"expo": "~51.0.2",
+		"expo-constants": "~16.0.1",
+		"expo-linking": "~6.3.1",
+		"expo-router": "~3.5.11",
+		"expo-status-bar": "~1.12.1",
+		"lottie-react-native": "^6.7.2",
+		"react": "18.2.0",
+		"react-native": "0.74.1",
+		"react-native-safe-area-context": "4.10.1",
+		"react-native-screens": "~3.31.1",
+		"typescript": "^5.4.5"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.24.5",
+		"react-native-dotenv": "^3.4.11"
+	},
+	"private": true
 }

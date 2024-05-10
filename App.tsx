@@ -6,7 +6,13 @@ import { AboutScreen } from "./screens/about";
 import { HomeScreen } from "./screens/home";
 import { colors } from "./theme";
 import { AppHeader } from "./components/header";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+	QueryClient,
+	QueryClientProvider,
+	useQuery,
+} from "@tanstack/react-query";
+import { AppDataProvider } from "./contexts/appDataContext";
+import { fetchAllApiData } from "./functions/api";
 
 const queryClient = new QueryClient();
 
@@ -14,6 +20,23 @@ function App() {
 	const Stack = createNativeStackNavigator();
 	return (
 		<QueryClientProvider client={queryClient}>
+			<AppWrapper Stack={Stack} />
+		</QueryClientProvider>
+	);
+}
+
+function AppWrapper({ Stack }): JSX.Element {
+	const allApiData = useQuery({
+		queryKey: ["AllApiData"],
+		queryFn: async () => {
+			return await fetchAllApiData();
+		},
+	});
+	if (allApiData.isPending || allApiData.error) {
+		return null;
+	}
+	return (
+		<AppDataProvider value={allApiData.data}>
 			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
@@ -36,25 +59,8 @@ function App() {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
-		</QueryClientProvider>
+		</AppDataProvider>
 	);
 }
-
-const styles = StyleSheet.create({
-	headerTitleContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	headerImage: {
-		width: 62,
-		height: 62,
-		marginRight: 0,
-		marginTop: -11,
-	},
-	headerTitle: {
-		color: colors.ladefuchsOrange,
-		fontSize: 18,
-	},
-});
 
 export default App;

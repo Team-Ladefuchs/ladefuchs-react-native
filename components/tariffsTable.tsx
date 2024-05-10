@@ -1,6 +1,6 @@
 // Tariffs.tsx
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { TariffCondition } from "../types/conditions";
 import { AppDataContext } from "../contexts/appDataContext";
