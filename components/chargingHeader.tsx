@@ -1,31 +1,16 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { colors } from "../theme";
 
 export function ChargingTableHeader() {
 	return (
-		<View style={{ flexDirection: "row", alignItems: "center" }}>
-			<View
-				style={{
-					flex: 1,
-					flexDirection: "row",
-					paddingVertical: 15,
-					backgroundColor: colors.ladefuchsDarkBackground,
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				<Text
-					style={{
-						color: "black",
-						fontFamily: "Roboto",
-						fontSize: 26,
-					}}
-				>
-					AC{" "}
-				</Text>
+		<View
+			style={{ flexDirection: "row", alignItems: "center", height: 60 }}
+		>
+			<View style={styles.headerView}>
+				<Text style={styles.headerText}>AC</Text>
 				<Image
 					source={require("../assets/typ2.png")} // Pfad zum Bild für AC anpassen
-					style={{ width: 26, height: 26, resizeMode: "contain" }} // Stil des Bildes anpassen
+					style={styles.headerImage}
 				/>
 			</View>
 			<View
@@ -34,30 +19,39 @@ export function ChargingTableHeader() {
 					backgroundColor: "white", // Set space background color
 				}}
 			/>
-			<View
-				style={{
-					flex: 1,
-					flexDirection: "row",
-					paddingVertical: 15,
-					backgroundColor: colors.ladefuchsDarkBackground,
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				<Text
-					style={{
-						color: "black",
-						fontFamily: "Roboto",
-						fontSize: 26,
-					}}
-				>
-					DC{" "}
-				</Text>
+			<View style={styles.headerView}>
+				<Text style={styles.headerText}>DC</Text>
 				<Image
 					source={require("../assets/ccs.png")} // Pfad zum Bild für DC anpassen
-					style={{ width: 26, height: 29, resizeMode: "contain" }} // Stil des Bildes
+					style={{
+						width: 28,
+						height: 34,
+						marginLeft: 4,
+						resizeMode: "contain",
+					}}
 				/>
 			</View>
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	headerText: {
+		fontSize: 33,
+		color: "black",
+		fontFamily: "Roboto",
+	},
+	headerImage: {
+		// width: 28,
+		height: 28,
+		resizeMode: "contain",
+	},
+	headerView: {
+		flex: 1,
+		flexDirection: "row",
+		height: "100%",
+		backgroundColor: colors.ladefuchsDarkBackground,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+});

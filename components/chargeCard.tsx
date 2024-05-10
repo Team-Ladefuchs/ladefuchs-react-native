@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, StyleSheet, Platform } from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
 import { useQuery } from "@tanstack/react-query";
@@ -11,8 +11,6 @@ interface ChargeCardModel {
 }
 
 const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
-	// const cardImage = require("../assets/maingau.png");
-
 	if (!tariffCondition || !tariff) {
 		return <View style={styles.cardAndPriceContainer}></View>;
 	}
