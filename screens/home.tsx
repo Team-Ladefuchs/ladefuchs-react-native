@@ -1,33 +1,23 @@
-import React from "react";
-import {
-	View,
-	Text,
-	Image,
-	TouchableOpacity,
-	Linking,
-	ScrollView,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
-import Tariffs from "../components/tariffs";
 import { setSelectedValue } from "../types/operator";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAllApiData } from "../functions/api";
+import { TariffsTable } from "../components/tariffsTable";
+import { Footer } from "../components/footer";
+import { ChargingTableHeader } from "../components/chargingHeader";
+import { AppDataProvider } from "../contexts/appDataContext";
+import { TariffCondition } from "../types/conditions";
 
 export function HomeScreen(props) {
-	const handlePickerSelect = (value) => {
-		setSelectedValue(value);
-		console.log("Home value:", value);
-		// OperatorId aus dem Picker
-	};
 	const [fontsLoaded] = useFonts({
 		Bitter: require("../assets/fonts/Bitter-Italic.ttf"),
 		// Fügen Sie hier weitere Schriftarten hinzu, falls erforderlich
 		Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
 	});
-
-	if (!fontsLoaded) {
-		return <View></View>;
-	}
 
 	const left = {
 		cardImage: require("../assets/icon_mail.png"),
@@ -37,16 +27,54 @@ export function HomeScreen(props) {
 		cardImage: require("../assets/icon_masto.png"),
 		priceString: "0,66" /* Add other properties */,
 	};
-	const viewModel = { left, right /* Add other properties */ };
+
+	const [tariffConditions, setTariffConditions] = useState<TariffCondition[]>(
+		[]
+	);
+
+	const allApiData = useQuery({
+		queryKey: ["AllApiData"],
+		queryFn: async () => {
+			return await fetchAllApiData();
+		},
+	});
+
+	const handlePickerSelect = (operatorId) => {
+		setSelectedValue(operatorId);
+		console.log("selected operatorId", operatorId);
+		const tariffConditions = allApiData.data.chargingConditions.find(
+			(item) => item.operatorId === operatorId
+		)?.tariffConditions;
+
+		// console.log("conditionsByOperator tariffConditions", tariffConditions);
+		if (tariffConditions) {
+			setTariffConditions(tariffConditions);
+		}
+	};
+
+	if (allApiData.isPending || allApiData.error) {
+		return null;
+	}
+	if (!fontsLoaded) {
+		return <View></View>;
+	}
 
 	return (
-		<View style={{ flex: 1 }}>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
+		<AppDataProvider value={allApiData.data}>
+			<View style={{ flex: 1 }}>
+				<ChargingTableHeader />
 				<View
 					style={{
-						flex: 1,
-						flexDirection: "row",
-						paddingVertical: 15,
+						flex: 58, // Höhe des verfügbaren Platzes
+						backgroundColor: colors.background,
+					}}
+				>
+					<TariffsTable tariffConditions={tariffConditions} />
+				</View>
+				<View
+					style={{
+						flex: 3, // 3% Höhe des verfügbaren Platzes
+						paddingVertical: 10,
 						backgroundColor: colors.ladefuchsDarkBackground,
 						alignItems: "center",
 						justifyContent: "center",
@@ -54,119 +82,24 @@ export function HomeScreen(props) {
 				>
 					<Text
 						style={{
-							color: "black",
-							fontFamily: "Roboto",
-							fontSize: 26,
-						}}
-					>
-						AC{" "}
-					</Text>
-					<Image
-						source={require("../assets/typ2.png")} // Pfad zum Bild für AC anpassen
-						style={{ width: 26, height: 26, resizeMode: "contain" }} // Stil des Bildes anpassen
-					/>
-				</View>
-				<View
-					style={{
-						width: 1, // Adjust space width as needed
-						backgroundColor: "white", // Set space background color
-					}}
-				/>
-				<View
-					style={{
-						flex: 1,
-						flexDirection: "row",
-						paddingVertical: 15,
-						backgroundColor: colors.ladefuchsDarkBackground,
-						alignItems: "center",
-						justifyContent: "center",
-					}}
-				>
-					<Text
-						style={{
-							color: "black",
-							fontFamily: "Roboto",
-							fontSize: 26,
-						}}
-					>
-						DC{" "}
-					</Text>
-					<Image
-						source={require("../assets/ccs.png")} // Pfad zum Bild für DC anpassen
-						style={{ width: 26, height: 29, resizeMode: "contain" }} // Stil des Bildes anpassen
-					/>
-				</View>
-			</View>
-
-			<View
-				style={{
-					flex: 58, // Höhe des verfügbaren Platzes
-					backgroundColor: colors.background,
-				}}
-			>
-				<ScrollView>
-					<Tariffs viewModel={viewModel} />
-				</ScrollView>
-			</View>
-			<View
-				style={{
-					flex: 3, // 3% Höhe des verfügbaren Platzes
-					paddingVertical: 10,
-					backgroundColor: colors.ladefuchsDarkBackground,
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				{[
-					{
-						text: "AN WELCHER SÄULE STEHST DU?",
-						style: {
 							color: "black",
 							fontFamily: "Roboto",
 							fontSize: 16,
-						},
-					}, // Stil für die zweite Zeile
-				].map((line, index) => (
-					<Text key={index} style={line.style}>
-						{line.text}
+						}}
+					>
+						"AN WELCHER SÄULE STEHST DU?"
 					</Text>
-				))}
-			</View>
-			<View
-				style={{
-					flex: 30,
-					alignItems: "center",
-					justifyContent: "top",
-				}}
-			>
-				<OperatorPicker onSelect={handlePickerSelect} />
-			</View>
-			{/* Footer beginnt hier */}
-			<View
-				style={{
-					flex: 10,
-					backgroundColor: colors.ladefuchsDarkBackground,
-					alignItems: "center",
-					height: 65,
-					overflow: "visible", // Damit das Bild über den View hinausragt
-				}}
-			>
-				{/* Fügen Sie hier die gewünschten Komponenten für den neuen View ein*/}
-				<TouchableOpacity
-					onPress={() =>
-						Linking.openURL("https://shop.ladefuchs.app")
-					}
+				</View>
+				<View
+					style={{
+						flex: 30,
+						alignItems: "center",
+					}}
 				>
-					<Image
-						source={require("../assets/Footershop.png")} // Pfad zum Bild für AC anpassen
-						style={{
-							width: 250,
-							height: 89,
-							marginTop: -10,
-						}} // Stil des Bildes anpassen
-					/>
-				</TouchableOpacity>
+					<OperatorPicker onSelect={handlePickerSelect} />
+				</View>
+				<Footer />
 			</View>
-		</View>
+		</AppDataProvider>
 	);
 }

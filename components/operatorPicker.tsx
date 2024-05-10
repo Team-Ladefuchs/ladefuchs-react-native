@@ -1,33 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { useQuery } from "@tanstack/react-query";
-import { fetchOperators } from "../functions/api";
+import { AppDataContext } from "../contexts/appDataContext";
 
-const OperatorPicker = ({ onSelect }) => {
+interface Props {
+	onSelect: (value: string) => void;
+}
+
+const OperatorPicker = ({ onSelect }: Props) => {
 	const [selectedValue, setSelectedValue] = useState("");
-
-	const { isPending, error, data } = useQuery({
-		queryKey: ["operators"],
-		queryFn: async () => {
-			return await fetchOperators({ standard: true });
-		},
-	});
-
-	if (isPending || error) {
-		return null;
-	}
+	const { operators } = useContext(AppDataContext);
 
 	return (
 		<Picker
 			selectedValue={selectedValue}
 			style={{ height: 50, width: "100%" }}
 			itemStyle={{ fontSize: 20 }}
-			onValueChange={(itemValue, itemIndex) => {
-				setSelectedValue(itemValue);
-				onSelect(itemValue);
+			onValueChange={(operatorValue, itemIndex) => {
+				setSelectedValue(operatorValue);
+				onSelect(operatorValue);
 			}}
 		>
-			{data?.map((operator) => (
+			{operators?.map((operator) => (
 				<Picker.Item
 					key={operator.identifier}
 					label={operator.name}

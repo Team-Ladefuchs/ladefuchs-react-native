@@ -1,5 +1,12 @@
+import { ToastAndroid } from "react-native";
+import { AppData } from "../types/app";
+import {
+	ChargeMode,
+	ChargingCondition,
+	ConditionsResponse,
+} from "../types/conditions";
 import { Operator, OperatorsResponse } from "../types/operator";
-import { getSelectedValue } from "../types/operator";
+import { Tariff, TariffResponse } from "../types/tariff";
 
 //hier wird der Operator für den Picker geholt
 
@@ -7,8 +14,9 @@ const apiPath = "https://api.ladefuchs.app";
 const authHeader = {
 	headers: {
 		Authorization: `Bearer ${process.env.API_TOKEN}`,
+		"Content-Type": "application/json",
 	},
-};
+} as const;
 
 export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 	try {
@@ -26,70 +34,82 @@ export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 
 		return data.operators;
 	} catch (error) {
-		console.error(error);
+		console.error("fetchOperators", error);
 		return [];
 	}
 }
 
-//Tarifinfos für den Operator der Ladesäule
-// Abrufen des ausgewählten Operator
-const selectedValue = getSelectedValue();
+export async function fetchTariffs({
+	standard = true,
+}: {
+	standard: boolean;
+}): Promise<Tariff[]> {
+	try {
+		const response = await fetch(
+			`${apiPath}/v3/tariffs?standard=${standard}`,
+			authHeader
+		);
+		const data = (await response.json()) as TariffResponse;
+		return data.tariffs;
+	} catch (error) {
+		console.error("fetchTariff", error);
+		return [];
+	}
+}
 
-fetch('https://api.ladefuchs.app/v3/conditions', {
-  method: 'POST',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.API_TOKEN}`
-  },
-  body: JSON.stringify({
-    operatorIds: [
-//		'4957023c-87f7-4d88-836e-5d7513bec7b4'	//zum testen verwendet
- selectedValue	// string aus types/operator
-    ],
-    tariffsIds: [],
-    chargingModes: [
-      "ac",
-      "dc"
-    ]
-  }),
-})
-.then(response => response.json())
-.then(data => {
-  // Zeige die empfangenen Daten in der Konsole an
-  console.log('Empfangene Daten:', data);
+export async function fetchChargingConditions(requestBody: {
+	tariffsIds: string[];
+	operatorIds: string[];
+	chargingModes: ChargeMode[];
+}): Promise<ChargingCondition[]> {
+	authHeader.headers.Authorization;
+	try {
+		const response = await fetch(`${apiPath}/v3/conditions`, {
+			method: "POST",
+			headers: authHeader.headers,
+			body: JSON.stringify(requestBody),
+		});
 
-  // Zugriff auf das Array
-  const tariffConditions = data.tariffConditions;
-  if (tariffConditions && tariffConditions.length > 0) {
-    // Iteration über die Tarifbedingungen
-    tariffConditions.forEach(tariff => {
-      console.log('Operator ID:', tariff.operatorId);
-      // Iteration über die Ladebedingungen
-      tariff.chargingConditions.forEach(condition => {
-        console.log('Tariff ID:', condition.tariffId);
-        console.log('Tariff Name:', condition.tariffName);
-        console.log('Charging Mode:', condition.chargingMode);
-        console.log('Price per kWh:', condition.pricePerKwh);
-        console.log('Blocking Fee:', condition.blockingFee);
-        console.log('Blocking Fee Start:', condition.blockingFeeStart);
-      });
-    });
-  } else {
-    console.log('Keine Tarifbedingungen gefunden.');
-  }
-})
-.catch(error => {
-  console.error('Error:', error);
-});
+		const data = (await response.json()) as ConditionsResponse;
+		return data.chargingConditions;
+	} catch (error) {
+		console.error("fetchConditions", error);
+		return [];
+	}
+}
 
-// Erstellen des JSON-Objekts mit dem ausgewählten Wert als Teil des operatorIds-Arrays
-const requestBody = JSON.stringify({
-	operatorIds: [
-	  selectedValue // Hier wird der ausgewählte Wert als Teil des Arrays übergeben
-	],
-	tariffsIds: [],
-	chargingModes: ["ac", "dc"]
-  });
+function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
+	const map = new Map();
 
-console.log("Request Body for api:", requestBody);
+	for (const tariff of data) {
+		map.set(tariff.identifier, tariff);
+	}
+	return map;
+}
+
+export async function fetchAllApiData(): Promise<AppData> {
+	// mache die Abfrage in Parallel
+	const [operators, tariffs] = await Promise.all([
+		fetchOperators({ standard: true }),
+		fetchTariffs({ standard: true }),
+	]);
+
+	const tariffsIds = tariffs.map((item) => item.identifier);
+	const operatorIds = operators.map((item) => item.identifier);
+	const chargingConditions = await fetchChargingConditions({
+		tariffsIds,
+		operatorIds,
+		chargingModes: ["ac", "dc"],
+	});
+	return {
+		operators,
+		tariffs: tariffsToHashMap(tariffs),
+		chargingConditions,
+	};
+}
+
+export async function fetchImage(url: string) {
+	const response = await fetch(url, authHeader);
+	const blob = await response.blob();
+	return URL.createObjectURL(blob);
+}
