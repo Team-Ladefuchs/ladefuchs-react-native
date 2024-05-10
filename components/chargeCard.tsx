@@ -6,12 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchImage } from "../functions/api";
 
 interface ChargeCardModel {
-	tariff: Tariff;
-	tariffCondition: TariffCondition;
+	tariff: Tariff | null;
+	tariffCondition: TariffCondition | null;
 }
 
 const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 	// const cardImage = require("../assets/maingau.png");
+
+	if (!tariffCondition || !tariff) {
+		return <View style={styles.cardAndPriceContainer}></View>;
+	}
 
 	const imageQuery = useQuery({
 		queryKey: [tariff.imageUrl],
@@ -19,7 +23,7 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 			return await fetchImage(tariff.imageUrl);
 		},
 	});
-	const a = imageQuery.data;
+
 	return (
 		<View style={styles.cardAndPriceContainer}>
 			<Image source={{ uri: imageQuery.data }} style={styles.cardImage} />
