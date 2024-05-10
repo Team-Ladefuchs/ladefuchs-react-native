@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
@@ -33,7 +33,6 @@ export function HomeScreen() {
 		const tariffConditions = chargingConditions.find(
 			(item) => item.operatorId === operatorId
 		)?.tariffConditions;
-
 		if (tariffConditions) {
 			setTariffConditions(tariffConditions);
 		}
@@ -50,7 +49,7 @@ export function HomeScreen() {
 
 	const handlePickerSelect = (operatorId) => {
 		console.log("selected operatorId", operatorId);
-		setSelectedValue(operatorId);
+		setOperatorId(operatorId);
 	};
 
 	if (!fontsLoaded) {
