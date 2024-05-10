@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { AppDataContext } from "../contexts/appDataContext";
+import { AppStateContext } from "../contexts/appStateContext";
 
 interface Props {
 	onSelect: (value: string) => void;
@@ -8,7 +8,7 @@ interface Props {
 
 const OperatorPicker = ({ onSelect }: Props) => {
 	const [selectedValue, setSelectedValue] = useState("");
-	const { operators } = useContext(AppDataContext);
+	const { operators } = useContext(AppStateContext);
 
 	return (
 		<Picker

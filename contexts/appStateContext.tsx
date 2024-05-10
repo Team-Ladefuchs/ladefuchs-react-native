@@ -1,12 +1,12 @@
 import React, { createContext, useState } from "react";
-import { AppData } from "../types/app";
+import { AppData, AppState } from "../types/app";
 import { TariffCondition } from "../types/conditions";
 
 // Create a context for AppData
-export const AppDataContext = createContext<AppData | undefined>(undefined);
+export const AppStateContext = createContext<AppState | undefined>(undefined);
 
-// hier speichern wir unseren globalen state
-export function AppDataProvider(props: {
+// hier lagern wir unseren globalen state
+export function AppStateProvider(props: {
 	value: AppData;
 	children: React.ReactNode;
 }): JSX.Element {
@@ -17,7 +17,7 @@ export function AppDataProvider(props: {
 	);
 
 	return (
-		<AppDataContext.Provider
+		<AppStateContext.Provider
 			value={{
 				...value,
 				operatorId,
@@ -27,6 +27,6 @@ export function AppDataProvider(props: {
 			}}
 		>
 			{children}
-		</AppDataContext.Provider>
+		</AppStateContext.Provider>
 	);
 }

@@ -1,9 +1,9 @@
 // Tariffs.tsx
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { TariffCondition } from "../types/conditions";
-import { AppDataContext } from "../contexts/appDataContext";
+import { AppStateContext } from "../contexts/appStateContext";
 import ChargeCard from "./chargeCard";
 
 export interface Props {
@@ -12,7 +12,7 @@ export interface Props {
 
 export function TariffsTable({ tariffConditions }: Props) {
 	// hier nutzen wir unseren globalen state
-	const { tariffs } = useContext(AppDataContext);
+	const { tariffs } = useContext(AppStateContext);
 
 	return (
 		<ScrollView>

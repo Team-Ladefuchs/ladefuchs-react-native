@@ -6,6 +6,9 @@ export interface AppData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
 	chargingConditions: ChargingCondition[];
+}
+
+export interface AppState extends AppData {
 	operatorId: string;
 	setOperatorId: (id: string) => void;
 	tariffConditions: TariffCondition[];

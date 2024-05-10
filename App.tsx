@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AboutScreen } from "./screens/about";
@@ -11,8 +10,8 @@ import {
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
-import { AppDataProvider } from "./contexts/appDataContext";
 import { fetchAllApiData } from "./functions/api";
+import { AppStateProvider } from "./contexts/appStateContext";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +35,7 @@ function AppWrapper({ Stack }): JSX.Element {
 		return null;
 	}
 	return (
-		<AppDataProvider value={allApiData.data}>
+		<AppStateProvider value={allApiData.data}>
 			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
@@ -59,7 +58,7 @@ function AppWrapper({ Stack }): JSX.Element {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
-		</AppDataProvider>
+		</AppStateProvider>
 	);
 }
 

@@ -7,8 +7,7 @@ import { setSelectedValue } from "../types/operator";
 import { TariffsTable } from "../components/tariffsTable";
 import { Footer } from "../components/footer";
 import { ChargingTableHeader } from "../components/chargingHeader";
-import { AppDataContext, AppDataProvider } from "../contexts/appDataContext";
-import { TariffCondition } from "../types/conditions";
+import { AppStateContext } from "../contexts/appStateContext";
 
 export function HomeScreen() {
 	const [fontsLoaded] = useFonts({
@@ -24,7 +23,7 @@ export function HomeScreen() {
 		operators,
 		setTariffConditions,
 		tariffConditions,
-	} = useContext(AppDataContext);
+	} = useContext(AppStateContext);
 
 	// lade die conditions aus dem cache wenn sich der operator geandert hat
 	useEffect(() => {

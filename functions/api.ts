@@ -1,4 +1,3 @@
-import { ToastAndroid } from "react-native";
 import { AppData } from "../types/app";
 import {
 	ChargeMode,
@@ -14,7 +13,6 @@ const apiPath = "https://api.ladefuchs.app";
 const authHeader = {
 	headers: {
 		Authorization: `Bearer ${process.env.API_TOKEN}`,
-		"Content-Type": "application/json",
 	},
 } as const;
 
@@ -22,7 +20,12 @@ export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 	try {
 		const response = await fetch(
 			`${apiPath}/v3/operators?standard=${standard}`,
-			authHeader
+			{
+				headers: {
+					...authHeader.headers,
+					Accept: "application/json",
+				},
+			}
 		);
 		if (!response.ok) {
 			console.error(response);
@@ -47,7 +50,12 @@ export async function fetchTariffs({
 	try {
 		const response = await fetch(
 			`${apiPath}/v3/tariffs?standard=${standard}`,
-			authHeader
+			{
+				headers: {
+					...authHeader.headers,
+					Accept: "application/json",
+				},
+			}
 		);
 		const data = (await response.json()) as TariffResponse;
 		return data.tariffs;
@@ -66,7 +74,11 @@ export async function fetchChargingConditions(requestBody: {
 	try {
 		const response = await fetch(`${apiPath}/v3/conditions`, {
 			method: "POST",
-			headers: authHeader.headers,
+			headers: {
+				...authHeader.headers,
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
 			body: JSON.stringify(requestBody),
 		});
 
