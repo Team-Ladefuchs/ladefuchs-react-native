@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Platform } from "react-native";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +26,13 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 
 	return (
 		<View style={styles.cardAndPriceContainer}>
-			<Image source={{ uri: imageQuery.data }} style={styles.cardImage} />
+			<View style={styles.cardImageContainer}>
+				<Image
+					source={{ uri: imageQuery.data }}
+					style={styles.cardImage}
+				/>
+			</View>
+
 			<Text style={styles.priceText}>
 				{tariffCondition.pricePerKwh.toFixed(2)}
 			</Text>
@@ -36,19 +42,34 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
-		height: 75,
+		height: 64,
+		display: "flex",
+		alignContent: "center",
+		// paddingVertical: 8,
 		flexDirection: "row", // Horizontal layout
 		alignItems: "center", // Align items vertically
-		paddingHorizontal: 20, // Adjust as needed
+		paddingHorizontal: 12, // Adjust as needed
+	},
+	cardImageContainer: {
+		shadowColor: "#212121",
+		shadowOffset: {
+			width: 0,
+			height: 1,
+		},
+		shadowOpacity: 0.3,
+		shadowRadius: 0.5,
+		elevation: 4,
 	},
 	cardImage: {
-		width: 80, // Adjust as needed
-		height: 48, // Adjust as needed
+		borderRadius: 4,
+		aspectRatio: 1.6,
+		width: 78, // Adjust as needed
 		marginRight: 20, // Adjust as needed
 	},
 	priceText: {
-		fontSize: 22, // Adjust font size as needed
-		fontWeight: "600",
+		// fontFamily: "Roboto",
+		fontSize: 25, // Adjust font size as needed
+		fontWeight: "400",
 	},
 });
 

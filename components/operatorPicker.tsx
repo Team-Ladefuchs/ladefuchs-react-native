@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { AppStateContext } from "../contexts/appStateContext";
+import { colors } from "../theme";
 
 interface Props {
 	onSelect: (value: string) => void;
@@ -13,7 +14,10 @@ const OperatorPicker = ({ onSelect }: Props) => {
 	return (
 		<Picker
 			selectedValue={selectedValue}
-			style={{ height: 50, width: "100%" }}
+			style={{
+				width: "100%",
+				backgroundColor: colors.background,
+			}}
 			itemStyle={{ fontSize: 20 }}
 			onValueChange={(operatorValue, itemIndex) => {
 				setSelectedValue(operatorValue);

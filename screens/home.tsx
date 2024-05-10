@@ -61,7 +61,7 @@ export function HomeScreen() {
 			<ChargingTableHeader />
 			<View
 				style={{
-					flex: 58, // Höhe des verfügbaren Platzes
+					flex: 75, // Höhe des verfügbaren Platzes
 					backgroundColor: colors.background,
 				}}
 			>
