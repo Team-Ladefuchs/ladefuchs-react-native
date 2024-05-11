@@ -6,7 +6,7 @@ export function Footer() {
 		<View
 			style={{
 				flex: 10,
-				backgroundColor: colors.ladefuchsDarkBackground,
+				backgroundColor: colors.ladefuchsDarkGrayBackground,
 				alignItems: "center",
 				height: 65,
 				overflow: "visible", // Damit das Bild über den View hinausragt

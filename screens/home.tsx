@@ -71,7 +71,7 @@ export function HomeScreen() {
 				style={{
 					flex: 3, // 3% Höhe des verfügbaren Platzes
 					paddingVertical: 10,
-					backgroundColor: colors.ladefuchsDarkBackground,
+					backgroundColor: colors.ladefuchsDarkGrayBackground,
 					alignItems: "center",
 					justifyContent: "center",
 				}}

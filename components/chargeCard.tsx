@@ -89,13 +89,14 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12, // Adjust as needed
 	},
 	highlightCorner: {
+		...dropShadow,
+		shadowOpacity: 0.1,
 		position: "absolute",
 		height: 16,
 		width: 16,
 		zIndex: 2,
 		top: -3,
 		right: 17,
-		...dropShadow,
 	},
 	cardImageContainer: {
 		...dropShadow,

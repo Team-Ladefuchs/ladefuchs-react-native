@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		height: "100%",
-		backgroundColor: colors.ladefuchsDarkBackground,
+		backgroundColor: colors.ladefuchsDarkGrayBackground,
 		alignItems: "center",
 		justifyContent: "center",
 	},
