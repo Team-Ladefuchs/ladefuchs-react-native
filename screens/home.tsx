@@ -5,7 +5,7 @@ import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
 import { setSelectedValue } from "../types/operator";
 import { TariffsTable } from "../components/tariffsTable";
-import { Footer } from "../components/footer";
+import { Banner } from "../components/banner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { AppStateContext } from "../contexts/appStateContext";
 
@@ -94,7 +94,7 @@ export function HomeScreen() {
 			>
 				<OperatorPicker onSelect={handlePickerSelect} />
 			</View>
-			<Footer />
+			<Banner />
 		</View>
 	);
 }

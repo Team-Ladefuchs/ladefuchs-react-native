@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, Image, Linking } from "react-native";
 import { colors } from "../theme";
 
-export function Footer() {
+export function Banner() {
 	return (
 		<View
 			style={{
