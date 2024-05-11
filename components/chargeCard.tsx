@@ -4,6 +4,7 @@ import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
 import { useQuery } from "@tanstack/react-query";
 import { fetchImage } from "../functions/api";
+import { Svg, G, Path } from "react-native-svg";
 
 interface ChargeCardModel {
 	tariff: Tariff | null;
@@ -14,7 +15,10 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 	if (!tariffCondition || !tariff) {
 		return <View style={styles.cardAndPriceContainer}></View>;
 	}
-
+	const showHighlightCorner =
+		tariffCondition?.blockingFee > 0 ||
+		tariff?.monthlyFee > 0 ||
+		tariff?.note?.length > 0;
 	const imageQuery = useQuery({
 		queryKey: [tariff.imageUrl],
 		queryFn: async () => {
@@ -25,6 +29,7 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 	return (
 		<View style={styles.cardAndPriceContainer}>
 			<View style={styles.cardImageContainer}>
+				{showHighlightCorner && <HighlightCorner />}
 				<Image
 					source={{ uri: imageQuery.data }}
 					style={styles.cardImage}
@@ -38,25 +43,62 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 	);
 };
 
+function HighlightCorner() {
+	return (
+		<Svg
+			style={styles.highlightCorner}
+			width="20"
+			height="20"
+			viewBox="0 0 78 79"
+			fillRule="evenodd"
+			clipRule="evenodd"
+			strokeLinejoin="round"
+			strokeMiterlimit={2}
+		>
+			<G transform="matrix(1,0,0,1,-477,-756)">
+				<G transform="matrix(0.878467,0,0,0.878467,63.1579,98.0008)">
+					<Path
+						d="M547.547,836.094L473.494,762.04C471.455,760.002 470.845,756.936 471.948,754.272C473.052,751.609 475.651,749.872 478.534,749.872L540.241,749.872C550.99,749.872 559.716,758.598 559.716,769.346L559.716,831.054C559.716,833.937 557.979,836.536 555.315,837.639C552.652,838.743 549.586,838.133 547.547,836.094Z"
+						fill="rgb(228,40,16)"
+					/>
+				</G>
+			</G>
+		</Svg>
+	);
+}
+
+const dropShadow = {
+	shadowOffset: {
+		width: 0,
+		height: 1,
+	},
+	shadowOpacity: 0.3,
+	shadowRadius: 0.5,
+	elevation: 4,
+};
+
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
 		height: 64,
 		display: "flex",
 		alignContent: "center",
 		// paddingVertical: 8,
+		position: "relative",
 		flexDirection: "row", // Horizontal layout
 		alignItems: "center", // Align items vertically
 		paddingHorizontal: 12, // Adjust as needed
 	},
+	highlightCorner: {
+		position: "absolute",
+		height: 16,
+		width: 16,
+		zIndex: 2,
+		top: -3,
+		right: 17,
+		...dropShadow,
+	},
 	cardImageContainer: {
-		shadowColor: "#212121",
-		shadowOffset: {
-			width: 0,
-			height: 1,
-		},
-		shadowOpacity: 0.3,
-		shadowRadius: 0.5,
-		elevation: 4,
+		...dropShadow,
 	},
 	cardImage: {
 		borderRadius: 4,
