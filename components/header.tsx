@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		paddingTop: 45,
 		paddingBottom: 0,
-		backgroundColor: colors.background,
+		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
 		height: 110,
 	},

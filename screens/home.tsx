@@ -4,7 +4,7 @@ import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
 import { setSelectedValue } from "../types/operator";
-import { TariffsTable } from "../components/tariffsTable";
+import { ChargeConditionTable } from "../components/chargeConditionTable";
 import { Banner } from "../components/banner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { AppStateContext } from "../contexts/appStateContext";
@@ -62,16 +62,16 @@ export function HomeScreen() {
 			<View
 				style={{
 					flex: 75, // Höhe des verfügbaren Platzes
-					backgroundColor: colors.background,
+					backgroundColor: colors.ladefuchsLightBackground,
 				}}
 			>
-				<TariffsTable tariffConditions={tariffConditions} />
+				<ChargeConditionTable tariffConditions={tariffConditions} />
 			</View>
 			<View
 				style={{
 					flex: 3, // 3% Höhe des verfügbaren Platzes
 					paddingVertical: 10,
-					backgroundColor: colors.ladefuchsDarkGrayBackground,
+					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
 					justifyContent: "center",
 				}}

@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
 	cardAndPriceContainer: {
 		height: 64,
 		display: "flex",
+		flex: 1,
 		alignContent: "center",
-		// paddingVertical: 8,
 		position: "relative",
 		flexDirection: "row", // Horizontal layout
 		alignItems: "center", // Align items vertically
-		paddingHorizontal: 12, // Adjust as needed
+		paddingHorizontal: 24, // Adjust as needed
 	},
 	highlightCorner: {
 		...dropShadow,

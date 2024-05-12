@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 	Linking,
 } from "react-native";
-import { colors, fonts } from "../theme";
+import { colors } from "../theme";
 import { useFonts } from "expo-font";
 
 export function AboutScreen() {
@@ -22,7 +22,10 @@ export function AboutScreen() {
 		return <View></View>;
 	}
 	return (
-		<ScrollView style={{ backgroundColor: colors.background }} bounces>
+		<ScrollView
+			style={{ backgroundColor: colors.ladefuchsLightBackground }}
+			bounces
+		>
 			{/* Headerview */}
 			<View style={{ paddingHorizontal: 30, paddingVertical: 20 }}>
 				{[

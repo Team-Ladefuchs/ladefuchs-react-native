@@ -16,7 +16,7 @@ const OperatorPicker = ({ onSelect }: Props) => {
 			selectedValue={selectedValue}
 			style={{
 				width: "100%",
-				backgroundColor: colors.background,
+				backgroundColor: colors.ladefuchsLightBackground,
 			}}
 			itemStyle={{ fontSize: 20 }}
 			onValueChange={(operatorValue, itemIndex) => {

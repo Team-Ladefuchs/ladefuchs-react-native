@@ -6,7 +6,7 @@ export function Banner() {
 		<View
 			style={{
 				flex: 10,
-				backgroundColor: colors.ladefuchsDarkGrayBackground,
+				backgroundColor: colors.ladefuchsDarkBackground,
 				alignItems: "center",
 				height: 65,
 				overflow: "visible", // Damit das Bild über den View hinausragt
