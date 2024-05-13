@@ -10,7 +10,7 @@ import { Tariff, TariffResponse } from "../types/tariff";
 //hier wird der Operator für den Picker geholt
 
 const apiPath = "https://api.ladefuchs.app";
-const authHeader = {
+export const authHeader = {
 	headers: {
 		Authorization: `Bearer ${process.env.API_TOKEN}`,
 	},
@@ -118,10 +118,4 @@ export async function fetchAllApiData(): Promise<AppData> {
 		tariffs: tariffsToHashMap(tariffs),
 		chargingConditions,
 	};
-}
-
-export async function fetchImage(url: string) {
-	const response = await fetch(url, authHeader);
-	const blob = await response.blob();
-	return URL.createObjectURL(blob);
 }

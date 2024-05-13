@@ -2,8 +2,7 @@ import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
-import { useQuery } from "@tanstack/react-query";
-import { fetchImage } from "../functions/api";
+import { authHeader } from "../functions/api";
 import { Svg, G, Path } from "react-native-svg";
 
 interface ChargeCardModel {
@@ -19,19 +18,16 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		tariffCondition?.blockingFee > 0 ||
 		tariff?.monthlyFee > 0 ||
 		tariff?.note?.length > 0;
-	const imageQuery = useQuery({
-		queryKey: [tariff.imageUrl],
-		queryFn: async () => {
-			return await fetchImage(tariff.imageUrl);
-		},
-	});
 
 	return (
 		<View style={styles.cardAndPriceContainer}>
 			<View style={styles.cardImageContainer}>
 				{showHighlightCorner && <HighlightCorner />}
 				<Image
-					source={{ uri: imageQuery.data }}
+					source={{
+						uri: tariff.imageUrl,
+						...authHeader,
+					}}
 					style={styles.cardImage}
 				/>
 			</View>
