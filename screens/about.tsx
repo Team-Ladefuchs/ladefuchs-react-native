@@ -33,13 +33,7 @@ export function AboutScreen() {
 			</View>
 
 			{/* Hier der neue Memberview*/}
-			<View
-				style={{
-					flexDirection: "row",
-					paddingHorizontal: 30,
-					paddingVertical: 20,
-				}}
-			>
+			<View style={styles.memberView}>
 				<Image
 					style={styles.memberImage}
 					source={require("../assets/team_malik.jpg")}
