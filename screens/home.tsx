@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
@@ -8,6 +8,8 @@ import { ChargeConditionTable } from "../components/chargeConditionTable";
 import { Banner } from "../components/banner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { AppStateContext } from "../contexts/appStateContext";
+import { repeatNTimes, shuffle } from "../functions/util";
+import { LadefuchsBanner } from "../types/banner";
 
 export function HomeScreen() {
 	const [fontsLoaded] = useFonts({
@@ -16,6 +18,9 @@ export function HomeScreen() {
 		Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
 	});
 
+	const [selectedBanner, setSelectedBanner] =
+		useState<LadefuchsBanner | null>(null);
+
 	const {
 		operatorId,
 		setOperatorId,
@@ -23,8 +28,18 @@ export function HomeScreen() {
 		operators,
 		setTariffConditions,
 		tariffConditions,
+		ladefuchsBanners,
 	} = useContext(AppStateContext);
 
+	useEffect(() => {
+		const bannerIds = ladefuchsBanners
+			.flatMap((item) => repeatNTimes(item, item.frequency))
+			.shuffle();
+
+		const c = bannerIds.pickRandom();
+		console.log("current ladefuchs banner: ", c.imageUrl);
+		setSelectedBanner(c);
+	}, [ladefuchsBanners]);
 	// lade die conditions aus dem cache wenn sich der operator geandert hat
 	useEffect(() => {
 		if (!operatorId) {
@@ -94,7 +109,12 @@ export function HomeScreen() {
 			>
 				<OperatorPicker onSelect={handlePickerSelect} />
 			</View>
-			<Banner />
+			{selectedBanner && (
+				<Banner
+					imageUrl={selectedBanner.imageUrl}
+					link={selectedBanner.imageUrl}
+				/>
+			)}
 		</View>
 	);
 }

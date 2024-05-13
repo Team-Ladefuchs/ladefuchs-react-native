@@ -1,28 +1,40 @@
-import { TouchableOpacity, View, Image, Linking } from "react-native";
+import React from "react";
+import { View, TouchableOpacity, Image, Linking } from "react-native";
 import { colors } from "../theme";
+import { authHeader } from "../functions/api";
 
-export function Banner() {
+interface Props {
+	link: string;
+	imageUrl: string;
+}
+
+export function Banner({ link, imageUrl }: Props) {
 	return (
 		<View
 			style={{
 				flex: 10,
 				backgroundColor: colors.ladefuchsDarkBackground,
-				alignItems: "center",
-				height: 65,
-				overflow: "visible", // Damit das Bild über den View hinausragt
+				alignItems: "center", // Center the content horizontally
+				overflow: "visible",
+				marginTop: 16,
+				height: 115,
+				display: "flex",
+				justifyContent: "center",
 			}}
 		>
-			{/* Fügen Sie hier die gewünschten Komponenten für den neuen View ein*/}
 			<TouchableOpacity
-				onPress={() => Linking.openURL("https://shop.ladefuchs.app")}
+				onPress={() => Linking.openURL(link)}
+				style={{ marginTop: 20 }}
 			>
 				<Image
-					source={require("../assets/Footershop.png")} // Pfad zum Bild für AC anpassen
+					resizeMode="contain" // Ensure the image fits within the specified dimensions
+					source={{ uri: imageUrl, ...authHeader }}
 					style={{
-						width: 250,
-						height: 89,
-						marginTop: -10,
-					}} // Stil des Bildes anpassen
+						height: 125,
+						marginTop: 12,
+						aspectRatio: "2.8",
+						objectFit: "fill",
+					}}
 				/>
 			</TouchableOpacity>
 		</View>

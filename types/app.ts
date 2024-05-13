@@ -1,3 +1,4 @@
+import { LadefuchsBanner } from "./banner";
 import { ChargingCondition, TariffCondition } from "./conditions";
 import { Operator } from "./operator";
 import { Tariff } from "./tariff";
@@ -5,6 +6,7 @@ import { Tariff } from "./tariff";
 export interface AppData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
+	ladefuchsBanners: LadefuchsBanner[];
 	chargingConditions: ChargingCondition[];
 }
 
