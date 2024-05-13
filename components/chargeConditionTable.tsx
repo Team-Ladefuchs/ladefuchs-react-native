@@ -1,11 +1,12 @@
 // Tariffs.tsx
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { TariffCondition } from "../types/conditions";
 import { AppStateContext } from "../contexts/appStateContext";
 import ChargeCard from "./chargeCard";
 import { fill, zip } from "../functions/util";
+import { colors } from "../theme";
 export interface Props {
 	tariffConditions: TariffCondition[];
 }
@@ -18,6 +19,9 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 		tariffConditions.filter((item) => item.chargingMode === "dc")
 	);
 	const zipTariffConditions = zip(acTariffCondition, dcTariffCondition);
+	const flatListRef = useRef<FlatList>();
+	flatListRef?.current?.scrollToIndex({ animated: true, index: 0 });
+
 	const { tariffs } = useContext(AppStateContext);
 	const renderItem = ({
 		item,
@@ -30,13 +34,14 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 
 		return (
 			<View
-				key={index}
 				style={[
 					styles.priceLineContainer,
 					{
 						flex: 1,
 						backgroundColor:
-							index % 2 !== 0 ? "#f3eee2" : "#E0D7C8",
+							index % 2 !== 0
+								? colors.ladefuchsLightBackground
+								: "#E0D7C8",
 					},
 				]}
 			>
@@ -55,9 +60,10 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 
 	return (
 		<FlatList
+			ref={flatListRef}
 			data={zipTariffConditions}
 			renderItem={renderItem}
-			// ItemSeparatorComponent={() => <Text>1</Text>}
+			scrollsToTop={true}
 			keyExtractor={([left, right], _index) =>
 				conditionKey(left) + conditionKey(right)
 			}

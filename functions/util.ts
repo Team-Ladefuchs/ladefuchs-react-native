@@ -1,3 +1,10 @@
+declare global {
+	interface Array<T> {
+		shuffle(): T[];
+		pickRandom(): T | null;
+	}
+}
+
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
 	const len1 = list1.length;
 	const len2 = list2.length;
@@ -20,4 +27,34 @@ export function zip<T>(arr1: T[], arr2: T[]): [T, T][] {
 	}
 
 	return zippedArray;
+}
+
+Array.prototype.shuffle = function () {
+	for (let i = this.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[this[i], this[j]] = [this[j], this[i]];
+	}
+	return this;
+};
+
+Array.prototype.shuffle = function <T>() {
+	for (let i = this.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[this[i], this[j]] = [this[j], this[i]];
+	}
+	return this as T[];
+};
+
+Array.prototype.pickRandom = function <T>() {
+	if (this.length === 0) return null;
+	const index = Math.floor(Math.random() * this.length);
+	return this[index];
+};
+
+export function repeatNTimes<T>(item: T, n: number): T[] {
+	const repeatedIds: T[] = [];
+	for (let i = 0; i < n; i++) {
+		repeatedIds.push(item);
+	}
+	return repeatedIds;
 }
