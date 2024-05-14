@@ -297,9 +297,13 @@ export function AboutScreen() {
 					{"\n"}Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45
 					{"\n"}52064 Aachen
 				</Text>
-				<TouchableOpacity onPress={() => Linking.openURL('mailto:ios@ladefuchs.app')}>
-        <Text style={styles.sponsorText}>ios@ladefuchs.app</Text>
-      </TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => Linking.openURL("mailto:ios@ladefuchs.app")}
+				>
+					<Text style={styles.sponsorTextLink}>
+						ios@ladefuchs.app
+					</Text>
+				</TouchableOpacity>
 				<Text style={styles.sponsorText}>
 					Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
 				</Text>
