@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { colors, fonts, styles } from "../theme";
 import { useFonts } from "expo-font";
+import Chargeprice from "../assets/chargeprice_logo.svg";
 
 export function AboutScreen() {
 	const [fontsLoaded] = useFonts({
@@ -240,10 +241,7 @@ export function AboutScreen() {
 						Linking.openURL("https://www.chargeprice.app")
 					}
 				>
-					<Image
-						source={require("../assets/chargeprice-logo.png")}
-						style={{ width: 200 }} // Stil des Bildes anpassen, um es rund zu machen und Abstand zum Text
-					/>
+					<Chargeprice height={35} width={230} />
 				</TouchableOpacity>
 			</View>
 
