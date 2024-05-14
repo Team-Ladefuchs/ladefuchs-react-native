@@ -103,7 +103,7 @@ export function HomeScreen() {
 			</View>
 			<View
 				style={{
-					flex: 30,
+					flex: 19,
 					alignItems: "center",
 				}}
 			>

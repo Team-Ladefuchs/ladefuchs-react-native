@@ -13,7 +13,7 @@ export function Banner({ link, imageUrl }: Props) {
 	return (
 		<View
 			style={{
-				flex: 10,
+				flex: 11,
 				backgroundColor: colors.ladefuchsDarkBackground,
 				alignItems: "center", // Center the content horizontally
 				overflow: "visible",
