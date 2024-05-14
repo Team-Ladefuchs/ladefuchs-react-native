@@ -104,7 +104,7 @@ export function HomeScreen() {
 			<View
 				style={{
 					flex: 19,
-					alignItems: "center",
+					justifyContent: "center",
 				}}
 			>
 				<OperatorPicker onSelect={handlePickerSelect} />
