@@ -1,5 +1,7 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { colors } from "../theme";
+import CCS from "../assets/ccs.svg";
+import Typ2 from "../assets/typ2.svg";
 
 export function ChargingTableHeader() {
 	return (
@@ -8,10 +10,7 @@ export function ChargingTableHeader() {
 		>
 			<View style={styles.headerView}>
 				<Text style={styles.headerText}>AC</Text>
-				<Image
-					source={require("../assets/typ2.png")} // Pfad zum Bild für AC anpassen
-					style={styles.headerImage}
-				/>
+				<Typ2 width={30} marginLeft={4} />
 			</View>
 			<View
 				style={{
@@ -21,15 +20,7 @@ export function ChargingTableHeader() {
 			/>
 			<View style={styles.headerView}>
 				<Text style={styles.headerText}>DC</Text>
-				<Image
-					source={require("../assets/ccs.png")} // Pfad zum Bild für DC anpassen
-					style={{
-						width: 28,
-						height: 34,
-						marginLeft: 4,
-						resizeMode: "contain",
-					}}
-				/>
+				<CCS height={40} width={40} marginLeft={2} />
 			</View>
 		</View>
 	);

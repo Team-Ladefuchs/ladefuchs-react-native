@@ -2,6 +2,7 @@ import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LogoAnimation } from "./logo";
 import { colors } from "../theme";
+import Zahnrad from "../assets/gearshape.svg";
 
 export function AppHeader() {
 	const navigation = useNavigation();
@@ -15,10 +16,7 @@ export function AppHeader() {
 				onPress={() => navigation.navigate("Einstellungen")}
 				style={styles.headerSettingsIcon}
 			>
-				<Image
-					source={require("../assets/zahnrad.png")}
-					style={{ width: 32, height: 32 }}
-				/>
+				<Zahnrad width={35} height={35} />
 			</TouchableOpacity>
 		</View>
 	);
