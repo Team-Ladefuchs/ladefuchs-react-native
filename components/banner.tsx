@@ -9,6 +9,7 @@ interface Props {
 }
 
 export function Banner({ link, imageUrl }: Props) {
+	console.log(link);
 	return (
 		<View
 			style={{
@@ -31,7 +32,7 @@ export function Banner({ link, imageUrl }: Props) {
 					source={{ uri: imageUrl, ...authHeader }}
 					style={{
 						height: 125,
-						marginTop: 12,
+						marginTop: 15,
 						aspectRatio: "2.8",
 						objectFit: "fill",
 					}}

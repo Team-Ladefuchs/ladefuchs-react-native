@@ -112,7 +112,7 @@ export function HomeScreen() {
 			{selectedBanner && (
 				<Banner
 					imageUrl={selectedBanner.imageUrl}
-					link={selectedBanner.imageUrl}
+					link={selectedBanner.affiliateLinkUrl}
 				/>
 			)}
 		</View>
