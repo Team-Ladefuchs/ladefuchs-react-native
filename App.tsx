@@ -82,7 +82,7 @@ function AppWrapper({ Stack }): JSX.Element {
 												paddingVertical: 16,
 												paddingHorizontal: 16,
 												backgroundColor:
-													colors.ladefuchsLightBackground,
+													colors.ladefuchsDunklerBalken,
 												borderBottomWidth: 0.5,
 												borderBottomColor:
 													colors.ladefuchsLightGrayBackground,

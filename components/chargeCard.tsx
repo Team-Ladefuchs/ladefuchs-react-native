@@ -23,7 +23,7 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		tariff?.note?.length > 0;
 
 	const onPress = () => {
-		navigator.navigate("detailScreen", { tariff });
+		navigator.navigate("detailScreen", { tariff, tariffCondition });
 	};
 	return (
 		<View style={styles.cardAndPriceContainer}>
