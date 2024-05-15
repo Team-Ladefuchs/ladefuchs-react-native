@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
 import { authHeader } from "../functions/api";
 import { Svg, G, Path } from "react-native-svg";
+import { useNavigation } from "@react-navigation/native";
 
 interface ChargeCardModel {
 	tariff: Tariff | null;
@@ -11,6 +12,8 @@ interface ChargeCardModel {
 }
 
 const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
+	const navigator = useNavigation();
+
 	if (!tariffCondition || !tariff) {
 		return <View style={styles.cardAndPriceContainer}></View>;
 	}
@@ -19,17 +22,22 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		tariff?.monthlyFee > 0 ||
 		tariff?.note?.length > 0;
 
+	const onPress = () => {
+		navigator.navigate("detailScreen", { tariff });
+	};
 	return (
 		<View style={styles.cardAndPriceContainer}>
 			<View style={styles.cardImageContainer}>
 				{showHighlightCorner && <HighlightCorner />}
-				<Image
-					source={{
-						uri: tariff.imageUrl,
-						...authHeader,
-					}}
-					style={styles.cardImage}
-				/>
+				<TouchableOpacity onPress={onPress}>
+					<Image
+						source={{
+							uri: tariff.imageUrl,
+							...authHeader,
+						}}
+						style={styles.cardImage}
+					/>
+				</TouchableOpacity>
 			</View>
 
 			<Text style={styles.priceText}>

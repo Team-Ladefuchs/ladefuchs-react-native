@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Svg, G, Path } from "react-native-svg";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,6 +17,8 @@ import {
 } from "@tanstack/react-query";
 import { fetchAllApiData } from "./functions/api";
 import { AppStateProvider } from "./contexts/appStateContext";
+import { DetailScreen } from "./screens/detailView";
+import { Tariff } from "./types/tariff";
 
 const queryClient = new QueryClient();
 
@@ -63,23 +65,76 @@ function AppWrapper({ Stack }): JSX.Element {
 					</RootStack.Group>
 					<RootStack.Group screenOptions={{ presentation: "modal" }}>
 						<RootStack.Screen
-							name="Einstellungen"
-							options={({ navigation }) => ({
+							component={DetailScreen}
+							options={({ navigation, route }) => ({
 								headerBackTitleVisible: false,
 								headerLeft: null,
-								headerRight: () => {
+								header: () => {
+									const tariff = route.params[
+										"tariff"
+									] as Tariff;
 									return (
-										<AppHeaderCloseButton
-											onPress={() => navigation.goBack()}
-										/>
+										<View
+											style={{
+												width: "100%",
+												display: "flex",
+												flexDirection: "row",
+												paddingVertical: 16,
+												paddingHorizontal: 16,
+												backgroundColor:
+													colors.ladefuchsLightBackground,
+												borderBottomWidth: 0.5,
+												borderBottomColor:
+													colors.ladefuchsLightGrayBackground,
+												marginTop: 3,
+											}}
+										>
+											<View
+												style={{
+													flex: 1,
+													columnGap: 10,
+												}}
+											>
+												<Text
+													style={{
+														fontSize: 23,
+														fontWeight: "bold",
+													}}
+												>
+													{tariff.name}
+												</Text>
+												<Text
+													style={{
+														fontSize: 18,
+														fontWeight: "bold",
+													}}
+												>
+													{tariff.providerName}
+												</Text>
+											</View>
+											<View>
+												<AppHeaderCloseButton
+													onPress={() =>
+														navigation.goBack()
+													}
+												/>
+											</View>
+										</View>
 									);
 								},
-								headerStyle: {
-									backgroundColor:
-										colors.ladefuchsLightBackground, // Verwendung der Ladefuchs Farbe für den Header-Hintergrund
+
+								headerRight: null,
+								headerTitleStyle: {
+									display: "none",
 								},
-								headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 							})}
+							name="detailScreen"
+						/>
+					</RootStack.Group>
+					<RootStack.Group screenOptions={{ presentation: "modal" }}>
+						<RootStack.Screen
+							name="Einstellungen"
+							options={modelHeader}
 							component={AboutScreen}
 						/>
 					</RootStack.Group>
@@ -95,7 +150,7 @@ function AppHeaderCloseButton({ onPress }) {
 			onPress={onPress}
 			style={{
 				marginRight: 16,
-				marginTop: 2,
+				marginTop: 3,
 				borderRadius: 100,
 				backgroundColor: colors.ladefuchsDarkGrayBackground,
 				padding: 6,
@@ -109,6 +164,20 @@ function AppHeaderCloseButton({ onPress }) {
 			</Svg>
 		</TouchableOpacity>
 	);
+}
+
+function modelHeader({ navigation }) {
+	return {
+		headerBackTitleVisible: false,
+		headerLeft: null,
+		headerRight: () => {
+			return <AppHeaderCloseButton onPress={() => navigation.goBack()} />;
+		},
+		headerStyle: {
+			backgroundColor: colors.ladefuchsLightBackground, // Verwendung der Ladefuchs Farbe für den Header-Hintergrund
+		},
+		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
+	};
 }
 
 export default App;

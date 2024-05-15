@@ -5,6 +5,7 @@ export interface TariffResponse {
 export interface Tariff {
 	identifier: string;
 	name: string;
+	providerName: string;
 	imageUrl: string;
 	isCustomerOnly: false;
 	isStandard: boolean;

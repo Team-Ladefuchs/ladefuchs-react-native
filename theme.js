@@ -19,19 +19,19 @@ const fonts = {
 
 const styles = {
 	scrollView: {
-	  backgroundColor: colors.ladefuchsLightBackground,
+		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	headerView: {
 		paddingHorizontal: 30,
 		paddingVertical: 20,
 	},
 	headLine: {
-	  color: colors.ladefuchsOrange,
-	  fontFamily: "Roboto",
-	  fontSize: 20,
-	  lineHeight: 20,
+		color: colors.ladefuchsOrange,
+		fontFamily: "Roboto",
+		fontSize: 20,
+		lineHeight: 20,
 	},
-	headerText:{
+	headerText: {
 		color: "black",
 		fontFamily: "Bitter",
 		fontSize: 15,
@@ -41,11 +41,11 @@ const styles = {
 		flexDirection: "row",
 		paddingHorizontal: 30,
 		paddingVertical: 20,
-	  color: 'black',
-	  fontFamily: fonts.bitter,
-	  fontSize: 15,
+		color: "black",
+		fontFamily: fonts.bitter,
+		fontSize: 15,
 	},
-	memberImage:{
+	memberImage: {
 		width: 120,
 		height: 120,
 		borderRadius: 100,
@@ -70,9 +70,7 @@ const styles = {
 		fontSize: 15,
 		lineHeight: 20,
 		paddingBottom: 15,
-	}
-
-  };
-
+	},
+};
 
 export { colors, fonts, styles };
