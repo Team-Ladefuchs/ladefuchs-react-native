@@ -3,7 +3,7 @@ const colors = {
 	primary: "#00700",
 	ladefuchsLightBackground: "#F3EEE2",
 	ladefuchsDarkBackground: "#C2B49C",
-	ladefuchsLightGrayBackground: "#c2b49c66",
+	ladefuchsLightGrayBackground: "rgba(194, 180, 156, 0.2)", // 20% opacity
 	ladefuchsDarkGrayBackground: "#c2b49c99", //dunkler Balken
 	ladefuchsDunklerBalken: "#E0D7C8",
 	text: "#343a40",

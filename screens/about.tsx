@@ -10,6 +10,9 @@ import {
 import { colors, fonts, styles } from "../theme";
 import { useFonts } from "expo-font";
 import Chargeprice from "../assets/chargeprice_logo.svg";
+import Audiodump from "../assets/podcast_audiodump.svg";
+import BitsundSo from "../assets/podcast_bitsundso.svg";
+import MalikFM from "../assets/podcast_malik-fm.svg";
 
 export function AboutScreen() {
 	const [fontsLoaded] = useFonts({
@@ -256,26 +259,17 @@ export function AboutScreen() {
 					<TouchableOpacity
 						onPress={() => Linking.openURL("https://audiodump.de")}
 					>
-						<Image
-							source={require("../assets/podcast_audiodump-600.jpg")}
-							style={{ width: 100, height: 100, marginRight: 10 }}
-						/>
+						<Audiodump width={100} height={100} marginRight={10} />
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => Linking.openURL("https://malik.fm")}
 					>
-						<Image
-							source={require("../assets/podcast_malik-fm_500x500.jpg")}
-							style={{ width: 100, height: 100, marginRight: 10 }}
-						/>
+						<MalikFM width={100} height={100} marginRight={10} />
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => Linking.openURL("https://bitsundso.de")}
 					>
-						<Image
-							source={require("../assets/podcast_bitsundso-600.jpg")}
-							style={{ width: 100, height: 100 }}
-						/>
+						<BitsundSo width={100} height={100} marginRight={10} />
 					</TouchableOpacity>
 				</View>
 			</View>
