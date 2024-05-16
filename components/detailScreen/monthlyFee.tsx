@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import { ItalicText } from "../../screens/detailView";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
+import { ItalicText } from "./ItalicText";
 
 export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 	const formattedFee = fee ? `${fee} €` : "› keine";

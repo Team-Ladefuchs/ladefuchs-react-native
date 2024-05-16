@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import { ItalicText } from "../../screens/detailView";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
+import { ItalicText } from "./ItalicText";
 
 export function Notes({ notes }: { notes?: string | null }): JSX.Element {
 	if (!notes?.trim) {

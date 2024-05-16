@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { AppStateContext } from "../contexts/appStateContext";
-import { colors } from "../theme";
 
 interface Props {
 	onSelect: (value: string) => void;

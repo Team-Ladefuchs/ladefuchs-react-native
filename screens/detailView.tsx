@@ -77,13 +77,3 @@ export function DetailScreen({ route }) {
 		</View>
 	);
 }
-
-export function ItalicText({
-	text,
-	fontSize = 14,
-}: {
-	text: string;
-	fontSize?: number;
-}) {
-	return <Text style={{ fontStyle: "italic", fontSize }}>{text}</Text>;
-}

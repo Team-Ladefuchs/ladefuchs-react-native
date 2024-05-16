@@ -9,7 +9,6 @@ interface Props {
 }
 
 export function Banner({ link, imageUrl }: Props) {
-	console.log(link);
 	return (
 		<View
 			style={{
@@ -17,7 +16,6 @@ export function Banner({ link, imageUrl }: Props) {
 				backgroundColor: colors.ladefuchsDarkBackground,
 				alignItems: "center", // Center the content horizontally
 				overflow: "visible",
-				marginTop: 16,
 				height: 115,
 				display: "flex",
 				justifyContent: "center",
