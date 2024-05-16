@@ -23,6 +23,7 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		tariff?.note?.length > 0;
 
 	const onPress = () => {
+		//@ts-ignore
 		navigator.navigate("detailScreen", { tariff, tariffCondition });
 	};
 	return (
@@ -71,7 +72,7 @@ function HighlightCorner() {
 	);
 }
 
-const dropShadow = {
+export const dropShadow = {
 	shadowOffset: {
 		width: 0,
 		height: 1,

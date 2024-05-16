@@ -86,7 +86,6 @@ function AppWrapper({ Stack }): JSX.Element {
 												borderBottomWidth: 0.5,
 												borderBottomColor:
 													colors.ladefuchsLightGrayBackground,
-												marginTop: 3,
 											}}
 										>
 											<View

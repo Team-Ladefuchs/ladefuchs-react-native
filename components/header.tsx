@@ -13,7 +13,10 @@ export function AppHeader() {
 			</View>
 
 			<TouchableOpacity
-				onPress={() => navigation.navigate("Einstellungen")}
+				onPress={() => {
+					//@ts-ignore
+					navigation.navigate("Einstellungen");
+				}}
 				style={styles.headerSettingsIcon}
 			>
 				<Zahnrad width={35} height={35} />
