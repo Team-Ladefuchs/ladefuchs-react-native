@@ -27,6 +27,7 @@ export function PriceBox({
 						fontSize: 24,
 						fontWeight: "800",
 						textAlign: "center",
+						marginRight: 4,
 					}}
 				>
 					{chargeMode.toLocaleUpperCase()}
