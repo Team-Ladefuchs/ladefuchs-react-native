@@ -62,8 +62,7 @@ export function HomeScreen() {
 	}, [operators, setOperatorId]);
 
 	const handlePickerSelect = (operatorId) => {
-		// console.log("selected operatorId", operatorId);
-		// setOperatorId(operatorId);
+		setOperatorId(operatorId);
 	};
 
 	if (!fontsLoaded) {

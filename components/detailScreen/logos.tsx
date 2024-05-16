@@ -38,7 +38,7 @@ export function Logos({
 
 				<Image
 					source={{ uri: operatorImageUrl, ...authHeader }}
-					height={140}
+					height={120}
 					width={180}
 					style={{
 						objectFit: "scale-down",

@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { colors } from "../theme";
 import { Tariff } from "../types/tariff";
-import { TariffCondition } from "../types/conditions";
+import { ChargeMode, TariffCondition } from "../types/conditions";
 
 import { useContext } from "react";
 import { AppStateContext } from "../contexts/appStateContext";
@@ -12,6 +12,20 @@ import { AffiliateButton } from "../components/affiliateButton";
 import { Notes } from "../components/detailScreen/notes";
 import { MonthlyFee } from "../components/detailScreen/monthlyFee";
 import { BlockingFee } from "../components/detailScreen/blockingFee";
+
+function findTariffCondition({
+	tariffConditions,
+	tariffId,
+	chargeMode,
+}: {
+	tariffConditions: TariffCondition[];
+	tariffId: string;
+	chargeMode: ChargeMode;
+}): TariffCondition | null | undefined {
+	return tariffConditions.find(
+		(item) => item.tariffId === tariffId && item.chargingMode === chargeMode
+	);
+}
 
 export function DetailScreen({ route }) {
 	const { operators, operatorId, tariffConditions } =
@@ -24,9 +38,17 @@ export function DetailScreen({ route }) {
 		tariffCondition: TariffCondition;
 	};
 
-	const [acTariffCondition, dcTariffCondition] = tariffConditions
-		.filter((item) => item.tariffId === tariff.identifier)
-		.sort((a, b) => a.chargingMode.localeCompare(b.chargingMode));
+	const acTariffCondition = findTariffCondition({
+		tariffConditions,
+		chargeMode: "ac",
+		tariffId: tariff.identifier,
+	});
+
+	const dcTariffCondition = findTariffCondition({
+		tariffConditions,
+		chargeMode: "dc",
+		tariffId: tariff.identifier,
+	});
 
 	return (
 		<View
@@ -52,22 +74,22 @@ export function DetailScreen({ route }) {
 				<View style={{ flex: 1 }}>
 					<PriceBox
 						chargeMode="ac"
-						price={acTariffCondition.pricePerKwh}
+						price={acTariffCondition?.pricePerKwh}
 					/>
 					<BlockingFee
-						fee={acTariffCondition.blockingFeeStart}
-						feeStart={acTariffCondition.blockingFeeStart}
+						fee={acTariffCondition?.blockingFeeStart}
+						feeStart={acTariffCondition?.blockingFeeStart}
 					/>
 				</View>
 
 				<View style={{ flex: 1 }}>
 					<PriceBox
 						chargeMode="dc"
-						price={dcTariffCondition.pricePerKwh}
+						price={dcTariffCondition?.pricePerKwh}
 					/>
 					<BlockingFee
-						fee={dcTariffCondition.blockingFeeStart}
-						feeStart={dcTariffCondition.blockingFeeStart}
+						fee={dcTariffCondition?.blockingFeeStart}
+						feeStart={dcTariffCondition?.blockingFeeStart}
 					/>
 				</View>
 			</View>

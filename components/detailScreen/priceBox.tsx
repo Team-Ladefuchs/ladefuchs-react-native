@@ -10,7 +10,7 @@ export function PriceBox({
 	price,
 }: {
 	chargeMode: ChargeMode;
-	price: number;
+	price: number | null | undefined;
 }) {
 	const plugSize = 25;
 	const plug =
@@ -39,9 +39,10 @@ export function PriceBox({
 						textAlign: "center",
 						fontWeight: "500",
 						fontSize: 44,
+						height: 60,
 					}}
 				>
-					{price.toFixed(2)}
+					{price?.toFixed(2) ?? ""}
 				</Text>
 			</View>
 		</View>
@@ -53,6 +54,8 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		paddingHorizontal: 12,
 		paddingVertical: 12,
+		borderBottomRightRadius: 12,
+		borderBottomLeftRadius: 12,
 	},
 	priceHeader: {
 		display: "flex",

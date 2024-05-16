@@ -26,9 +26,9 @@ export function BlockingFee({
 			style={{
 				backgroundColor: colors.ladefuchsLightGrayBackground,
 				padding: 12,
-				borderBottomRightRadius: 12,
-				borderBottomLeftRadius: 12,
-				marginTop: 1,
+				borderRadius: 12,
+				marginTop: 4,
+				height: 81,
 			}}
 		>
 			<CardHeader text="Blockiergebühr" />
