@@ -13,7 +13,7 @@ export function Banner({ link, imageUrl }: Props) {
 	return (
 		<View
 			style={{
-				flex: 11,
+				flex: 12,
 				backgroundColor: colors.ladefuchsDarkBackground,
 				alignItems: "center", // Center the content horizontally
 				overflow: "visible",
@@ -32,7 +32,7 @@ export function Banner({ link, imageUrl }: Props) {
 					source={{ uri: imageUrl, ...authHeader }}
 					style={{
 						height: 125,
-						marginTop: 15,
+						marginTop: 22,
 						aspectRatio: "2.8",
 						objectFit: "fill",
 					}}

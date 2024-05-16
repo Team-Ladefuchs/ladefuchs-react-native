@@ -105,6 +105,7 @@ export function HomeScreen() {
 					flex: 26,
 					justifyContent: "center",
 					backgroundColor: colors.ladefuchsLightBackground,
+					paddingTop: 20,
 				}}
 			>
 				<OperatorPicker onSelect={handlePickerSelect} />
