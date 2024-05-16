@@ -10,7 +10,7 @@ export function ChargingTableHeader() {
 		>
 			<View style={styles.headerView}>
 				<Text style={styles.headerText}>AC</Text>
-				<Typ2 width={30} marginLeft={4} />
+				<Typ2 width={30} marginLeft={4} opacity="0.5" />
 			</View>
 			<View
 				style={{
@@ -20,7 +20,7 @@ export function ChargingTableHeader() {
 			/>
 			<View style={styles.headerView}>
 				<Text style={styles.headerText}>DC</Text>
-				<CCS height={40} width={40} marginLeft={2} />
+				<CCS height={40} width={40} marginLeft={2} opacity="0.5" />
 			</View>
 		</View>
 	);

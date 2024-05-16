@@ -40,8 +40,8 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 						flex: 1,
 						backgroundColor:
 							index % 2 !== 0
-								? colors.ladefuchsLightBackground
-								: "#E0D7C8",
+								? colors.ladefuchsLightGrayBackground
+								: colors.ladefuchsLightBackground,
 					},
 				]}
 			>

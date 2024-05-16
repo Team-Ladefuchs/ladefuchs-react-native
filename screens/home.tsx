@@ -103,7 +103,7 @@ export function HomeScreen() {
 			</View>
 			<View
 				style={{
-					flex: 19,
+					flex: 26,
 					justifyContent: "center",
 					backgroundColor: colors.ladefuchsLightBackground,
 				}}
