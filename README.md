@@ -1,10 +1,19 @@
-## HOW TO Install
+## How to install
 
 ```sh
 npm install
+npm i lottie-react-native
+npm install @react-native-picker/picker --save
 ```
 
-## HOW TO Run
+## Create .env file
+
+```
+API_TOKEN=12xxxxxxxxxxx
+
+```
+
+## How to run
 
 iOS
 
@@ -30,3 +39,4 @@ npm run android
 -   [React Navigation](https://reactnavigation.org/docs/header-buttons)
 
 -   [React Native UI](https://reactnativeelements.com/)
+-   [React Native Picker](https://github.com/react-native-picker/picker)
