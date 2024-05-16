@@ -1,6 +1,6 @@
 // Tariffs.tsx
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { TariffCondition } from "../types/conditions";
 import { AppStateContext } from "../contexts/appStateContext";
@@ -20,7 +20,10 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 	);
 	const zipTariffConditions = zip(acTariffCondition, dcTariffCondition);
 	const flatListRef = useRef<FlatList>();
-	flatListRef?.current?.scrollToIndex({ animated: true, index: 0 });
+
+	if (zipTariffConditions.length) {
+		flatListRef?.current?.scrollToIndex({ animated: true, index: 0 });
+	}
 
 	const { tariffs } = useContext(AppStateContext);
 	const renderItem = ({

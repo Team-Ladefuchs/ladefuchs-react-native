@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 	Linking,
 } from "react-native";
-import { colors, fonts, styles } from "../theme";
+import { styles } from "../theme";
 import { useFonts } from "expo-font";
 import Chargeprice from "../assets/chargeprice_logo.svg";
 import Audiodump from "../assets/podcast_audiodump.svg";

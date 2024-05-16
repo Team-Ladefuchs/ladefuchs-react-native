@@ -3,12 +3,11 @@ import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { useFonts } from "expo-font";
-import { setSelectedValue } from "../types/operator";
 import { ChargeConditionTable } from "../components/chargeConditionTable";
 import { Banner } from "../components/banner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { AppStateContext } from "../contexts/appStateContext";
-import { repeatNTimes, shuffle } from "../functions/util";
+import { repeatNTimes } from "../functions/util";
 import { LadefuchsBanner } from "../types/banner";
 
 export function HomeScreen() {
