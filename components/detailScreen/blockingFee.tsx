@@ -73,6 +73,9 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 0,
 		right: 0,
+		shadowOffset: { width: -2, height: 2 },
+		shadowOpacity: 0.5,
+		shadowRadius: 3,
 	},
 });
 
