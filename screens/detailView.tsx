@@ -77,7 +77,7 @@ export function DetailScreen({ route }) {
 						price={acTariffCondition?.pricePerKwh}
 					/>
 					<BlockingFee
-						fee={acTariffCondition?.blockingFeeStart}
+						fee={acTariffCondition?.blockingFee}
 						feeStart={acTariffCondition?.blockingFeeStart}
 					/>
 				</View>
@@ -88,7 +88,7 @@ export function DetailScreen({ route }) {
 						price={dcTariffCondition?.pricePerKwh}
 					/>
 					<BlockingFee
-						fee={dcTariffCondition?.blockingFeeStart}
+						fee={dcTariffCondition?.blockingFee}
 						feeStart={dcTariffCondition?.blockingFeeStart}
 					/>
 				</View>
