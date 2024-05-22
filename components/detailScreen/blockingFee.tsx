@@ -19,7 +19,7 @@ export function BlockingFee({
 		textBlock = (
 			<View>
 				<ItalicText text={`› ab Minute ${feeStart}`} />
-				<ItalicText text={`› ${fee} € / Minute`} />
+				<ItalicText text={`› ${fee.toFixed(2)} € / Minute`} />
 			</View>
 		);
 		shouldHighlightCorner = true;
