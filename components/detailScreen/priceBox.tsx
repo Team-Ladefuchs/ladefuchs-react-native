@@ -15,9 +15,9 @@ export function PriceBox({
 	const plugSize = 25;
 	const plug =
 		chargeMode === "ac" ? (
-			<Typ2 width={plugSize} height={plugSize} />
+			<Typ2 width={plugSize} height={plugSize} marginLeft={2} opacity="0.5" />
 		) : (
-			<CCS width={plugSize} height={plugSize} />
+			<CCS width={plugSize} height={plugSize} marginLeft={2} opacity="0.5"/>
 		);
 	return (
 		<View>
