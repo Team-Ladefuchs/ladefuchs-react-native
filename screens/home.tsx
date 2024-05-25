@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
-import { useFonts } from "expo-font";
 import { ChargeConditionTable } from "../components/chargeConditionTable";
 import { Banner } from "../components/banner";
 import { ChargingTableHeader } from "../components/chargingHeader";
@@ -11,12 +10,6 @@ import { repeatNTimes } from "../functions/util";
 import { LadefuchsBanner } from "../types/banner";
 
 export function HomeScreen() {
-	const [fontsLoaded] = useFonts({
-		Bitter: require("../assets/fonts/Bitter-Italic.ttf"),
-		// Fügen Sie hier weitere Schriftarten hinzu, falls erforderlich
-		Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
-	});
-
 	const [selectedBanner, setSelectedBanner] =
 		useState<LadefuchsBanner | null>(null);
 
@@ -44,15 +37,12 @@ export function HomeScreen() {
 		if (!operatorId) {
 			return;
 		}
-		const tariffConditions = chargingConditions.find(
-			(item) => item.operatorId === operatorId
-		)?.tariffConditions;
+		const tariffConditions = chargingConditions.get(operatorId);
 		if (tariffConditions) {
 			setTariffConditions(tariffConditions);
 		}
 	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
 
-	// der erste operator aus der liste der aktuelle beim start
 	useEffect(() => {
 		const firstOperator = operators[0];
 		if (!firstOperator) {
@@ -64,10 +54,6 @@ export function HomeScreen() {
 	const handlePickerSelect = (operatorId) => {
 		setOperatorId(operatorId);
 	};
-
-	if (!fontsLoaded) {
-		return <View></View>;
-	}
 
 	return (
 		<View style={{ flex: 1 }}>

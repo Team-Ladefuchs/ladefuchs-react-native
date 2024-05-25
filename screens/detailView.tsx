@@ -27,7 +27,7 @@ function findTariffCondition({
 	);
 }
 
-export function DetailScreen({ route }) {
+export function DetailScreen({ route }): JSX.Element {
 	const { operators, operatorId, tariffConditions } =
 		useContext(AppStateContext);
 

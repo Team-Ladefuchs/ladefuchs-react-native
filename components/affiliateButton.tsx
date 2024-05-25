@@ -1,4 +1,4 @@
-import { SafeAreaView, TouchableHighlight, Linking, Text } from "react-native";
+import { SafeAreaView, Linking, Text, TouchableOpacity } from "react-native";
 import { colors } from "../theme";
 
 export function AffiliateButton({
@@ -11,14 +11,14 @@ export function AffiliateButton({
 	}
 	return (
 		<SafeAreaView style={{ marginTop: "auto" }}>
-			<TouchableHighlight
+			<TouchableOpacity
+				activeOpacity={0.8}
 				style={{
 					backgroundColor: colors.ladefuchsOrange,
 					padding: 12,
 					borderRadius: 12,
 				}}
 				onPress={() => Linking.openURL(link)}
-				underlayColor="#fff"
 			>
 				<Text
 					style={{
@@ -30,7 +30,7 @@ export function AffiliateButton({
 				>
 					{"Hol dir die Karte!".toLocaleUpperCase()}
 				</Text>
-			</TouchableHighlight>
+			</TouchableOpacity>
 		</SafeAreaView>
 	);
 }

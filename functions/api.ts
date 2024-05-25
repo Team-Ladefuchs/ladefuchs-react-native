@@ -4,6 +4,7 @@ import {
 	ChargeMode,
 	ChargingCondition,
 	ConditionsResponse,
+	TariffCondition,
 } from "../types/conditions";
 import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
@@ -99,6 +100,17 @@ function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
 	return map;
 }
 
+function chargeConditionToHashMap(
+	data: ChargingCondition[]
+): Map<string, TariffCondition[]> {
+	const map = new Map();
+
+	for (const conditions of data) {
+		map.set(conditions.operatorId, conditions.tariffConditions);
+	}
+	return map;
+}
+
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
 		const response = await fetch(`${apiPath}/v3/banners`, {
@@ -134,6 +146,6 @@ export async function fetchAllApiData(): Promise<AppData> {
 		ladefuchsBanners,
 		operators,
 		tariffs: tariffsToHashMap(tariffs),
-		chargingConditions,
+		chargingConditions: chargeConditionToHashMap(chargingConditions),
 	};
 }

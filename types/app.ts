@@ -7,7 +7,7 @@ export interface AppData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
 	ladefuchsBanners: LadefuchsBanner[];
-	chargingConditions: ChargingCondition[];
+	chargingConditions: Map<string, TariffCondition[]>;
 }
 
 export interface AppState extends AppData {

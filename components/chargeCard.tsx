@@ -30,7 +30,7 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		<View style={styles.cardAndPriceContainer}>
 			<View style={styles.cardImageContainer}>
 				{showHighlightCorner && <HighlightCorner />}
-				<TouchableOpacity onPress={onPress}>
+				<TouchableOpacity onPress={onPress} activeOpacity={0.8}>
 					<Image
 						source={{
 							uri: tariff.imageUrl,

@@ -22,7 +22,7 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 	const flatListRef = useRef<FlatList>();
 
 	if (zipTariffConditions.length) {
-		flatListRef?.current?.scrollToIndex({ animated: true, index: 0 });
+		flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
 	}
 
 	const { tariffs } = useContext(AppStateContext);

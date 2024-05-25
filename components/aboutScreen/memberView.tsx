@@ -1,5 +1,11 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity, Linking } from "react-native";
+import {
+	Text,
+	View,
+	Image,
+	TouchableWithoutFeedback,
+	Linking,
+} from "react-native";
 import { styles } from "../../theme";
 
 export function Memberview() {
@@ -76,7 +82,7 @@ export function Memberview() {
 						<Text style={styles.headLine}>{member.name}</Text>
 						<Text style={styles.memberText}>{member.role}</Text>
 						{member.links.map((line, idx) => (
-							<TouchableOpacity
+							<TouchableWithoutFeedback
 								key={idx}
 								onPress={() => Linking.openURL(line.url)}
 							>
@@ -104,7 +110,7 @@ export function Memberview() {
 										{line.text}
 									</Text>
 								</View>
-							</TouchableOpacity>
+							</TouchableWithoutFeedback>
 						))}
 					</View>
 				</View>

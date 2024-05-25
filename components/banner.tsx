@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Image, Linking } from "react-native";
+import { View, TouchableWithoutFeedback, Image, Linking } from "react-native";
 import { colors } from "../theme";
 import { authHeader } from "../functions/api";
 
@@ -21,7 +21,7 @@ export function Banner({ link, imageUrl }: Props) {
 				justifyContent: "center",
 			}}
 		>
-			<TouchableOpacity
+			<TouchableWithoutFeedback
 				onPress={() => Linking.openURL(link)}
 				style={{ marginTop: 20 }}
 			>
@@ -35,7 +35,7 @@ export function Banner({ link, imageUrl }: Props) {
 						objectFit: "fill",
 					}}
 				/>
-			</TouchableOpacity>
+			</TouchableWithoutFeedback>
 		</View>
 	);
 }

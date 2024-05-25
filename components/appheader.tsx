@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LogoAnimation } from "./logo";
 import { colors } from "../theme";
