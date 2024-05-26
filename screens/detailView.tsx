@@ -10,6 +10,7 @@ import { Notes } from "../components/detailScreen/notes";
 import { MonthlyFee } from "../components/detailScreen/monthlyFee";
 import { BlockingFee } from "../components/detailScreen/blockingFee";
 import { useAppStore } from "../state/state";
+import { useShallow } from "zustand/react/shallow";
 
 function findTariffCondition({
 	tariffConditions,
@@ -26,11 +27,13 @@ function findTariffCondition({
 }
 
 export function DetailScreen({ route }): JSX.Element {
-	const [operators, operatorId, tariffConditions] = useAppStore((state) => [
-		state.operators,
-		state.operatorId,
-		state.tariffConditions,
-	]);
+	const [operators, operatorId, tariffConditions] = useAppStore(
+		useShallow((state) => [
+			state.operators,
+			state.operatorId,
+			state.tariffConditions,
+		])
+	);
 
 	const operator = operators.find((item) => item.identifier === operatorId);
 

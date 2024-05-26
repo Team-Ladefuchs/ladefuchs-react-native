@@ -1,20 +1,22 @@
 // Tariffs.tsx
 
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { TariffCondition } from "../types/conditions";
-import { AppStateContext } from "../contexts/appStateContext";
 import ChargeCard from "./chargeCard";
 import { fill, zip } from "../functions/util";
 import { colors } from "../theme";
 import { useAppStore } from "../state/state";
+import { useShallow } from "zustand/react/shallow";
 
 export function ChargeConditionTable() {
 	// hier nutzen wir unseren globalen state
-	const { tariffs, tariffConditions } = useAppStore((state) => ({
-		tariffs: state.tariffs,
-		tariffConditions: state.tariffConditions,
-	}));
+	const { tariffs, tariffConditions } = useAppStore(
+		useShallow((state) => ({
+			tariffs: state.tariffs,
+			tariffConditions: state.tariffConditions,
+		}))
+	);
 
 	const [acTariffCondition, dcTariffCondition] = fill(
 		tariffConditions.filter((item) => item.chargingMode === "ac"),

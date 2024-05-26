@@ -19,6 +19,7 @@ import { CloseButton } from "./components/closButton";
 import { DetailHeader } from "./components/detailScreen/detailHeader";
 import { StatusBar, View } from "react-native";
 import { useAppStore } from "./state/state";
+import { useShallow } from "zustand/react/shallow";
 
 const queryClient = new QueryClient();
 
@@ -45,7 +46,7 @@ function AppWrapper(): JSX.Element {
 		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
 	});
 
-	const { init } = useAppStore();
+	const [init] = useAppStore(useShallow((state) => [state.init]));
 
 	useEffect(() => {
 		if (!allApiData.data) {

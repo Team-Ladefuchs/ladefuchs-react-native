@@ -4,13 +4,13 @@ import { TariffCondition } from "../types/conditions";
 import { Operator } from "../types/operator";
 import { Tariff } from "../types/tariff";
 import { pickRandom, repeatNTimes } from "../functions/util";
-import { getBannerType } from "./storage";
 
 export interface AppData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
 	ladefuchsBanners: LadefuchsBanner[];
-	chargePriceAdBanner: Banner | null;
+	chargePriceAdBanner?: Banner | null;
+	bannerType: BannerType;
 	chargingConditions: Map<string, TariffCondition[]>;
 }
 
@@ -26,22 +26,23 @@ export interface AppState extends AppData {
 export const useAppStore = create<AppState>((set) => {
 	return {
 		init: async (data: AppData): Promise<void> => {
-			const { operators, ladefuchsBanners, chargePriceAdBanner } = data;
+			const {
+				operators,
+				ladefuchsBanners,
+				chargePriceAdBanner,
+				bannerType,
+			} = data;
 			const operatorId = operators[0]?.identifier ?? "";
-			const bannerType = await getBannerType();
 			if (data.operators)
 				set((state) => ({
 					...state,
 					...data,
 					operatorId,
 					bannerType,
-					banner:
-						bannerType === "ladefuchs"
-							? selectLadefuchsBanner(ladefuchsBanners)
-							: {
-									...chargePriceAdBanner,
-									bannerType: "chargePrice",
-							  },
+					banner: selectLadefuchsBanner({
+						ladefuchsBanners,
+						chargePriceAdBanner,
+					}),
 				}));
 		},
 		operatorId: "",
@@ -55,16 +56,24 @@ export const useAppStore = create<AppState>((set) => {
 		operators: [],
 		ladefuchsBanners: [],
 		chargingConditions: new Map(),
-		chargePriceAdBanner: null,
-		ladefuchsBanner: null,
+		bannerType: "ladefuchs",
 		banner: null,
 	};
 });
 
-function selectLadefuchsBanner(
-	ladefuchsBanners: LadefuchsBanner[] | null
-): Banner | null {
-	// return chargePriceBanner;
+function selectLadefuchsBanner({
+	ladefuchsBanners,
+	chargePriceAdBanner,
+}: {
+	ladefuchsBanners: LadefuchsBanner[] | null;
+	chargePriceAdBanner: Banner;
+}): Banner | null {
+	if (chargePriceAdBanner) {
+		return {
+			...chargePriceAdBanner,
+			bannerType: "chargePrice",
+		};
+	}
 	if (!ladefuchsBanners) {
 		return null;
 	}

@@ -1,3 +1,4 @@
+import { getBannerType } from "../state/storage";
 import { AppData } from "../types/app";
 import { Banner, LadefuchsBanner } from "../types/banner";
 import {
@@ -148,14 +149,18 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 
 export async function fetchAllApiData(): Promise<AppData> {
 	// mache die Abfrage in Parallel
-	const [operators, tariffs, ladefuchsBanners, chargePriceAdBanner] =
+	const [operators, tariffs, ladefuchsBanners, bannerType] =
 		await Promise.all([
 			fetchOperators({ standard: true }),
 			fetchTariffs({ standard: true }),
 			fetchAllLadefuchsBanners(),
-			fetchChargePriceAdBanner(),
+			await getBannerType(),
 		]);
 
+	let chargePriceAdBanner = null;
+	if (bannerType === "chargePrice") {
+		chargePriceAdBanner = await fetchChargePriceAdBanner();
+	}
 	const tariffsIds = tariffs.map((item) => item.identifier);
 	const operatorIds = operators.map((item) => item.identifier);
 	const chargingConditions = await fetchChargingConditions({

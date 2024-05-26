@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
+import { useShallow } from "zustand/react/shallow";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { ChargeConditionTable } from "../components/chargeConditionTable";
@@ -14,13 +15,15 @@ export function HomeScreen() {
 		setOperatorId,
 		chargingConditions,
 		setTariffConditions,
-	} = useAppStore((state) => ({
-		operatorId: state.operatorId,
-		setOperatorId: state.setOperatorId,
-		chargingConditions: state.chargingConditions,
-		setTariffConditions: state.setTariffConditions,
-		banner: state.banner,
-	}));
+	} = useAppStore(
+		useShallow((state) => ({
+			operatorId: state.operatorId,
+			setOperatorId: state.setOperatorId,
+			chargingConditions: state.chargingConditions,
+			setTariffConditions: state.setTariffConditions,
+			banner: state.banner,
+		}))
+	);
 
 	// lade die conditions aus dem cache wenn sich der operator geandert hat
 	useEffect(() => {
