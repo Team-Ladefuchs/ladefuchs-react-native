@@ -6,7 +6,7 @@ interface Props {
 	size: DimensionValue;
 }
 
-export function LogoAnimation({ size }: Props) {
+export function AppLogo({ size }: Props): JSX.Element {
 	return (
 		<LottieView
 			source={require("../assets/flunkerfuchs.json")}

@@ -8,9 +8,8 @@ import { AppBanner } from "../components/appBanner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { useAppStore } from "../state/state";
 
-export function HomeScreen() {
+export function HomeScreen(): JSX.Element {
 	const {
-		banner,
 		operatorId,
 		setOperatorId,
 		chargingConditions,
@@ -21,7 +20,6 @@ export function HomeScreen() {
 			setOperatorId: state.setOperatorId,
 			chargingConditions: state.chargingConditions,
 			setTariffConditions: state.setTariffConditions,
-			banner: state.banner,
 		}))
 	);
 
@@ -78,7 +76,7 @@ export function HomeScreen() {
 			>
 				<OperatorPicker />
 			</View>
-			{banner?.imageUrl && <AppBanner banner={banner} />}
+			<AppBanner />
 		</View>
 	);
 }

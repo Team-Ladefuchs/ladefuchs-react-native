@@ -9,15 +9,17 @@ import {
 } from "react-native";
 import { colors } from "../theme";
 import { authHeader } from "../functions/api";
-import { Banner } from "../types/banner";
+import { useShallow } from "zustand/react/shallow";
+import { useAppStore } from "../state/state";
 
-interface Props {
-	banner: Banner;
-}
-
-export function AppBanner({ banner }: Props) {
-	const width = "85%";
+export function AppBanner(): JSX.Element {
+	const [banner] = useAppStore(useShallow((state) => [state.banner]));
+	if (!banner) {
+		return <View></View>;
+	}
 	const { bannerType, imageUrl, affiliateLinkUrl } = banner;
+	const width = "85%";
+
 	const imageStyle = (): StyleProp<ImageStyle> => {
 		if (bannerType === "chargePrice") {
 			return {

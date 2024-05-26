@@ -6,7 +6,7 @@ import {
 	SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { LogoAnimation } from "./logo";
+import { AppLogo } from "./appLogo";
 import { colors } from "../theme";
 import Zahnrad from "../assets/gearshape.svg";
 import ChargepriceButton from "../assets/chargepriceButton.svg";
@@ -27,7 +27,7 @@ export function AppHeader() {
 				/>
 			</TouchableOpacity>
 			<View style={{ marginBottom: -10 }}>
-				<LogoAnimation size={90} />
+				<AppLogo size={90} />
 			</View>
 			<TouchableOpacity
 				activeOpacity={0.6}
