@@ -1,36 +1,47 @@
 import { create } from "zustand";
-import { AppBanner, LadefuchsBanner } from "../types/banner";
+import { Banner, BannerType, LadefuchsBanner } from "../types/banner";
 import { TariffCondition } from "../types/conditions";
 import { Operator } from "../types/operator";
 import { Tariff } from "../types/tariff";
 import { pickRandom, repeatNTimes } from "../functions/util";
+import { getBannerType } from "./storage";
 
 export interface AppData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
 	ladefuchsBanners: LadefuchsBanner[];
+	chargePriceAdBanner: Banner | null;
 	chargingConditions: Map<string, TariffCondition[]>;
 }
 
 export interface AppState extends AppData {
-	init: (data: AppData) => void;
+	init: (data: AppData) => Promise<void>;
 	operatorId: string;
 	setOperatorId: (id: string) => void;
 	tariffConditions: TariffCondition[];
 	setTariffConditions: (tariffs: TariffCondition[]) => void;
-	banner: AppBanner | null;
+	banner: Banner | null;
 }
 
 export const useAppStore = create<AppState>((set) => {
 	return {
-		init: (data: AppData): void => {
-			const operatorId = data.operators[0]?.identifier ?? "";
+		init: async (data: AppData): Promise<void> => {
+			const { operators, ladefuchsBanners, chargePriceAdBanner } = data;
+			const operatorId = operators[0]?.identifier ?? "";
+			const bannerType = await getBannerType();
 			if (data.operators)
 				set((state) => ({
 					...state,
 					...data,
 					operatorId,
-					banner: selectBanner(data.ladefuchsBanners),
+					bannerType,
+					banner:
+						bannerType === "ladefuchs"
+							? selectLadefuchsBanner(ladefuchsBanners)
+							: {
+									...chargePriceAdBanner,
+									bannerType: "chargePrice",
+							  },
 				}));
 		},
 		operatorId: "",
@@ -44,11 +55,16 @@ export const useAppStore = create<AppState>((set) => {
 		operators: [],
 		ladefuchsBanners: [],
 		chargingConditions: new Map(),
+		chargePriceAdBanner: null,
+		ladefuchsBanner: null,
 		banner: null,
 	};
 });
 
-function selectBanner(ladefuchsBanners: LadefuchsBanner[] | null): AppBanner {
+function selectLadefuchsBanner(
+	ladefuchsBanners: LadefuchsBanner[] | null
+): Banner | null {
+	// return chargePriceBanner;
 	if (!ladefuchsBanners) {
 		return null;
 	}
@@ -57,6 +73,7 @@ function selectBanner(ladefuchsBanners: LadefuchsBanner[] | null): AppBanner {
 		.shuffle();
 	const banner = pickRandom(bannerIds);
 	return {
+		bannerType: "ladefuchs",
 		affiliateLinkUrl: banner.affiliateLinkUrl,
 		imageUrl: banner.imageUrl,
 	};

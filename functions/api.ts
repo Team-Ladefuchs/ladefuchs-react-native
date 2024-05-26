@@ -1,5 +1,5 @@
 import { AppData } from "../types/app";
-import { LadefuchsBanner } from "../types/banner";
+import { Banner, LadefuchsBanner } from "../types/banner";
 import {
 	ChargeMode,
 	ChargingCondition,
@@ -127,13 +127,34 @@ export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	}
 }
 
+export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
+	try {
+		const response = await fetch(
+			`${apiPath}/v3/banners/chargeprice/advertisement`,
+			{
+				headers: {
+					...authHeader.headers,
+					Accept: "application/json",
+				},
+			}
+		);
+
+		return response.json();
+	} catch (error) {
+		console.error("fetchAllLadefuchsBanners", error);
+		return null;
+	}
+}
+
 export async function fetchAllApiData(): Promise<AppData> {
 	// mache die Abfrage in Parallel
-	const [operators, tariffs, ladefuchsBanners] = await Promise.all([
-		fetchOperators({ standard: true }),
-		fetchTariffs({ standard: true }),
-		fetchAllLadefuchsBanners(),
-	]);
+	const [operators, tariffs, ladefuchsBanners, chargePriceAdBanner] =
+		await Promise.all([
+			fetchOperators({ standard: true }),
+			fetchTariffs({ standard: true }),
+			fetchAllLadefuchsBanners(),
+			fetchChargePriceAdBanner(),
+		]);
 
 	const tariffsIds = tariffs.map((item) => item.identifier);
 	const operatorIds = operators.map((item) => item.identifier);
@@ -147,5 +168,6 @@ export async function fetchAllApiData(): Promise<AppData> {
 		operators,
 		tariffs: tariffsToHashMap(tariffs),
 		chargingConditions: chargeConditionToHashMap(chargingConditions),
+		chargePriceAdBanner,
 	};
 }

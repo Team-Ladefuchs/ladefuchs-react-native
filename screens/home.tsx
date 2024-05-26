@@ -3,17 +3,17 @@ import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { ChargeConditionTable } from "../components/chargeConditionTable";
-import { Banner } from "../components/banner";
+import { AppBanner } from "../components/appBanner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { useAppStore } from "../state/state";
 
 export function HomeScreen() {
 	const {
+		banner,
 		operatorId,
 		setOperatorId,
 		chargingConditions,
 		setTariffConditions,
-		banner,
 	} = useAppStore((state) => ({
 		operatorId: state.operatorId,
 		setOperatorId: state.setOperatorId,
@@ -38,7 +38,7 @@ export function HomeScreen() {
 			<ChargingTableHeader />
 			<View
 				style={{
-					flex: 75, // Höhe des verfügbaren Platzes
+					flex: 76, // Höhe des verfügbaren Platzes
 					backgroundColor: colors.ladefuchsLightBackground,
 				}}
 			>
@@ -46,8 +46,9 @@ export function HomeScreen() {
 			</View>
 			<View
 				style={{
-					flex: 3, // 3% Höhe des verfügbaren Platzes
-					paddingVertical: 10,
+					flex: 3,
+					paddingTop: 12,
+					paddingBottom: 14,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
 					justifyContent: "center",
@@ -65,7 +66,7 @@ export function HomeScreen() {
 			</View>
 			<View
 				style={{
-					flex: 26,
+					flex: 30,
 					justifyContent: "center",
 					backgroundColor: colors.ladefuchsLightBackground,
 					paddingTop: 20,
@@ -74,12 +75,7 @@ export function HomeScreen() {
 			>
 				<OperatorPicker />
 			</View>
-			{banner && (
-				<Banner
-					imageUrl={banner.imageUrl}
-					link={banner.affiliateLinkUrl}
-				/>
-			)}
+			{banner?.imageUrl && <AppBanner banner={banner} />}
 		</View>
 	);
 }

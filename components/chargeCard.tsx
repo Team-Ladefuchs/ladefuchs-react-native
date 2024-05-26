@@ -84,7 +84,7 @@ export const dropShadow = {
 
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
-		height: 64,
+		height: 69,
 		display: "flex",
 		flex: 1,
 		alignContent: "center",

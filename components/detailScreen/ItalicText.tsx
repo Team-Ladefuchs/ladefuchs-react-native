@@ -7,5 +7,9 @@ export function ItalicText({
 	text: string;
 	fontSize?: number;
 }) {
-	return <Text style={{ fontStyle: "italic", fontSize }}>{text}</Text>;
+	return (
+		<Text style={{ fontStyle: "italic", fontSize, fontFamily: "Bitter" }}>
+			{text}
+		</Text>
+	);
 }

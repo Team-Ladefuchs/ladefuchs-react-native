@@ -12,7 +12,9 @@ const OperatorPicker = () => {
 	return (
 		<Picker
 			selectedValue={operatorId}
-			itemStyle={{ fontSize: 20 }}
+			itemStyle={{
+				fontSize: 21,
+			}}
 			onValueChange={(operatorValue, _i) => {
 				setOperatorId(operatorValue);
 			}}

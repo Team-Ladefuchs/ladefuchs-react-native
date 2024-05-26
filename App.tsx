@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { AboutScreen } from "./screens/about";
@@ -18,7 +17,7 @@ import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/closButton";
 import { DetailHeader } from "./components/detailScreen/detailHeader";
-import { View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { useAppStore } from "./state/state";
 
 const queryClient = new QueryClient();
@@ -58,8 +57,10 @@ function AppWrapper(): JSX.Element {
 	if (allApiData.isPending || allApiData.error || !fontsLoaded) {
 		return <View></View>;
 	}
+
 	return (
 		<NavigationContainer>
+			<StatusBar barStyle="default" backgroundColor="#fff" />
 			<RootStack.Navigator>
 				<RootStack.Group>
 					<RootStack.Screen
