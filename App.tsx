@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
@@ -14,12 +14,12 @@ import {
 	useQuery,
 } from "@tanstack/react-query";
 import { fetchAllApiData } from "./functions/api";
-import { AppStateProvider } from "./contexts/appStateContext";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/closButton";
 import { DetailHeader } from "./components/detailScreen/detailHeader";
 import { View } from "react-native";
+import { useAppStore } from "./state/state";
 
 const queryClient = new QueryClient();
 
@@ -46,66 +46,70 @@ function AppWrapper(): JSX.Element {
 		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
 	});
 
+	const { init } = useAppStore();
+
+	useEffect(() => {
+		if (!allApiData.data) {
+			return;
+		}
+		init(allApiData.data);
+	}, [init, allApiData.data]);
+
 	if (allApiData.isPending || allApiData.error || !fontsLoaded) {
 		return <View></View>;
 	}
 	return (
-		<AppStateProvider value={allApiData.data}>
-			<NavigationContainer>
-				<RootStack.Navigator>
-					<RootStack.Group>
-						<RootStack.Screen
-							name="Home"
-							component={HomeScreen}
-							options={({}) => ({
-								header: () => {
-									return <AppHeader />;
-								},
+		<NavigationContainer>
+			<RootStack.Navigator>
+				<RootStack.Group>
+					<RootStack.Screen
+						name="Home"
+						component={HomeScreen}
+						options={({}) => ({
+							header: () => {
+								return <AppHeader />;
+							},
 
-								headerStyle: {
-									backgroundColor:
-										colors.ladefuchsDarkBackground,
-								},
-								headerTintColor: colors.ladefuchsOrange,
-							})}
-						/>
-					</RootStack.Group>
-					<RootStack.Group screenOptions={{ presentation: "modal" }}>
-						<RootStack.Screen
-							component={DetailScreen}
-							options={({ navigation, route }) => ({
-								headerBackTitleVisible: false,
-								headerLeft: null,
-								header: () => {
-									const tariff = route.params[
-										"tariff"
-									] as Tariff;
+							headerStyle: {
+								backgroundColor: colors.ladefuchsDarkBackground,
+							},
+							headerTintColor: colors.ladefuchsOrange,
+						})}
+					/>
+				</RootStack.Group>
+				<RootStack.Group screenOptions={{ presentation: "modal" }}>
+					<RootStack.Screen
+						component={DetailScreen}
+						options={({ navigation, route }) => ({
+							headerBackTitleVisible: false,
+							headerLeft: null,
+							header: () => {
+								const tariff = route.params["tariff"] as Tariff;
 
-									return (
-										<DetailHeader
-											tariff={tariff}
-											navigation={navigation}
-										/>
-									);
-								},
-								headerRight: null,
-								headerTitleStyle: {
-									display: "none",
-								},
-							})}
-							name="detailScreen"
-						/>
-					</RootStack.Group>
-					<RootStack.Group screenOptions={{ presentation: "modal" }}>
-						<RootStack.Screen
-							name="Einstellungen"
-							options={modalHeader}
-							component={AboutScreen}
-						/>
-					</RootStack.Group>
-				</RootStack.Navigator>
-			</NavigationContainer>
-		</AppStateProvider>
+								return (
+									<DetailHeader
+										tariff={tariff}
+										navigation={navigation}
+									/>
+								);
+							},
+							headerRight: null,
+							headerTitleStyle: {
+								display: "none",
+							},
+						})}
+						name="detailScreen"
+					/>
+				</RootStack.Group>
+				<RootStack.Group screenOptions={{ presentation: "modal" }}>
+					<RootStack.Screen
+						name="Einstellungen"
+						options={modalHeader}
+						component={AboutScreen}
+					/>
+				</RootStack.Group>
+			</RootStack.Navigator>
+		</NavigationContainer>
 	);
 }
 

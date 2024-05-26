@@ -1,22 +1,20 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Picker } from "@react-native-picker/picker";
-import { AppStateContext } from "../contexts/appStateContext";
+import { useAppStore } from "../state/state";
 
-interface Props {
-	onSelect: (value: string) => void;
-}
-
-const OperatorPicker = ({ onSelect }: Props) => {
-	const [selectedValue, setSelectedValue] = useState("");
-	const { operators } = useContext(AppStateContext);
+const OperatorPicker = () => {
+	const { operators, operatorId, setOperatorId } = useAppStore((state) => ({
+		operators: state.operators,
+		operatorId: state.operatorId,
+		setOperatorId: state.setOperatorId,
+	}));
 
 	return (
 		<Picker
-			selectedValue={selectedValue}
+			selectedValue={operatorId}
 			itemStyle={{ fontSize: 20 }}
-			onValueChange={(operatorValue, itemIndex) => {
-				setSelectedValue(operatorValue);
-				onSelect(operatorValue);
+			onValueChange={(operatorValue, _i) => {
+				setOperatorId(operatorValue);
 			}}
 		>
 			{operators?.map((operator) => (

@@ -3,15 +3,13 @@ import { colors } from "../theme";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 
-import { useContext } from "react";
-import { AppStateContext } from "../contexts/appStateContext";
-
 import { Logos } from "../components/detailScreen/logos";
 import { PriceBox } from "../components/detailScreen/priceBox";
 import { AffiliateButton } from "../components/affiliateButton";
 import { Notes } from "../components/detailScreen/notes";
 import { MonthlyFee } from "../components/detailScreen/monthlyFee";
 import { BlockingFee } from "../components/detailScreen/blockingFee";
+import { useAppStore } from "../state/state";
 
 function findTariffCondition({
 	tariffConditions,
@@ -28,8 +26,11 @@ function findTariffCondition({
 }
 
 export function DetailScreen({ route }): JSX.Element {
-	const { operators, operatorId, tariffConditions } =
-		useContext(AppStateContext);
+	const [operators, operatorId, tariffConditions] = useAppStore((state) => [
+		state.operators,
+		state.operatorId,
+		state.tariffConditions,
+	]);
 
 	const operator = operators.find((item) => item.identifier === operatorId);
 

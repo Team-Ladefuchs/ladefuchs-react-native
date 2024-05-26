@@ -7,12 +7,14 @@ import { AppStateContext } from "../contexts/appStateContext";
 import ChargeCard from "./chargeCard";
 import { fill, zip } from "../functions/util";
 import { colors } from "../theme";
-export interface Props {
-	tariffConditions: TariffCondition[];
-}
+import { useAppStore } from "../state/state";
 
-export function ChargeConditionTable({ tariffConditions }: Props) {
+export function ChargeConditionTable() {
 	// hier nutzen wir unseren globalen state
+	const { tariffs, tariffConditions } = useAppStore((state) => ({
+		tariffs: state.tariffs,
+		tariffConditions: state.tariffConditions,
+	}));
 
 	const [acTariffCondition, dcTariffCondition] = fill(
 		tariffConditions.filter((item) => item.chargingMode === "ac"),
@@ -25,7 +27,6 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 		flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
 	}
 
-	const { tariffs } = useContext(AppStateContext);
 	const renderItem = ({
 		item,
 		index,

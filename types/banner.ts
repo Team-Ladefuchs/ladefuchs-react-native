@@ -6,3 +6,8 @@ export interface LadefuchsBanner {
 	isAffiliate: boolean;
 	lastUpdatedDate: string;
 }
+
+export interface AppBanner {
+	affiliateLinkUrl: string;
+	imageUrl: string;
+}

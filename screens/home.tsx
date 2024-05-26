@@ -1,37 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { colors } from "../theme";
 import OperatorPicker from "../components/operatorPicker";
 import { ChargeConditionTable } from "../components/chargeConditionTable";
 import { Banner } from "../components/banner";
 import { ChargingTableHeader } from "../components/chargingHeader";
-import { AppStateContext } from "../contexts/appStateContext";
-import { repeatNTimes } from "../functions/util";
-import { LadefuchsBanner } from "../types/banner";
+import { useAppStore } from "../state/state";
 
 export function HomeScreen() {
-	const [selectedBanner, setSelectedBanner] =
-		useState<LadefuchsBanner | null>(null);
-
 	const {
 		operatorId,
 		setOperatorId,
 		chargingConditions,
-		operators,
 		setTariffConditions,
-		tariffConditions,
-		ladefuchsBanners,
-	} = useContext(AppStateContext);
+		banner,
+	} = useAppStore((state) => ({
+		operatorId: state.operatorId,
+		setOperatorId: state.setOperatorId,
+		chargingConditions: state.chargingConditions,
+		setTariffConditions: state.setTariffConditions,
+		banner: state.banner,
+	}));
 
-	useEffect(() => {
-		const bannerIds = ladefuchsBanners
-			.flatMap((item) => repeatNTimes(item, item.frequency))
-			.shuffle();
-
-		const c = bannerIds.pickRandom();
-		console.log("current ladefuchs banner: ", c.imageUrl);
-		setSelectedBanner(c);
-	}, [ladefuchsBanners]);
 	// lade die conditions aus dem cache wenn sich der operator geandert hat
 	useEffect(() => {
 		if (!operatorId) {
@@ -43,18 +33,6 @@ export function HomeScreen() {
 		}
 	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
 
-	useEffect(() => {
-		const firstOperator = operators[0];
-		if (!firstOperator) {
-			return;
-		}
-		setOperatorId(firstOperator.identifier);
-	}, [operators, setOperatorId]);
-
-	const handlePickerSelect = (operatorId) => {
-		setOperatorId(operatorId);
-	};
-
 	return (
 		<View style={{ flex: 1 }}>
 			<ChargingTableHeader />
@@ -64,7 +42,7 @@ export function HomeScreen() {
 					backgroundColor: colors.ladefuchsLightBackground,
 				}}
 			>
-				<ChargeConditionTable tariffConditions={tariffConditions} />
+				<ChargeConditionTable />
 			</View>
 			<View
 				style={{
@@ -94,12 +72,12 @@ export function HomeScreen() {
 					paddingBottom: 16,
 				}}
 			>
-				<OperatorPicker onSelect={handlePickerSelect} />
+				<OperatorPicker />
 			</View>
-			{selectedBanner && (
+			{banner && (
 				<Banner
-					imageUrl={selectedBanner.imageUrl}
-					link={selectedBanner.affiliateLinkUrl}
+					imageUrl={banner.imageUrl}
+					link={banner.affiliateLinkUrl}
 				/>
 			)}
 		</View>
