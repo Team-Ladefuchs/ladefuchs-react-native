@@ -1,4 +1,10 @@
-import { StyleSheet, View, TouchableOpacity, Linking } from "react-native";
+import {
+	StyleSheet,
+	View,
+	TouchableOpacity,
+	Linking,
+	SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LogoAnimation } from "./logo";
 import { colors } from "../theme";
@@ -8,7 +14,7 @@ import ChargepriceButton from "../assets/chargepriceButton.svg";
 export function AppHeader() {
 	const navigation = useNavigation();
 	return (
-		<View style={styles.headerContainer}>
+		<SafeAreaView style={styles.headerContainer}>
 			<TouchableOpacity
 				onPress={() => Linking.openURL("https://chargeprice.app")}
 				activeOpacity={0.6}
@@ -20,10 +26,9 @@ export function AppHeader() {
 					style={styles.headerChargepriceIcon}
 				/>
 			</TouchableOpacity>
-			<View style={styles.headerLogoContainer}>
-				<LogoAnimation size={85} />
+			<View style={{ marginBottom: -10 }}>
+				<LogoAnimation size={90} />
 			</View>
-
 			<TouchableOpacity
 				activeOpacity={0.6}
 				onPress={() => {
@@ -34,7 +39,7 @@ export function AppHeader() {
 			>
 				<Zahnrad width={35} height={35} />
 			</TouchableOpacity>
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -55,14 +60,8 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
-		paddingTop: 45,
-		paddingBottom: 0,
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
-		height: 130,
-	},
-	headerLogoContainer: {
-		marginBottom: -20,
 	},
 	headerSettingsIcon: {
 		position: "absolute",

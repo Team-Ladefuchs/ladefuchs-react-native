@@ -62,10 +62,9 @@ export function AppBanner({ banner }: Props) {
 			{bannerType === "chargePrice" && (
 				<View
 					style={{
-						backgroundColor: "#fff",
+						backgroundColor: "white",
 						width,
-						overflow: "hidden",
-						height: "100%",
+						height: "103%",
 					}}
 				/>
 			)}
