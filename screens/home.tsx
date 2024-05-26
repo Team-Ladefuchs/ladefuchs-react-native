@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../theme";
-import OperatorPicker from "../components/operatorPicker";
-import { ChargeConditionTable } from "../components/chargeConditionTable";
-import { AppBanner } from "../components/appBanner";
+import OperatorPicker from "../components/home/operatorPicker";
+import { ChargeConditionTable } from "../components/home/chargeConditionTable";
+import { AppBanner } from "../components/home/appBanner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { useAppStore } from "../state/state";
 

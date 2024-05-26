@@ -3,12 +3,12 @@ import { colors } from "../theme";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 
-import { Logos } from "../components/detailScreen/logos";
-import { PriceBox } from "../components/detailScreen/priceBox";
-import { AffiliateButton } from "../components/affiliateButton";
-import { Notes } from "../components/detailScreen/notes";
-import { MonthlyFee } from "../components/detailScreen/monthlyFee";
-import { BlockingFee } from "../components/detailScreen/blockingFee";
+import { Logos } from "../components/detail/logos";
+import { PriceBox } from "../components/detail/priceBox";
+import { AffiliateButton } from "../components/detail/affiliateButton";
+import { Notes } from "../components/detail/notes";
+import { MonthlyFee } from "../components/detail/monthlyFee";
+import { BlockingFee } from "../components/detail/blockingFee";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 

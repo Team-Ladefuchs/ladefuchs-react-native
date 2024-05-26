@@ -1,5 +1,5 @@
 import { View, Image } from "react-native";
-import { dropShadow } from "../chargeCard";
+import { dropShadow } from "../home/chargeCard";
 import { authHeader } from "../../functions/api";
 
 export function Logos({

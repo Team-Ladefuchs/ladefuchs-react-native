@@ -1,6 +1,6 @@
 import { TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { colors } from "../theme";
+import { colors } from "../../theme";
 
 export function CloseButton({ onPress }): JSX.Element {
 	return (

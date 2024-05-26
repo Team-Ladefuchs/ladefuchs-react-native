@@ -7,10 +7,10 @@ import {
 	ImageStyle,
 	StyleProp,
 } from "react-native";
-import { colors } from "../theme";
-import { authHeader } from "../functions/api";
+import { colors } from "../../theme";
+import { authHeader } from "../../functions/api";
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../../state/state";
 
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));

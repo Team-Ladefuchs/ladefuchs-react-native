@@ -1,6 +1,6 @@
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 
 const OperatorPicker = () => {

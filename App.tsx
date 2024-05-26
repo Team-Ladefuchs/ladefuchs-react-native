@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { AboutScreen } from "./screens/about";
 import { HomeScreen } from "./screens/home";
 import { colors } from "./theme";
-import { AppHeader } from "./components/appheader";
+import { AppHeader } from "./components/header/appheader";
 import {
 	QueryClient,
 	QueryClientProvider,
@@ -15,8 +15,8 @@ import {
 import { fetchAllApiData } from "./functions/api";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
-import { CloseButton } from "./components/closButton";
-import { DetailHeader } from "./components/detailScreen/detailHeader";
+import { CloseButton } from "./components/header/closButton";
+import { DetailHeader } from "./components/detail/detailHeader";
 import { StatusBar, View } from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";

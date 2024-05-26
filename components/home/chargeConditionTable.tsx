@@ -2,11 +2,11 @@
 
 import React, { useRef } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { TariffCondition } from "../types/conditions";
+import { TariffCondition } from "../../types/conditions";
 import ChargeCard from "./chargeCard";
-import { fill, zip } from "../functions/util";
-import { colors } from "../theme";
-import { useAppStore } from "../state/state";
+import { fill, zip } from "../../functions/util";
+import { colors } from "../../theme";
+import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 
 export function ChargeConditionTable() {

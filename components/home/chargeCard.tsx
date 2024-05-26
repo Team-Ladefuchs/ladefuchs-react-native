@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Tariff } from "../types/tariff";
-import { TariffCondition } from "../types/conditions";
-import { authHeader } from "../functions/api";
+import { Tariff } from "../../types/tariff";
+import { TariffCondition } from "../../types/conditions";
+import { authHeader } from "../../functions/api";
 import { Svg, G, Path } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 
