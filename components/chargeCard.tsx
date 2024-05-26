@@ -77,7 +77,7 @@ export const dropShadow = {
 		width: 0,
 		height: 1,
 	},
-	shadowOpacity: 0.5,
+	shadowOpacity: 0.25,
 	shadowRadius: 4,
 	elevation: 4,
 };

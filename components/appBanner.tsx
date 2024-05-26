@@ -31,7 +31,7 @@ export function AppBanner({ banner }: Props) {
 			};
 		}
 		return {
-			height: 125,
+			height: 120,
 			marginTop: 30,
 			aspectRatio: "2.8",
 			objectFit: "scale-down",
