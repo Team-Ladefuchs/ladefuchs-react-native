@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { colors } from "../theme";
-import CCS from "../assets/ccs.svg";
-import Typ2 from "../assets/typ2.svg";
+import CCS from "@assets/ccs.svg";
+import Typ2 from "@assets/typ2.svg";
 
 export function ChargingTableHeader(): JSX.Element {
 	return (

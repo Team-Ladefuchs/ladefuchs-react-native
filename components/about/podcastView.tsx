@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
-import Audiodump from "../../assets/podcast_audiodump.svg"; // Ensure this path is correct
-import MalikFM from "../../assets/podcast_malik-fm.svg"; // Ensure this path is correct
-import BitsundSo from "../../assets/podcast_bitsundso.svg"; // Ensure this path is correct
+import Audiodump from "@assets/podcast_audiodump.svg"; // Ensure this path is correct
+import MalikFM from "@assets/podcast_malik-fm.svg"; // Ensure this path is correct
+import BitsundSo from "@assets/podcast_bitsundso.svg"; // Ensure this path is correct
 import { styles } from "../../theme";
 
 export function PodcastView(): JSX.Element {

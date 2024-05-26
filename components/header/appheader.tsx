@@ -8,8 +8,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
 import { colors } from "../../theme";
-import Zahnrad from "../assets/gearshape.svg";
-import ChargepriceButton from "../assets/chargepriceButton.svg";
+import Zahnrad from "@assets/gearshape.svg";
+import ChargepriceButton from "@assets/chargepriceButton.svg";
 
 export function AppHeader() {
 	const navigation = useNavigation();

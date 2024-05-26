@@ -13,51 +13,51 @@ export function Memberview() {
 		{
 			name: "MALIK",
 			role: "Designfuchs",
-			imageSource: require("../../assets/team_malik.jpg"),
+			imageSource: require("@assets/team_malik.jpg"),
 			links: [
 				{
 					text: "@malik",
 					url: "https://mastodon.social/@malik",
-					icon: require("../../assets/icon_masto.png"),
+					icon: require("@assets/icon_masto.png"),
 				},
 				{
 					text: "malik@ladefuchs.app",
 					url: "mailto:malik@ladefuchs.app",
-					icon: require("../../assets/icon_mail.png"),
+					icon: require("@assets/icon_mail.png"),
 				},
 			],
 		},
 		{
 			name: "DOMINIC",
 			role: "APIfuchs",
-			imageSource: require("../../assets/team_dominic.jpg"),
+			imageSource: require("@assets/team_dominic.jpg"),
 			links: [
 				{
 					text: "@dominic",
 					url: "https://social.linux.pizza/@dominicwrege",
-					icon: require("../../assets/icon_masto.png"),
+					icon: require("@assets/icon_masto.png"),
 				},
 				{
 					text: "api@ladefuchs.app",
 					url: "mailto:api@ladefuchs.app",
-					icon: require("../../assets/icon_mail.png"),
+					icon: require("@assets/icon_mail.png"),
 				},
 			],
 		},
 		{
 			name: "SVEN",
 			role: "APPfuchs",
-			imageSource: require("../../assets/team_sven.jpeg"),
+			imageSource: require("@assets/team_sven.jpeg"),
 			links: [
 				{
 					text: "@hexer",
 					url: "https://chaos.social/@svenraskin",
-					icon: require("../../assets/icon_masto.png"),
+					icon: require("@assets/icon_masto.png"),
 				},
 				{
 					text: "sven@ladefuchs.app",
 					url: "mailto:sven@ladefuchs.app",
-					icon: require("../../assets/icon_mail.png"),
+					icon: require("@assets/icon_mail.png"),
 				},
 			],
 		},

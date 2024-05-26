@@ -6,7 +6,7 @@ import {
 	TouchableHighlight,
 	Linking,
 } from "react-native";
-import Chargeprice from "../../assets/chargeprice_logo.svg";
+import Chargeprice from "@assets/chargeprice_logo.svg";
 import { styles } from "../../theme";
 
 export function Datenview() {

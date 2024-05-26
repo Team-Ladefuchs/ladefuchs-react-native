@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
-import HighlightCornerSvg from "../../assets/highlightCorner.svg";
+import HighlightCornerSvg from "@assets/highlightCorner.svg";
 
 export function BlockingFee({
 	feeStart,

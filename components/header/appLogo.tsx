@@ -9,7 +9,7 @@ interface Props {
 export function AppLogo({ size }: Props): JSX.Element {
 	return (
 		<LottieView
-			source={require("../assets/flunkerfuchs.json")}
+			source={require("@assets/flunkerfuchs.json")}
 			autoPlay
 			loop
 			style={{ width: size, height: size }}
