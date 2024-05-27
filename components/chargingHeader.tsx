@@ -1,34 +1,49 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { colors } from "../theme";
-import CCS from "../assets/ccs.svg";
-import Typ2 from "../assets/typ2.svg";
+import CCS from "@assets/ccs.svg";
+import Typ2 from "@assets/typ2.svg";
 
-export function ChargingTableHeader() {
+export function ChargingTableHeader(): JSX.Element {
 	return (
-		<View
-			style={{ flexDirection: "row", alignItems: "center", height: 60 }}
-		>
+		<View style={styles.headerContainer}>
 			<View style={styles.headerView}>
-				<Text style={styles.headerText}>AC</Text>
-				<Typ2 width={30} marginLeft={4} opacity="0.5" />
+				<Text style={{ ...styles.headerText, marginRight: 8 }}>AC</Text>
+				<Typ2 width={28} height={23} opacity="0.45" />
 			</View>
 			<View
 				style={{
-					width: 1, // Adjust space width as needed
-					backgroundColor: "white", // Set space background color
+					width: 1,
+					backgroundColor: "white",
 				}}
 			/>
 			<View style={styles.headerView}>
-				<Text style={styles.headerText}>DC</Text>
-				<CCS height={40} width={40} marginLeft={2} opacity="0.5" />
+				<Text style={{ ...styles.headerText, marginRight: 8 }}>DC</Text>
+				<CCS width={30} height={36} opacity="0.45" />
 			</View>
 		</View>
 	);
 }
 
+const dropShadow = {
+	shadowOffset: {
+		width: 0,
+		height: -2,
+	},
+	shadowOpacity: 0.2,
+	shadowRadius: 3,
+	elevation: 4,
+};
+
 const styles = StyleSheet.create({
+	headerContainer: {
+		position: "relative",
+		flexDirection: "row",
+		alignItems: "center",
+		height: 60,
+		// Android shadow
+	},
 	headerText: {
-		fontSize: 33,
+		fontSize: 28,
 		color: "black",
 		fontFamily: "Roboto",
 	},

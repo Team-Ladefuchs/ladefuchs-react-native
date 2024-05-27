@@ -45,11 +45,11 @@ Array.prototype.shuffle = function <T>() {
 	return this as T[];
 };
 
-Array.prototype.pickRandom = function <T>() {
-	if (this.length === 0) return null;
-	const index = Math.floor(Math.random() * this.length);
-	return this[index];
-};
+export function pickRandom<T>(items: T[]) {
+	if (items.length === 0) return null;
+	const index = Math.floor(Math.random() * items.length);
+	return items[index];
+}
 
 export function repeatNTimes<T>(item: T, n: number): T[] {
 	const repeatedIds: T[] = [];

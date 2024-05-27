@@ -1,18 +1,22 @@
 // Tariffs.tsx
 
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { TariffCondition } from "../types/conditions";
-import { AppStateContext } from "../contexts/appStateContext";
+import { TariffCondition } from "../../types/conditions";
 import ChargeCard from "./chargeCard";
-import { fill, zip } from "../functions/util";
-import { colors } from "../theme";
-export interface Props {
-	tariffConditions: TariffCondition[];
-}
+import { fill, zip } from "../../functions/util";
+import { colors } from "../../theme";
+import { useAppStore } from "../../state/state";
+import { useShallow } from "zustand/react/shallow";
 
-export function ChargeConditionTable({ tariffConditions }: Props) {
+export function ChargeConditionTable() {
 	// hier nutzen wir unseren globalen state
+	const { tariffs, tariffConditions } = useAppStore(
+		useShallow((state) => ({
+			tariffs: state.tariffs,
+			tariffConditions: state.tariffConditions,
+		}))
+	);
 
 	const [acTariffCondition, dcTariffCondition] = fill(
 		tariffConditions.filter((item) => item.chargingMode === "ac"),
@@ -22,10 +26,9 @@ export function ChargeConditionTable({ tariffConditions }: Props) {
 	const flatListRef = useRef<FlatList>();
 
 	if (zipTariffConditions.length) {
-		flatListRef?.current?.scrollToIndex({ animated: true, index: 0 });
+		flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
 	}
 
-	const { tariffs } = useContext(AppStateContext);
 	const renderItem = ({
 		item,
 		index,

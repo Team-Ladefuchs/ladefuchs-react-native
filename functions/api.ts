@@ -1,9 +1,11 @@
+import { getBannerType } from "../state/storage";
 import { AppData } from "../types/app";
-import { LadefuchsBanner } from "../types/banner";
+import { Banner, LadefuchsBanner } from "../types/banner";
 import {
 	ChargeMode,
 	ChargingCondition,
 	ConditionsResponse,
+	TariffCondition,
 } from "../types/conditions";
 import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
@@ -99,6 +101,17 @@ function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
 	return map;
 }
 
+function chargeConditionToHashMap(
+	data: ChargingCondition[]
+): Map<string, TariffCondition[]> {
+	const map = new Map();
+
+	for (const conditions of data) {
+		map.set(conditions.operatorId, conditions.tariffConditions);
+	}
+	return map;
+}
+
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
 		const response = await fetch(`${apiPath}/v3/banners`, {
@@ -115,14 +128,39 @@ export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	}
 }
 
+export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
+	try {
+		const response = await fetch(
+			`${apiPath}/v3/banners/chargeprice/advertisement`,
+			{
+				headers: {
+					...authHeader.headers,
+					Accept: "application/json",
+				},
+			}
+		);
+
+		return response.json();
+	} catch (error) {
+		console.error("fetchAllLadefuchsBanners", error);
+		return null;
+	}
+}
+
 export async function fetchAllApiData(): Promise<AppData> {
 	// mache die Abfrage in Parallel
-	const [operators, tariffs, ladefuchsBanners] = await Promise.all([
-		fetchOperators({ standard: true }),
-		fetchTariffs({ standard: true }),
-		fetchAllLadefuchsBanners(),
-	]);
+	const [operators, tariffs, ladefuchsBanners, bannerType] =
+		await Promise.all([
+			fetchOperators({ standard: true }),
+			fetchTariffs({ standard: true }),
+			fetchAllLadefuchsBanners(),
+			await getBannerType(),
+		]);
 
+	let chargePriceAdBanner = null;
+	if (bannerType === "chargePrice") {
+		chargePriceAdBanner = await fetchChargePriceAdBanner();
+	}
 	const tariffsIds = tariffs.map((item) => item.identifier);
 	const operatorIds = operators.map((item) => item.identifier);
 	const chargingConditions = await fetchChargingConditions({
@@ -134,6 +172,7 @@ export async function fetchAllApiData(): Promise<AppData> {
 		ladefuchsBanners,
 		operators,
 		tariffs: tariffsToHashMap(tariffs),
-		chargingConditions,
+		chargingConditions: chargeConditionToHashMap(chargingConditions),
+		chargePriceAdBanner,
 	};
 }

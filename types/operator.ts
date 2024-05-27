@@ -1,6 +1,8 @@
 export interface Operator {
 	identifier: string;
 	name: string;
+	imageUrl: string | null;
+	isStandard: boolean;
 }
 
 export interface OperatorsResponse {
@@ -12,9 +14,9 @@ export interface OperatorsResponse {
 let selectedValue = "";
 
 export const setSelectedValue = (value) => {
-  selectedValue = String(value); // Konvertiere den Wert in einen String
+	selectedValue = String(value); // Konvertiere den Wert in einen String
 };
 
 export const getSelectedValue = () => {
-  return selectedValue;
+	return selectedValue;
 };

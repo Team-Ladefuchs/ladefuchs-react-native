@@ -1,8 +1,14 @@
-export interface LadefuchsBanner {
-	affiliateLinkUrl: string;
+export interface LadefuchsBanner extends Banner {
 	identifier: string;
-	imageUrl: string;
 	frequency: number;
 	isAffiliate: boolean;
 	lastUpdatedDate: string;
 }
+
+export interface Banner {
+	affiliateLinkUrl: string;
+	imageUrl: string;
+	bannerType: BannerType;
+}
+
+export type BannerType = "ladefuchs" | "chargePrice";

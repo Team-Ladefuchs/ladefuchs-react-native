@@ -1,90 +1,55 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
+import { useShallow } from "zustand/react/shallow";
 import { colors } from "../theme";
-import OperatorPicker from "../components/operatorPicker";
-import { useFonts } from "expo-font";
-import { ChargeConditionTable } from "../components/chargeConditionTable";
-import { Banner } from "../components/banner";
+import OperatorPicker from "../components/home/operatorPicker";
+import { ChargeConditionTable } from "../components/home/chargeConditionTable";
+import { AppBanner } from "../components/home/appBanner";
 import { ChargingTableHeader } from "../components/chargingHeader";
-import { AppStateContext } from "../contexts/appStateContext";
-import { repeatNTimes } from "../functions/util";
-import { LadefuchsBanner } from "../types/banner";
+import { useAppStore } from "../state/state";
 
-export function HomeScreen() {
-	const [fontsLoaded] = useFonts({
-		Bitter: require("../assets/fonts/Bitter-Italic.ttf"),
-		// Fügen Sie hier weitere Schriftarten hinzu, falls erforderlich
-		Roboto: require("../assets/fonts/Roboto-Bold.ttf"),
-	});
-
-	const [selectedBanner, setSelectedBanner] =
-		useState<LadefuchsBanner | null>(null);
-
+export function HomeScreen(): JSX.Element {
 	const {
 		operatorId,
 		setOperatorId,
 		chargingConditions,
-		operators,
 		setTariffConditions,
-		tariffConditions,
-		ladefuchsBanners,
-	} = useContext(AppStateContext);
+	} = useAppStore(
+		useShallow((state) => ({
+			operatorId: state.operatorId,
+			setOperatorId: state.setOperatorId,
+			chargingConditions: state.chargingConditions,
+			setTariffConditions: state.setTariffConditions,
+		}))
+	);
 
-	useEffect(() => {
-		const bannerIds = ladefuchsBanners
-			.flatMap((item) => repeatNTimes(item, item.frequency))
-			.shuffle();
-
-		const c = bannerIds.pickRandom();
-		console.log("current ladefuchs banner: ", c.imageUrl);
-		setSelectedBanner(c);
-	}, [ladefuchsBanners]);
 	// lade die conditions aus dem cache wenn sich der operator geandert hat
 	useEffect(() => {
 		if (!operatorId) {
 			return;
 		}
-		const tariffConditions = chargingConditions.find(
-			(item) => item.operatorId === operatorId
-		)?.tariffConditions;
+		const tariffConditions = chargingConditions.get(operatorId);
 		if (tariffConditions) {
 			setTariffConditions(tariffConditions);
 		}
 	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
-
-	// der erste operator aus der liste der aktuelle beim start
-	useEffect(() => {
-		const firstOperator = operators[0];
-		if (!firstOperator) {
-			return;
-		}
-		setOperatorId(firstOperator.identifier);
-	}, [operators, setOperatorId]);
-
-	const handlePickerSelect = (operatorId) => {
-		console.log("selected operatorId", operatorId);
-		setOperatorId(operatorId);
-	};
-
-	if (!fontsLoaded) {
-		return <View></View>;
-	}
 
 	return (
 		<View style={{ flex: 1 }}>
 			<ChargingTableHeader />
 			<View
 				style={{
-					flex: 75, // Höhe des verfügbaren Platzes
+					flex: 90, // Höhe des verfügbaren Platzes
 					backgroundColor: colors.ladefuchsLightBackground,
 				}}
 			>
-				<ChargeConditionTable tariffConditions={tariffConditions} />
+				<ChargeConditionTable />
 			</View>
 			<View
 				style={{
-					flex: 3, // 3% Höhe des verfügbaren Platzes
-					paddingVertical: 10,
+					flex: 3,
+					paddingTop: 12,
+					paddingBottom: 14,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
 					justifyContent: "center",
@@ -102,20 +67,16 @@ export function HomeScreen() {
 			</View>
 			<View
 				style={{
-					flex: 26,
+					flex: 30,
 					justifyContent: "center",
 					backgroundColor: colors.ladefuchsLightBackground,
 					paddingTop: 20,
+					paddingBottom: 16,
 				}}
 			>
-				<OperatorPicker onSelect={handlePickerSelect} />
+				<OperatorPicker />
 			</View>
-			{selectedBanner && (
-				<Banner
-					imageUrl={selectedBanner.imageUrl}
-					link={selectedBanner.affiliateLinkUrl}
-				/>
-			)}
+			<AppBanner />
 		</View>
 	);
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Tariff } from "../types/tariff";
-import { TariffCondition } from "../types/conditions";
-import { authHeader } from "../functions/api";
+import { Tariff } from "../../types/tariff";
+import { TariffCondition } from "../../types/conditions";
+import { authHeader } from "../../functions/api";
 import { Svg, G, Path } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 
@@ -23,13 +23,14 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		tariff?.note?.length > 0;
 
 	const onPress = () => {
-		navigator.navigate("detailScreen", { tariff });
+		//@ts-ignore
+		navigator.navigate("detailScreen", { tariff, tariffCondition });
 	};
 	return (
 		<View style={styles.cardAndPriceContainer}>
 			<View style={styles.cardImageContainer}>
 				{showHighlightCorner && <HighlightCorner />}
-				<TouchableOpacity onPress={onPress}>
+				<TouchableOpacity onPress={onPress} activeOpacity={0.8}>
 					<Image
 						source={{
 							uri: tariff.imageUrl,
@@ -71,19 +72,19 @@ function HighlightCorner() {
 	);
 }
 
-const dropShadow = {
+export const dropShadow = {
 	shadowOffset: {
 		width: 0,
 		height: 1,
 	},
-	shadowOpacity: 0.5,
+	shadowOpacity: 0.25,
 	shadowRadius: 4,
 	elevation: 4,
 };
 
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
-		height: 64,
+		height: 69,
 		display: "flex",
 		flex: 1,
 		alignContent: "center",

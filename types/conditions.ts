@@ -1,4 +1,3 @@
-
 export type ChargeMode = "ac" | "dc";
 
 export interface ConditionsResponse {

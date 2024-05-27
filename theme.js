@@ -3,11 +3,12 @@ const colors = {
 	primary: "#00700",
 	ladefuchsLightBackground: "#F3EEE2",
 	ladefuchsDarkBackground: "#C2B49C",
-	ladefuchsLightGrayBackground: "rgba(194, 180, 156, 0.2)", // 20% opacity
-	ladefuchsDarkGrayBackground: "#c2b49c99", //dunkler Balken
+	ladefuchsLightGrayBackground: "rgba(194,180,156, 0.4)", // 20% opacity
+	ladefuchsDarkGrayBackground: "rgba(194,180,156,0.6)", //dunkler Balken
 	ladefuchsDunklerBalken: "#E0D7C8",
 	text: "#343a40",
-	ladefuchsOrange: "#f45c2d", //ladefuchsOrange
+	ladefuchsOrange: "#f45c2d",
+	ladefuchsGrayTextColor: "rgba(0, 0, 0, 0.5)",
 };
 
 const fonts = {
