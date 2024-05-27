@@ -47,9 +47,8 @@ export function HomeScreen(): JSX.Element {
 			</View>
 			<View
 				style={{
-					flex: 3,
 					paddingTop: 12,
-					paddingBottom: 14,
+					paddingBottom: 12,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
 					justifyContent: "center",
