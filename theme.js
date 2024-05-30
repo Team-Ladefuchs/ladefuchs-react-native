@@ -50,7 +50,7 @@ const styles = {
 		width: 120,
 		height: 120,
 		borderRadius: 100,
-		marginRight: 50,
+		marginRight: 30,
 	},
 	memberText: {
 		color: "black",

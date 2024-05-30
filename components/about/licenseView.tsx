@@ -11,7 +11,7 @@ export function AppFooter() {
 				Handgefertigt aus ❤️ zur Elektromobilität in 👑 Aachen, 🥨
 				Fürstenfeldbruck, 🏰 Ludwigsburg, ⚒️ Ahlen und 🐻 Berlin
 			</Text>
-			<Text style={styles.sponsorText}>Ladefuch Version 2.1.0</Text>
+			<Text style={styles.sponsorText}>Ladefuchs Version 2.1.0</Text>
 		</View>
 	);
 }
