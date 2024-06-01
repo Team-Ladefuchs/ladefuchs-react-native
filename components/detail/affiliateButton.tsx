@@ -17,6 +17,7 @@ export function AffiliateButton({
 					backgroundColor: colors.ladefuchsOrange,
 					padding: 12,
 					borderRadius: 12,
+					marginBottom: 12, // TODO debug android?
 				}}
 				onPress={() => Linking.openURL(link)}
 			>
