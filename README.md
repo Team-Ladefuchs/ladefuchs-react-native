@@ -15,22 +15,31 @@ API_TOKEN=12xxxxxxxxxxx
 
 ## How to run
 
-iOS
+### iOS
 
 ```sh
+# run
 npm run ios
+# or
+npx expo run:ios
 ```
 
-Web
+### Android
 
+Set up your environment
+
+1. Install Android Studio
+2. Set these env variables
 ```sh
-npm run web
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home
+# export ANDROID_HOME=$HOME/Library/Android/sdk
 ```
 
-Android
-
 ```sh
+# run
 npm run android
+# or
+npx expo run:android
 ```
 
 ## Packages
