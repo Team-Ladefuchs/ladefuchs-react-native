@@ -21,9 +21,10 @@ export interface AppState extends AppData {
 	tariffConditions: TariffCondition[];
 	setTariffConditions: (tariffs: TariffCondition[]) => void;
 	banner: Banner | null;
+	reloadBanner: () => void; // Hinzugefügte Methode zum Neuladen des Banners
 }
 
-export const useAppStore = create<AppState>((set) => {
+export const useAppStore = create<AppState>((set, get) => {
 	return {
 		init: async (data: AppData): Promise<void> => {
 			const {
@@ -58,6 +59,14 @@ export const useAppStore = create<AppState>((set) => {
 		chargingConditions: new Map(),
 		bannerType: "ladefuchs",
 		banner: null,
+		reloadBanner: () => {
+			const state = get();
+			const newBanner = selectLadefuchsBanner({
+				ladefuchsBanners: state.ladefuchsBanners,
+				chargePriceAdBanner: state.chargePriceAdBanner,
+			});
+			set({ banner: newBanner });
+		},
 	};
 });
 

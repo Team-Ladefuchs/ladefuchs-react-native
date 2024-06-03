@@ -1,3 +1,4 @@
+import React from "react";
 import {
 	StyleSheet,
 	View,
@@ -11,13 +12,14 @@ import { AppLogo } from "./appLogo";
 import { colors } from "../../theme";
 import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
+import { useAppStore } from "../../state/state";
 
 export function AppHeader() {
 	const navigation = useNavigation();
+	const reloadBanner = useAppStore((state) => state.reloadBanner);
 
 	const handleLongPress = () => {
-		// TODO reload Banner
-		// Updates.reloadAsync();
+		reloadBanner();
 	};
 
 	return (

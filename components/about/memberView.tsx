@@ -63,23 +63,7 @@ export function Memberview() {
 				},
 			],
 		},
-		{
-			name: "THORSTEN",
-			role: "Andriodfuchs",
-			imageSource: require("@assets/team_thorsten.jpg"),
-			links: [
-				{
-					text: "@thorsten",
-					url: "https://podcasts.social/@audiodump",
-					icon: MastodonIcon,
-				},
-				{
-					text: "android@ladefuchs.app",
-					url: "mailto:android@ladefuchs.app",
-					icon: MailIcon,
-				},
-			],
-		},
+
 		{
 			name: "DOMINIC",
 			role: "APIfuchs",
