@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.ladefuchs"
+      "bundleIdentifier": "app.ladefuchs.Ladefuchs"
     },
     "android": {
       "adaptiveIcon": {
