@@ -7,6 +7,8 @@ import {
 	Linking,
 } from "react-native";
 import { styles } from "../../theme";
+import MailIcon from "@assets/icon_mail.svg";
+import MastodonIcon from "@assets/icon_mastodon.svg";
 
 export function Memberview() {
 	const members = [
@@ -18,15 +20,50 @@ export function Memberview() {
 				{
 					text: "@malik",
 					url: "https://mastodon.social/@malik",
-					icon: require("@assets/icon_masto.png"),
+					icon: MastodonIcon,
 				},
 				{
 					text: "malik@ladefuchs.app",
 					url: "mailto:malik@ladefuchs.app",
-					icon: require("@assets/icon_mail.png"),
+					icon: MailIcon,
 				},
 			],
 		},
+		{
+			name: "BASTI SCHLINGEL",
+			role: "Androidfuchs",
+			imageSource: require("@assets/team_basti.jpg"),
+			links: [
+				{
+					text: "@schlingel",
+					url: "https://mastodon.social/@schlingel",
+					icon: MastodonIcon,
+				},
+				{
+					text: "android@ladefuchs.app",
+					url: "mailto:android@ladefuchs.app",
+					icon: MailIcon,
+				},
+			],
+		},
+		{
+			name: "FLOWINHO",
+			role: "APFELfuchs",
+			imageSource: require("@assets/team_flow.jpg"),
+			links: [
+				{
+					text: "@flowinho",
+					url: "https://podcasts.social/@audiodump",
+					icon: MastodonIcon,
+				},
+				{
+					text: "ios@ladefuchs.app",
+					url: "mailto:ios@ladefuchs.app",
+					icon: MailIcon,
+				},
+			],
+		},
+
 		{
 			name: "DOMINIC",
 			role: "APIfuchs",
@@ -35,29 +72,29 @@ export function Memberview() {
 				{
 					text: "@dominic",
 					url: "https://social.linux.pizza/@dominicwrege",
-					icon: require("@assets/icon_masto.png"),
+					icon: MastodonIcon,
 				},
 				{
 					text: "api@ladefuchs.app",
 					url: "mailto:api@ladefuchs.app",
-					icon: require("@assets/icon_mail.png"),
+					icon: MailIcon,
 				},
 			],
 		},
 		{
 			name: "SVEN",
-			role: "APPfuchs",
+			role: "Jungfuchs",
 			imageSource: require("@assets/team_sven.jpeg"),
 			links: [
 				{
 					text: "@hexer",
 					url: "https://chaos.social/@svenraskin",
-					icon: require("@assets/icon_masto.png"),
+					icon: MastodonIcon,
 				},
 				{
 					text: "sven@ladefuchs.app",
 					url: "mailto:sven@ladefuchs.app",
-					icon: require("@assets/icon_mail.png"),
+					icon: MailIcon,
 				},
 			],
 		},
@@ -92,11 +129,10 @@ export function Memberview() {
 										alignItems: "center",
 									}}
 								>
-									<Image
-										source={line.icon}
+									<line.icon
+										width={20}
+										height={20}
 										style={{
-											width: 20,
-											height: 20,
 											marginRight: 5,
 										}}
 									/>
@@ -105,6 +141,7 @@ export function Memberview() {
 											fontFamily: "Bitter",
 											fontSize: 15,
 											lineHeight: 20,
+											paddingVertical: 2,
 										}}
 									>
 										{line.text}

@@ -42,11 +42,10 @@ export function AppBanner(): JSX.Element {
 	return (
 		<View
 			style={{
-				flex: 12,
 				backgroundColor: colors.ladefuchsDarkBackground,
 				alignItems: "center", // Center the content horizontally
 				overflow: "visible",
-				height: 115,
+				flex: 16,
 				display: "flex",
 				justifyContent: "center",
 			}}
@@ -66,7 +65,8 @@ export function AppBanner(): JSX.Element {
 					style={{
 						backgroundColor: "white",
 						width,
-						height: "103%",
+						marginTop: -5,
+						height: "100%",
 					}}
 				/>
 			)}

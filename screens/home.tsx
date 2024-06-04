@@ -47,12 +47,17 @@ export function HomeScreen(): JSX.Element {
 			</View>
 			<View
 				style={{
-					flex: 3,
 					paddingTop: 12,
-					paddingBottom: 14,
+					paddingBottom: 12,
 					backgroundColor: colors.ladefuchsDarkBackground,
 					alignItems: "center",
 					justifyContent: "center",
+					shadowColor: "#000",
+					shadowOffset: { width: 0, height: -2 },
+					shadowOpacity: 0.3,
+					shadowRadius: 3,
+					elevation: 5, // nur für Android
+					zIndex:1,
 				}}
 			>
 				<Text

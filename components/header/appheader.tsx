@@ -1,20 +1,33 @@
+import React from "react";
 import {
 	StyleSheet,
 	View,
 	TouchableOpacity,
 	Linking,
 	SafeAreaView,
+	StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
 import { colors } from "../../theme";
 import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
+import { useAppStore } from "../../state/state";
 
 export function AppHeader() {
 	const navigation = useNavigation();
+	const reloadBanner = useAppStore((state) => state.reloadBanner);
+
+	const handleLongPress = () => {
+		reloadBanner();
+	};
+
 	return (
 		<SafeAreaView style={styles.headerContainer}>
+			<StatusBar
+				barStyle="dark-content"
+				backgroundColor={colors.ladefuchsLightBackground}
+			/>
 			<TouchableOpacity
 				onPress={() => Linking.openURL("https://chargeprice.app")}
 				activeOpacity={0.6}
@@ -27,7 +40,12 @@ export function AppHeader() {
 				/>
 			</TouchableOpacity>
 			<View style={{ marginBottom: -10 }}>
-				<AppLogo size={90} />
+				<TouchableOpacity
+					onLongPress={handleLongPress}
+					activeOpacity={0.6}
+				>
+					<AppLogo size={90} />
+				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
 				activeOpacity={0.6}
