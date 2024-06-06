@@ -54,19 +54,18 @@ function AppWrapper(): JSX.Element {
 		},
 	});
 
+	const [init] = useAppStore(useShallow((state) => [state.initAppData]));
+
 	const [fontsLoaded] = useFonts({
 		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),
 		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
 	});
-
-	const [init] = useAppStore(useShallow((state) => [state.initAppData]));
 
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
 			onAppStateChange
 		);
-
 		return () => subscription.remove();
 	}, []);
 
@@ -74,11 +73,12 @@ function AppWrapper(): JSX.Element {
 		if (!allApiData.data) {
 			return;
 		}
+		console.log("init app data");
 		init(allApiData.data);
-	}, [init, allApiData.data]);
+	}, [allApiData.data]);
 
-	if (allApiData.error || !fontsLoaded) {
-		return <View></View>;
+	if (!fontsLoaded) {
+		return;
 	}
 
 	return (
