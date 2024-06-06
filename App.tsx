@@ -92,7 +92,6 @@ function AppWrapper(): JSX.Element {
 							header: () => {
 								return <AppHeader />;
 							},
-
 							headerStyle: {
 								backgroundColor: colors.ladefuchsDarkBackground,
 							},

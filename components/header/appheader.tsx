@@ -3,6 +3,7 @@ import {
 	StyleSheet,
 	View,
 	TouchableOpacity,
+	TouchableWithoutFeedback,
 	Linking,
 	SafeAreaView,
 	StatusBar,
@@ -14,11 +15,12 @@ import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
 
-export function AppHeader() {
+export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
 	const reloadBanner = useAppStore((state) => state.reloadBanner);
 
 	const handleLongPress = () => {
+		console.log("handleLongPress reloadBanner");
 		reloadBanner();
 	};
 
@@ -40,12 +42,9 @@ export function AppHeader() {
 				/>
 			</TouchableOpacity>
 			<View style={{ marginBottom: -10 }}>
-				<TouchableOpacity
-					onLongPress={handleLongPress}
-					activeOpacity={0.6}
-				>
+				<TouchableWithoutFeedback onLongPress={handleLongPress}>
 					<AppLogo size={90} />
-				</TouchableOpacity>
+				</TouchableWithoutFeedback>
 			</View>
 			<TouchableOpacity
 				activeOpacity={0.6}

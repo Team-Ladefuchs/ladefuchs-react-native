@@ -10,12 +10,12 @@ import { styles } from "../../theme";
 import MailIcon from "@assets/icon_mail.svg";
 import MastodonIcon from "@assets/icon_mastodon.svg";
 
-export function Memberview() {
+export function Memberview(): JSX.Element {
 	const members = [
 		{
 			name: "MALIK",
 			role: "Designfuchs",
-			imageSource: require("@assets/team_malik.jpg"),
+			imageSource: require("@assets/team/team_malik.jpg"),
 			links: [
 				{
 					text: "@malik",
@@ -32,7 +32,7 @@ export function Memberview() {
 		{
 			name: "BASTI SCHLINGEL",
 			role: "Androidfuchs",
-			imageSource: require("@assets/team_basti.jpg"),
+			imageSource: require("@assets/team/team_basti.jpg"),
 			links: [
 				{
 					text: "@schlingel",
@@ -49,7 +49,7 @@ export function Memberview() {
 		{
 			name: "FLOWINHO",
 			role: "APFELfuchs",
-			imageSource: require("@assets/team_flow.jpg"),
+			imageSource: require("@assets/team/team_flow.jpg"),
 			links: [
 				{
 					text: "@flowinho",
@@ -67,7 +67,7 @@ export function Memberview() {
 		{
 			name: "DOMINIC",
 			role: "APIfuchs",
-			imageSource: require("@assets/team_dominic.jpg"),
+			imageSource: require("@assets/team/team_dominic.jpg"),
 			links: [
 				{
 					text: "@dominic",
@@ -84,7 +84,7 @@ export function Memberview() {
 		{
 			name: "SVEN",
 			role: "Jungfuchs",
-			imageSource: require("@assets/team_sven.jpeg"),
+			imageSource: require("@assets/team/team_sven.jpeg"),
 			links: [
 				{
 					text: "@hexer",
