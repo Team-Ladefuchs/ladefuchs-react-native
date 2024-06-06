@@ -5,13 +5,19 @@ import { TariffCondition } from "../../types/conditions";
 import { authHeader } from "../../functions/api";
 import { Svg, G, Path } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../../theme";
 
 interface ChargeCardModel {
 	tariff: Tariff | null;
 	tariffCondition: TariffCondition | null;
+	backgroundColor: string;
 }
 
-const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
+const ChargeCard = ({
+	tariff,
+	tariffCondition,
+	backgroundColor,
+}: ChargeCardModel) => {
 	const navigator = useNavigation();
 
 	if (!tariffCondition || !tariff) {
@@ -27,7 +33,7 @@ const ChargeCard = ({ tariff, tariffCondition }: ChargeCardModel) => {
 		navigator.navigate("detailScreen", { tariff, tariffCondition });
 	};
 	return (
-		<View style={styles.cardAndPriceContainer}>
+		<View style={{ ...styles.cardAndPriceContainer, backgroundColor }}>
 			<View style={styles.cardImageContainer}>
 				{showHighlightCorner && <HighlightCorner />}
 				<TouchableOpacity onPress={onPress} activeOpacity={0.8}>
@@ -73,6 +79,7 @@ function HighlightCorner() {
 }
 
 export const dropShadow = {
+	shadowColor: "#000",
 	shadowOffset: {
 		width: 0,
 		height: 1,
@@ -101,16 +108,17 @@ const styles = StyleSheet.create({
 		width: 16,
 		zIndex: 2,
 		top: -3,
-		right: 17,
+		right: -3,
 	},
 	cardImageContainer: {
 		...dropShadow,
+		marginRight: 20, // Adjust as needed
+		backgroundColor: "#fff",
 	},
 	cardImage: {
 		borderRadius: 4,
 		aspectRatio: 1.6,
 		width: 78, // Adjust as needed
-		marginRight: 20, // Adjust as needed
 	},
 	priceText: {
 		// fontFamily: "Roboto",

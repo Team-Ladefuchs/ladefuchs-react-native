@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		left: 8,
 		bottom: 5,
-		paddingLeft: 16,
 	},
 	headerTitle: {
 		color: colors.ladefuchsOrange,
