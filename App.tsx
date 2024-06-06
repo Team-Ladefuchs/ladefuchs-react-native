@@ -29,21 +29,20 @@ import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
 
 const queryClient = new QueryClient();
-
-function App() {
-	return (
-		<QueryClientProvider client={queryClient}>
-			<AppWrapper />
-		</QueryClientProvider>
-	);
-}
-
 const RootStack = createStackNavigator();
 
 function onAppStateChange(status: AppStateStatus) {
 	if (Platform.OS !== "web") {
 		focusManager.setFocused(status === "active");
 	}
+}
+
+export default function App(): JSX.Element {
+	return (
+		<QueryClientProvider client={queryClient}>
+			<AppWrapper />
+		</QueryClientProvider>
+	);
 }
 
 function AppWrapper(): JSX.Element {
@@ -154,5 +153,3 @@ function modalHeader({ navigation }) {
 		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 	};
 }
-
-export default App;
