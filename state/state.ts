@@ -15,7 +15,7 @@ export interface AppData {
 }
 
 export interface AppState extends AppData {
-	init: (data: AppData) => Promise<void>;
+	initAppData: (data: AppData) => Promise<void>;
 	operatorId: string;
 	setOperatorId: (id: string) => void;
 	tariffConditions: TariffCondition[];
@@ -26,7 +26,7 @@ export interface AppState extends AppData {
 
 export const useAppStore = create<AppState>((set, get) => {
 	return {
-		init: async (data: AppData): Promise<void> => {
+		initAppData: async (data: AppData): Promise<void> => {
 			const {
 				operators,
 				ladefuchsBanners,

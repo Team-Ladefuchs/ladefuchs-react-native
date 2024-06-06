@@ -10,6 +10,7 @@ import { AppHeader } from "./components/header/appheader";
 import {
 	QueryClient,
 	QueryClientProvider,
+	focusManager,
 	useQuery,
 } from "@tanstack/react-query";
 import { fetchAllApiData } from "./functions/api";
@@ -17,7 +18,13 @@ import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import { StatusBar, View } from "react-native";
+import {
+	AppState,
+	AppStateStatus,
+	Platform,
+	StatusBar,
+	View,
+} from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
 
@@ -33,6 +40,12 @@ function App() {
 
 const RootStack = createStackNavigator();
 
+function onAppStateChange(status: AppStateStatus) {
+	if (Platform.OS !== "web") {
+		focusManager.setFocused(status === "active");
+	}
+}
+
 function AppWrapper(): JSX.Element {
 	const allApiData = useQuery({
 		queryKey: ["AllApiData"],
@@ -46,7 +59,16 @@ function AppWrapper(): JSX.Element {
 		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
 	});
 
-	const [init] = useAppStore(useShallow((state) => [state.init]));
+	const [init] = useAppStore(useShallow((state) => [state.initAppData]));
+
+	useEffect(() => {
+		const subscription = AppState.addEventListener(
+			"change",
+			onAppStateChange
+		);
+
+		return () => subscription.remove();
+	}, []);
 
 	useEffect(() => {
 		if (!allApiData.data) {
@@ -55,7 +77,7 @@ function AppWrapper(): JSX.Element {
 		init(allApiData.data);
 	}, [init, allApiData.data]);
 
-	if (allApiData.isPending || allApiData.error || !fontsLoaded) {
+	if (allApiData.error || !fontsLoaded) {
 		return <View></View>;
 	}
 
