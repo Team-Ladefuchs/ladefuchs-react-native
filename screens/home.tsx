@@ -72,11 +72,10 @@ export function HomeScreen(): JSX.Element {
 			</View>
 			<View
 				style={{
-					flex: 30,
+					flex: 46,
 					justifyContent: "center",
+					alignContent: "center",
 					backgroundColor: colors.ladefuchsLightBackground,
-					paddingTop: 20,
-					paddingBottom: 16,
 				}}
 			>
 				<OperatorPicker />

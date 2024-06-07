@@ -34,7 +34,10 @@ export const useAppStore = create<AppState>((set, get) => {
 				chargePriceAdBanner,
 				bannerType,
 			} = data;
-			const operatorId = operators[0]?.identifier ?? "";
+			let { operatorId } = get();
+			if (!operatorId) {
+				operatorId = operators[0]?.identifier ?? "";
+			}
 			if (data.operators)
 				set((state) => ({
 					...state,

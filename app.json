@@ -2,9 +2,9 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "1.0.0",
+    "version": "2.0.5",
     "orientation": "portrait",
-    "scheme": "your-app-scheme",
+    "scheme": "com.ladefuchs.app",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {

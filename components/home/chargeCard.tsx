@@ -5,7 +5,6 @@ import { TariffCondition } from "../../types/conditions";
 import { authHeader } from "../../functions/api";
 import { Svg, G, Path } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../../theme";
 
 interface ChargeCardModel {
 	tariff: Tariff | null;

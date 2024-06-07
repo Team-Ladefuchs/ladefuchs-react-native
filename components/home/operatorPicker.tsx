@@ -6,7 +6,7 @@ import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
 import { Platform, View, StyleSheet } from "react-native";
 
-const OperatorPicker = () => {
+export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
 		useShallow((state) => ({
 			operators: state.operators,
@@ -25,7 +25,12 @@ const OperatorPicker = () => {
 			operators[0] ??
 			null;
 		return (
-			<View style={styles.container}>
+			<View
+				style={{
+					flex: 1,
+					marginTop: -20, // Adjust this value to move the picker upwards
+				}}
+			>
 				<AndroidPicker
 					style={{
 						backgroundColor: colors.ladefuchsLightBackground,
@@ -66,22 +71,4 @@ const OperatorPicker = () => {
 			))}
 		</Picker>
 	);
-};
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		marginTop: -20, // Adjust this value to move the picker upwards
-	},
-	picker: {
-		width: "80%", // Adjust as needed
-		backgroundColor: "#8080801A", // Example background color
-		height: "40%",
-	},
-	item: {
-		height: 10, // Adjust this height as needed
-		fontSize: 21, // Adjust text size if needed
-	},
-});
-
-export default OperatorPicker;
+}
