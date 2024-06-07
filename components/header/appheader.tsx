@@ -3,7 +3,6 @@ import {
 	StyleSheet,
 	View,
 	TouchableOpacity,
-	TouchableWithoutFeedback,
 	Linking,
 	SafeAreaView,
 	StatusBar,
@@ -42,9 +41,12 @@ export function AppHeader(): JSX.Element {
 				/>
 			</TouchableOpacity>
 			<View style={{ marginBottom: -10 }}>
-				<TouchableWithoutFeedback onLongPress={handleLongPress}>
+				<TouchableOpacity
+					activeOpacity={1}
+					onLongPress={handleLongPress}
+				>
 					<AppLogo size={90} />
-				</TouchableWithoutFeedback>
+				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
 				activeOpacity={0.6}

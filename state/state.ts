@@ -25,6 +25,7 @@ export interface AppState extends AppData {
 }
 
 export const useAppStore = create<AppState>((set, get) => {
+	let ladefuchsBannerIndex = 0;
 	return {
 		initAppData: async (data: AppData): Promise<void> => {
 			const {
@@ -60,12 +61,16 @@ export const useAppStore = create<AppState>((set, get) => {
 		bannerType: "ladefuchs",
 		banner: null,
 		reloadBanner: () => {
-			const state = get();
-			const newBanner = selectLadefuchsBanner({
-				ladefuchsBanners: state.ladefuchsBanners,
-				chargePriceAdBanner: state.chargePriceAdBanner,
-			});
-			set({ banner: newBanner });
+			const { banner, ladefuchsBanners } = get();
+			let newBannerIndex = ladefuchsBannerIndex;
+			let newBanner = undefined;
+			do {
+				newBannerIndex = (newBannerIndex + 1) % ladefuchsBanners.length;
+				newBanner = ladefuchsBanners[newBannerIndex];
+			} while (newBanner.imageUrl === banner?.imageUrl);
+
+			ladefuchsBannerIndex = newBannerIndex;
+			set((state) => ({ ...state, banner: newBanner }));
 		},
 	};
 });

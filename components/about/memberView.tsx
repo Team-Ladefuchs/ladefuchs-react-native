@@ -7,8 +7,8 @@ import {
 	Linking,
 } from "react-native";
 import { styles } from "../../theme";
-import MailIcon from "@assets/icon_mail.svg";
-import MastodonIcon from "@assets/icon_mastodon.svg";
+import MailIcon from "@assets/about/icon_mail.svg";
+import MastodonIcon from "@assets/about/icon_mastodon.svg";
 
 export function Memberview(): JSX.Element {
 	const members = [
