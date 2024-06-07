@@ -37,26 +37,28 @@ export function ChargeConditionTable() {
 		index: number;
 	}): JSX.Element => {
 		const [left, right] = item;
-
+		const backgroundColor =
+			index % 2 !== 0
+				? colors.ladefuchsLightGrayBackground
+				: colors.ladefuchsLightBackground;
 		return (
 			<View
 				style={[
 					styles.priceLineContainer,
 					{
 						flex: 1,
-						backgroundColor:
-							index % 2 !== 0
-								? colors.ladefuchsLightGrayBackground
-								: colors.ladefuchsLightBackground,
+						backgroundColor: backgroundColor,
 					},
 				]}
 			>
 				<ChargeCard
+					backgroundColor={backgroundColor}
 					tariffCondition={left}
 					tariff={tariffs.get(left?.tariffId)}
 				/>
 				<View style={styles.space} />
 				<ChargeCard
+					backgroundColor={backgroundColor}
 					tariffCondition={right}
 					tariff={tariffs.get(right?.tariffId)}
 				/>

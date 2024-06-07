@@ -2,9 +2,9 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "1.0.0",
+    "version": "2.0.5",
     "orientation": "portrait",
-    "scheme": "your-app-scheme",
+    "scheme": "com.ladefuchs.app",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -12,26 +12,21 @@
       "resizeMode": "contain",
       "backgroundColor": "#F3EEE2"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "app.ladefuchs.Ladefuchs"
+      "buildNumber": "3",
+      "supportsTablet": false,
+      "jsEngine": "jsc",
+      "bundleIdentifier": "app.ladefuchs.Ladefuchs",
+      "entitlements": {}
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/splash.png",
+        "backgroundColor": "#F3EEE2"
       },
-      "package": "com.anonymous.ladefuchs"
+      "package": "app.ladefuchs.Ladefuchs"
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
-    "plugins": [
-      "expo-router"
-    ]
+    "plugins": ["expo-router"]
   }
 }

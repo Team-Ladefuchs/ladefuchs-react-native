@@ -1,15 +1,9 @@
 import React from "react";
-import {
-	View,
-	Text,
-	TouchableWithoutFeedback,
-	TouchableHighlight,
-	Linking,
-} from "react-native";
-import Chargeprice from "@assets/chargeprice_logo.svg";
+import { View, Text, TouchableHighlight, Linking } from "react-native";
+import Chargeprice from "@assets/about/chargeprice_logo.svg";
 import { styles } from "../../theme";
 
-export function Datenview() {
+export function Datenview(): JSX.Element {
 	return (
 		<View style={styles.headerView}>
 			<Text style={styles.headLine}>DATENFUCHS</Text>

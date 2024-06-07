@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
+import { View, Text } from "react-native";
 import { styles } from "../../theme";
 
-export function Teamfuchs() {
+export function Teamfuchs(): JSX.Element {
 	return (
 		<View style={styles.headerView}>
 			<Text style={styles.headLine}>TEAMFUCHS</Text>

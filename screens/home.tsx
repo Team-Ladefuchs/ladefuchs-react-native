@@ -57,7 +57,7 @@ export function HomeScreen(): JSX.Element {
 					shadowOpacity: 0.3,
 					shadowRadius: 3,
 					elevation: 5, // nur für Android
-					zIndex:1,
+					zIndex: 1,
 				}}
 			>
 				<Text
@@ -72,11 +72,10 @@ export function HomeScreen(): JSX.Element {
 			</View>
 			<View
 				style={{
-					flex: 30,
+					flex: 46,
 					justifyContent: "center",
+					alignContent: "center",
 					backgroundColor: colors.ladefuchsLightBackground,
-					paddingTop: 20,
-					paddingBottom: 16,
 				}}
 			>
 				<OperatorPicker />

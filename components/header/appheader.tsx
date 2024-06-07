@@ -14,11 +14,12 @@ import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
 
-export function AppHeader() {
+export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
 	const reloadBanner = useAppStore((state) => state.reloadBanner);
 
 	const handleLongPress = () => {
+		console.log("handleLongPress reloadBanner");
 		reloadBanner();
 	};
 
@@ -41,8 +42,8 @@ export function AppHeader() {
 			</TouchableOpacity>
 			<View style={{ marginBottom: -10 }}>
 				<TouchableOpacity
+					activeOpacity={1}
 					onLongPress={handleLongPress}
-					activeOpacity={0.6}
 				>
 					<AppLogo size={90} />
 				</TouchableOpacity>
@@ -92,7 +93,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		left: 8,
 		bottom: 5,
-		paddingLeft: 16,
 	},
 	headerTitle: {
 		color: colors.ladefuchsOrange,

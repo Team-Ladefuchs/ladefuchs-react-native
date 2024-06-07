@@ -10,6 +10,7 @@ import { AppHeader } from "./components/header/appheader";
 import {
 	QueryClient,
 	QueryClientProvider,
+	focusManager,
 	useQuery,
 } from "@tanstack/react-query";
 import { fetchAllApiData } from "./functions/api";
@@ -17,21 +18,32 @@ import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import { StatusBar, View } from "react-native";
+import {
+	AppState,
+	AppStateStatus,
+	Platform,
+	StatusBar,
+	View,
+} from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
 
 const queryClient = new QueryClient();
+const RootStack = createStackNavigator();
 
-function App() {
+function onAppStateChange(status: AppStateStatus) {
+	if (Platform.OS !== "web") {
+		focusManager.setFocused(status === "active");
+	}
+}
+
+export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AppWrapper />
 		</QueryClientProvider>
 	);
 }
-
-const RootStack = createStackNavigator();
 
 function AppWrapper(): JSX.Element {
 	const allApiData = useQuery({
@@ -41,22 +53,31 @@ function AppWrapper(): JSX.Element {
 		},
 	});
 
+	const [init] = useAppStore(useShallow((state) => [state.initAppData]));
+
 	const [fontsLoaded] = useFonts({
 		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),
 		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
 	});
 
-	const [init] = useAppStore(useShallow((state) => [state.init]));
+	useEffect(() => {
+		const subscription = AppState.addEventListener(
+			"change",
+			onAppStateChange
+		);
+		return () => subscription.remove();
+	}, []);
 
 	useEffect(() => {
 		if (!allApiData.data) {
 			return;
 		}
+		console.log("init app data");
 		init(allApiData.data);
-	}, [init, allApiData.data]);
+	}, [allApiData.data]);
 
-	if (allApiData.isPending || allApiData.error || !fontsLoaded) {
-		return <View></View>;
+	if (!fontsLoaded) {
+		return;
 	}
 
 	return (
@@ -71,7 +92,6 @@ function AppWrapper(): JSX.Element {
 							header: () => {
 								return <AppHeader />;
 							},
-
 							headerStyle: {
 								backgroundColor: colors.ladefuchsDarkBackground,
 							},
@@ -132,5 +152,3 @@ function modalHeader({ navigation }) {
 		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 	};
 }
-
-export default App;
