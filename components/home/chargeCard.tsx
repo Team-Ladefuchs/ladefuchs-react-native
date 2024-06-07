@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
 		...dropShadow,
 		shadowOpacity: 0.1,
 		position: "absolute",
-		height: 16,
-		width: 16,
+		height: 15,
+		width: 15,
 		zIndex: 2,
 		top: -3,
 		right: -3,
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
 		...dropShadow,
 		marginRight: 20, // Adjust as needed
 		backgroundColor: "#fff",
+		borderRadius: 4,
 	},
 	cardImage: {
 		borderRadius: 4,

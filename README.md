@@ -13,6 +13,12 @@ API_TOKEN=12xxxxxxxxxxx
 
 ```
 
+## How to build
+
+```sh
+npm run build
+```
+
 ## How to run
 
 ### iOS
@@ -30,6 +36,7 @@ Set up your environment
 
 1. Install Android Studio
 2. Set these env variables
+
 ```sh
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home
 # export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -44,8 +51,8 @@ npx expo run:android
 
 ## Packages
 
--   [Expo App Router](https://docs.expo.dev/router/create-pages/)
--   [React Navigation](https://reactnavigation.org/docs/header-buttons)
+- [Expo App Router](https://docs.expo.dev/router/create-pages/)
+- [React Navigation](https://reactnavigation.org/docs/header-buttons)
 
--   [React Native UI](https://reactnativeelements.com/)
--   [React Native Picker](https://github.com/react-native-picker/picker)
+- [React Native UI](https://reactnativeelements.com/)
+- [React Native Picker](https://github.com/react-native-picker/picker)
