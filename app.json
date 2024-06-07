@@ -14,8 +14,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "app.ladefuchs.Ladefuchs"
+      "buildNumber": "3",
+      "supportsTablet": false,
+      "jsEngine": "jsc",
+      "bundleIdentifier": "app.ladefuchs.Ladefuchs",
+      "entitlements": {}
     },
     "android": {
       "adaptiveIcon": {
