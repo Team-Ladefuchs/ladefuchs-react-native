@@ -62,14 +62,15 @@ export const useAppStore = create<AppState>((set, get) => {
 		banner: null,
 		reloadBanner: () => {
 			const { banner, ladefuchsBanners } = get();
-			let newBannerIndex = ladefuchsBannerIndex;
+			if (ladefuchsBanners.length < 2) {
+				return;
+			}
 			let newBanner = undefined;
 			do {
-				newBannerIndex = (newBannerIndex + 1) % ladefuchsBanners.length;
-				newBanner = ladefuchsBanners[newBannerIndex];
+				ladefuchsBannerIndex =
+					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
+				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
 			} while (newBanner.imageUrl === banner?.imageUrl);
-
-			ladefuchsBannerIndex = newBannerIndex;
 			set((state) => ({ ...state, banner: newBanner }));
 		},
 	};
