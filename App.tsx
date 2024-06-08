@@ -16,7 +16,7 @@ import {
 import { fetchAllApiData } from "./functions/api";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
-import { CloseButton } from "./components/header/closButton";
+import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 import {
 	AppState,
