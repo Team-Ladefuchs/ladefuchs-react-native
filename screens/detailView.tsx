@@ -11,6 +11,7 @@ import { MonthlyFee } from "../components/detail/monthlyFee";
 import { BlockingFee } from "../components/detail/blockingFee";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
+import { ScrollView } from "react-native-gesture-handler";
 
 function findTariffCondition({
 	tariffConditions,
@@ -63,39 +64,41 @@ export function DetailScreen({ route }): JSX.Element {
 				paddingHorizontal: 16,
 			}}
 		>
-			<Logos tariff={tariff} operatorImageUrl={operator.imageUrl} />
-			<View
-				style={{
-					flexDirection: "row",
-					marginTop: 16,
-					gap: 16,
-					rowGap: 20,
-				}}
-			>
-				<View style={{ flex: 1 }}>
-					<PriceBox
-						chargeMode="ac"
-						price={acTariffCondition?.pricePerKwh}
-					/>
-					<BlockingFee
-						fee={acTariffCondition?.blockingFee}
-						feeStart={acTariffCondition?.blockingFeeStart}
-					/>
-				</View>
+			<ScrollView>
+				<Logos tariff={tariff} operatorImageUrl={operator.imageUrl} />
+				<View
+					style={{
+						flexDirection: "row",
+						marginTop: 16,
+						gap: 16,
+						rowGap: 20,
+					}}
+				>
+					<View style={{ flex: 1 }}>
+						<PriceBox
+							chargeMode="ac"
+							price={acTariffCondition?.pricePerKwh}
+						/>
+						<BlockingFee
+							fee={acTariffCondition?.blockingFee}
+							feeStart={acTariffCondition?.blockingFeeStart}
+						/>
+					</View>
 
-				<View style={{ flex: 1 }}>
-					<PriceBox
-						chargeMode="dc"
-						price={dcTariffCondition?.pricePerKwh}
-					/>
-					<BlockingFee
-						fee={dcTariffCondition?.blockingFee}
-						feeStart={dcTariffCondition?.blockingFeeStart}
-					/>
+					<View style={{ flex: 1 }}>
+						<PriceBox
+							chargeMode="dc"
+							price={dcTariffCondition?.pricePerKwh}
+						/>
+						<BlockingFee
+							fee={dcTariffCondition?.blockingFee}
+							feeStart={dcTariffCondition?.blockingFeeStart}
+						/>
+					</View>
 				</View>
-			</View>
-			<MonthlyFee fee={tariff.monthlyFee} />
-			<Notes notes={tariff.note} />
+				<MonthlyFee fee={tariff.monthlyFee} />
+				<Notes notes={tariff.note} />
+			</ScrollView>
 			<AffiliateButton link={tariff.affiliateLinkUrl} />
 		</View>
 	);
