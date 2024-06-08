@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
-import HighlightCornerSvg from "@assets/highlightCorner.svg";
+import { HighlightCorner } from "./highlightCorner";
 
 export function BlockingFee({
 	feeStart,
@@ -13,7 +13,7 @@ export function BlockingFee({
 	fee?: number | null;
 }): JSX.Element {
 	let textBlock: JSX.Element;
-	let shouldHighlightCorner = false;
+	let showHighlightCorner = false;
 
 	if (feeStart && fee) {
 		textBlock = (
@@ -22,24 +22,16 @@ export function BlockingFee({
 				<ItalicText text={`› ${fee.toFixed(2)} € / Minute`} />
 			</View>
 		);
-		shouldHighlightCorner = true;
+		showHighlightCorner = true;
 	} else {
 		textBlock = <ItalicText text="› keine" />;
 	}
 
 	return (
 		<View style={styles.container}>
-			{shouldHighlightCorner && <HighlightCorner />}
+			{showHighlightCorner && <HighlightCorner />}
 			<CardHeader text="Blockiergebühr" />
 			{textBlock}
-		</View>
-	);
-}
-
-function HighlightCorner() {
-	return (
-		<View style={styles.highlightCorner}>
-			<HighlightCornerSvg width={18} height={18} />
 		</View>
 	);
 }

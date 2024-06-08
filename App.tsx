@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { AboutScreen } from "./screens/about";
 import { HomeScreen } from "./screens/home";
 import { colors } from "./theme";
-import { AppHeader } from "./components/header/appheader";
+import { AppHeader } from "./components/header/appHeader";
 import {
 	QueryClient,
 	QueryClientProvider,
