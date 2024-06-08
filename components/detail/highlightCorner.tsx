@@ -6,7 +6,7 @@ interface Props {
 	size?: number;
 }
 
-export function HighlightCorner({ size = 18 }: Props) {
+export function HighlightCorner({ size = 17 }: Props) {
 	return (
 		<Svg
 			style={styles.highlightCorner}
