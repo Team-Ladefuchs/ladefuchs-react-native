@@ -63,10 +63,7 @@ export function DetailScreen({ route }): JSX.Element {
 				paddingHorizontal: 16,
 			}}
 		>
-			<Logos
-				tariffImageUrl={tariff.imageUrl}
-				operatorImageUrl={operator.imageUrl}
-			/>
+			<Logos tariff={tariff} operatorImageUrl={operator.imageUrl} />
 			<View
 				style={{
 					flexDirection: "row",

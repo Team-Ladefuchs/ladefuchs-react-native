@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { TariffCondition } from "../../types/conditions";
-import ChargeCard from "./chargeCard";
+import ChargeCondition from "./chargeCondition";
 import { fill, zip } from "../../functions/util";
 import { colors } from "../../theme";
 import { useAppStore } from "../../state/state";
@@ -48,19 +48,16 @@ export function ChargeConditionTable() {
 				style={[
 					styles.priceLineContainer,
 					{
-						flex: 1,
 						backgroundColor: backgroundColor,
 					},
 				]}
 			>
-				<ChargeCard
-					backgroundColor={backgroundColor}
+				<ChargeCondition
 					tariffCondition={left}
 					tariff={tariffs.get(left?.tariffId)}
 				/>
 				<View style={styles.space} />
-				<ChargeCard
-					backgroundColor={backgroundColor}
+				<ChargeCondition
 					tariffCondition={right}
 					tariff={tariffs.get(right?.tariffId)}
 				/>
