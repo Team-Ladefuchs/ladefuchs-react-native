@@ -14,11 +14,14 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "3",
+      "buildNumber": "7",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
-      "entitlements": {}
+      "entitlements": {
+        "aps-environment": "development"
+      },
+      "usesPushNotifications": false,
     },
     "android": {
       "adaptiveIcon": {
