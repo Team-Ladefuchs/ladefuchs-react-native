@@ -14,22 +14,37 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "7",
+      "buildNumber": "8",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "entitlements": {
         "aps-environment": "production"
-      },
-      "usesPushNotifications": false
+      }
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/splash.png",
         "backgroundColor": "#F3EEE2"
       },
       "package": "app.ladefuchs.Ladefuchs"
     },
-    "plugins": ["expo-router"]
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "16.0"
+          }
+        }
+      ]
+    ]
   }
 }
