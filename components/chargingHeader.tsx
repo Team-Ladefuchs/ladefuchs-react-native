@@ -5,16 +5,17 @@ import CCS from "@assets/ccs.svg";
 import Typ2 from "@assets/typ2.svg";
 
 export function ChargingTableHeader(): JSX.Element {
+	const plugOpacity = 0.45;
 	return (
 		<View style={styles.headerContainer}>
 			<View style={styles.headerView}>
 				<Text style={{ ...styles.headerText, marginRight: 8 }}>AC</Text>
-				<Typ2 width={28} height={23} opacity="0.45" />
+				<Typ2 width={28} height={23} opacity={plugOpacity} />
 			</View>
 			<View style={styles.divider} />
 			<View style={styles.headerView}>
 				<Text style={{ ...styles.headerText, marginRight: 8 }}>DC</Text>
-				<CCS width={30} height={36} opacity="0.45" />
+				<CCS width={30} height={36} opacity={plugOpacity} />
 			</View>
 		</View>
 	);

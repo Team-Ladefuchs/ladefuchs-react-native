@@ -2,7 +2,7 @@ import { Text } from "react-native";
 
 export function ItalicText({
 	text,
-	fontSize = 14,
+	fontSize = 16,
 }: {
 	text: string;
 	fontSize?: number;

@@ -13,62 +13,46 @@ export function PriceBox({
 	price: number | null | undefined;
 }) {
 	const plugSize = 25;
+	const plugOpacity = 0.45;
 	const plug =
 		chargeMode === "ac" ? (
-			<Typ2
-				width={plugSize}
-				height={plugSize}
-				marginLeft={2}
-				opacity="0.5"
-			/>
+			<Typ2 width={plugSize} height={plugSize} opacity={plugOpacity} />
 		) : (
-			<CCS
-				width={plugSize}
-				height={plugSize}
-				marginLeft={2}
-				opacity="0.5"
-			/>
+			<CCS width={plugSize} height={plugSize} opacity={plugOpacity} />
 		);
 	return (
 		<View>
-			<View style={styles.priceHeader}>
-				<Text
-					style={{
-						fontSize: 24,
-						fontWeight: "800",
-						textAlign: "center",
-						marginRight: 4,
-					}}
-				>
+			<View style={styles.priceHeaderContainer}>
+				<Text style={styles.priceHeaderText}>
 					{chargeMode.toLocaleUpperCase()}
 				</Text>
 				{plug}
 			</View>
 			<View style={styles.priceContainer}>
-				<Text
-					style={{
-						textAlign: "center",
-						fontWeight: "500",
-						fontSize: 44,
-						height: 60,
-					}}
-				>
-					{price?.toFixed(2) ?? ""}
-				</Text>
+				<Text style={styles.priceText}>{price?.toFixed(2) ?? ""}</Text>
 			</View>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	priceText: {
+		textAlign: "center",
+		fontWeight: "500",
+		fontSize: 50,
+	},
 	priceContainer: {
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		paddingHorizontal: 12,
-		paddingVertical: 12,
-		borderBottomRightRadius: 12,
-		borderBottomLeftRadius: 12,
+		paddingVertical: 14,
 	},
-	priceHeader: {
+	priceHeaderText: {
+		fontSize: 25,
+		fontWeight: "700",
+		textAlign: "center",
+		marginRight: 4,
+	},
+	priceHeaderContainer: {
 		display: "flex",
 		borderTopLeftRadius: 12,
 		borderTopRightRadius: 12,

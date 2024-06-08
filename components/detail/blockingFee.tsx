@@ -39,7 +39,7 @@ export function BlockingFee({
 function HighlightCorner() {
 	return (
 		<View style={styles.highlightCorner}>
-			<HighlightCornerSvg width={20} height={20} />
+			<HighlightCornerSvg width={18} height={18} />
 		</View>
 	);
 }
@@ -49,9 +49,10 @@ const styles = StyleSheet.create({
 		position: "relative",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		padding: 12,
-		borderRadius: 12,
-		marginTop: 4,
-		height: 81,
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
+		marginTop: 2,
+		maxHeight: 81,
 	},
 	highlightCorner: {
 		position: "absolute",
@@ -62,5 +63,3 @@ const styles = StyleSheet.create({
 		shadowRadius: 3,
 	},
 });
-
-export default BlockingFee;
