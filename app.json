@@ -19,9 +19,9 @@
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "entitlements": {
-        "aps-environment": "development"
+        "aps-environment": "production"
       },
-      "usesPushNotifications": false,
+      "usesPushNotifications": false
     },
     "android": {
       "adaptiveIcon": {
