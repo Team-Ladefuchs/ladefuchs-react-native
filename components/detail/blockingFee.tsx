@@ -4,6 +4,7 @@ import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
+import { formatNumberCurrency } from "../../functions/util";
 
 export function BlockingFee({
 	feeStart,
@@ -18,8 +19,8 @@ export function BlockingFee({
 	if (feeStart && fee) {
 		textBlock = (
 			<View>
-				<ItalicText text={`› ab Minute ${feeStart}`} />
-				<ItalicText text={`› ${fee.toFixed(2)} € / Minute`} />
+				<ItalicText text={`› ab Min. ${feeStart}`} />
+				<ItalicText text={`› ${formatNumberCurrency(fee)} / Min.`} />
 			</View>
 		);
 		showHighlightCorner = true;

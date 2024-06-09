@@ -4,6 +4,7 @@ import { Tariff } from "../../types/tariff";
 import { TariffCondition } from "../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../cardImage";
+import { formatNumber } from "../../functions/util";
 
 interface ChargeCardModel {
 	tariff: Tariff | null;
@@ -38,7 +39,7 @@ export function ChargeCondition({
 			</TouchableOpacity>
 
 			<Text style={styles.priceText}>
-				{tariffCondition.pricePerKwh.toFixed(2)}
+				{formatNumber(tariffCondition.pricePerKwh)}
 			</Text>
 		</View>
 	);

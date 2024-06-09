@@ -4,6 +4,7 @@ import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/ccs.svg";
 import Typ2 from "@assets/typ2.svg";
+import { formatNumber } from "../../functions/util";
 
 export function PriceBox({
 	chargeMode,
@@ -29,7 +30,9 @@ export function PriceBox({
 				{plug}
 			</View>
 			<View style={styles.priceContainer}>
-				<Text style={styles.priceText}>{price?.toFixed(2) ?? "—"}</Text>
+				<Text style={styles.priceText}>
+					{formatNumber(price) ?? "—"}
+				</Text>
 			</View>
 		</View>
 	);
