@@ -15,8 +15,21 @@ API_TOKEN=12xxxxxxxxxxx
 
 ## How to build
 
+## Prebuilt
+
 ```sh
 npm run build
+```
+
+## Android APK
+
+```sh
+npx expo prebuild --clean
+
+cd android
+
+./gradlew assembleRelease
+
 ```
 
 ## How to run

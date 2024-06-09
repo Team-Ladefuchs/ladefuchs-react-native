@@ -1,3 +1,4 @@
+import { useLocales } from "expo-localization";
 declare global {
 	interface Array<T> {
 		shuffle(): T[];
@@ -57,4 +58,16 @@ export function repeatNTimes<T>(item: T, n: number): T[] {
 		repeatedIds.push(item);
 	}
 	return repeatedIds;
+}
+
+export function formatNumber(value: number): string {
+	const [{ languageTag }] = useLocales();
+	return new Intl.NumberFormat(languageTag, {
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+	}).format(value);
+}
+
+export function formatNumberCurrency(value: number): string {
+	return `${formatNumber(value)} €`;
 }

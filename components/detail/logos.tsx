@@ -1,12 +1,14 @@
 import { View, Image } from "react-native";
-import { dropShadow } from "../home/chargeCard";
+import { dropShadow } from "../home/chargeCondition";
 import { authHeader } from "../../functions/api";
+import { CardImage } from "../cardImage";
+import { Tariff } from "../../types/tariff";
 
 export function Logos({
-	tariffImageUrl,
+	tariff,
 	operatorImageUrl,
 }: {
-	tariffImageUrl: string | null;
+	tariff: Tariff | null;
 	operatorImageUrl: string | null;
 }): JSX.Element {
 	return (
@@ -20,22 +22,13 @@ export function Logos({
 					gap: 5,
 				}}
 			>
-				<View
+				<CardImage
+					tariff={tariff}
+					width={88}
 					style={{
-						...dropShadow,
+						transform: [{ rotate: "-15deg" }],
 					}}
-				>
-					<Image
-						source={{ uri: tariffImageUrl, ...authHeader }}
-						height={55}
-						width={88}
-						style={{
-							transform: [{ rotate: "-15deg" }],
-							borderRadius: 4,
-						}}
-					/>
-				</View>
-
+				/>
 				<Image
 					source={{ uri: operatorImageUrl, ...authHeader }}
 					height={120}

@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { colors } from "../../theme";
-import { CloseButton } from "../header/closButton";
+import { CloseButton } from "../header/closeButton";
 import { Tariff } from "../../types/tariff";
 
 interface Props {

@@ -1,20 +1,20 @@
 // Tariffs.tsx
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { TariffCondition } from "../../types/conditions";
-import ChargeCard from "./chargeCard";
+import ChargeCondition from "./chargeCondition";
 import { fill, zip } from "../../functions/util";
 import { colors } from "../../theme";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 
 export function ChargeConditionTable() {
-	// hier nutzen wir unseren globalen state
-	const { tariffs, tariffConditions } = useAppStore(
+	const { tariffs, tariffConditions, operatorId } = useAppStore(
 		useShallow((state) => ({
 			tariffs: state.tariffs,
 			tariffConditions: state.tariffConditions,
+			operatorId: state.operatorId,
 		}))
 	);
 
@@ -25,9 +25,11 @@ export function ChargeConditionTable() {
 	const zipTariffConditions = zip(acTariffCondition, dcTariffCondition);
 	const flatListRef = useRef<FlatList>();
 
-	if (zipTariffConditions.length) {
-		flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
-	}
+	useEffect(() => {
+		if (zipTariffConditions.length) {
+			flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
+		}
+	}, [operatorId]);
 
 	const renderItem = ({
 		item,
@@ -46,19 +48,16 @@ export function ChargeConditionTable() {
 				style={[
 					styles.priceLineContainer,
 					{
-						flex: 1,
 						backgroundColor: backgroundColor,
 					},
 				]}
 			>
-				<ChargeCard
-					backgroundColor={backgroundColor}
+				<ChargeCondition
 					tariffCondition={left}
 					tariff={tariffs.get(left?.tariffId)}
 				/>
 				<View style={styles.space} />
-				<ChargeCard
-					backgroundColor={backgroundColor}
+				<ChargeCondition
 					tariffCondition={right}
 					tariff={tariffs.get(right?.tariffId)}
 				/>

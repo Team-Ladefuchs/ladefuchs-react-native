@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { AboutScreen } from "./screens/about";
 import { HomeScreen } from "./screens/home";
 import { colors } from "./theme";
-import { AppHeader } from "./components/header/appheader";
+import { AppHeader } from "./components/header/appHeader";
 import {
 	QueryClient,
 	QueryClientProvider,
@@ -16,7 +16,7 @@ import {
 import { fetchAllApiData } from "./functions/api";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
-import { CloseButton } from "./components/header/closButton";
+import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 import {
 	AppState,
@@ -99,7 +99,12 @@ function AppWrapper(): JSX.Element {
 						})}
 					/>
 				</RootStack.Group>
-				<RootStack.Group screenOptions={{ presentation: "modal" }}>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+						gestureEnabled: true,
+					}}
+				>
 					<RootStack.Screen
 						component={DetailScreen}
 						options={({ navigation, route }) => ({
@@ -123,7 +128,12 @@ function AppWrapper(): JSX.Element {
 						name="detailScreen"
 					/>
 				</RootStack.Group>
-				<RootStack.Group screenOptions={{ presentation: "modal" }}>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+						gestureEnabled: true,
+					}}
+				>
 					<RootStack.Screen
 						name="Einstellungen"
 						options={modalHeader}
@@ -141,9 +151,10 @@ function modalHeader({ navigation }) {
 		headerLeft: null,
 		headerRight: () => {
 			return (
-				<View style={{ marginRight: 16 }}>
-					<CloseButton onPress={() => navigation.goBack()} />
-				</View>
+				<CloseButton
+					onPress={() => navigation.goBack()}
+					style={{ marginRight: 16 }}
+				/>
 			);
 		},
 		headerStyle: {

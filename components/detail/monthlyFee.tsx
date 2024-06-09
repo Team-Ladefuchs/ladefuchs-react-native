@@ -2,10 +2,11 @@ import { View } from "react-native";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
+import { HighlightCorner } from "./highlightCorner";
+import { formatNumberCurrency } from "../../functions/util";
 
 export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
-	const formattedFee = fee ? `${fee} €` : "› keine";
-
+	const formattedFee = fee ? `${formatNumberCurrency(fee)}` : "› keine";
 	return (
 		<View
 			style={{
@@ -15,6 +16,7 @@ export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 				borderRadius: 12,
 			}}
 		>
+			{fee && <HighlightCorner />}
 			<CardHeader text="Monatliche Gebühr" />
 			<ItalicText text={formattedFee} />
 		</View>

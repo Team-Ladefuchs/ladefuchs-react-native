@@ -3,7 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
-import HighlightCornerSvg from "@assets/highlightCorner.svg";
+import { HighlightCorner } from "./highlightCorner";
+import { formatNumberCurrency } from "../../functions/util";
 
 export function BlockingFee({
 	feeStart,
@@ -13,33 +14,25 @@ export function BlockingFee({
 	fee?: number | null;
 }): JSX.Element {
 	let textBlock: JSX.Element;
-	let shouldHighlightCorner = false;
+	let showHighlightCorner = false;
 
 	if (feeStart && fee) {
 		textBlock = (
 			<View>
-				<ItalicText text={`› ab Minute ${feeStart}`} />
-				<ItalicText text={`› ${fee.toFixed(2)} € / Minute`} />
+				<ItalicText text={`› ab Min. ${feeStart}`} />
+				<ItalicText text={`› ${formatNumberCurrency(fee)} / Min.`} />
 			</View>
 		);
-		shouldHighlightCorner = true;
+		showHighlightCorner = true;
 	} else {
 		textBlock = <ItalicText text="› keine" />;
 	}
 
 	return (
 		<View style={styles.container}>
-			{shouldHighlightCorner && <HighlightCorner />}
+			{showHighlightCorner && <HighlightCorner />}
 			<CardHeader text="Blockiergebühr" />
 			{textBlock}
-		</View>
-	);
-}
-
-function HighlightCorner() {
-	return (
-		<View style={styles.highlightCorner}>
-			<HighlightCornerSvg width={20} height={20} />
 		</View>
 	);
 }
@@ -49,9 +42,10 @@ const styles = StyleSheet.create({
 		position: "relative",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		padding: 12,
-		borderRadius: 12,
-		marginTop: 4,
-		height: 81,
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
+		marginTop: 2,
+		height: 79,
 	},
 	highlightCorner: {
 		position: "absolute",
@@ -62,5 +56,3 @@ const styles = StyleSheet.create({
 		shadowRadius: 3,
 	},
 });
-
-export default BlockingFee;

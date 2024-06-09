@@ -1,5 +1,5 @@
+import { AppData } from "../state/state";
 import { getBannerType } from "../state/storage";
-import { AppData } from "../types/app";
 import { Banner, LadefuchsBanner } from "../types/banner";
 import {
 	ChargeMode,

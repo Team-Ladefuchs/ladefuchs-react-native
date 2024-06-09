@@ -6,7 +6,7 @@ export interface Tariff {
 	identifier: string;
 	name: string;
 	providerName: string;
-	imageUrl: string;
+	imageUrl: string | null;
 	isCustomerOnly: false;
 	isStandard: boolean;
 	monthlyFee: number;
