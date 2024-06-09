@@ -23,12 +23,12 @@
       }
     },
     "android": {
-      "versionCode": 1,
+      "versionCode": 210,
       "adaptiveIcon": {
         "foregroundImage": "./assets/android_logo.png",
         "backgroundColor": "#F3EEE2"
       },
-      "package": "app.ladefuchs.Ladefuchs"
+      "package": "app.ladefuchs.android"
     },
     "plugins": [
       [
