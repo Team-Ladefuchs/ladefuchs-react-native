@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 338 306" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:3.2;">
+    <g transform="matrix(1,0,0,1,0.000183937,0.0002)">
+        <g id="svg2">
+            <g transform="matrix(-1,0,0,1,211.61,229.436)">
+                <ellipse cx="0" cy="-26.151" rx="26.781" ry="26.151" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(-1,0,0,1,125.849,229.436)">
+                <ellipse cx="0" cy="-26.151" rx="26.782" ry="26.151" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(-1,0,0,1,85.4919,158.81)">
+                <ellipse cx="0" cy="-26.151" rx="26.782" ry="26.151" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(-1,0,0,1,168.729,158.81)">
+                <ellipse cx="0" cy="-26.151" rx="26.782" ry="26.151" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(-1,0,0,1,250.706,158.81)">
+                <ellipse cx="0" cy="-26.151" rx="26.782" ry="26.151" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(-1,0,0,1,210.978,95.4576)">
+                <ellipse cx="-0" cy="-20.183" rx="19.553" ry="20.183" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(-1,0,0,1,129.002,95.4576)">
+                <ellipse cx="0" cy="-20.183" rx="19.552" ry="20.183" style="fill:none;stroke:black;stroke-width:18.4px;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,84.2307,293.021)">
+                <path d="M0,-277.021L171.52,-277.021C171.52,-277.021 189.505,-264.86 197.082,-256.503C204.659,-248.147 211.876,-236.912 216.922,-227.835C221.967,-218.758 226.055,-210.628 229.534,-200.089C233.013,-189.55 236.202,-178.569 237.101,-164.776C238,-150.983 236.693,-132.111 233.318,-118.112C229.942,-104.114 223.671,-91.375 218.183,-81.538C212.695,-71.702 208.675,-66.718 201.788,-58.837C194.901,-50.957 185.851,-42.069 176.565,-34.875C167.278,-27.68 157.506,-21.095 146.296,-15.957C135.086,-10.819 109.722,-4.606 109.722,-4.606C109.722,-4.606 75.377,0 47.924,-9.651C37.013,-13.487 29.862,-14.795 17.656,-21.002C2.366,-28.777 -12.361,-38.634 -23.962,-51.271C-39.907,-68.637 -52.686,-89.576 -60.537,-111.807C-66.754,-129.41 -68.79,-148.643 -68.104,-167.298C-67.583,-181.471 -64.268,-195.644 -59.275,-208.917C-55.035,-220.192 -47.839,-231.037 -41.619,-240.447C-35.534,-249.652 -24.82,-259.744 -17.657,-265.67C-10.494,-271.597 0,-277.021 0,-277.021Z" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:32px;stroke-linejoin:round;"/>
+            </g>
+        </g>
+    </g>
+</svg>
