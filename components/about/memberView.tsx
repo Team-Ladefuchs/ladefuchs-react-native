@@ -121,7 +121,9 @@ export function Memberview(): JSX.Element {
 						{member.links.map((line, idx) => (
 							<TouchableWithoutFeedback
 								key={idx}
-								onPress={() => Linking.openURL(line.url)}
+								onPress={async () =>
+									await Linking.openURL(line.url)
+								}
 							>
 								<View
 									style={{

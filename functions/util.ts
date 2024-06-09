@@ -60,7 +60,10 @@ export function repeatNTimes<T>(item: T, n: number): T[] {
 	return repeatedIds;
 }
 
-export function formatNumber(value: number): string {
+export function formatNumber(value: number): string | null {
+	if (!value) {
+		return null;
+	}
 	const [{ languageTag }] = useLocales();
 	return new Intl.NumberFormat(languageTag, {
 		minimumFractionDigits: 2,

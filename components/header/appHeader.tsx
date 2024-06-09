@@ -30,7 +30,9 @@ export function AppHeader(): JSX.Element {
 				backgroundColor={colors.ladefuchsLightBackground}
 			/>
 			<TouchableOpacity
-				onPress={() => Linking.openURL("https://chargeprice.app")}
+				onPress={async () =>
+					await Linking.openURL("https://chargeprice.app")
+				}
 				activeOpacity={0.6}
 				style={styles.headerChargepriceIcon}
 			>

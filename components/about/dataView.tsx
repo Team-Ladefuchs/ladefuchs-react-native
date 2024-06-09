@@ -11,7 +11,9 @@ export function Datenview(): JSX.Element {
 				Beste schlaue Daten kommen direkt von
 			</Text>
 			<TouchableHighlight
-				onPress={() => Linking.openURL("https://www.chargeprice.app")}
+				onPress={async () =>
+					await Linking.openURL("https://www.chargeprice.app")
+				}
 			>
 				<Chargeprice height={35} width={230} />
 			</TouchableHighlight>

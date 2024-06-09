@@ -11,7 +11,9 @@ export function Impressum() {
 				52064 Aachen
 			</Text>
 			<TouchableWithoutFeedback
-				onPress={() => Linking.openURL("mailto:ios@ladefuchs.app")}
+				onPress={async () =>
+					await Linking.openURL("mailto:ios@ladefuchs.app")
+				}
 			>
 				<Text style={styles.sponsorTextLink}>ios@ladefuchs.app</Text>
 			</TouchableWithoutFeedback>

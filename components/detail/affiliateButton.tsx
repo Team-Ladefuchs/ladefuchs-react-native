@@ -19,7 +19,7 @@ export function AffiliateButton({
 					borderRadius: 12,
 					marginBottom: 12, // TODO debug android?
 				}}
-				onPress={() => Linking.openURL(link)}
+				onPress={async () => await Linking.openURL(link)}
 			>
 				<Text
 					style={{

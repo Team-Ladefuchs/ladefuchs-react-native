@@ -16,19 +16,25 @@ export function PodcastView(): JSX.Element {
 			<View style={{ flexDirection: "row", columnGap: 10 }}>
 				<TouchableOpacity
 					activeOpacity={touchOpacity}
-					onPress={() => Linking.openURL("https://audiodump.de")}
+					onPress={async () =>
+						await Linking.openURL("https://audiodump.de")
+					}
 				>
 					<Audiodump width={100} height={100} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					activeOpacity={touchOpacity}
-					onPress={() => Linking.openURL("https://malik.fm")}
+					onPress={async () =>
+						await Linking.openURL("https://malik.fm")
+					}
 				>
 					<MalikFM width={100} height={100} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					activeOpacity={touchOpacity}
-					onPress={() => Linking.openURL("https://bitsundso.de")}
+					onPress={async () =>
+						await Linking.openURL("https://bitsundso.de")
+					}
 				>
 					<BitsundSo width={100} height={100} />
 				</TouchableOpacity>

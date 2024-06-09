@@ -51,7 +51,7 @@ export function AppBanner(): JSX.Element {
 			}}
 		>
 			<TouchableWithoutFeedback
-				onPress={() => Linking.openURL(affiliateLinkUrl)}
+				onPress={async () => await Linking.openURL(affiliateLinkUrl)}
 				style={{ marginTop: 20 }}
 			>
 				<Image

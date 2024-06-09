@@ -102,7 +102,6 @@ function AppWrapper(): JSX.Element {
 				<RootStack.Group
 					screenOptions={{
 						presentation: "modal",
-						gestureEnabled: true,
 					}}
 				>
 					<RootStack.Screen
@@ -131,7 +130,6 @@ function AppWrapper(): JSX.Element {
 				<RootStack.Group
 					screenOptions={{
 						presentation: "modal",
-						gestureEnabled: true,
 					}}
 				>
 					<RootStack.Screen
