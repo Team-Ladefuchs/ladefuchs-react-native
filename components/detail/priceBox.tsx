@@ -29,7 +29,7 @@ export function PriceBox({
 				{plug}
 			</View>
 			<View style={styles.priceContainer}>
-				<Text style={styles.priceText}>{price?.toFixed(2) ?? ""}</Text>
+				<Text style={styles.priceText}>{price?.toFixed(2) ?? "—"}</Text>
 			</View>
 		</View>
 	);

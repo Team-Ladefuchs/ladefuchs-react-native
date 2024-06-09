@@ -56,7 +56,9 @@ export function AppHeader(): JSX.Element {
 				}}
 				style={styles.headerSettingsIcon}
 			>
-				<Zahnrad width={35} height={35} />
+				<View style={{ padding: 3 }}>
+					<Zahnrad width={35} height={35} />
+				</View>
 			</TouchableOpacity>
 		</SafeAreaView>
 	);

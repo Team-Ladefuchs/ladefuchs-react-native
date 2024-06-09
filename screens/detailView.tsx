@@ -60,11 +60,10 @@ export function DetailScreen({ route }): JSX.Element {
 			style={{
 				backgroundColor: colors.ladefuchsLightBackground,
 				height: "100%",
-				paddingTop: 16,
 				paddingHorizontal: 16,
 			}}
 		>
-			<ScrollView>
+			<ScrollView style={{ paddingTop: 16 }} touchAction={"none"}>
 				<Logos tariff={tariff} operatorImageUrl={operator.imageUrl} />
 				<View
 					style={{

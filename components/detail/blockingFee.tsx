@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: 12,
 		borderBottomRightRadius: 12,
 		marginTop: 2,
-		maxHeight: 81,
+		height: 79,
 	},
 	highlightCorner: {
 		position: "absolute",
