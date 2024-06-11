@@ -3,6 +3,7 @@ import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
+import React from "react";
 
 export function Notes({ notes }: { notes?: string | null }): JSX.Element {
 	if (!notes?.trim) {

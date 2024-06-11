@@ -1,5 +1,6 @@
 import { SafeAreaView, Linking, Text, TouchableOpacity } from "react-native";
 import { colors } from "../../theme";
+import React from "react";
 
 export function AffiliateButton({
 	link,

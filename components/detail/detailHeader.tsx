@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import { colors } from "../../theme";
 import { CloseButton } from "../header/closeButton";
 import { Tariff } from "../../types/tariff";
+import React from "react";
 
 interface Props {
 	tariff: Tariff;

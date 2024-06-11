@@ -1,4 +1,5 @@
 import { useLocales } from "expo-localization";
+import { useMemo } from "react";
 declare global {
 	interface Array<T> {
 		shuffle(): T[];
@@ -60,15 +61,21 @@ export function repeatNTimes<T>(item: T, n: number): T[] {
 	return repeatedIds;
 }
 
+let formatter: {format: (v: number) => string} | null = null;
 export function formatNumber(value: number): string | null {
+	const [{ languageTag }] = useLocales();
+
 	if (!value) {
 		return null;
 	}
-	const [{ languageTag }] = useLocales();
-	return new Intl.NumberFormat(languageTag, {
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
-	}).format(value);
+	if (!formatter) {
+		console.log("sss");
+		formatter = Intl.NumberFormat(languageTag, {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	}
+	return useMemo(() => formatter.format(value), [value]);
 }
 
 export function formatNumberCurrency(value: number): string {

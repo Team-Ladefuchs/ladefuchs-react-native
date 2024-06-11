@@ -1,3 +1,4 @@
+import React from "react";
 import { colors } from "../../theme";
 import { Text } from "react-native";
 export function CardHeader({ text }: { text: string }): JSX.Element {

@@ -3,8 +3,8 @@ import { Picker } from "@react-native-picker/picker";
 import { Picker as AndroidPicker } from "react-native-wheel-pick";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
-import { colors,styles } from "../../theme";
-import { Platform, View, StyleSheet } from "react-native";
+import { colors } from "../../theme";
+import { Platform, View } from "react-native";
 
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
@@ -37,6 +37,7 @@ export default function OperatorPicker(): JSX.Element {
 					}}
 					selectedValue={selectedOperatorName.name}
 					textSize={23}
+					
 					selectBackgroundColor="#8080801A" // support HEXA color Style (#rrggbbaa)
 					pickerData={operators.map((item) => item.name)}
 					onValueChange={(newOperatorName) => {

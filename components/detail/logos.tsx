@@ -1,8 +1,8 @@
 import { View, Image } from "react-native";
-import { dropShadow } from "../home/chargeCondition";
 import { authHeader } from "../../functions/api";
 import { CardImage } from "../cardImage";
 import { Tariff } from "../../types/tariff";
+import React from "react";
 
 export function Logos({
 	tariff,

@@ -4,6 +4,7 @@ import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
 import { formatNumberCurrency } from "../../functions/util";
+import React from "react";
 
 export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 	const formattedFee = fee ? `${formatNumberCurrency(fee)}` : "› keine";
