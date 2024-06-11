@@ -61,7 +61,7 @@ export function repeatNTimes<T>(item: T, n: number): T[] {
 	return repeatedIds;
 }
 
-let formatter: {format: (v: number) => string} | null = null;
+let formatter: { format: (v: number) => string } | null = null;
 export function formatNumber(value: number): string | null {
 	const [{ languageTag }] = useLocales();
 
@@ -69,7 +69,6 @@ export function formatNumber(value: number): string | null {
 		return null;
 	}
 	if (!formatter) {
-		console.log("sss");
 		formatter = Intl.NumberFormat(languageTag, {
 			minimumFractionDigits: 2,
 			maximumFractionDigits: 2,

@@ -1,10 +1,10 @@
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
-import { Picker as AndroidPicker } from "react-native-wheel-pick";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
-import { Platform, View } from "react-native";
+import { Platform, View, Text } from "react-native";
+import { AndroidPicker } from "./androidPicker";
 
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
@@ -20,32 +20,23 @@ export default function OperatorPicker(): JSX.Element {
 	}
 
 	if (Platform.OS === "android") {
-		const selectedOperatorName =
-			operators.find((item) => item.identifier === operatorId) ??
-			operators[0] ??
-			null;
 		return (
 			<View
 				style={{
 					flex: 1,
+					marginHorizontal: "auto",
 					marginTop: -20, // Adjust this value to move the picker upwards
 				}}
 			>
 				<AndroidPicker
-					style={{
-						backgroundColor: colors.ladefuchsLightBackground,
+					items={operators.map((item) => ({
+						label: item.name,
+						value: item.identifier,
+					}))}
+					onChange={(operatorValue) => {
+						setOperatorId(operatorValue);
 					}}
-					selectedValue={selectedOperatorName.name}
-					textSize={23}
-					
-					selectBackgroundColor="#8080801A" // support HEXA color Style (#rrggbbaa)
-					pickerData={operators.map((item) => item.name)}
-					onValueChange={(newOperatorName) => {
-						const foundOperator = operators.find(
-							(item) => item.name === newOperatorName
-						);
-						setOperatorId(foundOperator.identifier);
-					}}
+					width={320}
 				/>
 			</View>
 		);
@@ -55,7 +46,7 @@ export default function OperatorPicker(): JSX.Element {
 			selectedValue={operatorId}
 			itemStyle={{
 				fontSize: 22,
-				fontWeight: '500',
+				fontWeight: "500",
 				backgroundColor: colors.ladefuchsLightBackground,
 				width: "100%",
 				height: "100%",

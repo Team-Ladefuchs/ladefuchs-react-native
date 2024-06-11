@@ -14,7 +14,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "5",
+      "buildNumber": "6",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
@@ -23,7 +23,7 @@
       }
     },
     "android": {
-      "versionCode": 213,
+      "versionCode": 214,
       "adaptiveIcon": {
         "foregroundImage": "./assets/android_logo.png",
         "backgroundColor": "#F3EEE2"

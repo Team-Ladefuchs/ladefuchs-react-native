@@ -29,14 +29,14 @@
     "react-native-screens": "~3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-svg-transformer": "^1.4.0",
+    "react-native-wheel-picker-expo": "^0.5.4",
     "typescript": "~5.3.3",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@react-native-picker/picker": "2.7.5",
-    "react-native-dotenv": "^3.4.11",
-    "react-native-wheel-pick": "^1.2.2"
+    "react-native-dotenv": "^3.4.11"
   },
   "private": true
 }
