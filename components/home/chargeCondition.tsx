@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Image,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Platform,
+} from "react-native";
 import { Tariff } from "../../types/tariff";
 import { TariffCondition } from "../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
@@ -50,16 +57,24 @@ const styles = StyleSheet.create({
 		height: 69,
 		display: "flex",
 		flex: 1,
-		columnGap: 20,
+		columnGap: 16,
 		alignContent: "center",
 		position: "relative",
+		justifyContent: "center",
 		flexDirection: "row", // Horizontal layout
 		alignItems: "center", // Align items vertically
 		paddingHorizontal: 24, // Adjust as needed
 	},
 	priceText: {
-		fontSize: 25,
-		fontWeight: "400",
+		...Platform.select({
+			android: {
+				fontSize: 23,
+			},
+			default: {
+				fontSize: 25,
+				fontWeight: "400",
+			},
+		}),
 	},
 });
 

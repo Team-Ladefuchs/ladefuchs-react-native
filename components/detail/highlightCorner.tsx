@@ -33,11 +33,13 @@ export function HighlightCorner({ size = 17 }: Props) {
 const styles = StyleSheet.create({
 	highlightCorner: {
 		position: "absolute",
-		zIndex: 2,
+		zIndex: 3,
 		top: -2,
 		right: -2,
+		shadowColor: "#000",
 		shadowOffset: { width: -1, height: 1 },
 		shadowOpacity: 0.2,
 		shadowRadius: 3,
+		elevation: 4,
 	},
 });

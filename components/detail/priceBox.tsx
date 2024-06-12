@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/ccs.svg";
@@ -42,7 +42,14 @@ const styles = StyleSheet.create({
 	priceText: {
 		textAlign: "center",
 		fontWeight: "500",
-		fontSize: 50,
+		...Platform.select({
+			android: {
+				fontSize: 40,
+			},
+			default: {
+				fontSize: 50,
+			},
+		}),
 	},
 	priceContainer: {
 		backgroundColor: colors.ladefuchsLightGrayBackground,

@@ -8,8 +8,10 @@ import {
 	StyleProp,
 	ViewStyle,
 	ImageStyle,
+	Platform,
 } from "react-native";
 import { HighlightCorner } from "./detail/highlightCorner";
+import React from "react";
 
 interface Props {
 	tariff: Tariff;
@@ -21,7 +23,6 @@ interface Props {
 export function CardImage({
 	tariff,
 	showHighlightCorner = false,
-	width = 80,
 	style: styleProp,
 }: Props): JSX.Element {
 	const image = () => {
@@ -52,7 +53,7 @@ export function CardImage({
 		);
 	};
 	return (
-		<View style={{ ...styles.cardImageContainer, ...styleProp, width }}>
+		<View style={{ ...styles.cardImageContainer, ...styleProp }}>
 			{showHighlightCorner && <HighlightCorner />}
 			{image()}
 		</View>
@@ -81,7 +82,15 @@ const styles = StyleSheet.create({
 		...card,
 		...dropShadow,
 		position: "relative",
-		width: 80,
+
+		...Platform.select({
+			android: {
+				width: 76,
+			},
+			default: {
+				width: 80,
+			},
+		}),
 	},
 	cardImage: {
 		...card,

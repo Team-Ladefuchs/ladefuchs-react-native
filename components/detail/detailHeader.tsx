@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { colors } from "../../theme";
 import { CloseButton } from "../header/closeButton";
 import { Tariff } from "../../types/tariff";
@@ -11,40 +11,15 @@ interface Props {
 
 export function DetailHeader({ tariff, navigation }: Props): JSX.Element {
 	return (
-		<View
-			style={{
-				width: "100%",
-				display: "flex",
-				flexDirection: "row",
-				paddingVertical: 16,
-				paddingHorizontal: 16,
-				backgroundColor: colors.ladefuchsDunklerBalken,
-				borderBottomWidth: 0.5,
-				borderBottomColor: colors.ladefuchsLightGrayBackground,
-			}}
-		>
+		<View style={styles.container}>
 			<View
 				style={{
 					flex: 1,
 					columnGap: 10,
 				}}
 			>
-				<Text
-					style={{
-						fontSize: 23,
-						fontWeight: "bold",
-					}}
-				>
-					{tariff.name}
-				</Text>
-				<Text
-					style={{
-						fontSize: 18,
-						fontWeight: "bold",
-					}}
-				>
-					{tariff.providerName}
-				</Text>
+				<Text style={styles.tariffName}>{tariff.name}</Text>
+				<Text style={styles.providerName}>{tariff.providerName}</Text>
 			</View>
 			<View>
 				<CloseButton onPress={() => navigation.goBack()} />
@@ -52,3 +27,38 @@ export function DetailHeader({ tariff, navigation }: Props): JSX.Element {
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		width: "100%",
+		display: "flex",
+		flexDirection: "row",
+		paddingVertical: 16,
+		paddingHorizontal: 16,
+		backgroundColor: colors.ladefuchsDunklerBalken,
+		borderBottomWidth: 0.5,
+		borderBottomColor: colors.ladefuchsLightGrayBackground,
+	},
+	tariffName: {
+		fontWeight: "bold",
+		...Platform.select({
+			android: {
+				fontSize: 21,
+			},
+			default: {
+				fontSize: 23,
+			},
+		}),
+	},
+	providerName: {
+		fontWeight: "bold",
+		...Platform.select({
+			android: {
+				fontSize: 16,
+			},
+			default: {
+				fontSize: 18,
+			},
+		}),
+	},
+});
