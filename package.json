@@ -6,9 +6,9 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "expo:ios": "expo start",
-    "expo:android": "expo start --android",
-    "build": "expo prebuild"
+    "build": "expo prebuild",
+    "expo": "expo start"
+
   },
   "dependencies": {
     "@quidone/react-native-wheel-picker": "^1.0.1",
