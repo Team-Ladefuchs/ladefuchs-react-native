@@ -10,6 +10,7 @@
     "build": "expo prebuild"
   },
   "dependencies": {
+    "@quidone/react-native-wheel-picker": "^1.0.1",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/netinfo": "^11.3.2",
     "@react-navigation/stack": "^6.3.29",
@@ -29,7 +30,6 @@
     "react-native-screens": "~3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-svg-transformer": "^1.4.0",
-    "react-native-wheel-picker-expo": "^0.5.4",
     "typescript": "~5.3.3",
     "zustand": "^4.5.2"
   },

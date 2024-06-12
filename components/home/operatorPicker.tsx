@@ -3,9 +3,10 @@ import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
-import { Platform, View, Text } from "react-native";
-import { AndroidPicker } from "./androidPicker";
+import { Platform, View } from "react-native";
+import WheelPicker from "@quidone/react-native-wheel-picker";
 
+const AndroidPicker = WheelPicker;
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
 		useShallow((state) => ({
@@ -24,19 +25,24 @@ export default function OperatorPicker(): JSX.Element {
 			<View
 				style={{
 					flex: 1,
-					marginHorizontal: "auto",
-					marginTop: -20, // Adjust this value to move the picker upwards
+					paddingHorizontal: 16,
+					marginTop: -5,
+					justifyContent: "center",
 				}}
 			>
-				<AndroidPicker
-					items={operators.map((item) => ({
+				<WheelPicker
+					width={"100%"}
+					data={operators.map((item) => ({
 						label: item.name,
 						value: item.identifier,
 					}))}
-					onChange={(operatorValue) => {
-						setOperatorId(operatorValue);
+					itemTextStyle={{
+						fontWeight: 500,
+						fontSize: 21,
 					}}
-					width={320}
+					onValueChanged={({ item }) => {
+						setOperatorId(item.value);
+					}}
 				/>
 			</View>
 		);
