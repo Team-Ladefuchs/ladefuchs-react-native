@@ -31,15 +31,14 @@ export default function OperatorPicker(): JSX.Element {
 				}}
 			>
 				<WheelPicker
-					width={"100%"}
 					data={operators.map((item) => ({
 						label: item.name,
 						value: item.identifier,
 					}))}
 					itemTextStyle={{
-						fontWeight: 500,
 						fontSize: 21,
 					}}
+					itemHeight={40}
 					onValueChanged={({ item }) => {
 						setOperatorId(item.value);
 					}}
