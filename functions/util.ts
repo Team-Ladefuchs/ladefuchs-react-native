@@ -74,7 +74,7 @@ export function formatNumber(value: number): string | null {
 			maximumFractionDigits: 2,
 		});
 	}
-	return useMemo(() => formatter.format(value), [value]);
+	return useMemo(() => formatter!.format(value), [value]);
 }
 
 export function formatNumberCurrency(value: number): string {

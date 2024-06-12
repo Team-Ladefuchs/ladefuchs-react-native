@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
 		...card,
 		...dropShadow,
 		position: "relative",
-
 		...Platform.select({
 			android: {
 				width: 76,

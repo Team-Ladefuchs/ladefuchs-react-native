@@ -6,7 +6,6 @@ import { colors } from "../../theme";
 import { Platform, View } from "react-native";
 import WheelPicker from "@quidone/react-native-wheel-picker";
 
-const AndroidPicker = WheelPicker;
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
 		useShallow((state) => ({

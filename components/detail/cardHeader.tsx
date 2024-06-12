@@ -7,6 +7,9 @@ export function CardHeader({ text }: { text: string }): JSX.Element {
 
 const styles = StyleSheet.create({
 	headerText: {
+		paddingBottom: 4,
+		fontWeight: "bold",
+		color: colors.ladefuchsGrayTextColor,
 		...Platform.select({
 			android: {
 				fontSize: 14.5,
@@ -15,8 +18,5 @@ const styles = StyleSheet.create({
 				fontSize: 16,
 			},
 		}),
-		paddingBottom: 4,
-		fontWeight: "bold",
-		color: colors.ladefuchsGrayTextColor,
 	},
 });

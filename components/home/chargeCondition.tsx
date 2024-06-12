@@ -1,7 +1,6 @@
 import React from "react";
 import {
 	View,
-	Image,
 	Text,
 	StyleSheet,
 	TouchableOpacity,
@@ -27,10 +26,11 @@ export function ChargeCondition({
 	if (!tariffCondition || !tariff) {
 		return <View style={styles.cardAndPriceContainer}></View>;
 	}
+	const noteLength = tariff?.note?.length ?? 0;
 	const showHighlightCorner =
 		tariffCondition?.blockingFee > 0 ||
 		tariff?.monthlyFee > 0 ||
-		tariff?.note?.length > 0;
+		noteLength > 0;
 
 	const onPress = () => {
 		//@ts-ignore

@@ -18,13 +18,7 @@ import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import {
-	AppState,
-	AppStateStatus,
-	Platform,
-	StatusBar,
-	View,
-} from "react-native";
+import { AppState, AppStateStatus, Platform, StatusBar } from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
 
