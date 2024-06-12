@@ -3,7 +3,7 @@ import { Banner, BannerType, LadefuchsBanner } from "../types/banner";
 import { TariffCondition } from "../types/conditions";
 import { Operator } from "../types/operator";
 import { Tariff } from "../types/tariff";
-import { pickRandom, repeatNTimes } from "../functions/util";
+import { shuffleAndPickOne } from "../functions/util";
 
 export interface AppData {
 	operators: Operator[];
@@ -68,7 +68,7 @@ export const useAppStore = create<AppState>((set, get) => {
 			if (ladefuchsBanners.length < 2) {
 				return;
 			}
-			let newBanner = undefined;
+			let newBanner: Banner | null = null;
 			do {
 				ladefuchsBannerIndex =
 					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
@@ -84,7 +84,7 @@ function selectLadefuchsBanner({
 	chargePriceAdBanner,
 }: {
 	ladefuchsBanners: LadefuchsBanner[] | null;
-	chargePriceAdBanner: Banner;
+	chargePriceAdBanner: Banner | null | undefined;
 }): Banner | null {
 	if (chargePriceAdBanner) {
 		return {
@@ -95,10 +95,10 @@ function selectLadefuchsBanner({
 	if (!ladefuchsBanners) {
 		return null;
 	}
-	const bannerIds = ladefuchsBanners
-		.flatMap((item) => repeatNTimes(item, item.frequency))
-		.shuffle();
-	const banner = pickRandom(bannerIds);
+	const [banner] = shuffleAndPickOne(ladefuchsBanners);
+	if (!banner) {
+		return null;
+	}
 	return {
 		bannerType: "ladefuchs",
 		affiliateLinkUrl: banner.affiliateLinkUrl,

@@ -3,11 +3,12 @@ import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
-import { formatNumberCurrency } from "../../functions/util";
 import React from "react";
+import { useFormatNumber } from "../../hooks/numberUtil";
 
 export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
-	const formattedFee = fee ? `${formatNumberCurrency(fee)}` : "› keine";
+	const { formatCurrency } = useFormatNumber();
+	const formattedFee = fee ? `${formatCurrency(fee)}` : "› keine";
 	return (
 		<View
 			style={{

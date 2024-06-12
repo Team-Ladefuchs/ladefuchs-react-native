@@ -4,7 +4,7 @@ import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/ccs.svg";
 import Typ2 from "@assets/typ2.svg";
-import { formatNumber } from "../../functions/util";
+import { useFormatNumber } from "../../hooks/numberUtil";
 
 export function PriceBox({
 	chargeMode,
@@ -13,6 +13,7 @@ export function PriceBox({
 	chargeMode: ChargeMode;
 	price: number | null | undefined;
 }) {
+	const { formatNumber } = useFormatNumber();
 	const plugSize = 25;
 	const plugOpacity = 0.45;
 	const plug =

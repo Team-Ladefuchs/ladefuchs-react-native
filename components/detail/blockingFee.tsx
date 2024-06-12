@@ -4,7 +4,7 @@ import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
-import { formatNumberCurrency } from "../../functions/util";
+import { useFormatNumber } from "../../hooks/numberUtil";
 
 export function BlockingFee({
 	feeStart,
@@ -13,6 +13,7 @@ export function BlockingFee({
 	feeStart?: number | null;
 	fee?: number | null;
 }): JSX.Element {
+	const { formatCurrency } = useFormatNumber();
 	let textBlock: JSX.Element;
 	let showHighlightCorner = false;
 
@@ -20,7 +21,7 @@ export function BlockingFee({
 		textBlock = (
 			<View>
 				<ItalicText text={`› ab Min. ${feeStart}`} />
-				<ItalicText text={`› ${formatNumberCurrency(fee)} / Min.`} />
+				<ItalicText text={`› ${formatCurrency(fee)} / Min.`} />
 			</View>
 		);
 		showHighlightCorner = true;

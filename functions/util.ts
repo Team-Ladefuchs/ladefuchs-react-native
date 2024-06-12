@@ -1,12 +1,3 @@
-import { useLocales } from "expo-localization";
-import { useMemo } from "react";
-declare global {
-	interface Array<T> {
-		shuffle(): T[];
-		pickRandom(): T | null;
-	}
-}
-
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
 	const len1 = list1.length;
 	const len2 = list2.length;
@@ -31,52 +22,36 @@ export function zip<T>(arr1: T[], arr2: T[]): [T, T][] {
 	return zippedArray;
 }
 
-Array.prototype.shuffle = function () {
-	for (let i = this.length - 1; i > 0; i--) {
+export function shuffle<T>(data: T[]): T[] {
+	for (let i = data.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		[this[i], this[j]] = [this[j], this[i]];
+		[data[i], data[j]] = [data[j], data[i]];
 	}
-	return this;
-};
+	return data;
+}
 
-Array.prototype.shuffle = function <T>() {
-	for (let i = this.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[this[i], this[j]] = [this[j], this[i]];
-	}
-	return this as T[];
-};
-
-export function pickRandom<T>(items: T[]) {
-	if (items.length === 0) return null;
+export function pickRandom<T>(items: T[]): T[] {
+	if (items.length === 0) return [];
 	const index = Math.floor(Math.random() * items.length);
-	return items[index];
+	return [items[index]];
 }
 
-export function repeatNTimes<T>(item: T, n: number): T[] {
-	const repeatedIds: T[] = [];
-	for (let i = 0; i < n; i++) {
-		repeatedIds.push(item);
-	}
-	return repeatedIds;
+function compose<T>(...functions: ((arg: T) => T)[]): (arg: T) => T {
+	return (arg: T) => functions.reduce((acc, fn) => fn(acc), arg);
 }
 
-let formatter: { format: (v: number) => string } | null = null;
-export function formatNumber(value: number): string | null {
-	const [{ languageTag }] = useLocales();
+export const shuffleAndPickOne = compose(
+	repeatItemsByFrequency,
+	shuffle,
+	pickRandom
+);
 
-	if (!value) {
-		return null;
-	}
-	if (!formatter) {
-		formatter = Intl.NumberFormat(languageTag, {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		});
-	}
-	return useMemo(() => formatter!.format(value), [value]);
+function repeatNTimes<T>(element: T, times: number): T[] {
+	return Array.from({ length: times }, () => element);
 }
 
-export function formatNumberCurrency(value: number): string {
-	return `${formatNumber(value)} €`;
+export function repeatItemsByFrequency<T extends { frequency: number }>(
+	items: T[]
+): T[] {
+	return items.flatMap((item) => repeatNTimes(item, item.frequency));
 }

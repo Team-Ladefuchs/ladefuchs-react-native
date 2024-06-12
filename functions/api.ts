@@ -109,6 +109,7 @@ function chargeConditionToHashMap(
 	for (const conditions of data) {
 		map.set(conditions.operatorId, conditions.tariffConditions);
 	}
+
 	return map;
 }
 
@@ -169,6 +170,7 @@ export async function fetchAllApiData(): Promise<AppData> {
 		chargingModes: ["ac", "dc"],
 	});
 	return {
+		bannerType,
 		ladefuchsBanners,
 		operators,
 		tariffs: tariffsToHashMap(tariffs),

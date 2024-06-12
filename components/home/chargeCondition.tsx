@@ -10,7 +10,7 @@ import { Tariff } from "../../types/tariff";
 import { TariffCondition } from "../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../cardImage";
-import { formatNumber } from "../../functions/util";
+import { useFormatNumber } from "../../hooks/numberUtil";
 
 interface ChargeCardModel {
 	tariff: Tariff | null;
@@ -22,6 +22,7 @@ export function ChargeCondition({
 	tariffCondition,
 }: ChargeCardModel): JSX.Element {
 	const navigator = useNavigation();
+	const { formatNumber } = useFormatNumber();
 
 	if (!tariffCondition || !tariff) {
 		return <View style={styles.cardAndPriceContainer}></View>;
