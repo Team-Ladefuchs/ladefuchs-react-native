@@ -166,10 +166,15 @@ interface OfflineData {
 	tariffs: Tariff[];
 	chargingConditions: ChargingCondition[];
 }
-export async function fetchAllChargeConditions(): Promise<AppData> {
-	const [operators, tariffs] = await Promise.all([
+export async function fetchAllApiData(): Promise<AppData> {
+	const [
+		operators,
+		tariffs,
+		{ bannerType, ladefuchsBanners, chargePriceAdBanner },
+	] = await Promise.all([
 		fetchOperators({ standard: true }),
 		fetchTariffs({ standard: true }),
+		getBanner(),
 	]);
 
 	const chargingConditions = await fetchChargingConditions({
@@ -177,13 +182,12 @@ export async function fetchAllChargeConditions(): Promise<AppData> {
 		operatorIds: operators.map((item) => item.identifier),
 		chargingModes: ["ac", "dc"],
 	});
-	const { bannerType, ladefuchsBanners, chargePriceAdBanner } =
-		await getBanner();
+
 	if (!chargingConditions.length) {
 		return await getFromLocaleCache(bannerType);
 	}
 
-	saveToStorage<OfflineData>(storageKey, {
+	await saveToStorage<OfflineData>(storageKey, {
 		operators,
 		tariffs,
 		chargingConditions,

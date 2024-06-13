@@ -13,7 +13,7 @@ import {
 	focusManager,
 	useQuery,
 } from "@tanstack/react-query";
-import { fetchAllChargeConditions } from "./functions/api";
+import { fetchAllApiData } from "./functions/api";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
@@ -49,7 +49,7 @@ function AppWrapper(): JSX.Element {
 	const allApiData = useQuery({
 		queryKey: ["AllApiData"],
 		queryFn: async () => {
-			return fetchAllChargeConditions();
+			return await fetchAllApiData();
 		},
 	});
 
@@ -61,17 +61,17 @@ function AppWrapper(): JSX.Element {
 		return () => subscription.remove();
 	}, []);
 
-	const [setAppData, setHasAppError] = useAppStore(
+	const [setAppData, setAppError] = useAppStore(
 		useShallow((state) => [state.setAppData, state.setAppError])
 	);
 	useEffect(() => {
-		setHasAppError(allApiData?.error);
+		setAppError(allApiData?.error);
 		if (!allApiData.data) {
 			return;
 		}
 		console.log("set app data");
 		setAppData(allApiData.data);
-	}, [allApiData.data, allApiData.error, setHasAppError]);
+	}, [allApiData.data, allApiData.error]);
 
 	const [fontsLoaded] = useFonts({
 		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),

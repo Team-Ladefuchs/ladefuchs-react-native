@@ -50,7 +50,7 @@ export default function OperatorPicker(): JSX.Element {
 			selectedValue={operatorId}
 			itemStyle={{
 				fontSize: 22,
-				fontWeight: "500",
+				fontWeight: "400",
 				backgroundColor: colors.ladefuchsLightBackground,
 				width: "100%",
 				height: "100%",

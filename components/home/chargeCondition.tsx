@@ -13,7 +13,7 @@ import { CardImage } from "../cardImage";
 import { useFormatNumber } from "../../hooks/numberUtil";
 
 interface ChargeCardModel {
-	tariff: Tariff | null;
+	tariff: Tariff | null | undefined;
 	tariffCondition: TariffCondition | null;
 }
 
