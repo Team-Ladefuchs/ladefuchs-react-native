@@ -1,6 +1,10 @@
-import { AppData } from "../state/state";
-import { getBannerType } from "../state/storage";
-import { Banner, LadefuchsBanner } from "../types/banner";
+import { AppData, BannerData, ChargeConditionData } from "../state/state";
+import {
+	getBannerType,
+	retrieveFromStorage,
+	saveToStorage,
+} from "../state/storage";
+import { Banner, BannerType, LadefuchsBanner } from "../types/banner";
 import {
 	ChargeMode,
 	ChargingCondition,
@@ -30,14 +34,7 @@ export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 				},
 			}
 		);
-		if (!response.ok) {
-			console.error(response);
-			throw new Error(
-				`Failed to fetch operators: status: ${response.status}`
-			);
-		}
 		const data = (await response.json()) as OperatorsResponse;
-
 		return data.operators;
 	} catch (error) {
 		console.error("fetchOperators", error);
@@ -63,7 +60,7 @@ export async function fetchTariffs({
 		const data = (await response.json()) as TariffResponse;
 		return data.tariffs;
 	} catch (error) {
-		console.error("fetchTariff", error);
+		console.error("fetchTariffs", error);
 		return [];
 	}
 }
@@ -140,41 +137,83 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 				},
 			}
 		);
-
 		return response.json();
-	} catch (error) {
-		console.error("fetchAllLadefuchsBanners", error);
+	} catch {
 		return null;
 	}
 }
 
-export async function fetchAllApiData(): Promise<AppData> {
-	// mache die Abfrage in Parallel
-	const [operators, tariffs, ladefuchsBanners, bannerType] =
-		await Promise.all([
-			fetchOperators({ standard: true }),
-			fetchTariffs({ standard: true }),
-			fetchAllLadefuchsBanners(),
-			await getBannerType(),
-		]);
+const storageKey = "ladefuchsOfflineCache";
+
+async function getBanner(): Promise<BannerData> {
+	const [bannerType, ladefuchsBanners] = await Promise.all([
+		getBannerType(),
+		fetchAllLadefuchsBanners(),
+	]);
 
 	let chargePriceAdBanner = null;
 	if (bannerType === "chargePrice") {
 		chargePriceAdBanner = await fetchChargePriceAdBanner();
 	}
-	const tariffsIds = tariffs.map((item) => item.identifier);
-	const operatorIds = operators.map((item) => item.identifier);
+
+	return { bannerType, ladefuchsBanners, chargePriceAdBanner };
+}
+
+interface OfflineData {
+	ladefuchsBanners: LadefuchsBanner[];
+	chargePriceAdBanner?: Banner | null;
+	operators: Operator[];
+	tariffs: Tariff[];
+	chargingConditions: ChargingCondition[];
+}
+export async function fetchAllChargeConditions(): Promise<AppData> {
+	const [operators, tariffs] = await Promise.all([
+		fetchOperators({ standard: true }),
+		fetchTariffs({ standard: true }),
+	]);
+
 	const chargingConditions = await fetchChargingConditions({
-		tariffsIds,
-		operatorIds,
+		tariffsIds: tariffs.map((item) => item.identifier),
+		operatorIds: operators.map((item) => item.identifier),
 		chargingModes: ["ac", "dc"],
 	});
-	return {
-		bannerType,
+	const { bannerType, ladefuchsBanners, chargePriceAdBanner } =
+		await getBanner();
+	if (!chargingConditions.length) {
+		return await getFromLocaleCache(bannerType);
+	}
+
+	saveToStorage<OfflineData>(storageKey, {
+		operators,
+		tariffs,
+		chargingConditions,
 		ladefuchsBanners,
+		chargePriceAdBanner,
+	});
+
+	return {
+		ladefuchsBanners,
+		chargePriceAdBanner,
+		bannerType,
 		operators,
 		tariffs: tariffsToHashMap(tariffs),
 		chargingConditions: chargeConditionToHashMap(chargingConditions),
-		chargePriceAdBanner,
+	};
+}
+
+async function getFromLocaleCache(bannerType: BannerType) {
+	const offlineData = await retrieveFromStorage<OfflineData>(storageKey);
+	if (!offlineData) {
+		throw new Error("The Api is maybe down");
+	}
+	return {
+		ladefuchsBanners: offlineData.ladefuchsBanners,
+		chargePriceAdBanner: offlineData.chargePriceAdBanner,
+		operators: offlineData.operators,
+		bannerType,
+		tariffs: tariffsToHashMap(offlineData.tariffs),
+		chargingConditions: chargeConditionToHashMap(
+			offlineData.chargingConditions
+		),
 	};
 }

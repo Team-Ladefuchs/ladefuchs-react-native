@@ -13,12 +13,18 @@ import {
 	focusManager,
 	useQuery,
 } from "@tanstack/react-query";
-import { fetchAllApiData } from "./functions/api";
+import { fetchAllChargeConditions } from "./functions/api";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import { AppState, AppStateStatus, Platform, StatusBar } from "react-native";
+import {
+	AppState,
+	AppStateStatus,
+	Platform,
+	StatusBar,
+	View,
+} from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
 
@@ -43,15 +49,8 @@ function AppWrapper(): JSX.Element {
 	const allApiData = useQuery({
 		queryKey: ["AllApiData"],
 		queryFn: async () => {
-			return await fetchAllApiData();
+			return fetchAllChargeConditions();
 		},
-	});
-
-	const [init] = useAppStore(useShallow((state) => [state.initAppData]));
-
-	const [fontsLoaded] = useFonts({
-		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),
-		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
 	});
 
 	useEffect(() => {
@@ -62,16 +61,24 @@ function AppWrapper(): JSX.Element {
 		return () => subscription.remove();
 	}, []);
 
+	const [setAppData, setHasAppError] = useAppStore(
+		useShallow((state) => [state.setAppData, state.setAppError])
+	);
 	useEffect(() => {
+		setHasAppError(allApiData?.error);
 		if (!allApiData.data) {
 			return;
 		}
-		console.log("init app data");
-		init(allApiData.data);
-	}, [allApiData.data]);
+		console.log("set app data");
+		setAppData(allApiData.data);
+	}, [allApiData.data, allApiData.error, setHasAppError]);
 
+	const [fontsLoaded] = useFonts({
+		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),
+		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
+	});
 	if (!fontsLoaded) {
-		return;
+		return <View></View>;
 	}
 
 	return (
@@ -100,12 +107,11 @@ function AppWrapper(): JSX.Element {
 				>
 					<RootStack.Screen
 						component={DetailScreen}
-						options={({ navigation, route }) => ({
+						options={({ navigation, route }: any): object => ({
 							headerBackTitleVisible: false,
 							headerLeft: null,
 							header: () => {
 								const tariff = route.params["tariff"] as Tariff;
-
 								return (
 									<DetailHeader
 										tariff={tariff}
@@ -137,7 +143,11 @@ function AppWrapper(): JSX.Element {
 	);
 }
 
-function modalHeader({ navigation }) {
+function modalHeader({
+	navigation,
+}: {
+	navigation: { goBack: () => void };
+}): object {
 	return {
 		headerBackTitleVisible: false,
 		headerLeft: null,

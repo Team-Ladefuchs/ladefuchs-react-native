@@ -5,50 +5,59 @@ import { Operator } from "../types/operator";
 import { Tariff } from "../types/tariff";
 import { shuffleAndPickOne } from "../functions/util";
 
-export interface AppData {
+export type AppData = ChargeConditionData & BannerData;
+
+export interface ChargeConditionData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
-	ladefuchsBanners: LadefuchsBanner[];
-	chargePriceAdBanner?: Banner | null;
-	bannerType: BannerType;
 	chargingConditions: Map<string, TariffCondition[]>;
 }
 
+export interface BannerData {
+	ladefuchsBanners: LadefuchsBanner[];
+	bannerType: BannerType;
+	chargePriceAdBanner?: Banner | null;
+}
+
 export interface AppState extends AppData {
-	initAppData: (data: AppData) => Promise<void>;
+	setAppData: (appData: AppData) => Promise<void>;
 	operatorId: string;
 	setOperatorId: (id: string) => void;
 	tariffConditions: TariffCondition[];
 	setTariffConditions: (tariffs: TariffCondition[]) => void;
 	banner: Banner | null;
-	reloadBanner: () => void; // Hinzugefügte Methode zum Neuladen des Banners
+	appError: Error | null;
+	setAppError: (value: Error | null) => void;
+	reloadBanner: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
 	let ladefuchsBannerIndex = 0;
 	return {
-		initAppData: async (data: AppData): Promise<void> => {
+		setAppData: async (appData): Promise<void> => {
 			const {
 				operators,
 				ladefuchsBanners,
 				chargePriceAdBanner,
 				bannerType,
-			} = data;
+			} = appData;
 			let { operatorId } = get();
 			if (!operatorId) {
 				operatorId = operators[0]?.identifier ?? "";
 			}
-			if (data.operators)
+			if (operators) {
 				set((state) => ({
 					...state,
-					...data,
+					...appData,
 					operatorId,
-					bannerType,
 					banner: selectLadefuchsBanner({
+						...state,
 						ladefuchsBanners,
 						chargePriceAdBanner,
 					}),
+					bannerType,
 				}));
+			}
 		},
 		operatorId: "",
 		setOperatorId: (operatorId) =>
@@ -63,6 +72,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		chargingConditions: new Map(),
 		bannerType: "ladefuchs",
 		banner: null,
+		appError: null,
+		setAppError: (appError) => {
+			set((state) => ({ ...state, appError }));
+		},
 		reloadBanner: () => {
 			const { banner, ladefuchsBanners } = get();
 			if (ladefuchsBanners.length < 2) {

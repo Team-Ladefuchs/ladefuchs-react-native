@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image } from "react-native";
-import NetInfo from "@react-native-community/netinfo";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../theme";
 import OperatorPicker from "../components/home/operatorPicker";
@@ -10,29 +9,19 @@ import { ChargingTableHeader } from "../components/chargingHeader";
 import { useAppStore } from "../state/state";
 
 export function HomeScreen(): JSX.Element {
-	const [isOffline, setIsOffline] = useState(false);
-
-	useEffect(() => {
-		const unsubscribe = NetInfo.addEventListener((state) => {
-			setIsOffline(!state.isConnected);
-		});
-
-		return () => {
-			unsubscribe();
-		};
-	}, []);
-
 	const {
 		operatorId,
 		setOperatorId,
 		chargingConditions,
 		setTariffConditions,
+		appError,
 	} = useAppStore(
 		useShallow((state) => ({
 			operatorId: state.operatorId,
 			setOperatorId: state.setOperatorId,
 			chargingConditions: state.chargingConditions,
 			setTariffConditions: state.setTariffConditions,
+			appError: state.appError,
 		}))
 	);
 
@@ -47,6 +36,32 @@ export function HomeScreen(): JSX.Element {
 		}
 	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
 
+	if (appError) {
+		<View
+			style={{
+				justifyContent: "center",
+				alignItems: "center",
+				alignContent: "center",
+				marginTop: 50,
+			}}
+		>
+			<Image
+				source={require("../assets/ladefuchs.png")}
+				style={{ width: 200, height: 200 }}
+			/>
+			<Text
+				style={{
+					color: "red",
+					textAlign: "center",
+					fontSize: 20,
+					marginTop: 20,
+				}}
+			>
+				Sorry, you are offline!
+			</Text>
+		</View>;
+	}
+
 	return (
 		<View style={{ flex: 1 }}>
 			<ChargingTableHeader />
@@ -56,33 +71,7 @@ export function HomeScreen(): JSX.Element {
 					backgroundColor: colors.ladefuchsLightBackground,
 				}}
 			>
-				{isOffline ? (
-					<View
-						style={{
-							justifyContent: "center",
-							alignItems: "center",
-							alignContent: "center",
-							marginTop: 50,
-						}}
-					>
-						<Image
-							source={require("../assets/ladefuchs.png")}
-							style={{ width: 200, height: 200 }}
-						/>
-						<Text
-							style={{
-								color: "red",
-								textAlign: "center",
-								fontSize: 20,
-								marginTop: 20,
-							}}
-						>
-							Sorry, you are offline!
-						</Text>
-					</View>
-				) : (
-					<ChargeConditionTable />
-				)}
+				<ChargeConditionTable />
 			</View>
 			<View
 				style={{
