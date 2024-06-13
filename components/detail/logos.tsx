@@ -8,9 +8,13 @@ export function Logos({
 	tariff,
 	operatorImageUrl,
 }: {
-	tariff: Tariff | null;
+	tariff: Tariff;
 	operatorImageUrl: string | null;
 }): JSX.Element {
+	let operatorImage = operatorImageUrl
+		? { uri: operatorImageUrl, ...authHeader }
+		: require("@assets/cpo_generic.png");
+
 	return (
 		<>
 			<View
@@ -30,10 +34,12 @@ export function Logos({
 					}}
 				/>
 				<Image
-					source={{ uri: operatorImageUrl, ...authHeader }}
+					source={operatorImage}
 					height={120}
 					width={180}
 					style={{
+						height: 120,
+						width: 180,
 						objectFit: "scale-down",
 					}}
 				/>
