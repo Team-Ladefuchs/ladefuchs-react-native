@@ -22,6 +22,7 @@
     "expo-router": "~3.5.15",
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "^3.0.6",
+    "hyphen": "^1.10.4",
     "lottie-react-native": "6.7.0",
     "react": "18.2.0",
     "react-native": "0.74.2",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@react-native-picker/picker": "2.7.5",
+    "@types/hyphen": "^1.6.7",
     "eslint": "^8.57.0",
     "eslint-config-expo": "^7.0.0",
     "react-native-dotenv": "^3.4.11"

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
+import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { useFonts } from "expo-font";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { AboutScreen } from "./screens/about";
@@ -10,7 +10,6 @@ import { AppHeader } from "./components/header/appHeader";
 import {
 	QueryClient,
 	QueryClientProvider,
-	focusManager,
 	useQuery,
 } from "@tanstack/react-query";
 import { fetchAllApiData } from "./functions/api";
@@ -18,26 +17,15 @@ import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import {
-	AppState,
-	AppStateStatus,
-	Platform,
-	StatusBar,
-	View,
-} from "react-native";
+import { StatusBar } from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
-import { disableAutoFontScaling } from "./functions/util";
+import { useCustomFonts } from "./hooks/customFont";
+import { useAppStateListener } from "./hooks/AppStateListener";
 
 disableAutoFontScaling();
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
-
-function onAppStateChange(status: AppStateStatus) {
-	if (Platform.OS !== "web") {
-		focusManager.setFocused(status === "active");
-	}
-}
 
 export default function App(): JSX.Element {
 	return (
@@ -48,45 +36,41 @@ export default function App(): JSX.Element {
 }
 
 function AppWrapper(): JSX.Element {
+	const [setAppData, setAppError, operators] = useAppStore(
+		useShallow((state) => [
+			state.setAppData,
+			state.setAppError,
+			state.operators,
+		])
+	);
+
 	const allApiData = useQuery({
 		queryKey: ["AllApiData"],
 		queryFn: async () => {
-			return await fetchAllApiData();
+			return await fetchAllApiData({
+				writeToCache: !operators.length,
+			});
 		},
 	});
 
-	useEffect(() => {
-		const subscription = AppState.addEventListener(
-			"change",
-			onAppStateChange
-		);
-		return () => subscription.remove();
-	}, []);
-
-	const [setAppData, setAppError] = useAppStore(
-		useShallow((state) => [state.setAppData, state.setAppError])
-	);
+	useAppStateListener();
 	useEffect(() => {
 		setAppError(allApiData?.error);
 		if (!allApiData.data) {
 			return;
 		}
-		console.log("set app data");
 		setAppData(allApiData.data);
 	}, [allApiData.data, allApiData.error]);
 
-	const [fontsLoaded] = useFonts({
-		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),
-		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
-		RobotoCondensed: require("./assets/fonts/Roboto-Condensed-Bold.ttf"),
-	});
+	const fontsLoaded = useCustomFonts();
+	const statusBar = <StatusBar barStyle="default" backgroundColor="#fff" />;
 	if (!fontsLoaded) {
-		return <View></View>;
+		return statusBar;
 	}
 
 	return (
 		<NavigationContainer>
-			<StatusBar barStyle="default" backgroundColor="#fff" />
+			{statusBar}
 			<RootStack.Navigator>
 				<RootStack.Group>
 					<RootStack.Screen
@@ -167,4 +151,14 @@ function modalHeader({
 		},
 		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 	};
+}
+
+function disableAutoFontScaling(): void {
+	interface TextWithDefaultProps extends Text {
+		defaultProps?: { allowFontScaling?: boolean };
+	}
+	(Text as unknown as TextWithDefaultProps).defaultProps =
+		(Text as unknown as TextWithDefaultProps).defaultProps || {};
+	(Text as unknown as TextWithDefaultProps).defaultProps!.allowFontScaling =
+		false;
 }

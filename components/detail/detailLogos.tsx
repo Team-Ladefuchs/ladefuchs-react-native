@@ -3,6 +3,7 @@ import { authHeader } from "../../functions/api";
 import { CardImage } from "../cardImage";
 import { Tariff } from "../../types/tariff";
 import React from "react";
+import { hyphenText } from "../../functions/util";
 
 interface Props {
 	tariff: Tariff;
@@ -15,7 +16,6 @@ export function DetailLogos({
 	operatorImageUrl,
 	operatorName,
 }: Props): JSX.Element {
-	operatorImageUrl = null;
 	let operatorImage = operatorImageUrl
 		? { uri: operatorImageUrl, ...authHeader }
 		: require("@assets/cpo_generic.png");
@@ -41,7 +41,7 @@ export function DetailLogos({
 				<Image
 					source={operatorImage}
 					style={{
-						height: 120,
+						height: 125,
 						width: 180,
 						objectFit: "scale-down",
 					}}
@@ -53,28 +53,26 @@ export function DetailLogos({
 							position: "absolute",
 							top: "25%",
 							left: "50%",
-							// backgroundColor: "red",
-							width: 60,
+							width: 62,
 							transform: [
 								{ translateX: -6 },
 								{ translateY: -12 },
 							],
-							paddingHorizontal: 4,
+							paddingHorizontal: 3,
 						}}
 					>
 						<Text
+							lineBreakMode="tail"
 							style={{
 								color: "white",
 								paddingHorizontal: "auto",
-								fontSize: 15,
+								fontSize: 13,
 								fontFamily: "RobotoCondensed",
 								textAlign: "center",
 							}}
+							numberOfLines={3}
 						>
-							{operatorName.replace(
-								"Stadtwerke",
-								"Stadt\u2010werke"
-							)}
+							{hyphenText(operatorName)}
 						</Text>
 					</View>
 				)}

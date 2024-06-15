@@ -1,5 +1,3 @@
-import { Text } from "react-native";
-
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
 	const len1 = list1.length;
 	const len2 = list2.length;
@@ -58,12 +56,14 @@ export function repeatItemsByFrequency<T extends { frequency: number }>(
 	return items.flatMap((item) => repeatNTimes(item, item.frequency));
 }
 
-export function disableAutoFontScaling(): void {
-	interface TextWithDefaultProps extends Text {
-		defaultProps?: { allowFontScaling?: boolean };
+const hyphenTextMap: Record<string, string> = {
+	Stadtwerke: "Stadt\u2010werke",
+};
+
+export function hyphenText(value: string): string {
+	const result = hyphenTextMap[value];
+	if (result) {
+		return result;
 	}
-	(Text as unknown as TextWithDefaultProps).defaultProps =
-		(Text as unknown as TextWithDefaultProps).defaultProps || {};
-	(Text as unknown as TextWithDefaultProps).defaultProps!.allowFontScaling =
-		false;
+	return value;
 }

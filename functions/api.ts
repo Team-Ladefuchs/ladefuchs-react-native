@@ -146,15 +146,11 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 const storageKey = "ladefuchsOfflineCache";
 
 async function getBanner(): Promise<BannerData> {
-	const [bannerType, ladefuchsBanners] = await Promise.all([
-		getBannerType(),
+	const bannerType = await getBannerType();
+	const [ladefuchsBanners, chargePriceAdBanner] = await Promise.all([
 		fetchAllLadefuchsBanners(),
+		bannerType === "chargePrice" ? fetchChargePriceAdBanner() : null,
 	]);
-
-	let chargePriceAdBanner = null;
-	if (bannerType === "chargePrice") {
-		chargePriceAdBanner = await fetchChargePriceAdBanner();
-	}
 
 	return { bannerType, ladefuchsBanners, chargePriceAdBanner };
 }
@@ -166,7 +162,11 @@ interface OfflineData {
 	tariffs: Tariff[];
 	chargingConditions: ChargingCondition[];
 }
-export async function fetchAllApiData(): Promise<AppData> {
+export async function fetchAllApiData({
+	writeToCache,
+}: {
+	writeToCache: boolean;
+}): Promise<AppData> {
 	const [
 		operators,
 		tariffs,
@@ -186,14 +186,15 @@ export async function fetchAllApiData(): Promise<AppData> {
 	if (!chargingConditions.length) {
 		return await getFromLocaleCache(bannerType);
 	}
-
-	await saveToStorage<OfflineData>(storageKey, {
-		operators,
-		tariffs,
-		chargingConditions,
-		ladefuchsBanners,
-		chargePriceAdBanner,
-	});
+	if (writeToCache) {
+		await saveToStorage<OfflineData>(storageKey, {
+			operators,
+			tariffs,
+			chargingConditions,
+			ladefuchsBanners,
+			chargePriceAdBanner,
+		});
+	}
 
 	return {
 		ladefuchsBanners,
