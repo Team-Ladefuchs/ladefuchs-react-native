@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
-import CCS from "@assets/ccs.svg";
-import Typ2 from "@assets/typ2.svg";
+import CCS from "@assets/plugs/ccs.svg";
+import Typ2 from "@assets/plugs/typ2.svg";
 import { useFormatNumber } from "../../hooks/numberUtil";
 
 export function PriceBox({

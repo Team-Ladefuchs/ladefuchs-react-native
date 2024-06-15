@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../theme";
-import CCS from "@assets/ccs.svg";
-import Typ2 from "@assets/typ2.svg";
+import CCS from "@assets/plugs/ccs.svg";
+import Typ2 from "@assets/plugs/typ2.svg";
 
 export function ChargingTableHeader(): JSX.Element {
 	const plugOpacity = 0.45;

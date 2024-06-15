@@ -3,7 +3,7 @@ import { colors } from "../theme";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 
-import { Logos } from "../components/detail/logos";
+import { DetailLogos } from "../components/detail/detailLogos";
 import { PriceBox } from "../components/detail/priceBox";
 import { AffiliateButton } from "../components/detail/affiliateButton";
 import { Notes } from "../components/detail/notes";
@@ -12,6 +12,7 @@ import { BlockingFee } from "../components/detail/blockingFee";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { ScrollView } from "react-native-gesture-handler";
+import React from "react";
 
 function findTariffCondition({
 	tariffConditions,
@@ -27,7 +28,7 @@ function findTariffCondition({
 	);
 }
 
-export function DetailScreen({ route }): JSX.Element {
+export function DetailScreen({ route }: { route: any }): JSX.Element {
 	const [operators, operatorId, tariffConditions] = useAppStore(
 		useShallow((state) => [
 			state.operators,
@@ -64,7 +65,11 @@ export function DetailScreen({ route }): JSX.Element {
 			}}
 		>
 			<ScrollView style={{ paddingTop: 16 }} touchAction={"none"}>
-				<Logos tariff={tariff} operatorImageUrl={operator.imageUrl} />
+				<DetailLogos
+					tariff={tariff}
+					operatorImageUrl={operator!.imageUrl}
+					operatorName={operator!.name}
+				/>
 				<View
 					style={{
 						flexDirection: "row",

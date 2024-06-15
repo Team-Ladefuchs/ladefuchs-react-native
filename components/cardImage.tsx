@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { HighlightCorner } from "./detail/highlightCorner";
 import React from "react";
+import { colors } from "../theme";
 
 interface Props {
 	tariff: Tariff;
@@ -23,18 +24,22 @@ interface Props {
 export function CardImage({
 	tariff,
 	showHighlightCorner = false,
+	width = 80,
 	style: styleProp,
 }: Props): JSX.Element {
 	const image = () => {
 		if (!tariff.imageUrl) {
 			return (
 				<Text
+					numberOfLines={3}
 					style={{
+						fontFamily: "RobotoCondensed",
 						height: "100%",
 						overflow: "hidden",
+						color: "#fff",
 						alignContent: "center",
 						marginHorizontal: 6,
-						marginVertical: 6,
+						marginVertical: 4,
 						fontSize: 12,
 					}}
 				>
@@ -53,7 +58,7 @@ export function CardImage({
 		);
 	};
 	return (
-		<View style={{ ...styles.cardImageContainer, ...styleProp }}>
+		<View style={{ ...styles.cardImageContainer, ...styleProp, width }}>
 			{showHighlightCorner && <HighlightCorner />}
 			{image()}
 		</View>
@@ -72,7 +77,7 @@ export const dropShadow = {
 } satisfies StyleProp<ViewStyle>;
 
 const card = {
-	backgroundColor: "#fff",
+	backgroundColor: colors.ladefuchsOrange,
 	borderRadius: 4,
 	aspectRatio: 1.6,
 } satisfies StyleProp<ViewStyle>;

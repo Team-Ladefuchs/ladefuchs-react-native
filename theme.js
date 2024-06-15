@@ -7,7 +7,7 @@ const colors = {
 	ladefuchsDarkGrayBackground: "rgba(194,180,156,0.6)", //dunkler Balken
 	ladefuchsDunklerBalken: "#E0D7C8",
 	text: "#343a40",
-	ladefuchsOrange: "#f45c2d",
+	ladefuchsOrange: "#F2642D",
 	ladefuchsGrayTextColor: "rgba(0, 0, 0, 0.5)",
 };
 

@@ -12,7 +12,7 @@ import React from "react";
 export function AffiliateButton({
 	link,
 }: {
-	link: string | null;
+	link: string | null | undefined;
 }): JSX.Element {
 	if (!link) {
 		return <></>;

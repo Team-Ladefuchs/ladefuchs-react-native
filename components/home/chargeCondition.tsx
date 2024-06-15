@@ -38,18 +38,18 @@ export function ChargeCondition({
 		navigator.navigate("detailScreen", { tariff, tariffCondition });
 	};
 	return (
-		<View style={styles.cardAndPriceContainer}>
-			<TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+		<TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+			<View style={styles.cardAndPriceContainer}>
 				<CardImage
 					tariff={tariff}
 					showHighlightCorner={showHighlightCorner}
 				/>
-			</TouchableOpacity>
 
-			<Text style={styles.priceText}>
-				{formatNumber(tariffCondition.pricePerKwh)}
-			</Text>
-		</View>
+				<Text style={styles.priceText}>
+					{formatNumber(tariffCondition.pricePerKwh)}
+				</Text>
+			</View>
+		</TouchableOpacity>
 	);
 }
 

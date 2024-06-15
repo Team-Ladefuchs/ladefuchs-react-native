@@ -27,7 +27,9 @@ import {
 } from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
+import { disableAutoFontScaling } from "./functions/util";
 
+disableAutoFontScaling();
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 
@@ -76,6 +78,7 @@ function AppWrapper(): JSX.Element {
 	const [fontsLoaded] = useFonts({
 		Bitter: require("./assets/fonts/Bitter-Italic.ttf"),
 		Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
+		RobotoCondensed: require("./assets/fonts/Roboto-Condensed-Bold.ttf"),
 	});
 	if (!fontsLoaded) {
 		return <View></View>;

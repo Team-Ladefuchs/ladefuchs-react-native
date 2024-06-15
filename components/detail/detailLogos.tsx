@@ -4,13 +4,18 @@ import { CardImage } from "../cardImage";
 import { Tariff } from "../../types/tariff";
 import React from "react";
 
-export function Logos({
+interface Props {
+	tariff: Tariff;
+	operatorName: string;
+	operatorImageUrl: string | null;
+}
+
+export function DetailLogos({
 	tariff,
 	operatorImageUrl,
-}: {
-	tariff: Tariff;
-	operatorImageUrl: string | null;
-}): JSX.Element {
+	operatorName,
+}: Props): JSX.Element {
+	operatorImageUrl = null;
 	let operatorImage = operatorImageUrl
 		? { uri: operatorImageUrl, ...authHeader }
 		: require("@assets/cpo_generic.png");
@@ -27,7 +32,7 @@ export function Logos({
 		>
 			<CardImage
 				tariff={tariff}
-				width={88}
+				width={90}
 				style={{
 					transform: [{ rotate: "-15deg" }],
 				}}
@@ -46,19 +51,30 @@ export function Logos({
 					<View
 						style={{
 							position: "absolute",
-							top: "50%",
+							top: "25%",
 							left: "50%",
+							// backgroundColor: "red",
+							width: 60,
 							transform: [
-								{ translateX: -10 },
-								{ translateY: -10 },
+								{ translateX: -6 },
+								{ translateY: -12 },
 							],
-							backgroundColor: "rgba(0, 0, 0, 0.2)",
-							padding: 5,
+							paddingHorizontal: 4,
 						}}
 					>
-						{/* hier dann String aus operatorURL */}
-						<Text style={{ color: "white", textAlign: "center" }}>
-							Operator
+						<Text
+							style={{
+								color: "white",
+								paddingHorizontal: "auto",
+								fontSize: 15,
+								fontFamily: "RobotoCondensed",
+								textAlign: "center",
+							}}
+						>
+							{operatorName.replace(
+								"Stadtwerke",
+								"Stadt\u2010werke"
+							)}
 						</Text>
 					</View>
 				)}

@@ -1,3 +1,5 @@
+import { Text } from "react-native";
+
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
 	const len1 = list1.length;
 	const len2 = list2.length;
@@ -54,4 +56,14 @@ export function repeatItemsByFrequency<T extends { frequency: number }>(
 	items: T[]
 ): T[] {
 	return items.flatMap((item) => repeatNTimes(item, item.frequency));
+}
+
+export function disableAutoFontScaling(): void {
+	interface TextWithDefaultProps extends Text {
+		defaultProps?: { allowFontScaling?: boolean };
+	}
+	(Text as unknown as TextWithDefaultProps).defaultProps =
+		(Text as unknown as TextWithDefaultProps).defaultProps || {};
+	(Text as unknown as TextWithDefaultProps).defaultProps!.allowFontScaling =
+		false;
 }

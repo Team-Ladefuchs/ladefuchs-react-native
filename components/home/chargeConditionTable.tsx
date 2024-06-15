@@ -67,7 +67,7 @@ export function ChargeConditionTable() {
 
 	return (
 		<FlatList
-			ref={flatListRef}
+			ref={flatListRef as any}
 			data={zipTariffConditions}
 			renderItem={renderItem}
 			scrollsToTop={true}
@@ -80,7 +80,7 @@ export function ChargeConditionTable() {
 
 function conditionKey(condition: TariffCondition | null): string {
 	if (!condition) {
-		return null;
+		return "";
 	}
 
 	return (
