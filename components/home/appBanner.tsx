@@ -15,7 +15,14 @@ import { useAppStore } from "../../state/state";
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
 	if (!banner) {
-		return <View></View>;
+		return (
+			<View
+				style={{
+					backgroundColor: colors.ladefuchsDarkBackground,
+					flex: 16,
+				}}
+			></View>
+		);
 	}
 	const { bannerType, imageUrl, affiliateLinkUrl } = banner;
 	const width = "85%";
