@@ -26,7 +26,7 @@ export function AppHeader(): JSX.Element {
 	return (
 		<SafeAreaView style={styles.headerContainer}>
 			<StatusBar
-				barStyle="dark-content"
+				barStyle="default"
 				backgroundColor={colors.ladefuchsLightBackground}
 			/>
 			<TouchableOpacity

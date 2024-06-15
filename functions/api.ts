@@ -23,16 +23,18 @@ export const authHeader = {
 	},
 } as const;
 
+export const jsonHeader = {
+	headers: {
+		...authHeader.headers,
+		Accept: "application/json",
+	},
+} as const;
+
 export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 	try {
 		const response = await fetch(
 			`${apiPath}/v3/operators?standard=${standard}`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
-			}
+			jsonHeader
 		);
 		const data = (await response.json()) as OperatorsResponse;
 		return data.operators;
@@ -50,12 +52,7 @@ export async function fetchTariffs({
 	try {
 		const response = await fetch(
 			`${apiPath}/v3/tariffs?standard=${standard}`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
-			}
+			jsonHeader
 		);
 		const data = (await response.json()) as TariffResponse;
 		return data.tariffs;
@@ -74,9 +71,7 @@ export async function fetchChargingConditions(requestBody: {
 		const response = await fetch(`${apiPath}/v3/conditions`, {
 			method: "POST",
 			headers: {
-				...authHeader.headers,
-				"Content-Type": "application/json",
-				Accept: "application/json",
+				...jsonHeader.headers,
 			},
 			body: JSON.stringify(requestBody),
 		});
@@ -112,12 +107,7 @@ function chargeConditionToHashMap(
 
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
-		const response = await fetch(`${apiPath}/v3/banners`, {
-			headers: {
-				...authHeader.headers,
-				Accept: "application/json",
-			},
-		});
+		const response = await fetch(`${apiPath}/v3/banners`, jsonHeader);
 
 		return response.json();
 	} catch (error) {
@@ -130,20 +120,13 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 	try {
 		const response = await fetch(
 			`${apiPath}/v3/banners/chargeprice/advertisement`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
-			}
+			jsonHeader
 		);
 		return response.json();
 	} catch {
 		return null;
 	}
 }
-
-const storageKey = "ladefuchsOfflineCache";
 
 async function getBanner(): Promise<BannerData> {
 	const bannerType = await getBannerType();
@@ -162,6 +145,9 @@ interface OfflineData {
 	tariffs: Tariff[];
 	chargingConditions: ChargingCondition[];
 }
+
+const storageKey = "ladefuchsOfflineCache";
+
 export async function fetchAllApiData({
 	writeToCache,
 }: {

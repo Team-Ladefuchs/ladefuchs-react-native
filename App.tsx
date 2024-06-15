@@ -17,10 +17,8 @@ import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import { StatusBar } from "react-native";
 import { useAppStore } from "./state/state";
 import { useShallow } from "zustand/react/shallow";
-import { useCustomFonts } from "./hooks/customFont";
 import { useAppStateListener } from "./hooks/AppStateListener";
 
 disableAutoFontScaling();
@@ -62,15 +60,8 @@ function AppWrapper(): JSX.Element {
 		setAppData(allApiData.data);
 	}, [allApiData.data, allApiData.error]);
 
-	const fontsLoaded = useCustomFonts();
-	const statusBar = <StatusBar barStyle="default" backgroundColor="#fff" />;
-	if (!fontsLoaded) {
-		return statusBar;
-	}
-
 	return (
 		<NavigationContainer>
-			{statusBar}
 			<RootStack.Navigator>
 				<RootStack.Group>
 					<RootStack.Screen
