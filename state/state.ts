@@ -20,12 +20,13 @@ export interface BannerData {
 }
 
 export interface AppState extends AppData {
-	setAppData: (appData: AppData) => Promise<void>;
+	setChargeConditions: (appData: ChargeConditionData) => Promise<void>;
 	operatorId: string;
 	setOperatorId: (id: string) => void;
 	tariffConditions: TariffCondition[];
 	setTariffConditions: (tariffs: TariffCondition[]) => void;
 	banner: Banner | null;
+	setBanners: (data: BannerData) => void;
 	appError: Error | null;
 	setAppError: (value: Error | null) => void;
 	reloadBanner: () => void;
@@ -34,13 +35,8 @@ export interface AppState extends AppData {
 export const useAppStore = create<AppState>((set, get) => {
 	let ladefuchsBannerIndex = 0;
 	return {
-		setAppData: async (appData): Promise<void> => {
-			const {
-				operators,
-				ladefuchsBanners,
-				chargePriceAdBanner,
-				bannerType,
-			} = appData;
+		setChargeConditions: async (appData): Promise<void> => {
+			const { operators } = appData;
 			let { operatorId } = get();
 			if (!operatorId) {
 				operatorId = operators[0]?.identifier ?? "";
@@ -50,14 +46,20 @@ export const useAppStore = create<AppState>((set, get) => {
 					...state,
 					...appData,
 					operatorId,
-					banner: selectLadefuchsBanner({
-						...state,
-						ladefuchsBanners,
-						chargePriceAdBanner,
-					}),
-					bannerType,
 				}));
 			}
+		},
+		setBanners(data) {
+			const { bannerType, ladefuchsBanners, chargePriceAdBanner } = data;
+			set((state) => ({
+				...state,
+				banner: selectLadefuchsBanner({
+					...state,
+					ladefuchsBanners,
+					chargePriceAdBanner,
+				}),
+				bannerType,
+			}));
 		},
 		operatorId: "",
 		setOperatorId: (operatorId) =>

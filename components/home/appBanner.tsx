@@ -50,7 +50,7 @@ export function AppBanner(): JSX.Element {
 		<View
 			style={{
 				backgroundColor: colors.ladefuchsDarkBackground,
-				alignItems: "center", // Center the content horizontally
+				alignItems: "center",
 				overflow: "visible",
 				flex: 16,
 				display: "flex",

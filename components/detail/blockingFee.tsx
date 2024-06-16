@@ -4,7 +4,7 @@ import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
-import { useFormatNumber } from "../../hooks/numberUtil";
+import { useFormatNumber } from "../../hooks/numberFormat";
 
 export function BlockingFee({
 	feeStart,

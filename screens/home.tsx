@@ -37,29 +37,31 @@ export function HomeScreen(): JSX.Element {
 	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
 
 	if (appError) {
-		<View
-			style={{
-				justifyContent: "center",
-				alignItems: "center",
-				alignContent: "center",
-				marginTop: 50,
-			}}
-		>
-			<Image
-				source={require("../assets/ladefuchs.png")}
-				style={{ width: 200, height: 200 }}
-			/>
-			<Text
+		return (
+			<View
 				style={{
-					color: "red",
-					textAlign: "center",
-					fontSize: 20,
-					marginTop: 20,
+					justifyContent: "center",
+					alignItems: "center",
+					alignContent: "center",
+					marginTop: 50,
 				}}
 			>
-				Sorry, you are offline!
-			</Text>
-		</View>;
+				<Image
+					source={require("../assets/ladefuchs.png")}
+					style={{ width: 200, height: 200 }}
+				/>
+				<Text
+					style={{
+						color: "red",
+						textAlign: "center",
+						fontSize: 20,
+						marginTop: 20,
+					}}
+				>
+					Sorry, you are offline!
+				</Text>
+			</View>
+		);
 	}
 
 	return (

@@ -10,7 +10,7 @@ import { Tariff } from "../../types/tariff";
 import { TariffCondition } from "../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../cardImage";
-import { useFormatNumber } from "../../hooks/numberUtil";
+import { useFormatNumber } from "../../hooks/numberFormat";
 
 interface ChargeCardModel {
 	tariff: Tariff | null | undefined;

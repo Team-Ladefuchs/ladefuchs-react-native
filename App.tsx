@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text } from "react-native";
+import { AppState, AppStateStatus, Platform, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -10,20 +10,24 @@ import { AppHeader } from "./components/header/appHeader";
 import {
 	QueryClient,
 	QueryClientProvider,
-	useQuery,
+	focusManager,
 } from "@tanstack/react-query";
-import { fetchAllApiData } from "./functions/api";
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
-import { useAppStore } from "./state/state";
-import { useShallow } from "zustand/react/shallow";
-import { useAppStateListener } from "./hooks/AppStateListener";
+
+import { useFetchAppData } from "./hooks/appData";
 
 disableAutoFontScaling();
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
+
+function onAppStateChange(status: AppStateStatus) {
+	if (Platform.OS !== "web") {
+		focusManager.setFocused(status === "active");
+	}
+}
 
 export default function App(): JSX.Element {
 	return (
@@ -34,32 +38,17 @@ export default function App(): JSX.Element {
 }
 
 function AppWrapper(): JSX.Element {
-	const [setAppData, setAppError, operators] = useAppStore(
-		useShallow((state) => [
-			state.setAppData,
-			state.setAppError,
-			state.operators,
-		])
-	);
-
-	const allApiData = useQuery({
-		queryKey: ["AllApiData"],
-		queryFn: async () => {
-			return await fetchAllApiData({
-				writeToCache: !operators.length,
-			});
-		},
-	});
-
-	useAppStateListener();
 	useEffect(() => {
-		setAppError(allApiData?.error);
-		if (!allApiData.data) {
-			return;
-		}
-		setAppData(allApiData.data);
-	}, [allApiData.data, allApiData.error]);
+		const subscription = AppState.addEventListener(
+			"change",
+			onAppStateChange
+		);
 
+		return () => {
+			subscription.remove();
+		};
+	}, []);
+	useFetchAppData();
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
@@ -67,7 +56,7 @@ function AppWrapper(): JSX.Element {
 					<RootStack.Screen
 						name="Home"
 						component={HomeScreen}
-						options={({}) => ({
+						options={() => ({
 							header: () => {
 								return <AppHeader />;
 							},

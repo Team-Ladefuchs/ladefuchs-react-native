@@ -1,10 +1,10 @@
-import { AppData, BannerData, ChargeConditionData } from "../state/state";
+import { BannerData, ChargeConditionData } from "../state/state";
 import {
 	getBannerType,
 	retrieveFromStorage,
 	saveToStorage,
 } from "../state/storage";
-import { Banner, BannerType, LadefuchsBanner } from "../types/banner";
+import { Banner, LadefuchsBanner } from "../types/banner";
 import {
 	ChargeMode,
 	ChargingCondition,
@@ -143,38 +143,73 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 	}
 }
 
-const storageKey = "ladefuchsOfflineCache";
+const storageSet = {
+	banners: "ladefuchsOfflineCache",
+	chargeConditionData: "chargeConditionData",
+};
 
-async function getBanner(): Promise<BannerData> {
+export async function getBanners({
+	writeToCache,
+}: {
+	writeToCache: boolean;
+}): Promise<BannerData> {
 	const bannerType = await getBannerType();
 	const [ladefuchsBanners, chargePriceAdBanner] = await Promise.all([
 		fetchAllLadefuchsBanners(),
 		bannerType === "chargePrice" ? fetchChargePriceAdBanner() : null,
 	]);
 
+	if (!ladefuchsBanners.length) {
+		const offlineData = await retrieveFromStorage<BannerData>(
+			storageSet.banners
+		);
+		if (!offlineData) {
+			throw new Error("The Api is maybe down");
+		}
+		return { ...offlineData, bannerType };
+	}
+
+	if (writeToCache) {
+		await saveToStorage<Partial<BannerData>>(storageSet.banners, {
+			ladefuchsBanners,
+			chargePriceAdBanner,
+		});
+	}
+
 	return { bannerType, ladefuchsBanners, chargePriceAdBanner };
 }
 
-interface OfflineData {
-	ladefuchsBanners: LadefuchsBanner[];
-	chargePriceAdBanner?: Banner | null;
+interface OfflineChargeConditionData {
 	operators: Operator[];
 	tariffs: Tariff[];
 	chargingConditions: ChargingCondition[];
 }
-export async function fetchAllApiData({
+
+export async function getAllChargeConditions({
 	writeToCache,
 }: {
 	writeToCache: boolean;
-}): Promise<AppData> {
-	const [
-		operators,
-		tariffs,
-		{ bannerType, ladefuchsBanners, chargePriceAdBanner },
-	] = await Promise.all([
+}): Promise<ChargeConditionData> {
+	async function getOfflineChargeConditionData() {
+		const offlineData =
+			await retrieveFromStorage<OfflineChargeConditionData>(
+				storageSet.chargeConditionData
+			);
+		if (!offlineData) {
+			throw new Error("The Api is maybe down");
+		}
+		return {
+			operators: offlineData.operators,
+			tariffs: tariffsToHashMap(offlineData.tariffs),
+			chargingConditions: chargeConditionToHashMap(
+				offlineData.chargingConditions
+			),
+		};
+	}
+
+	const [operators, tariffs] = await Promise.all([
 		fetchOperators({ standard: true }),
 		fetchTariffs({ standard: true }),
-		getBanner(),
 	]);
 
 	const chargingConditions = await fetchChargingConditions({
@@ -184,41 +219,22 @@ export async function fetchAllApiData({
 	});
 
 	if (!chargingConditions.length) {
-		return await getFromLocaleCache(bannerType);
+		return await getOfflineChargeConditionData();
 	}
 	if (writeToCache) {
-		await saveToStorage<OfflineData>(storageKey, {
-			operators,
-			tariffs,
-			chargingConditions,
-			ladefuchsBanners,
-			chargePriceAdBanner,
-		});
+		await saveToStorage<OfflineChargeConditionData>(
+			storageSet.chargeConditionData,
+			{
+				operators,
+				tariffs,
+				chargingConditions,
+			}
+		);
 	}
 
 	return {
-		ladefuchsBanners,
-		chargePriceAdBanner,
-		bannerType,
 		operators,
 		tariffs: tariffsToHashMap(tariffs),
 		chargingConditions: chargeConditionToHashMap(chargingConditions),
-	};
-}
-
-async function getFromLocaleCache(bannerType: BannerType) {
-	const offlineData = await retrieveFromStorage<OfflineData>(storageKey);
-	if (!offlineData) {
-		throw new Error("The Api is maybe down");
-	}
-	return {
-		ladefuchsBanners: offlineData.ladefuchsBanners,
-		chargePriceAdBanner: offlineData.chargePriceAdBanner,
-		operators: offlineData.operators,
-		bannerType,
-		tariffs: tariffsToHashMap(offlineData.tariffs),
-		chargingConditions: chargeConditionToHashMap(
-			offlineData.chargingConditions
-		),
 	};
 }
