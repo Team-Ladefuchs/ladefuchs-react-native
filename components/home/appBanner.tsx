@@ -14,21 +14,9 @@ import { useAppStore } from "../../state/state";
 
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
-	if (!banner) {
-		return (
-			<View
-				style={{
-					backgroundColor: colors.ladefuchsDarkBackground,
-					flex: 16,
-				}}
-			></View>
-		);
-	}
-	const { bannerType, imageUrl, affiliateLinkUrl } = banner;
 	const width = "85%";
-
 	const imageStyle = (): StyleProp<ImageStyle> => {
-		if (bannerType === "chargePrice") {
+		if (banner?.bannerType === "chargePrice") {
 			return {
 				width,
 				aspectRatio: "6.4",
@@ -57,25 +45,31 @@ export function AppBanner(): JSX.Element {
 				justifyContent: "center",
 			}}
 		>
-			<TouchableWithoutFeedback
-				onPress={async () => await Linking.openURL(affiliateLinkUrl)}
-				style={{ marginTop: 20 }}
-			>
-				<Image
-					resizeMode="contain" // Ensure the image fits within the specified dimensions
-					source={{ uri: imageUrl, ...authHeader }}
-					style={imageStyle()}
-				/>
-			</TouchableWithoutFeedback>
-			{bannerType === "chargePrice" && (
-				<View
-					style={{
-						backgroundColor: "white",
-						width,
-						marginTop: -5,
-						height: "100%",
-					}}
-				/>
+			{banner && (
+				<>
+					<TouchableWithoutFeedback
+						onPress={async () =>
+							await Linking.openURL(banner.imageUrl)
+						}
+						style={{ marginTop: 20 }}
+					>
+						<Image
+							resizeMode="contain"
+							source={{ uri: banner.imageUrl, ...authHeader }}
+							style={imageStyle()}
+						/>
+					</TouchableWithoutFeedback>
+					{banner.bannerType === "chargePrice" && (
+						<View
+							style={{
+								backgroundColor: "white",
+								width,
+								marginTop: -5,
+								height: "100%",
+							}}
+						/>
+					)}
+				</>
 			)}
 		</View>
 	);

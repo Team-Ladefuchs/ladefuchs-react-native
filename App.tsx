@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { AppState, AppStateStatus, Platform, Text } from "react-native";
+import {
+	AppState,
+	AppStateStatus,
+	Platform,
+	StatusBar,
+	Text,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
