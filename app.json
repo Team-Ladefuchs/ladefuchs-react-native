@@ -23,7 +23,7 @@
       }
     },
     "android": {
-      "versionCode": 218,
+      "versionCode": 219,
       "adaptiveIcon": {
         "foregroundImage": "./assets/android_logo.png",
         "backgroundColor": "#F3EEE2"
@@ -43,20 +43,6 @@
           "ios": {
             "deploymentTarget": "16.0"
           }
-        }
-      ],
-      [
-        "expo-native-fonts",
-        {
-          "Roboto": [
-            {
-              "path": "./assets/fonts/Roboto-Bold.ttf"
-            }
-          ],
-          "Bitter": [{ "path": "./assets/fonts/Bitter-Italic.ttf" }],
-          "RobotoCondensed": [
-            { "path": "./assets/fonts/Roboto-Condensed-Bold.ttf" }
-          ]
         }
       ]
     ]

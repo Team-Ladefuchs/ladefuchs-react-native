@@ -18,6 +18,7 @@ import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
 import { useFetchAppData } from "./hooks/fetchAppData";
+import { useCustomFonts } from "./hooks/customFont";
 
 disableAutoFontScaling();
 const queryClient = new QueryClient();
@@ -47,8 +48,15 @@ function AppWrapper(): JSX.Element {
 		return () => {
 			subscription.remove();
 		};
-	}, []);
+	}, [onAppStateChange]);
+
 	useFetchAppData();
+
+	const fontLoaded = useCustomFonts();
+	if (!fontLoaded) {
+		return null;
+	}
+
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
