@@ -61,9 +61,9 @@ const hyphenTextMap: Record<string, string> = {
 };
 
 export function hyphenText(value: string): string {
-	const result = hyphenTextMap[value];
-	if (result) {
-		return result;
+	let result = value;
+	for (const [key, value] of Object.entries(hyphenTextMap)) {
+		result = value.replace(key, value);
 	}
-	return value;
+	return result;
 }

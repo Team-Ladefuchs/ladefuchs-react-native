@@ -53,6 +53,8 @@ export const useAppStore = create<AppState>((set, get) => {
 			const { bannerType, ladefuchsBanners, chargePriceAdBanner } = data;
 			set((state) => ({
 				...state,
+				ladefuchsBanners,
+				chargePriceAdBanner,
 				banner: selectLadefuchsBanner({
 					...state,
 					ladefuchsBanners,
@@ -80,6 +82,7 @@ export const useAppStore = create<AppState>((set, get) => {
 		},
 		reloadBanner: () => {
 			const { banner, ladefuchsBanners } = get();
+
 			if (ladefuchsBanners.length < 2) {
 				return;
 			}
