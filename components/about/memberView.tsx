@@ -52,8 +52,8 @@ export function Memberview(): JSX.Element {
 			imageSource: require("@assets/team/team_flow.jpg"),
 			links: [
 				{
-					text: "@flowinho",
-					url: "https://podcasts.social/@audiodump",
+					text: "",
+					url: "",
 					icon: MastodonIcon,
 				},
 				{
@@ -98,6 +98,40 @@ export function Memberview(): JSX.Element {
 				},
 			],
 		},
+		{
+			name: "RODDI",
+			role: "iOSfuchs",
+			imageSource: require("@assets/team/team_roddi.jpg"),
+			links: [
+				{
+					text: "@roddi",
+					url: "https://mastodon.social/@roddi",
+					icon: MastodonIcon,
+				},
+				{
+					text: "",
+					url: "",
+					icon: MailIcon,
+				},
+			],
+		},
+		{
+			name: "THORSTEN",
+			role: "Androidfuchs",
+			imageSource: require("@assets/team/team_thorsten.jpg"),
+			links: [
+				{
+					text: "",
+					url: "",
+					icon: MastodonIcon,
+				},
+				{
+					text: "android@ladefuchs.app",
+					url: "mailto:android@ladefuchs.app",
+					icon: MailIcon,
+				},
+			],
+		},
 	];
 
 	return (
@@ -118,39 +152,41 @@ export function Memberview(): JSX.Element {
 					<View style={{ paddingVertical: 10 }}>
 						<Text style={styles.headLine}>{member.name}</Text>
 						<Text style={styles.memberText}>{member.role}</Text>
-						{member.links.map((line, idx) => (
-							<TouchableWithoutFeedback
-								key={idx}
-								onPress={async () =>
-									await Linking.openURL(line.url)
-								}
-							>
-								<View
-									style={{
-										flexDirection: "row",
-										alignItems: "center",
-									}}
+						{member.links.map((line, idx) =>
+							line.text && line.url ? (
+								<TouchableWithoutFeedback
+									key={idx}
+									onPress={async () =>
+										await Linking.openURL(line.url)
+									}
 								>
-									<line.icon
-										width={20}
-										height={20}
+									<View
 										style={{
-											marginRight: 5,
-										}}
-									/>
-									<Text
-										style={{
-											fontFamily: "Bitter",
-											fontSize: 15,
-											lineHeight: 20,
-											paddingVertical: 2,
+											flexDirection: "row",
+											alignItems: "center",
 										}}
 									>
-										{line.text}
-									</Text>
-								</View>
-							</TouchableWithoutFeedback>
-						))}
+										<line.icon
+											width={20}
+											height={20}
+											style={{
+												marginRight: 5,
+											}}
+										/>
+										<Text
+											style={{
+												fontFamily: "Bitter",
+												fontSize: 15,
+												lineHeight: 20,
+												paddingVertical: 2,
+											}}
+										>
+											{line.text}
+										</Text>
+									</View>
+								</TouchableWithoutFeedback>
+							) : null
+						)}
 					</View>
 				</View>
 			))}
