@@ -17,7 +17,7 @@ import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
-import { useFetchAppData } from "./hooks/appData";
+import { useFetchAppData } from "./hooks/fetchAppData";
 
 disableAutoFontScaling();
 const queryClient = new QueryClient();
