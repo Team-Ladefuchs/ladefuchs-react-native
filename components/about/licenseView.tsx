@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { styles } from "../../theme";
+import Constants from 'expo-constants';
 
 export function AppFooter() {
 	return (
@@ -11,7 +12,7 @@ export function AppFooter() {
 				Handgefertigt aus ❤️ zur Elektromobilität in 👑 Aachen, 🥨
 				Fürstenfeldbruck, 🏰 Ludwigsburg, ⚒️ Ahlen und 🐻 Berlin
 			</Text>
-			<Text style={styles.sponsorText}>Ladefuchs Version 2.1.0</Text>
+			<Text style={styles.sponsorText}>Ladefuchs Version: {Constants.manifest.version}</Text>
 		</View>
 	);
 }
