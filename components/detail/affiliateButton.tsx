@@ -18,7 +18,7 @@ export function AffiliateButton({
 		return <></>;
 	}
 	return (
-		<SafeAreaView style={{ marginTop: "auto" }}>
+		<SafeAreaView style={{ marginTop: "auto", marginHorizontal: 16 }}>
 			<TouchableOpacity
 				activeOpacity={0.8}
 				style={styles.button}
