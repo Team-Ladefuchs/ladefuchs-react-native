@@ -21,46 +21,53 @@ interface Props {
 	style?: ImageStyle;
 }
 
+function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
+	return (
+		<View
+			style={{
+				backgroundColor: colors.ladefuchsOrange,
+				height: "100%",
+				overflow: "hidden",
+				alignContent: "center",
+				borderRadius: 4,
+			}}
+		>
+			<Text
+				numberOfLines={3}
+				style={{
+					marginHorizontal: 6,
+					marginVertical: 4,
+					fontFamily: "RobotoCondensed",
+					color: "#fff",
+					fontSize: 12,
+				}}
+			>
+				{tariff.name}
+			</Text>
+		</View>
+	);
+}
+
 export function CardImage({
 	tariff,
 	showHighlightCorner = false,
 	width = 80,
 	style: styleProp,
 }: Props): JSX.Element {
-	const image = () => {
-		if (!tariff.imageUrl) {
-			return (
-				<Text
-					numberOfLines={3}
-					style={{
-						fontFamily: "RobotoCondensed",
-						height: "100%",
-						overflow: "hidden",
-						color: "#fff",
-						alignContent: "center",
-						marginHorizontal: 6,
-						marginVertical: 4,
-						fontSize: 12,
-					}}
-				>
-					{tariff.name}
-				</Text>
-			);
-		}
-		return (
-			<Image
-				source={{
-					uri: tariff.imageUrl,
-					...authHeader,
-				}}
-				style={{ ...styles.cardImage }}
-			/>
-		);
-	};
 	return (
 		<View style={{ ...styles.cardImageContainer, ...styleProp, width }}>
 			{showHighlightCorner && <HighlightCorner />}
-			{image()}
+			{!tariff.imageUrl ? (
+				<FallBack tariff={tariff} />
+			) : (
+				<Image
+					source={{
+						uri: tariff.imageUrl,
+						...authHeader,
+					}}
+					style={{ ...styles.cardImage }}
+				/>
+			)}
 		</View>
 	);
 }
@@ -77,7 +84,7 @@ export const dropShadow = {
 } satisfies StyleProp<ViewStyle>;
 
 const card = {
-	backgroundColor: colors.ladefuchsOrange,
+	backgroundColor: "#fff",
 	borderRadius: 4,
 	aspectRatio: 1.6,
 } satisfies StyleProp<ViewStyle>;
