@@ -52,8 +52,8 @@ export function Memberview(): JSX.Element {
 			imageSource: require("@assets/team/team_flow.jpg"),
 			links: [
 				{
-					text: "",
-					url: "",
+					text: "@flowinho",
+					url: "https://chaos.social/@flowinho",
 					icon: MastodonIcon,
 				},
 				{
@@ -92,8 +92,8 @@ export function Memberview(): JSX.Element {
 					icon: MastodonIcon,
 				},
 				{
-					text: "sven@ladefuchs.app",
-					url: "mailto:sven@ladefuchs.app",
+					text: "",
+					url: "",
 					icon: MailIcon,
 				},
 			],
@@ -128,6 +128,23 @@ export function Memberview(): JSX.Element {
 				{
 					text: "android@ladefuchs.app",
 					url: "mailto:android@ladefuchs.app",
+					icon: MailIcon,
+				},
+			],
+		},
+		{
+			name: "SAMUEL",
+			role: "Swiftfuchs",
+			imageSource: require("@assets/team/team_samuel.jpg"),
+			links: [
+				{
+					text: "@SamuelMellert",
+					url: "https://digitalcourage.social/@SamuelMellert",
+					icon: MastodonIcon,
+				},
+				{
+					text: "",
+					url: "",
 					icon: MailIcon,
 				},
 			],
@@ -178,7 +195,7 @@ export function Memberview(): JSX.Element {
 												fontFamily: "Bitter",
 												fontSize: 15,
 												lineHeight: 20,
-												paddingVertical: 2,
+												paddingVertical: 3,
 											}}
 										>
 											{line.text}
