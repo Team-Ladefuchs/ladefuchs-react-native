@@ -132,23 +132,6 @@ export function Memberview(): JSX.Element {
 				},
 			],
 		},
-		{
-			name: "SAMUEL",
-			role: "Swiftfuchs",
-			imageSource: require("@assets/team/team_samuel.jpg"),
-			links: [
-				{
-					text: "@SamuelMellert",
-					url: "https://digitalcourage.social/@SamuelMellert",
-					icon: MastodonIcon,
-				},
-				{
-					text: "",
-					url: "",
-					icon: MailIcon,
-				},
-			],
-		},
 	];
 
 	return (
