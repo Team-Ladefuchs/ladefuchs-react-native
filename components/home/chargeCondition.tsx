@@ -38,17 +38,19 @@ export function ChargeCondition({
 		navigator.navigate("detailScreen", { tariff, tariffCondition });
 	};
 	return (
-		<TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-			<View style={styles.cardAndPriceContainer}>
-				<CardImage
-					tariff={tariff}
-					showHighlightCorner={showHighlightCorner}
-				/>
+		<TouchableOpacity
+			onPress={onPress}
+			activeOpacity={0.8}
+			style={styles.cardAndPriceContainer}
+		>
+			<CardImage
+				tariff={tariff}
+				showHighlightCorner={showHighlightCorner}
+			/>
 
-				<Text style={styles.priceText}>
-					{formatNumber(tariffCondition.pricePerKwh)}
-				</Text>
-			</View>
+			<Text style={styles.priceText}>
+				{formatNumber(tariffCondition.pricePerKwh)}
+			</Text>
 		</TouchableOpacity>
 	);
 }
@@ -56,15 +58,15 @@ export function ChargeCondition({
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
 		height: 69,
-		display: "flex",
 		flex: 1,
+		display: "flex",
 		columnGap: 16,
 		alignContent: "center",
 		position: "relative",
 		justifyContent: "center",
-		flexDirection: "row", // Horizontal layout
-		alignItems: "center", // Align items vertically
-		paddingHorizontal: 24, // Adjust as needed
+		flexDirection: "row",
+		alignItems: "center",
+		paddingHorizontal: 24,
 	},
 	priceText: {
 		...Platform.select({
