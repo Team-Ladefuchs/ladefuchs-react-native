@@ -18,8 +18,12 @@
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "de",
+        "CFBundleLocalizations": ["de", "en"]
+      },
       "entitlements": {
-        "aps-environment": "production"
+        "aps-environment": "production",
       }
     },
     "android": {
