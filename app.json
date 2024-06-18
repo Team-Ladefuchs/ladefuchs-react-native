@@ -20,7 +20,7 @@
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",
-        "CFBundleLocalizations": ["de", "en"]
+        "CFBundleLocalizations": ["de"]
       },
       "entitlements": {
         "aps-environment": "production",
