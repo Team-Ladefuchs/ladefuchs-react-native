@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	View,
 	TouchableWithoutFeedback,
@@ -14,7 +14,9 @@ import { useAppStore } from "../../state/state";
 
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
+	const [imageLoaded, setImageLoaded] = useState(false);
 	const width = "85%";
+
 	const imageStyle = (): StyleProp<ImageStyle> => {
 		if (banner?.bannerType === "chargePrice") {
 			return {
@@ -34,6 +36,7 @@ export function AppBanner(): JSX.Element {
 			objectFit: "scale-down",
 		};
 	};
+
 	return (
 		<View
 			style={{
@@ -48,18 +51,23 @@ export function AppBanner(): JSX.Element {
 			{banner && (
 				<>
 					<TouchableWithoutFeedback
-						onPress={async () =>
-							await Linking.openURL(banner.affiliateLinkUrl)
-						}
+						onPress={async () => {
+							if (imageLoaded) {
+								await Linking.openURL(banner.affiliateLinkUrl);
+							}
+						}}
 						style={{ marginTop: 20 }}
 					>
 						<Image
 							resizeMode="contain"
 							source={{ uri: banner.imageUrl, ...authHeader }}
 							style={imageStyle()}
+							onLoad={() => setImageLoaded(true)}
+							onError={() => setImageLoaded(false)}
+							fadeDuration={0}
 						/>
 					</TouchableWithoutFeedback>
-					{banner.bannerType === "chargePrice" && (
+					{banner.bannerType === "chargePrice" && imageLoaded && (
 						<View
 							style={{
 								backgroundColor: "white",
