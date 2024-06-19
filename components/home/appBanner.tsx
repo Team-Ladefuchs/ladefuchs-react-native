@@ -51,9 +51,11 @@ export function AppBanner(): JSX.Element {
 			{banner && (
 				<>
 					<TouchableWithoutFeedback
-						onPress={async () =>
-							await Linking.openURL(banner.affiliateLinkUrl)
-						}
+						onPress={async () => {
+							if (imageLoaded) {
+								await Linking.openURL(banner.affiliateLinkUrl);
+							}
+						}}
 						style={{ marginTop: 20 }}
 					>
 						<Image
