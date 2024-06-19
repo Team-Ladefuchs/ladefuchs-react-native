@@ -37,6 +37,7 @@ export default function OperatorPicker(): JSX.Element {
 					itemTextStyle={{
 						fontSize: 21,
 					}}
+					value={operatorId}
 					itemHeight={40}
 					onValueChanged={({ item }) => {
 						setOperatorId(item.value);
@@ -55,7 +56,8 @@ export default function OperatorPicker(): JSX.Element {
 				width: "100%",
 				height: "100%",
 			}}
-			onValueChange={(operatorValue, _i) => {
+			onValueChange={(operatorValue) => {
+				console.log("event", operatorValue);
 				setOperatorId(operatorValue);
 			}}
 		>
