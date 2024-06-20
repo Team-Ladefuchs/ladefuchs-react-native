@@ -34,12 +34,12 @@ export function AppHeader(): JSX.Element {
 					await Linking.openURL("https://chargeprice.app")
 				}
 				activeOpacity={0.6}
-				style={styles.headerChargepriceIcon}
+				style={styles.headerWrapperChargepriceIcon}
 			>
 				<ChargepriceButton
 					width={110}
 					height={50}
-					style={styles.headerChargepriceIcon}
+					style={styles.chargepriceIcon}
 				/>
 			</TouchableOpacity>
 			<View style={{ marginBottom: -10 }}>
@@ -92,12 +92,13 @@ const styles = StyleSheet.create({
 		bottom: 15,
 		paddingRight: 16,
 	},
-	headerChargepriceIcon: {
-		...dropShadow,
+	headerWrapperChargepriceIcon: {
 		position: "absolute",
 		left: 8,
 		bottom: 5,
-		padding: 25, // Padding angepasst für größere Berührungsfläche
+	},
+	chargepriceIcon: {
+		...dropShadow,
 	},
 	headerTitle: {
 		color: colors.ladefuchsOrange,
