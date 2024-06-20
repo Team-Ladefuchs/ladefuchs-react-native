@@ -21,12 +21,10 @@
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",
         "CFBundleLocalizations": ["de"],
-        "UIDeviceFamily": [
-          1
-        ]
+        "UIDeviceFamily": [1]
       },
       "entitlements": {
-        "aps-environment": "production",
+        "aps-environment": "production"
       }
     },
     "android": {
@@ -35,7 +33,7 @@
         "resizeMode": "contain",
         "backgroundColor": "#F3EEE2"
       },
-      "versionCode": 221,
+      "versionCode": 222,
       "adaptiveIcon": {
         "foregroundImage": "./assets/android_logo.png",
         "backgroundColor": "#F3EEE2"
