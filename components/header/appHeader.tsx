@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		left: 8,
 		bottom: 5,
+		padding: 25, // Padding angepasst für größere Berührungsfläche
 	},
 	headerTitle: {
 		color: colors.ladefuchsOrange,
