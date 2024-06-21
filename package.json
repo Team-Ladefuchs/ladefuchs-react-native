@@ -31,7 +31,6 @@
     "react-native-screens": "^3.31.1",
     "react-native-svg": "15.3.0",
     "react-native-svg-transformer": "^1.4.0",
-    "typescript": "~5.4.5",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -39,6 +38,7 @@
     "@react-native-picker/picker": "2.7.7",
     "@types/hyphen": "^1.6.7",
     "eslint": "^9.5.0",
+    "typescript": "~5.4.5",
     "eslint-config-expo": "^7.1.2",
     "react-native-dotenv": "^3.4.11"
   },

@@ -5,7 +5,7 @@
     "version": "2.1.0",
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/ladefuchs.png",
