@@ -57,7 +57,6 @@ export default function OperatorPicker(): JSX.Element {
 				height: "100%",
 			}}
 			onValueChange={(operatorValue) => {
-				console.log("event", operatorValue);
 				setOperatorId(operatorValue);
 			}}
 		>

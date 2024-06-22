@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 				fontSize: 40,
 			},
 			default: {
-				fontSize: 50,
+				fontSize: 47,
 			},
 		}),
 	},

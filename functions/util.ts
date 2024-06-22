@@ -68,3 +68,24 @@ export function hyphenText(input: string): string {
 	}
 	return result;
 }
+
+export async function fetchWithTimeout(
+	url: string,
+	options: RequestInit = null,
+	timeout = 3000
+) {
+	const controller = new AbortController();
+	options.signal = controller.signal;
+
+	const timeoutId = setTimeout(function () {
+		controller.abort();
+	}, timeout);
+
+	try {
+		const response = await fetch(url, options);
+		clearTimeout(timeoutId);
+		return response;
+	} finally {
+		clearTimeout(timeoutId);
+	}
+}
