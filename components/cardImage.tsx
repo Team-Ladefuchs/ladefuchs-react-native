@@ -11,7 +11,7 @@ import {
 	Platform,
 } from "react-native";
 import { HighlightCorner } from "./detail/highlightCorner";
-import React from "react";
+import React, { useState } from "react";
 import { colors } from "../theme";
 
 interface Props {
@@ -44,6 +44,18 @@ function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
 			>
 				{tariff.name}
 			</Text>
+			<Image
+				source={require("@assets/blitz.png")}
+				resizeMethod={"scale"}
+				style={{
+					position: "absolute",
+					right: -2,
+					bottom: -2,
+					height: 23,
+					objectFit: "scale-down",
+					width: 23,
+				}}
+			/>
 		</View>
 	);
 }
@@ -54,13 +66,15 @@ export function CardImage({
 	width = 80,
 	style: styleProp,
 }: Props): JSX.Element {
+	const [imageError, setImageError] = useState(false);
 	return (
 		<View style={{ ...styles.cardImageContainer, ...styleProp, width }}>
 			{showHighlightCorner && <HighlightCorner />}
-			{!tariff.imageUrl ? (
+			{!tariff.imageUrl || imageError ? (
 				<FallBack tariff={tariff} />
 			) : (
 				<Image
+					onError={() => setImageError(true)}
 					source={{
 						uri: tariff.imageUrl,
 						...authHeader,

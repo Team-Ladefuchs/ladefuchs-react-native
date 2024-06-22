@@ -2,7 +2,7 @@ import { View, Image, Text } from "react-native";
 import { authHeader } from "../../functions/api";
 import { CardImage } from "../cardImage";
 import { Tariff } from "../../types/tariff";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { hyphenText } from "../../functions/util";
 
 interface Props {
@@ -11,15 +11,26 @@ interface Props {
 	operatorImageUrl: string | null;
 }
 
+const fallBack = require("@assets/cpo_generic.png");
+
 export function DetailLogos({
 	tariff,
 	operatorImageUrl,
 	operatorName,
 }: Props): JSX.Element {
-	let operatorImage = operatorImageUrl
-		? { uri: operatorImageUrl, ...authHeader }
-		: require("@assets/cpo_generic.png");
+	const [imageError, setImageError] = useState(false);
+	let [operatorImage, setOperatorImage] = useState(
+		operatorImageUrl ? { uri: operatorImageUrl, ...authHeader } : fallBack
+	);
 
+	useEffect(() => {
+		if (!imageError) {
+			return;
+		}
+		setOperatorImage(fallBack);
+	}, [imageError, setOperatorImage]);
+
+	const showFallBack = !operatorImageUrl || imageError;
 	return (
 		<View
 			style={{
@@ -40,14 +51,14 @@ export function DetailLogos({
 			<View style={{ position: "relative" }}>
 				<Image
 					source={operatorImage}
+					onError={() => setImageError(true)}
 					style={{
 						height: 125,
 						width: 180,
 						objectFit: "scale-down",
 					}}
 				/>
-				{/* Conditionally render the Text component over the image if operatorImageUrl is null */}
-				{!operatorImageUrl && (
+				{showFallBack && (
 					<View
 						style={{
 							position: "absolute",

@@ -56,14 +56,15 @@ export function repeatItemsByFrequency<T extends { frequency: number }>(
 	return items.flatMap((item) => repeatNTimes(item, item.frequency));
 }
 
-const hyphenTextMap: Record<string, string> = {
-	Stadtwerke: "Stadt\u2010werke",
-};
-
-export function hyphenText(value: string): string {
-	let result = value;
-	for (const [key, value] of Object.entries(hyphenTextMap)) {
-		result = value.replace(key, value);
+export function hyphenText(input: string): string {
+	const hyphenTextMap: Record<string, string> = {
+		Stadtwerke: "Stadt\u2010werke",
+	};
+	let result = input;
+	for (const [key, hyphenatedValue] of Object.entries(hyphenTextMap)) {
+		// Create a regular expression to match the whole word
+		const regex = new RegExp(`\\b${key}\\b`, "g");
+		result = result.replace(regex, hyphenatedValue);
 	}
 	return result;
 }
