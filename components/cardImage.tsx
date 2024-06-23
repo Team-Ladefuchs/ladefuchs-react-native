@@ -47,6 +47,7 @@ function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
 			<Image
 				source={require("@assets/blitz.png")}
 				resizeMethod={"scale"}
+				fadeDuration={0}
 				style={{
 					position: "absolute",
 					right: -2,

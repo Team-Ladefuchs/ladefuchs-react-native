@@ -13,8 +13,7 @@ import {
 } from "../types/conditions";
 import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
-
-//hier wird der Operator für den Picker geholt
+import { fetchWithTimeout } from "./util";
 
 const apiPath = "https://api.ladefuchs.app";
 export const authHeader = {
@@ -25,7 +24,7 @@ export const authHeader = {
 
 export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 	try {
-		const response = await fetch(
+		const response = await fetchWithTimeout(
 			`${apiPath}/v3/operators?standard=${standard}`,
 			{
 				headers: {
@@ -48,7 +47,7 @@ export async function fetchTariffs({
 	standard: boolean;
 }): Promise<Tariff[]> {
 	try {
-		const response = await fetch(
+		const response = await fetchWithTimeout(
 			`${apiPath}/v3/tariffs?standard=${standard}`,
 			{
 				headers: {
@@ -71,7 +70,7 @@ export async function fetchChargingConditions(requestBody: {
 	chargingModes: ChargeMode[];
 }): Promise<ChargingCondition[]> {
 	try {
-		const response = await fetch(`${apiPath}/v3/conditions`, {
+		const response = await fetchWithTimeout(`${apiPath}/v3/conditions`, {
 			method: "POST",
 			headers: {
 				...authHeader.headers,
@@ -112,7 +111,7 @@ function chargeConditionToHashMap(
 
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
-		const response = await fetch(`${apiPath}/v3/banners`, {
+		const response = await fetchWithTimeout(`${apiPath}/v3/banners`, {
 			headers: {
 				...authHeader.headers,
 				Accept: "application/json",
@@ -128,7 +127,7 @@ export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 
 export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 	try {
-		const response = await fetch(
+		const response = await fetchWithTimeout(
 			`${apiPath}/v3/banners/chargeprice/advertisement`,
 			{
 				headers: {
@@ -195,7 +194,7 @@ export async function getAllChargeConditions({
 			await retrieveFromStorage<OfflineChargeConditionData>(
 				storageSet.chargeConditionData
 			);
-		if (!offlineData) {
+		if (!offlineData?.chargingConditions) {
 			throw new Error("The Api is maybe down");
 		}
 		return {

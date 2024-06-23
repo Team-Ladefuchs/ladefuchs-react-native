@@ -15,12 +15,11 @@ import { useAppStore } from "../../state/state";
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
 	const [imageLoaded, setImageLoaded] = useState(false);
-	const width = "85%";
 
 	const imageStyle = (): StyleProp<ImageStyle> => {
 		if (banner?.bannerType === "chargePrice") {
 			return {
-				width,
+				width: "85%",
 				aspectRatio: "6.4",
 				marginTop: 35,
 				overflow: "hidden",
@@ -71,8 +70,8 @@ export function AppBanner(): JSX.Element {
 						<View
 							style={{
 								backgroundColor: "white",
-								width,
-								marginTop: -5,
+								width: "85%",
+								marginTop: -2,
 								height: "100%",
 							}}
 						/>
