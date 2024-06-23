@@ -88,14 +88,13 @@ const styles = StyleSheet.create({
 	},
 	headerSettingsIcon: {
 		position: "absolute",
-		right: 8,
+		right: 15,
 		bottom: 15,
-		paddingRight: 16,
 	},
 	headerWrapperChargepriceIcon: {
 		position: "absolute",
-		left: 8,
-		bottom: 5,
+		left: 15,
+		bottom: 9,
 	},
 	chargepriceIcon: {
 		...dropShadow,
