@@ -45,6 +45,7 @@
         "expo-build-properties",
         {
           "android": {
+            "extraProguardRules": "-keep class com.ladefuchs.** { *; }\n-dontwarn com.ladefuchs.**",
             "minSdkVersion": 26,
             "compileSdkVersion": 34,
             "targetSdkVersion": 34,
