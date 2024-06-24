@@ -58,7 +58,7 @@ export function HomeScreen(): JSX.Element {
 						marginTop: 20,
 					}}
 				>
-					Sorry, you are offline!
+					Sorry, du bist offline.
 				</Text>
 			</View>
 		);
@@ -69,7 +69,7 @@ export function HomeScreen(): JSX.Element {
 			<ChargingTableHeader />
 			<View
 				style={{
-					flex: 90, // Höhe des verfügbaren Platzes
+					flex: 92,
 					backgroundColor: colors.ladefuchsLightBackground,
 				}}
 			>

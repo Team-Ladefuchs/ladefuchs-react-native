@@ -10,7 +10,7 @@ import { styles } from "../../theme";
 import MailIcon from "@assets/about/icon_mail.svg";
 import MastodonIcon from "@assets/about/icon_mastodon.svg";
 
-export function Memberview(): JSX.Element {
+export function MemberView(): JSX.Element {
 	const members = [
 		{
 			name: "MALIK",

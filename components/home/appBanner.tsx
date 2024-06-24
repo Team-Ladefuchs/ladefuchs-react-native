@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	TouchableWithoutFeedback,
@@ -15,6 +15,10 @@ import { useAppStore } from "../../state/state";
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
 	const [imageLoaded, setImageLoaded] = useState(false);
+
+	useEffect(() => {
+		setImageLoaded(false);
+	}, [banner]);
 
 	const imageStyle = (): StyleProp<ImageStyle> => {
 		if (banner?.bannerType === "chargePrice") {
@@ -69,8 +73,8 @@ export function AppBanner(): JSX.Element {
 					{banner.bannerType === "chargePrice" && imageLoaded && (
 						<View
 							style={{
-								backgroundColor: "white",
-								width: "85%",
+								backgroundColor: "#fff",
+								width: "84.5%",
 								marginTop: -2,
 								height: "100%",
 							}}

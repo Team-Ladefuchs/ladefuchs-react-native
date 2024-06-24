@@ -3,7 +3,7 @@ import { View, Text, TouchableHighlight, Linking } from "react-native";
 import Chargeprice from "@assets/about/chargeprice_logo.svg";
 import { styles } from "../../theme";
 
-export function Datenview(): JSX.Element {
+export function DatenView(): JSX.Element {
 	return (
 		<View style={styles.headerView}>
 			<Text style={styles.headLine}>DATENFUCHS</Text>
