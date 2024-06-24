@@ -11,7 +11,7 @@ export function PodcastView(): JSX.Element {
 		<View style={styles.headerView}>
 			<Text style={styles.headLine}>PODCASTFUCHS</Text>
 			<Text style={styles.sponsorText}>
-				Abonnieren Sie, sanst ist der Fuchs ganz traurig.
+				Abonnieren Sie, sonst ist der Fuchs ganz traurig.
 			</Text>
 			<View style={{ flexDirection: "row", columnGap: 10 }}>
 				<TouchableOpacity
