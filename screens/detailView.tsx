@@ -64,7 +64,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 			}}
 		>
 			<ScrollView
-				style={{ paddingTop: 16, paddingHorizontal: 16 }}
+				style={{ paddingTop: 14, paddingHorizontal: 16 }}
 				touchAction={"none"}
 			>
 				<DetailLogos
@@ -75,7 +75,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 				<View
 					style={{
 						flexDirection: "row",
-						marginTop: 16,
+						marginTop: 14,
 						gap: 16,
 						rowGap: 20,
 					}}

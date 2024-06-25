@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
 				fontSize: 40,
 			},
 			default: {
-				fontSize: 47,
+				fontSize: 46,
 			},
 		}),
 	},
 	priceContainer: {
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		paddingHorizontal: 12,
-		paddingVertical: 14,
+		paddingVertical: 12,
 	},
 	priceHeaderText: {
 		fontSize: 25,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		flexDirection: "row",
 		paddingHorizontal: 12,
-		paddingVertical: 12,
+		paddingVertical: 11,
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
 	},
 });

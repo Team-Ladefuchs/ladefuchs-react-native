@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
 	View,
+	StyleSheet,
 	TouchableWithoutFeedback,
 	Image,
 	Linking,
 	ImageStyle,
 	StyleProp,
+	Platform,
 } from "react-native";
 import { colors } from "../../theme";
 import { authHeader } from "../../functions/api";
@@ -73,17 +75,26 @@ export function AppBanner(): JSX.Element {
 						/>
 					</TouchableWithoutFeedback>
 					{banner.bannerType === "chargePrice" && imageLoaded && (
-						<View
-							style={{
-								backgroundColor: "#fff",
-								width: "84.5%",
-								marginTop: -2,
-								height: "100%",
-							}}
-						/>
+						<View style={styles.blankBanner} />
 					)}
 				</>
 			)}
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	blankBanner: {
+		backgroundColor: "#fff",
+		marginTop: -2,
+		height: "100%",
+		...Platform.select({
+			android: {
+				width: "84.5%",
+			},
+			default: {
+				width: "85%",
+			},
+		}),
+	},
+});

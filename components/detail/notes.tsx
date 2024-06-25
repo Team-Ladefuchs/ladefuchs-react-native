@@ -1,27 +1,35 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export function Notes({ notes }: { notes?: string | null }): JSX.Element {
-	if (!notes?.trim) {
-		return <></>;
-	}
+	const [noteText, setNoteText] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (notes) {
+			setNoteText(notes.trim());
+		} else {
+			setNoteText("› keine");
+		}
+	}, [notes]);
 
 	return (
-		<View
-			style={{
-				backgroundColor: colors.ladefuchsLightGrayBackground,
-				padding: 12,
-				marginTop: 10,
-				borderRadius: 12,
-			}}
-		>
+		<View style={styles.container}>
 			<HighlightCorner />
 			<CardHeader text="Notizen" />
-			<ItalicText text={notes} />
+			<ItalicText text={noteText} />
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: colors.ladefuchsLightGrayBackground,
+		padding: 12,
+		marginTop: 10,
+		borderRadius: 12,
+	},
+});

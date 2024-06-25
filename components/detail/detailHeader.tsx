@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		paddingVertical: 16,
 		paddingHorizontal: 16,
+		paddingBottom: 16,
 		backgroundColor: colors.ladefuchsDunklerBalken,
 		borderBottomWidth: 0.5,
 		borderBottomColor: colors.ladefuchsLightGrayBackground,
