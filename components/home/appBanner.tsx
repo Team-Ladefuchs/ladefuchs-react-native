@@ -17,7 +17,9 @@ export function AppBanner(): JSX.Element {
 	const [imageLoaded, setImageLoaded] = useState(false);
 
 	useEffect(() => {
-		setImageLoaded(false);
+		if (banner) {
+			setImageLoaded(false);
+		}
 	}, [banner]);
 
 	const imageStyle = (): StyleProp<ImageStyle> => {
