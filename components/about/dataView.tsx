@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableHighlight, Linking } from "react-native";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import Chargeprice from "@assets/about/chargeprice_logo.svg";
 import { styles } from "../../theme";
 
@@ -10,13 +10,14 @@ export function DatenView(): JSX.Element {
 			<Text style={styles.sponsorText}>
 				Beste schlaue Daten kommen direkt von
 			</Text>
-			<TouchableHighlight
+			<TouchableOpacity
+			activeOpacity={0.9}
 				onPress={async () =>
 					await Linking.openURL("https://www.chargeprice.app")
 				}
 			>
 				<Chargeprice height={35} width={230} />
-			</TouchableHighlight>
+			</TouchableOpacity>
 		</View>
 	);
 }
