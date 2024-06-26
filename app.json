@@ -5,16 +5,16 @@
     "version": "2.1.1",
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
-    "icon": "./assets/app_icon.png",
+    "icon": "./assets/fuchs/app_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/ladefuchs.png",
+      "image": "./assets/fuchs/ladefuchs.png",
       "resizeMode": "contain",
       "backgroundColor": "#F3EEE2"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "2",
+      "buildNumber": "3",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
@@ -29,13 +29,13 @@
     },
     "android": {
       "splash": {
-        "image": "./assets/android_logo.png",
+        "image": "./assets/fuchs/android_logo.png",
         "resizeMode": "contain",
         "backgroundColor": "#F3EEE2"
       },
       "versionCode": 226,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/android_logo.png",
+        "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
       },
       "package": "app.ladefuchs.android"

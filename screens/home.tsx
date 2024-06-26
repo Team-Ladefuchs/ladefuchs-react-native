@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../theme";
 import OperatorPicker from "../components/home/operatorPicker";
@@ -7,6 +7,7 @@ import { ChargeConditionTable } from "../components/home/chargeConditionTable";
 import { AppBanner } from "../components/home/appBanner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { useAppStore } from "../state/state";
+import { OfflineView } from "../components/home/offline";
 
 export function HomeScreen(): JSX.Element {
 	const {
@@ -37,31 +38,7 @@ export function HomeScreen(): JSX.Element {
 	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
 
 	if (appError) {
-		return (
-			<View
-				style={{
-					justifyContent: "center",
-					alignItems: "center",
-					alignContent: "center",
-					marginTop: 50,
-				}}
-			>
-				<Image
-					source={require("../assets/ladefuchs.png")}
-					style={{ width: 200, height: 200 }}
-				/>
-				<Text
-					style={{
-						color: "red",
-						textAlign: "center",
-						fontSize: 20,
-						marginTop: 20,
-					}}
-				>
-					Sorry, du bist offline.
-				</Text>
-			</View>
-		);
+		return <OfflineView />;
 	}
 
 	return (
