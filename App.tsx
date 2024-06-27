@@ -25,6 +25,7 @@ import { DetailHeader } from "./components/detail/detailHeader";
 
 import { useFetchAppData } from "./hooks/fetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
+import FeedbackView from './screens/feedbackView';
 
 disableAutoFontScaling();
 const queryClient = new QueryClient();
@@ -117,6 +118,17 @@ function AppWrapper(): JSX.Element {
 						name="Einstellungen"
 						options={modalHeader}
 						component={AboutScreen}
+					/>
+				</RootStack.Group>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+					}}
+				>
+					<RootStack.Screen
+						name="Feedback"
+						options={modalHeader}
+						component={FeedbackView}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>

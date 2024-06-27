@@ -13,6 +13,7 @@ import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { ScrollView } from "react-native-gesture-handler";
 import React from "react";
+import { FeedbackButton } from "../components/detail/feedbackButton";
 
 function findTariffCondition({
 	tariffConditions,
@@ -64,7 +65,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 			}}
 		>
 			<ScrollView
-				style={{ paddingTop: 14, paddingHorizontal: 16 }}
+				style={{ paddingTop: 16, paddingHorizontal: 16 }}
 				touchAction={"none"}
 			>
 				<DetailLogos
@@ -75,7 +76,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 				<View
 					style={{
 						flexDirection: "row",
-						marginTop: 14,
+						marginTop: 16,
 						gap: 16,
 						rowGap: 20,
 					}}
@@ -104,6 +105,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 				</View>
 				<MonthlyFee fee={tariff.monthlyFee} />
 				<Notes notes={tariff.note} />
+				<FeedbackButton link={tariff.affiliateLinkUrl} />
 			</ScrollView>
 			<AffiliateButton link={tariff.affiliateLinkUrl} />
 		</View>
