@@ -20,6 +20,7 @@ import { DetailHeader } from "./components/detail/detailHeader";
 import { useFetchAppData } from "./hooks/fetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
 import { scale } from "react-native-size-matters";
+import FeedbackView from './screens/feedbackView';
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -111,6 +112,17 @@ function AppWrapper(): JSX.Element {
 						name="Einstellungen"
 						options={modalHeader}
 						component={AboutScreen}
+					/>
+				</RootStack.Group>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+					}}
+				>
+					<RootStack.Screen
+						name="Feedback"
+						options={modalHeader}
+						component={FeedbackView}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>
