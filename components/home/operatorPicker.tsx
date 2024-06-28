@@ -5,6 +5,8 @@ import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
 import { Platform, View } from "react-native";
 import WheelPicker from "@quidone/react-native-wheel-picker";
+import { scale } from "react-native-size-matters";
+import { useDebounce } from "../../hooks/debounce";
 
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
@@ -15,6 +17,10 @@ export default function OperatorPicker(): JSX.Element {
 		}))
 	);
 
+	const debouncedChangeHandler = useDebounce((operatorId: string) => {
+		setOperatorId(operatorId);
+	}, 210);
+
 	if (!operatorId) {
 		return <></>;
 	}
@@ -24,8 +30,8 @@ export default function OperatorPicker(): JSX.Element {
 			<View
 				style={{
 					flex: 1,
-					paddingHorizontal: 16,
-					marginTop: -5,
+					paddingHorizontal: scale(16),
+					marginBottom: 5,
 					justifyContent: "center",
 				}}
 			>
@@ -35,12 +41,11 @@ export default function OperatorPicker(): JSX.Element {
 						value: item.identifier,
 					}))}
 					itemTextStyle={{
-						fontSize: 21,
+						fontSize: scale(21),
 					}}
-					value={operatorId}
-					itemHeight={40}
-					onValueChanged={({ item }) => {
-						setOperatorId(item.value);
+					itemHeight={scale(40)}
+					onValueChanging={({ item }) => {
+						debouncedChangeHandler(item.value);
 					}}
 				/>
 			</View>
@@ -50,7 +55,7 @@ export default function OperatorPicker(): JSX.Element {
 		<Picker
 			selectedValue={operatorId}
 			itemStyle={{
-				fontSize: 22,
+				fontSize: scale(20),
 				fontWeight: "400",
 				backgroundColor: colors.ladefuchsLightBackground,
 				width: "100%",

@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text } from "react-native";
 import { colors } from "../../theme";
 import { CloseButton } from "../header/closeButton";
 import { Tariff } from "../../types/tariff";
 import React from "react";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
 interface Props {
 	tariff: Tariff;
@@ -28,38 +29,23 @@ export function DetailHeader({ tariff, navigation }: Props): JSX.Element {
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	container: {
 		width: "100%",
 		display: "flex",
 		flexDirection: "row",
-		paddingVertical: 16,
-		paddingHorizontal: 16,
-		paddingBottom: 16,
+		paddingVertical: "14@s",
+		paddingHorizontal: "16@s",
 		backgroundColor: colors.ladefuchsDunklerBalken,
 		borderBottomWidth: 0.5,
 		borderBottomColor: colors.ladefuchsLightGrayBackground,
 	},
 	tariffName: {
 		fontWeight: "bold",
-		...Platform.select({
-			android: {
-				fontSize: 21,
-			},
-			default: {
-				fontSize: 23,
-			},
-		}),
+		fontSize: "22@s",
 	},
 	providerName: {
 		fontWeight: "bold",
-		...Platform.select({
-			android: {
-				fontSize: 16,
-			},
-			default: {
-				fontSize: 18,
-			},
-		}),
+		fontSize: "17@s",
 	},
 });

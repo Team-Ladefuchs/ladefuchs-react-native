@@ -4,7 +4,7 @@ import { CardImage } from "../cardImage";
 import { Tariff } from "../../types/tariff";
 import React, { useEffect, useState } from "react";
 import { hyphenText } from "../../functions/util";
-
+import { scale } from "react-native-size-matters";
 interface Props {
 	tariff: Tariff;
 	operatorName: string;
@@ -43,7 +43,7 @@ export function DetailLogos({
 		>
 			<CardImage
 				tariff={tariff}
-				width={90}
+				width={79}
 				style={{
 					transform: [{ rotate: "-15deg" }],
 				}}
@@ -53,8 +53,8 @@ export function DetailLogos({
 					source={operatorImage}
 					onError={() => setImageError(true)}
 					style={{
-						height: 125,
-						width: 180,
+						height: scale(125),
+						width: scale(180),
 						objectFit: "scale-down",
 					}}
 				/>

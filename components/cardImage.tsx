@@ -8,16 +8,15 @@ import {
 	StyleProp,
 	ViewStyle,
 	ImageStyle,
-	Platform,
 } from "react-native";
 import { HighlightCorner } from "./detail/highlightCorner";
 import React, { useState } from "react";
 import { colors } from "../theme";
-
+import { scale } from "react-native-size-matters";
 interface Props {
 	tariff: Tariff;
 	showHighlightCorner?: boolean;
-	width?: number;
+	width: number;
 	style?: ImageStyle;
 }
 
@@ -64,12 +63,18 @@ function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
 export function CardImage({
 	tariff,
 	showHighlightCorner = false,
-	width = 80,
+	width,
 	style: styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
 	return (
-		<View style={{ ...styles.cardImageContainer, ...styleProp, width }}>
+		<View
+			style={{
+				...styles.cardImageContainer,
+				...styleProp,
+				width: scale(width),
+			}}
+		>
 			{showHighlightCorner && <HighlightCorner />}
 			{!tariff.imageUrl || imageError ? (
 				<FallBack tariff={tariff} />
@@ -109,14 +114,6 @@ const styles = StyleSheet.create({
 		...card,
 		...dropShadow,
 		position: "relative",
-		...Platform.select({
-			android: {
-				width: 76,
-			},
-			default: {
-				width: 80,
-			},
-		}),
 	},
 	cardImage: {
 		...card,

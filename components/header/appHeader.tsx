@@ -13,6 +13,7 @@ import { colors } from "../../theme";
 import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
+import { scale } from "react-native-size-matters";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
@@ -37,17 +38,17 @@ export function AppHeader(): JSX.Element {
 				style={styles.headerWrapperChargepriceIcon}
 			>
 				<ChargepriceButton
-					width={110}
-					height={50}
+					width={scale(95)}
+					height={scale(50)}
 					style={styles.chargepriceIcon}
 				/>
 			</TouchableOpacity>
-			<View style={{ marginBottom: -11 }}>
+			<View style={{ marginBottom: -scale(11) }}>
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={handleLongPress}
 				>
-					<AppLogo size={90} />
+					<AppLogo size={85} />
 				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
@@ -59,7 +60,7 @@ export function AppHeader(): JSX.Element {
 				style={styles.headerSettingsIcon}
 			>
 				<View style={{ padding: 3 }}>
-					<Zahnrad width={35} height={35} />
+					<Zahnrad width={scale(30)} height={scale(30)} />
 				</View>
 			</TouchableOpacity>
 		</SafeAreaView>
@@ -88,19 +89,19 @@ const styles = StyleSheet.create({
 	},
 	headerSettingsIcon: {
 		position: "absolute",
-		right: 15,
-		bottom: 15,
+		right: scale(15),
+		bottom: scale(15),
 	},
 	headerWrapperChargepriceIcon: {
 		position: "absolute",
-		left: 15,
-		bottom: 9,
+		left: scale(15),
+		bottom: scale(8),
 	},
 	chargepriceIcon: {
 		...dropShadow,
 	},
 	headerTitle: {
 		color: colors.ladefuchsOrange,
-		fontSize: 18,
+		fontSize: scale(18),
 	},
 });

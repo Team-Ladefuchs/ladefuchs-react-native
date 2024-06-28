@@ -1,31 +1,40 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { colors } from "../theme";
 import CCS from "@assets/plugs/ccs.svg";
 import Typ2 from "@assets/plugs/typ2.svg";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
 export function ChargingTableHeader(): JSX.Element {
 	const plugOpacity = 0.45;
 	return (
 		<View style={styles.headerContainer}>
 			<View style={styles.headerView}>
-				<Text style={{ ...styles.headerText, marginRight: 8 }}>AC</Text>
-				<Typ2 width={28} height={23} opacity={plugOpacity} />
+				<Text style={styles.headerText}>AC</Text>
+				<Typ2
+					width={scale(26)}
+					height={scale(21)}
+					opacity={plugOpacity}
+				/>
 			</View>
 			<View style={styles.divider} />
 			<View style={styles.headerView}>
-				<Text style={{ ...styles.headerText, marginRight: 8 }}>DC</Text>
-				<CCS width={30} height={36} opacity={plugOpacity} />
+				<Text style={styles.headerText}>DC</Text>
+				<CCS
+					width={scale(28)}
+					height={scale(32)}
+					opacity={plugOpacity}
+				/>
 			</View>
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	headerContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		height: 60,
+		height: "51@s",
 		backgroundColor: colors.ladefuchsDarkBackground,
 		shadowColor: "#000",
 		shadowOffset: {
@@ -38,7 +47,8 @@ const styles = StyleSheet.create({
 		zIndex: 1, // Ensures the shadow is above other views
 	},
 	headerText: {
-		fontSize: 28,
+		marginRight: 8,
+		fontSize: "26@s",
 		color: "black",
 		fontFamily: "Roboto",
 	},

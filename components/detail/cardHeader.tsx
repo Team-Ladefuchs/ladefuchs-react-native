@@ -1,22 +1,18 @@
 import React from "react";
 import { colors } from "../../theme";
-import { Text, StyleSheet, Platform } from "react-native";
+import { Text } from "react-native";
+
+import { ScaledSheet } from "react-native-size-matters";
+
 export function CardHeader({ text }: { text: string }): JSX.Element {
 	return <Text style={styles.headerText}>{text.toLocaleUpperCase()}</Text>;
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	headerText: {
-		paddingBottom: 4,
+		paddingBottom: 5,
 		fontWeight: "bold",
 		color: colors.ladefuchsGrayTextColor,
-		...Platform.select({
-			android: {
-				fontSize: 14.5,
-			},
-			default: {
-				fontSize: 16,
-			},
-		}),
+		fontSize: "14@s",
 	},
 });

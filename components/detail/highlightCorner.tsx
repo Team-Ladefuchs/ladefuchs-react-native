@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { scale } from "react-native-size-matters";
 import Svg, { G, Path } from "react-native-svg";
 
 interface Props {
@@ -10,8 +11,8 @@ export function HighlightCorner({ size = 17 }: Props) {
 	return (
 		<Svg
 			style={styles.highlightCorner}
-			width={size}
-			height={size}
+			width={scale(size)}
+			height={scale(size)}
 			viewBox="0 0 78 79"
 			fillRule="evenodd"
 			clipRule="evenodd"

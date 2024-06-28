@@ -13,6 +13,7 @@ import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { ScrollView } from "react-native-gesture-handler";
 import React from "react";
+import { ScaledSheet } from "react-native-size-matters";
 
 function findTariffCondition({
 	tariffConditions,
@@ -57,55 +58,58 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 	});
 
 	return (
-		<View
-			style={{
-				backgroundColor: colors.ladefuchsLightBackground,
-				height: "100%",
-			}}
-		>
-			<ScrollView
-				style={{ paddingTop: 14, paddingHorizontal: 16 }}
-				touchAction={"none"}
-			>
-				<DetailLogos
-					tariff={tariff}
-					operatorImageUrl={operator!.imageUrl}
-					operatorName={operator!.name}
-				/>
-				<View
-					style={{
-						flexDirection: "row",
-						marginTop: 14,
-						gap: 16,
-						rowGap: 20,
-					}}
-				>
-					<View style={{ flex: 1 }}>
-						<PriceBox
-							chargeMode="ac"
-							price={acTariffCondition?.pricePerKwh}
-						/>
-						<BlockingFee
-							fee={acTariffCondition?.blockingFee}
-							feeStart={acTariffCondition?.blockingFeeStart}
-						/>
-					</View>
+		<View style={styles.detailView}>
+			<ScrollView touchAction={"none"}>
+				<View style={styles.scrollView}>
+					<DetailLogos
+						tariff={tariff}
+						operatorImageUrl={operator!.imageUrl}
+						operatorName={operator!.name}
+					/>
+					<View style={styles.priceBoxesContainer}>
+						<View style={{ flex: 1 }}>
+							<PriceBox
+								chargeMode="ac"
+								price={acTariffCondition?.pricePerKwh}
+							/>
+							<BlockingFee
+								fee={acTariffCondition?.blockingFee}
+								feeStart={acTariffCondition?.blockingFeeStart}
+							/>
+						</View>
 
-					<View style={{ flex: 1 }}>
-						<PriceBox
-							chargeMode="dc"
-							price={dcTariffCondition?.pricePerKwh}
-						/>
-						<BlockingFee
-							fee={dcTariffCondition?.blockingFee}
-							feeStart={dcTariffCondition?.blockingFeeStart}
-						/>
+						<View style={{ flex: 1 }}>
+							<PriceBox
+								chargeMode="dc"
+								price={dcTariffCondition?.pricePerKwh}
+							/>
+							<BlockingFee
+								fee={dcTariffCondition?.blockingFee}
+								feeStart={dcTariffCondition?.blockingFeeStart}
+							/>
+						</View>
 					</View>
+					<MonthlyFee fee={tariff.monthlyFee} />
+					<Notes notes={tariff.note} />
 				</View>
-				<MonthlyFee fee={tariff.monthlyFee} />
-				<Notes notes={tariff.note} />
 			</ScrollView>
 			<AffiliateButton link={tariff.affiliateLinkUrl} />
 		</View>
 	);
 }
+const styles = ScaledSheet.create({
+	detailView: {
+		backgroundColor: colors.ladefuchsLightBackground,
+		height: "100%",
+	},
+	priceBoxesContainer: {
+		flexDirection: "row",
+		marginTop: 14,
+		gap: "16@s",
+		rowGap: "20@s",
+	},
+	scrollView: {
+		paddingTop: 14,
+		paddingHorizontal: 16,
+	},
+});

@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/plugs/ccs.svg";
 import Typ2 from "@assets/plugs/typ2.svg";
 import { useFormatNumber } from "../../hooks/numberFormat";
+import { scale } from "react-native-size-matters";
 
 export function PriceBox({
 	chargeMode,
@@ -43,36 +44,29 @@ const styles = StyleSheet.create({
 	priceText: {
 		textAlign: "center",
 		fontWeight: "500",
-		...Platform.select({
-			android: {
-				fontSize: 40,
-			},
-			default: {
-				fontSize: 46,
-			},
-		}),
+		fontSize: scale(40),
 	},
 	priceContainer: {
 		backgroundColor: colors.ladefuchsLightGrayBackground,
-		paddingHorizontal: 12,
-		paddingVertical: 12,
+		paddingHorizontal: scale(12),
+		paddingVertical: scale(12),
 	},
 	priceHeaderText: {
-		fontSize: 25,
+		fontSize: scale(24),
 		fontWeight: "700",
 		textAlign: "center",
-		marginRight: 4,
+		marginRight: scale(4),
 	},
 	priceHeaderContainer: {
 		display: "flex",
-		borderTopLeftRadius: 12,
-		borderTopRightRadius: 12,
+		borderTopLeftRadius: scale(12),
+		borderTopRightRadius: scale(12),
 		justifyContent: "center",
 		alignContent: "center",
 		alignItems: "center",
 		flexDirection: "row",
-		paddingHorizontal: 12,
-		paddingVertical: 11,
+		paddingHorizontal: scale(12),
+		paddingVertical: scale(11),
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
 	},
 });

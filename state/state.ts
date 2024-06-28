@@ -42,8 +42,7 @@ export const useAppStore = create<AppState>((set, get) => {
 				operatorId = operators[0]?.identifier ?? "";
 			}
 			if (operators) {
-				set((state) => ({
-					...state,
+				set(() => ({
 					...appData,
 					operatorId,
 				}));
@@ -51,12 +50,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		},
 		setBanners(data) {
 			const { bannerType, ladefuchsBanners, chargePriceAdBanner } = data;
-			set((state) => ({
-				...state,
+			set(() => ({
 				ladefuchsBanners,
 				chargePriceAdBanner,
 				banner: selectLadefuchsBanner({
-					...state,
 					ladefuchsBanners,
 					chargePriceAdBanner,
 				}),
@@ -64,11 +61,12 @@ export const useAppStore = create<AppState>((set, get) => {
 			}));
 		},
 		operatorId: "",
-		setOperatorId: (operatorId) =>
-			set((state) => ({ ...state, operatorId })),
+		setOperatorId: (operatorId) => {
+			set(() => ({ operatorId }));
+		},
 		tariffConditions: [],
 		setTariffConditions: (tariffConditions: TariffCondition[]) => {
-			set((state) => ({ ...state, tariffConditions }));
+			set(() => ({ tariffConditions }));
 		},
 		tariffs: new Map(),
 		operators: [],
@@ -78,7 +76,7 @@ export const useAppStore = create<AppState>((set, get) => {
 		banner: null,
 		appError: null,
 		setAppError: (appError) => {
-			set((state) => ({ ...state, appError }));
+			set(() => ({ appError }));
 		},
 		reloadBanner: () => {
 			const { banner, ladefuchsBanners } = get();
@@ -92,7 +90,7 @@ export const useAppStore = create<AppState>((set, get) => {
 					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
 				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
 			} while (newBanner.imageUrl === banner?.imageUrl);
-			set((state) => ({ ...state, banner: newBanner }));
+			set(() => ({ banner: newBanner }));
 		},
 	};
 });

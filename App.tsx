@@ -25,8 +25,8 @@ import { DetailHeader } from "./components/detail/detailHeader";
 
 import { useFetchAppData } from "./hooks/fetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
+import { scale } from "react-native-size-matters";
 
-disableAutoFontScaling();
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 
@@ -136,7 +136,7 @@ function modalHeader({
 			return (
 				<CloseButton
 					onPress={() => navigation.goBack()}
-					style={{ marginRight: 16 }}
+					style={{ marginRight: scale(16) }}
 				/>
 			);
 		},
@@ -145,14 +145,4 @@ function modalHeader({
 		},
 		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 	};
-}
-
-function disableAutoFontScaling(): void {
-	interface TextWithDefaultProps extends Text {
-		defaultProps?: { allowFontScaling?: boolean };
-	}
-	(Text as unknown as TextWithDefaultProps).defaultProps =
-		(Text as unknown as TextWithDefaultProps).defaultProps || {};
-	(Text as unknown as TextWithDefaultProps).defaultProps!.allowFontScaling =
-		false;
 }

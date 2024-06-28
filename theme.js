@@ -1,4 +1,6 @@
 // theme.js
+import { scale } from "react-native-size-matters";
+
 const colors = {
 	primary: "#00700",
 	ladefuchsLightBackground: "#F3EEE2",
@@ -23,8 +25,8 @@ const styles = {
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	headerView: {
-		paddingHorizontal: 30,
-		paddingVertical: 20,
+		paddingHorizontal: scale(20),
+		paddingVertical: scale(20),
 	},
 	headLine: {
 		color: colors.ladefuchsOrange,
@@ -33,26 +35,6 @@ const styles = {
 		lineHeight: 20,
 	},
 	headerText: {
-		color: "black",
-		fontFamily: "Bitter",
-		fontSize: 15,
-		lineHeight: 20,
-	},
-	memberView: {
-		flexDirection: "row",
-		paddingHorizontal: 30,
-		paddingVertical: 20,
-		color: "black",
-		fontFamily: fonts.bitter,
-		fontSize: 15,
-	},
-	memberImage: {
-		width: 120,
-		height: 120,
-		borderRadius: 100,
-		marginRight: 30,
-	},
-	memberText: {
 		color: "black",
 		fontFamily: "Bitter",
 		fontSize: 15,
