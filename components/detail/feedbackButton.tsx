@@ -15,14 +15,14 @@ export function FeedbackButton({ link }: { link: string | null | undefined }): J
 	};
 
 	return (
-		<SafeAreaView style={{ marginTop: 10, marginHorizontal: 0 }}>
+		<SafeAreaView style={{ marginTop: 20, marginHorizontal: 0 }}>
 			<TouchableOpacity
 				activeOpacity={0.8}
 				style={styles.button}
 				onPress={onPress}
 			>
-				<Text style={styles.buttonText}>
-					{"Gib uns Feedback zum Preis!".toLocaleUpperCase()}
+				<Text style={[styles.headerText, styles.underlinedText]}>
+					{"Preise falsch? Dann sag dem Fuchs Bescheid!"}
 				</Text>
 			</TouchableOpacity>
 		</SafeAreaView>
@@ -30,31 +30,13 @@ export function FeedbackButton({ link }: { link: string | null | undefined }): J
 }
 
 const styles = StyleSheet.create({
-	button: {
-		...Platform.select({
-			android: {
-				padding: 9,
-				marginBottom: 16,
-			},
-			default: {
-				padding: 12,
-				marginBottom: 12,
-			},
-		}),
-		backgroundColor: colors.ladefuchsLightGrayBackground,
-		borderRadius: 12,
-	},
-	buttonText: {
-		...Platform.select({
-			android: {
-				fontSize: 20,
-			},
-			default: {
-				fontSize: 20,
-			},
-		}),
-		color: "#343a40",
-		textAlign: "center",
-		fontWeight: "bold",
-	},
+
+
+	underlinedText: {
+		textDecorationLine: 'underline',
+		color: "grey",
+		fontFamily: "Bitter",
+		fontSize: 15,
+		lineHeight: 20,
+	  },
 });
