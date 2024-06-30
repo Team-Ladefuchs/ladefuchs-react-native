@@ -54,6 +54,25 @@ const styles = {
 		lineHeight: 20,
 		paddingBottom: 15,
 	},
-};
+	textInput: {
+        height: 100, // Erhöhte Höhe für mehrere Zeilen
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        width: '100%',
+        alignSelf: 'center',
+        textAlignVertical: 'top' // Text beginnt oben
+    },
+	picker: {
+        width: '100%',
+        alignSelf: 'center',
+    },
 
+    buttonContainer: {
+        marginTop: 2,
+        width: '80%',
+        alignSelf: 'center',
+    },
+};
 export { colors, fonts, styles };
