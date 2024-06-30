@@ -39,12 +39,7 @@ export function HomeScreen(): JSX.Element {
 	return (
 		<View style={{ flex: 1 }}>
 			<ChargingTableHeader />
-			<View
-				style={{
-					flex: 92,
-					backgroundColor: colors.ladefuchsLightBackground,
-				}}
-			>
+			<View style={styles.chargingTableContainer}>
 				<ChargeConditionTable />
 			</View>
 			<View style={styles.pickerBanner}>
@@ -61,8 +56,12 @@ export function HomeScreen(): JSX.Element {
 }
 
 const styles = ScaledSheet.create({
+	chargingTableContainer: {
+		flex: 89,
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
 	pickerContainer: {
-		flex: 45,
+		flex: 46,
 		justifyContent: "center",
 		alignContent: "center",
 		backgroundColor: colors.ladefuchsLightBackground,

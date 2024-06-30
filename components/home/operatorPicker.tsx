@@ -39,9 +39,8 @@ export default function OperatorPicker(): JSX.Element {
 						fontSize: scale(21),
 					}}
 					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
-					rotationFunction={(x: number) => 1 - Math.pow(1 / 4, x)}
 					selectedIndex={operatorIndex}
-					visibleRest={4}
+					itemHeight={41}
 					decelerationRate={"fast"}
 					onChange={(index) => {
 						setOperatorId(operators[index].identifier);

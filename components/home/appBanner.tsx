@@ -46,16 +46,7 @@ export function AppBanner(): JSX.Element {
 	};
 
 	return (
-		<View
-			style={{
-				backgroundColor: colors.ladefuchsDarkBackground,
-				alignItems: "center",
-				overflow: "visible",
-				flex: 16,
-				display: "flex",
-				justifyContent: "center",
-			}}
-		>
+		<View style={styles.viewContainer}>
 			{banner && (
 				<>
 					<TouchableWithoutFeedback
@@ -85,6 +76,14 @@ export function AppBanner(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+	viewContainer: {
+		backgroundColor: colors.ladefuchsDarkBackground,
+		alignItems: "center",
+		overflow: "visible",
+		flex: 16,
+		display: "flex",
+		justifyContent: "center",
+	},
 	blankBanner: {
 		backgroundColor: "#fff",
 		marginTop: -2,
