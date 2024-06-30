@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
@@ -15,6 +15,8 @@ export default function OperatorPicker(): JSX.Element {
 			setOperatorId: state.setOperatorId,
 		}))
 	);
+
+	const [operatorIndex, setOperatorIndex] = useState(0);
 
 	if (!operatorId) {
 		return <></>;
@@ -37,13 +39,13 @@ export default function OperatorPicker(): JSX.Element {
 						fontSize: scale(21),
 					}}
 					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
-					selectedIndex={0}
-					// scaleFunction={(x: number) => 0.8 ** x}
 					rotationFunction={(x: number) => 1 - Math.pow(1 / 4, x)}
+					selectedIndex={operatorIndex}
 					visibleRest={4}
 					decelerationRate={"fast"}
 					onChange={(index) => {
 						setOperatorId(operators[index].identifier);
+						setOperatorIndex(index);
 					}}
 				/>
 			</View>
