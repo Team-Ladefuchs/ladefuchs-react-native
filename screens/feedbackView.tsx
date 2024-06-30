@@ -4,12 +4,12 @@ import {
 	Text,
 	Button,
 	TextInput,
-	ScrollView,
+	TouchableOpacity,
 	KeyboardAvoidingView,
 	Platform,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { styles } from "../theme";
+import { colors, styles } from "../theme";
 import { AppLogo } from "../components/header/appLogo";
 
 function FeedbackView() {
@@ -26,7 +26,10 @@ function FeedbackView() {
 			style={styles.container}
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 		>
-			<View contentContainerStyle={styles.scrollContainer}>
+			<View style={{
+				backgroundColor: colors.ladefuchsLightBackground,
+				height: "100%",
+			}}>
 				<View style={styles.headerView}>
 					<Text style={styles.headLine}>
 						Hast Du Futter für den Fuchs?
@@ -80,8 +83,10 @@ function FeedbackView() {
 						/>
 					</View>
 					<View style={styles.buttonContainer}>
-						<Button title="Senden" onPress={handleSubmit} />
-					</View>
+                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                            <Text style={styles.buttonText}>Senden</Text>
+                        </TouchableOpacity>
+                    </View>
 				</View>
 			</View>
 		</KeyboardAvoidingView>

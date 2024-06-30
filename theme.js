@@ -62,7 +62,8 @@ const styles = {
         paddingHorizontal: 10,
         width: '100%',
         alignSelf: 'center',
-        textAlignVertical: 'top' // Text beginnt oben
+        textAlignVertical: 'top', // Text beginnt oben
+		backgroundColor: "white"
     },
 	picker: {
         width: '100%',
@@ -71,8 +72,18 @@ const styles = {
 
     buttonContainer: {
         marginTop: 2,
-        width: '80%',
+        width: '100%',
         alignSelf: 'center',
+		backgroundColor: colors.ladefuchsOrange,
+		borderRadius: 12,
+    },
+	buttonText: {
+        color: '#fff', // Schriftfarbe des Buttons
+        fontSize: 20,
+        fontWeight: 'bold',
+		alignSelf: 'center',
+		marginTop:10,
+		marginBottom: 10,
     },
 };
 export { colors, fonts, styles };
