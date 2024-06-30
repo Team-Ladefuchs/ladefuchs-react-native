@@ -11,21 +11,15 @@ import { OfflineView } from "../components/home/offline";
 import { ScaledSheet } from "react-native-size-matters";
 
 export function HomeScreen(): JSX.Element {
-	const {
-		operatorId,
-		setOperatorId,
-		chargingConditions,
-		setTariffConditions,
-		appError,
-	} = useAppStore(
-		useShallow((state) => ({
-			operatorId: state.operatorId,
-			setOperatorId: state.setOperatorId,
-			chargingConditions: state.chargingConditions,
-			setTariffConditions: state.setTariffConditions,
-			appError: state.appError,
-		}))
-	);
+	const { operatorId, chargingConditions, setTariffConditions, appError } =
+		useAppStore(
+			useShallow((state) => ({
+				operatorId: state.operatorId,
+				chargingConditions: state.chargingConditions,
+				setTariffConditions: state.setTariffConditions,
+				appError: state.appError,
+			}))
+		);
 
 	// Lade die Conditions aus dem Cache, wenn sich der Operator geändert hat
 	useEffect(() => {
@@ -36,7 +30,7 @@ export function HomeScreen(): JSX.Element {
 		if (tariffConditions) {
 			setTariffConditions(tariffConditions);
 		}
-	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
+	}, [operatorId, setTariffConditions, chargingConditions]);
 
 	if (appError) {
 		return <OfflineView />;

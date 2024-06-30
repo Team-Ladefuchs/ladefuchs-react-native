@@ -4,9 +4,8 @@ import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
 import { Platform, View } from "react-native";
-import WheelPicker from "@quidone/react-native-wheel-picker";
+import WheelPicker from "react-native-wheely";
 import { scale } from "react-native-size-matters";
-import { useDebounce } from "../../hooks/debounce";
 
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
@@ -17,10 +16,6 @@ export default function OperatorPicker(): JSX.Element {
 		}))
 	);
 
-	const debouncedChangeHandler = useDebounce((operatorId: string) => {
-		setOperatorId(operatorId);
-	}, 210);
-
 	if (!operatorId) {
 		return <></>;
 	}
@@ -30,22 +25,25 @@ export default function OperatorPicker(): JSX.Element {
 			<View
 				style={{
 					flex: 1,
+					display: "flex",
 					paddingHorizontal: scale(16),
 					marginBottom: 5,
 					justifyContent: "center",
 				}}
 			>
 				<WheelPicker
-					data={operators.map((item) => ({
-						label: item.name,
-						value: item.identifier,
-					}))}
+					options={operators.map((item) => item.name)}
 					itemTextStyle={{
 						fontSize: scale(21),
 					}}
-					itemHeight={scale(40)}
-					onValueChanging={({ item }) => {
-						debouncedChangeHandler(item.value);
+					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
+					selectedIndex={0}
+					// scaleFunction={(x: number) => 0.8 ** x}
+					rotationFunction={(x: number) => 1 - Math.pow(1 / 4, x)}
+					visibleRest={4}
+					decelerationRate={"fast"}
+					onChange={(index) => {
+						setOperatorId(operators[index].identifier);
 					}}
 				/>
 			</View>
