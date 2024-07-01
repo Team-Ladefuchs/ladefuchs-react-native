@@ -63,7 +63,8 @@ const styles = {
         width: '100%',
         alignSelf: 'center',
         textAlignVertical: 'top', // Text beginnt oben
-		backgroundColor: "white"
+		backgroundColor: "white",
+		borderRadius: 12,
     },
 	picker: {
         width: '100%',
@@ -79,11 +80,11 @@ const styles = {
     },
 	buttonText: {
         color: '#fff', // Schriftfarbe des Buttons
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
-		alignSelf: 'center',
-		marginTop:10,
-		marginBottom: 10,
+		textAlign: 'center',
+		marginTop:12,
+		marginBottom: 12,
     },
 };
 export { colors, fonts, styles };
