@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Tariff } from "../../types/tariff";
-import { TariffCondition } from "../../types/conditions";
+import { Tariff } from "../../../types/tariff";
+import { TariffCondition } from "../../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
-import { CardImage } from "../cardImage";
-import { useFormatNumber } from "../../hooks/numberFormat";
+import { CardImage } from "../../cardImage";
+import { useFormatNumber } from "../../../hooks/numberFormat";
 import { scale } from "react-native-size-matters";
 
 interface ChargeCardModel {
@@ -12,7 +12,7 @@ interface ChargeCardModel {
 	tariffCondition: TariffCondition | null;
 }
 
-export function ChargeCondition({
+export function ChargeConditionRow({
 	tariff,
 	tariffCondition,
 }: ChargeCardModel): JSX.Element {
@@ -69,5 +69,3 @@ const styles = StyleSheet.create({
 		fontWeight: "400",
 	},
 });
-
-export default ChargeCondition;

@@ -1,9 +1,9 @@
-import React, { useState, useTransition } from "react";
+import React, { useMemo, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
-import { Platform, View } from "react-native";
+import { Platform, View, StyleSheet } from "react-native";
 import WheelPicker from "react-native-wheely";
 import { scale } from "react-native-size-matters";
 
@@ -18,23 +18,28 @@ export default function OperatorPicker(): JSX.Element {
 
 	const [operatorIndex, setOperatorIndex] = useState(0);
 
+	const operatorList = useMemo(() => {
+		return operators.map((item) => ({
+			name: item.name,
+			id: item.identifier,
+		}));
+	}, [operators]);
+
 	if (!operatorId) {
-		return <></>;
+		return <View style={styles.pickerContainer} />;
 	}
 
 	if (Platform.OS === "android") {
 		return (
 			<View
 				style={{
-					flex: 1,
-					display: "flex",
+					...styles.pickerContainer,
 					paddingHorizontal: scale(16),
 					marginBottom: 5,
-					justifyContent: "center",
 				}}
 			>
 				<WheelPicker
-					options={operators.map((item) => item.name)}
+					options={operatorList?.map((item) => item.name)}
 					itemTextStyle={{
 						fontSize: scale(21),
 					}}
@@ -51,26 +56,38 @@ export default function OperatorPicker(): JSX.Element {
 		);
 	}
 	return (
-		<Picker
-			selectedValue={operatorId}
-			itemStyle={{
-				fontSize: scale(20),
-				fontWeight: "400",
-				backgroundColor: colors.ladefuchsLightBackground,
-				width: "100%",
-				height: "100%",
-			}}
-			onValueChange={(operatorValue) => {
-				setOperatorId(operatorValue);
-			}}
-		>
-			{operators?.map((operator) => (
-				<Picker.Item
-					key={operator.identifier}
-					label={operator.name}
-					value={operator.identifier}
-				/>
-			))}
-		</Picker>
+		<View style={styles.pickerContainer}>
+			<Picker
+				selectedValue={operatorId}
+				itemStyle={styles.defaultPickerItemStyle}
+				onValueChange={(operatorValue) => {
+					setOperatorId(operatorValue);
+				}}
+			>
+				{operatorList?.map((operator) => (
+					<Picker.Item
+						key={operator.id}
+						label={operator.name}
+						value={operator.id}
+					/>
+				))}
+			</Picker>
+		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	defaultPickerItemStyle: {
+		fontSize: scale(20),
+		fontWeight: "400",
+		backgroundColor: colors.ladefuchsLightBackground,
+		width: "100%",
+		height: "100%",
+	},
+	pickerContainer: {
+		flex: 46,
+		justifyContent: "center",
+		alignContent: "center",
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+});

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { colors } from "../theme";
+import { colors } from "../../../theme";
 import CCS from "@assets/plugs/ccs.svg";
 import Typ2 from "@assets/plugs/typ2.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
