@@ -18,7 +18,7 @@ function FeedbackView() {
 
 	const handleSubmit = () => {
 		console.log("Freitext:", freitext);
-		console.log("Preis Antwort:", preisAntwort);
+		console.log("Hinweis auf:", preisAntwort);
 	};
 
 	return (
@@ -26,10 +26,12 @@ function FeedbackView() {
 			style={styles.container}
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 		>
-			<View style={{
-				backgroundColor: colors.ladefuchsLightBackground,
-				height: "100%",
-			}}>
+			<View
+				style={{
+					backgroundColor: colors.ladefuchsLightBackground,
+					height: "100%",
+				}}
+			>
 				<View style={styles.headerView}>
 					<Text style={styles.headLine}>
 						Hast Du Futter für den Fuchs?
@@ -67,7 +69,11 @@ function FeedbackView() {
 							<Picker.Item label="DC Preis" value="DC" />
 							<Picker.Item
 								label="Blockiergebühr"
-								value="Gebühr"
+								value="Blockiergebühr"
+							/>
+							<Picker.Item
+								label="Monatliche Gebühr"
+								value="Monatliche Gebühr"
 							/>
 						</Picker>
 					</View>
@@ -83,10 +89,13 @@ function FeedbackView() {
 						/>
 					</View>
 					<View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                            <Text style={styles.buttonText}>Senden</Text>
-                        </TouchableOpacity>
-                    </View>
+						<TouchableOpacity
+							style={styles.button}
+							onPress={handleSubmit}
+						>
+							<Text style={styles.buttonText}>Senden</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
 		</KeyboardAvoidingView>
