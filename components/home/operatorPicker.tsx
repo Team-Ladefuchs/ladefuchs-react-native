@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "../../theme";
 import { Platform, View } from "react-native";
-import WheelPicker from "@quidone/react-native-wheel-picker";
+import WheelPicker from "react-native-wheely";
+import { scale } from "react-native-size-matters";
 
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
@@ -15,6 +16,8 @@ export default function OperatorPicker(): JSX.Element {
 		}))
 	);
 
+	const [operatorIndex, setOperatorIndex] = useState(0);
+
 	if (!operatorId) {
 		return <></>;
 	}
@@ -24,23 +27,24 @@ export default function OperatorPicker(): JSX.Element {
 			<View
 				style={{
 					flex: 1,
-					paddingHorizontal: 16,
-					marginTop: -5,
+					display: "flex",
+					paddingHorizontal: scale(16),
+					marginBottom: 5,
 					justifyContent: "center",
 				}}
 			>
 				<WheelPicker
-					data={operators.map((item) => ({
-						label: item.name,
-						value: item.identifier,
-					}))}
+					options={operators.map((item) => item.name)}
 					itemTextStyle={{
-						fontSize: 21,
+						fontSize: scale(21),
 					}}
-					value={operatorId}
-					itemHeight={40}
-					onValueChanged={({ item }) => {
-						setOperatorId(item.value);
+					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
+					selectedIndex={operatorIndex}
+					itemHeight={41}
+					decelerationRate={"fast"}
+					onChange={(index) => {
+						setOperatorId(operators[index].identifier);
+						setOperatorIndex(index);
 					}}
 				/>
 			</View>
@@ -50,7 +54,7 @@ export default function OperatorPicker(): JSX.Element {
 		<Picker
 			selectedValue={operatorId}
 			itemStyle={{
-				fontSize: 22,
+				fontSize: scale(20),
 				fontWeight: "400",
 				backgroundColor: colors.ladefuchsLightBackground,
 				width: "100%",

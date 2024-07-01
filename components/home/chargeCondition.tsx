@@ -1,16 +1,11 @@
 import React from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	TouchableOpacity,
-	Platform,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Tariff } from "../../types/tariff";
 import { TariffCondition } from "../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../cardImage";
 import { useFormatNumber } from "../../hooks/numberFormat";
+import { scale } from "react-native-size-matters";
 
 interface ChargeCardModel {
 	tariff: Tariff | null | undefined;
@@ -45,6 +40,7 @@ export function ChargeCondition({
 		>
 			<CardImage
 				tariff={tariff}
+				width={72}
 				showHighlightCorner={showHighlightCorner}
 			/>
 
@@ -57,27 +53,20 @@ export function ChargeCondition({
 
 const styles = StyleSheet.create({
 	cardAndPriceContainer: {
-		height: 69,
 		flex: 1,
 		display: "flex",
-		columnGap: 16,
+		columnGap: scale(16),
+		paddingVertical: scale(8),
 		alignContent: "center",
 		position: "relative",
 		justifyContent: "center",
 		flexDirection: "row",
 		alignItems: "center",
-		paddingHorizontal: 24,
+		paddingHorizontal: scale(24),
 	},
 	priceText: {
-		...Platform.select({
-			android: {
-				fontSize: 23,
-			},
-			default: {
-				fontSize: 25,
-				fontWeight: "400",
-			},
-		}),
+		fontSize: scale(24),
+		fontWeight: "400",
 	},
 });
 

@@ -3,11 +3,11 @@ import {
 	Linking,
 	Text,
 	TouchableOpacity,
-	StyleSheet,
 	Platform,
 } from "react-native";
 import { colors } from "../../theme";
 import React from "react";
+import { ScaledSheet } from "react-native-size-matters";
 
 export function AffiliateButton({
 	link,
@@ -32,30 +32,23 @@ export function AffiliateButton({
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	button: {
 		...Platform.select({
 			android: {
-				padding: 9,
-				marginBottom: 16,
+				marginBottom: "14@s",
+				padding: "8@s",
 			},
 			default: {
-				padding: 12,
-				marginBottom: 12,
+				marginBottom: "1@s",
+				padding: "9@s",
 			},
 		}),
 		backgroundColor: colors.ladefuchsOrange,
-		borderRadius: 12,
+		borderRadius: "12@s",
 	},
 	buttonText: {
-		...Platform.select({
-			android: {
-				fontSize: 20,
-			},
-			default: {
-				fontSize: 24,
-			},
-		}),
+		fontSize: "22@s",
 		color: "#fff",
 		textAlign: "center",
 		fontWeight: "bold",

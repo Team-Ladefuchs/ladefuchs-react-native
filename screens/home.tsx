@@ -8,23 +8,18 @@ import { AppBanner } from "../components/home/appBanner";
 import { ChargingTableHeader } from "../components/chargingHeader";
 import { useAppStore } from "../state/state";
 import { OfflineView } from "../components/home/offline";
+import { ScaledSheet } from "react-native-size-matters";
 
 export function HomeScreen(): JSX.Element {
-	const {
-		operatorId,
-		setOperatorId,
-		chargingConditions,
-		setTariffConditions,
-		appError,
-	} = useAppStore(
-		useShallow((state) => ({
-			operatorId: state.operatorId,
-			setOperatorId: state.setOperatorId,
-			chargingConditions: state.chargingConditions,
-			setTariffConditions: state.setTariffConditions,
-			appError: state.appError,
-		}))
-	);
+	const { operatorId, chargingConditions, setTariffConditions, appError } =
+		useAppStore(
+			useShallow((state) => ({
+				operatorId: state.operatorId,
+				chargingConditions: state.chargingConditions,
+				setTariffConditions: state.setTariffConditions,
+				appError: state.appError,
+			}))
+		);
 
 	// Lade die Conditions aus dem Cache, wenn sich der Operator geändert hat
 	useEffect(() => {
@@ -35,7 +30,7 @@ export function HomeScreen(): JSX.Element {
 		if (tariffConditions) {
 			setTariffConditions(tariffConditions);
 		}
-	}, [operatorId, setOperatorId, setTariffConditions, chargingConditions]);
+	}, [operatorId, setTariffConditions, chargingConditions]);
 
 	if (appError) {
 		return <OfflineView />;
@@ -44,50 +39,49 @@ export function HomeScreen(): JSX.Element {
 	return (
 		<View style={{ flex: 1 }}>
 			<ChargingTableHeader />
-			<View
-				style={{
-					flex: 92,
-					backgroundColor: colors.ladefuchsLightBackground,
-				}}
-			>
+			<View style={styles.chargingTableContainer}>
 				<ChargeConditionTable />
 			</View>
-			<View
-				style={{
-					paddingTop: 12,
-					paddingBottom: 12,
-					backgroundColor: colors.ladefuchsDarkBackground,
-					alignItems: "center",
-					justifyContent: "center",
-					shadowColor: "#000",
-					shadowOffset: { width: 0, height: -2 },
-					shadowOpacity: 0.3,
-					shadowRadius: 3,
-					elevation: 5, // nur für Android
-					zIndex: 1,
-				}}
-			>
-				<Text
-					style={{
-						color: "black",
-						fontFamily: "Roboto",
-						fontSize: 16,
-					}}
-				>
+			<View style={styles.pickerBanner}>
+				<Text style={styles.pickerBannerText}>
 					AN WELCHER SÄULE STEHST DU?
 				</Text>
 			</View>
-			<View
-				style={{
-					flex: 45,
-					justifyContent: "center",
-					alignContent: "center",
-					backgroundColor: colors.ladefuchsLightBackground,
-				}}
-			>
+			<View style={styles.pickerContainer}>
 				<OperatorPicker />
 			</View>
 			<AppBanner />
 		</View>
 	);
 }
+
+const styles = ScaledSheet.create({
+	chargingTableContainer: {
+		flex: 89,
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	pickerContainer: {
+		flex: 46,
+		justifyContent: "center",
+		alignContent: "center",
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	pickerBanner: {
+		paddingTop: "10@s",
+		paddingBottom: "10@s",
+		backgroundColor: colors.ladefuchsDarkBackground,
+		alignItems: "center",
+		justifyContent: "center",
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: -2 },
+		shadowOpacity: 0.3,
+		shadowRadius: 3,
+		elevation: 5,
+		zIndex: 1,
+	},
+	pickerBannerText: {
+		fontSize: "16@s",
+		color: "black",
+		fontFamily: "Roboto",
+	},
+});
