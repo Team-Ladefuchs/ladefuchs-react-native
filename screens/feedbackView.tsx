@@ -17,9 +17,10 @@ import { useRoute } from "@react-navigation/native";
 
 function FeedbackView() {
 	const route = useRoute();
-	const { tariff, tariffCondition } = route.params as {
+	const { tariff, tariffCondition, operatorName } = route.params as {
 		tariff: Tariff;
 		tariffCondition: TariffCondition;
+		operatorName: string;
 	};
 
 	const [preisAntwort, setPreisAntwort] = useState("AC");
@@ -29,14 +30,14 @@ function FeedbackView() {
 		console.log("Freitext:", freitext);
 		console.log("Hinweis auf:", preisAntwort);
 		console.log("Tarif:", tariff.name);
-		console.log("url:", operatorImageUrl);
+		console.log("CPO:", operatorName);
 	};
 
-	if (!tariff || !tariffCondition) {
+	if (!tariff || !tariffCondition || !operatorName) {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.headLine}>
-					Fehler: Tarif oder Tarifbedingung nicht gefunden
+					Fehler: Tarif, Tarifbedingung oder Operator nicht gefunden
 				</Text>
 			</View>
 		);
@@ -70,8 +71,7 @@ function FeedbackView() {
 						>
 							<DetailLogos
 								tariff={tariff}
-								operatorName={tariff}
-								operatorImageUrl={operatorImageUrl}
+								operatorName={operatorName}
 							/>
 						</View>
 						<View

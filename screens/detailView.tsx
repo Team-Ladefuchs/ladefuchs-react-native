@@ -92,6 +92,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
                         link={tariff.affiliateLinkUrl}
                         tariff={tariff}
                         tariffCondition={acTariffCondition || dcTariffCondition} // Übergebe die relevante Bedingung
+                        operatorName={operator!.name} // Füge den Operatornamen hinzu
                     />
                 </View>
             </ScrollView>

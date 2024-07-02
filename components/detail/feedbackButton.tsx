@@ -8,12 +8,14 @@ interface FeedbackButtonProps {
     link: string | null | undefined;
     tariff: Tariff | null | undefined;
     tariffCondition: TariffCondition | null;
+    operatorName: string; // Füge den Operatornamen hinzu
 }
 
 export function FeedbackButton({
     link,
     tariff,
     tariffCondition,
+    operatorName,
 }: FeedbackButtonProps): JSX.Element {
     const navigation = useNavigation();
 
@@ -22,7 +24,7 @@ export function FeedbackButton({
     }
 
     const onPress = () => {
-        navigation.navigate("Feedback", { tariff, tariffCondition });
+        navigation.navigate("Feedback", { tariff, tariffCondition, operatorName });
     };
 
     return (
