@@ -92,6 +92,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 					</View>
 					<MonthlyFee fee={tariff.monthlyFee} />
 					<Notes notes={tariff.note} />
+					<FeedbackButton link={tariff.affiliateLinkUrl} />
 				</View>
 			</ScrollView>
 			<AffiliateButton link={tariff.affiliateLinkUrl} />
