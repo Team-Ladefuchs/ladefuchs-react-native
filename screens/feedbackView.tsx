@@ -17,11 +17,13 @@ import { useRoute } from "@react-navigation/native";
 
 function FeedbackView() {
 	const route = useRoute();
-	const { tariff, tariffCondition, operatorName } = route.params as {
-		tariff: Tariff;
-		tariffCondition: TariffCondition;
-		operatorName: string;
-	};
+	const { tariff, tariffCondition, operatorName, operatorImageUrl } =
+		route.params as {
+			tariff: Tariff;
+			tariffCondition: TariffCondition;
+			operatorName: string;
+			operatorImageUrl: string;
+		};
 
 	const [preisAntwort, setPreisAntwort] = useState("AC");
 	const [freitext, setFreitext] = useState("");
@@ -30,8 +32,7 @@ function FeedbackView() {
 		console.log("Freitext:", freitext);
 		console.log("Hinweis auf:", preisAntwort);
 		console.log("Tarif:", tariff.name);
-		console.log("CPO:", operatorName);
-	};
+		console.log("CPO:", operatorName);	};
 
 	if (!tariff || !tariffCondition || !operatorName) {
 		return (
@@ -43,8 +44,8 @@ function FeedbackView() {
 		);
 	}
 
-	const operatorImageUrl =
-		tariff.imageUrl || "https://via.placeholder.com/125x180.png"; // Fallback für CPO-Bild
+	const fallbackImageUrl = "https://via.placeholder.com/125x180.png";
+	const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
 
 	return (
 		<KeyboardAvoidingView
@@ -72,6 +73,7 @@ function FeedbackView() {
 							<DetailLogos
 								tariff={tariff}
 								operatorName={operatorName}
+								operatorImageUrl={displayedImageUrl}
 							/>
 						</View>
 						<View

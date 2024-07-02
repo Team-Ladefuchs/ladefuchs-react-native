@@ -93,6 +93,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
                         tariff={tariff}
                         tariffCondition={acTariffCondition || dcTariffCondition} // Übergebe die relevante Bedingung
                         operatorName={operator!.name} // Füge den Operatornamen hinzu
+                        operatorImageUrl={operator!.imageUrl} // Füge die OperatorImageUrl hinzu
                     />
                 </View>
             </ScrollView>

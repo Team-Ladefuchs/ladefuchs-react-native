@@ -5,52 +5,59 @@ import { Tariff } from "../../../types/tariff";
 import { TariffCondition } from "../../../types/conditions";
 
 interface FeedbackButtonProps {
-    link: string | null | undefined;
-    tariff: Tariff | null | undefined;
-    tariffCondition: TariffCondition | null;
-    operatorName: string; // Füge den Operatornamen hinzu
+	link: string | null | undefined;
+	tariff: Tariff | null | undefined;
+	tariffCondition: TariffCondition | null;
+	operatorName: string; // Füge den Operatornamen hinzu
+	operatorImageUrl: string; // Füge die OperatorImageUrl hinzu
 }
 
 export function FeedbackButton({
-    link,
-    tariff,
-    tariffCondition,
-    operatorName,
+	link,
+	tariff,
+	tariffCondition,
+	operatorName,
+	operatorImageUrl,
 }: FeedbackButtonProps): JSX.Element {
-    const navigation = useNavigation();
+	const navigation = useNavigation();
 
-    if (!link) {
-        return <></>;
-    }
+	if (!link) {
+		return <></>;
+	}
 
-    const onPress = () => {
-        navigation.navigate("Feedback", { tariff, tariffCondition, operatorName });
-    };
+	const onPress = () => {
+		navigation.navigate("Feedback", {
+			tariff,
+			tariffCondition,
+			operatorName,
+			operatorImageUrl,
+		});
+	};
 
-    return (
-        <SafeAreaView style={{ marginTop: 10, marginHorizontal: 0 }}>
-            <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.button}
-                onPress={onPress}
-            >
-                <Text style={[styles.headerText, styles.underlinedText]}>
-                    {"Preise falsch? Dann sag dem Fuchs Bescheid!"}
-                </Text>
-            </TouchableOpacity>
-        </SafeAreaView>
-    );
+	return (
+		<SafeAreaView style={{ marginTop: 10, marginHorizontal: 0 }}>
+			<TouchableOpacity
+				activeOpacity={0.8}
+				style={styles.button}
+				onPress={onPress}
+			>
+				<Text style={[styles.headerText, styles.underlinedText]}>
+					{"Preise falsch? Dann sag dem Fuchs Bescheid!"}
+				</Text>
+			</TouchableOpacity>
+		</SafeAreaView>
+	);
 }
 
 const styles = StyleSheet.create({
-    button: {
-        // Add your button styles here
-    },
-    underlinedText: {
-        textDecorationLine: "underline",
-        color: "grey",
-        fontFamily: "Bitter",
-        fontSize: 15,
-        lineHeight: 20,
-    },
+	button: {
+		// Add your button styles here
+	},
+	underlinedText: {
+		textDecorationLine: "underline",
+		color: "grey",
+		fontFamily: "Bitter",
+		fontSize: 15,
+		lineHeight: 20,
+	},
 });
