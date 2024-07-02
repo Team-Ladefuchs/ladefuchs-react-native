@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
 	View,
+	ScrollView,
 	Text,
 	TextInput,
 	TouchableOpacity,
@@ -28,12 +29,13 @@ function FeedbackView() {
 		price: 10,
 	}; // Fallback Tariff
 	const operatorName = "Operator Name";
-	const operatorImageUrl = "https://example.com/operator.png"; // Fallback CPO
+	const operatorImageUrl = "https://via.placeholder.com/125x180.png"; // CPO jetzt erstmal mit placeholder... Infos aus state
 	return (
 		<KeyboardAvoidingView
 			style={styles.container}
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 		>
+			            <ScrollView contentContainerStyle={styles.scrollContainer}>
 			<View
 				style={{
 					backgroundColor: colors.ladefuchsLightBackground,
@@ -110,6 +112,7 @@ function FeedbackView() {
 					</View>
 				</View>
 			</View>
+			</ScrollView>
 		</KeyboardAvoidingView>
 	);
 }
