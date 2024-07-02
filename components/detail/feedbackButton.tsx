@@ -1,9 +1,21 @@
 import React from "react";
-import { SafeAreaView, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../../theme";
+import { Tariff } from "../../../types/tariff";
+import { TariffCondition } from "../../../types/conditions";
 
-export function FeedbackButton({ link }: { link: string | null | undefined }): JSX.Element {
+interface ChargeCardModel {
+	tariff: Tariff | null | undefined;
+	tariffCondition: TariffCondition | null;
+}
+
+export function FeedbackButton({
+	link,
+	tariff,
+	tariffCondition,
+}: {
+	link: string | null | undefined;
+}): JSX.Element {
 	const navigation = useNavigation();
 
 	if (!link) {
@@ -11,11 +23,11 @@ export function FeedbackButton({ link }: { link: string | null | undefined }): J
 	}
 
 	const onPress = () => {
-		navigation.navigate("Feedback");
+		navigation.navigate("Feedback", { tariff, tariffCondition });
 	};
 
 	return (
-		<SafeAreaView style={{ marginTop: 20, marginHorizontal: 0 }}>
+		<SafeAreaView style={{ marginTop: 10, marginHorizontal: 0 }}>
 			<TouchableOpacity
 				activeOpacity={0.8}
 				style={styles.button}
@@ -30,13 +42,11 @@ export function FeedbackButton({ link }: { link: string | null | undefined }): J
 }
 
 const styles = StyleSheet.create({
-
-
 	underlinedText: {
-		textDecorationLine: 'underline',
+		textDecorationLine: "underline",
 		color: "grey",
 		fontFamily: "Bitter",
 		fontSize: 15,
 		lineHeight: 20,
-	  },
+	},
 });

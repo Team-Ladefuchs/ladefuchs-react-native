@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
 	View,
 	Text,
-	Button,
 	TextInput,
 	TouchableOpacity,
 	KeyboardAvoidingView,
@@ -10,7 +9,10 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { colors, styles } from "../theme";
-import { AppLogo } from "../components/header/appLogo";
+import { DetailLogos } from "../components/detail/detailLogos";
+import { Tariff } from "../types/tariff";
+
+const fallBack = require("@assets/cpo_generic.png");
 
 function FeedbackView() {
 	const [preisAntwort, setPreisAntwort] = useState("AC");
@@ -20,7 +22,13 @@ function FeedbackView() {
 		console.log("Freitext:", freitext);
 		console.log("Hinweis auf:", preisAntwort);
 	};
-
+	const sampleTariff: Tariff = {
+		id: "1",
+		name: "Card Tariff",
+		price: 10,
+	}; // Fallback Tariff
+	const operatorName = "Operator Name";
+	const operatorImageUrl = "https://example.com/operator.png"; // Fallback CPO
 	return (
 		<KeyboardAvoidingView
 			style={styles.container}
@@ -43,7 +51,11 @@ function FeedbackView() {
 							alignItems: "center",
 						}}
 					>
-						<AppLogo size={110} />
+						<DetailLogos
+							tariff={sampleTariff}
+							operatorName={operatorName}
+							operatorImageUrl={operatorImageUrl}
+						/>
 					</View>
 					<View
 						style={{
