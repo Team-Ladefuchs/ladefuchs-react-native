@@ -22,7 +22,7 @@ function FeedbackView() {
 			tariff: Tariff;
 			tariffCondition: TariffCondition;
 			operatorName: string;
-			operatorImageUrl: string;
+			operatorImageUrl: string | null;
 		};
 
 	const [preisAntwort, setPreisAntwort] = useState("AC");
@@ -32,7 +32,8 @@ function FeedbackView() {
 		console.log("Freitext:", freitext);
 		console.log("Hinweis auf:", preisAntwort);
 		console.log("Tarif:", tariff.name);
-		console.log("CPO:", operatorName);	};
+		console.log("CPO:", operatorName);
+	};
 
 	if (!tariff || !tariffCondition || !operatorName) {
 		return (
@@ -44,8 +45,9 @@ function FeedbackView() {
 		);
 	}
 
-	const fallbackImageUrl = "https://via.placeholder.com/125x180.png";
+	const fallbackImageUrl = require("@assets/cpo_generic.png");
 	const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
+	const OperatorName = operatorName || fallbackImageUrl;
 
 	return (
 		<KeyboardAvoidingView
@@ -72,7 +74,7 @@ function FeedbackView() {
 						>
 							<DetailLogos
 								tariff={tariff}
-								operatorName={operatorName}
+								operatorName={OperatorName}
 								operatorImageUrl={displayedImageUrl}
 							/>
 						</View>
