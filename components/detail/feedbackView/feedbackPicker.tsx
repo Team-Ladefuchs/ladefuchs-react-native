@@ -1,7 +1,9 @@
-// PickerComponent.tsx
 import React from "react";
-import { Picker } from "@react-native-picker/picker";
 import { styles } from "../../../theme";
+import { Picker } from "@react-native-picker/picker";
+import WheelPicker from "react-native-wheely";
+import { scale } from "react-native-size-matters";
+import { Platform, View} from "react-native";
 
 interface PickerComponentProps {
     selectedValue: string;
@@ -12,6 +14,20 @@ export const PickerComponent: React.FC<PickerComponentProps> = ({
     selectedValue,
     onValueChange,
 }) => {
+	if (Platform.OS === "android") {
+		return (
+			<View
+				style={{
+					...styles.pickerContainer,
+					paddingHorizontal: scale(16),
+					marginBottom: 250,
+				}}
+			>
+
+			</View>
+		);
+
+	}
     return (
         <Picker
             selectedValue={selectedValue}
