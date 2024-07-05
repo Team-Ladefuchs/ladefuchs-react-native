@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-    View,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-    Platform,
-} from 'react-native';
-import { colors, styles } from '../theme';
-import { DetailLogos } from '../components/detail/detailLogos';
-import { Tariff } from '../types/tariff';
-import { TariffCondition } from '../types/conditions';
-import { useRoute } from '@react-navigation/native';
-import { CheckboxComponent } from '../components/detail/feedbackView/checkbox';
+	View,
+	ScrollView,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	KeyboardAvoidingView,
+	Platform,
+	Alert,
+} from "react-native";
+import { colors, styles } from "../theme";
+import { DetailLogos } from "../components/detail/detailLogos";
+import { Tariff } from "../types/tariff";
+import { TariffCondition } from "../types/conditions";
+import { useRoute } from "@react-navigation/native";
+import { CheckboxComponent } from "../components/detail/feedbackView/checkbox";
 
 function FeedbackView() {
     const route = useRoute();
@@ -33,6 +34,12 @@ function FeedbackView() {
         console.log('Hinweis auf:', selectedOptions.join(', '));
         console.log('Tarif:', tariff.name);
         console.log('CPO:', operatorName);
+
+        Alert.alert(
+            "Danke für deine Meldung",
+            "",
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+        );
     };
 
     if (!tariff || !tariffCondition || !operatorName) {

@@ -1,7 +1,8 @@
 // CheckboxComponent.tsx
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { colors, styles } from "../../../theme";
 
 interface CheckboxComponentProps {
     options: { label: string; value: string }[];
@@ -24,24 +25,19 @@ export const CheckboxComponent: React.FC<CheckboxComponentProps> = ({
     return (
         <View style={styles.container}>
             {options.map((option) => (
-                <CheckBox
+                <TouchableOpacity
                     key={option.value}
-                    title={option.label}
-                    checked={selectedOptions.includes(option.value)}
+                    style={styles.checkboxContainer}
                     onPress={() => handleCheckboxChange(option.value)}
-                    containerStyle={styles.checkboxContainer}
-                />
+                >
+                    <View style={styles.checkbox}>
+                        {selectedOptions.includes(option.value) && (
+                            <Icon name="check" size={24} color="#000" />
+                        )}
+                    </View>
+                    <Text style={styles.label}>{option.label}</Text>
+                </TouchableOpacity>
             ))}
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        marginVertical: 10,
-    },
-    checkboxContainer: {
-        backgroundColor: 'transparent',
-        borderWidth: 0,
-    },
-});
