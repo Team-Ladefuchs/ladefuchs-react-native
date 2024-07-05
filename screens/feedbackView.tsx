@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
     View,
     ScrollView,
@@ -7,13 +7,13 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
-} from "react-native";
-import { colors, styles } from "../theme";
-import { DetailLogos } from "../components/detail/detailLogos";
-import { Tariff } from "../types/tariff";
-import { TariffCondition } from "../types/conditions";
-import { useRoute } from "@react-navigation/native";
-import { PickerComponent } from "../components/detail/feedbackView/feedbackPicker";
+} from 'react-native';
+import { colors, styles } from '../theme';
+import { DetailLogos } from '../components/detail/detailLogos';
+import { Tariff } from '../types/tariff';
+import { TariffCondition } from '../types/conditions';
+import { useRoute } from '@react-navigation/native';
+import { CheckboxComponent } from '../components/detail/feedbackView/checkbox';
 
 function FeedbackView() {
     const route = useRoute();
@@ -25,14 +25,14 @@ function FeedbackView() {
             operatorImageUrl: string | null;
         };
 
-    const [preisAntwort, setPreisAntwort] = useState("AC");
-    const [freitext, setFreitext] = useState("");
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [freitext, setFreitext] = useState('');
 
     const handleSubmit = () => {
-        console.log("Freitext:", freitext);
-        console.log("Hinweis auf:", preisAntwort);
-        console.log("Tarif:", tariff.name);
-        console.log("CPO:", operatorName);
+        console.log('Freitext:', freitext);
+        console.log('Hinweis auf:', selectedOptions.join(', '));
+        console.log('Tarif:', tariff.name);
+        console.log('CPO:', operatorName);
     };
 
     if (!tariff || !tariffCondition || !operatorName) {
@@ -45,20 +45,27 @@ function FeedbackView() {
         );
     }
 
-    const fallbackImageUrl = require("@assets/cpo_generic.png");
+    const fallbackImageUrl = require('@assets/cpo_generic.png');
     const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
     const OperatorName = operatorName || fallbackImageUrl;
+
+    const checkboxOptions = [
+        { label: 'AC Preis', value: 'AC' },
+        { label: 'DC Preis', value: 'DC' },
+        { label: 'Blockiergebühr', value: 'Blockiergebühr' },
+        { label: 'Monatliche Gebühr', value: 'Monatliche Gebühr' },
+    ];
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View
                     style={{
                         backgroundColor: colors.ladefuchsLightBackground,
-                        height: "100%",
+                        height: '100%',
                     }}
                 >
                     <View style={styles.headerView}>
@@ -67,9 +74,9 @@ function FeedbackView() {
                         </Text>
                         <View
                             style={{
-                                height: "25%",
-                                justifyContent: "center",
-                                alignItems: "center",
+                                height: '25%',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                             }}
                         >
                             <DetailLogos
@@ -80,9 +87,9 @@ function FeedbackView() {
                         </View>
                         <View
                             style={{
-                                height: "5%",
-                                justifyContent: "center",
-                                alignItems: "center",
+                                height: '5%',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                             }}
                         >
                             <Text style={styles.headerText}>
@@ -91,9 +98,10 @@ function FeedbackView() {
                         </View>
 
                         <View>
-                            <PickerComponent
-                                selectedValue={preisAntwort}
-                                onValueChange={setPreisAntwort}
+                            <CheckboxComponent
+                                options={checkboxOptions}
+                                selectedOptions={selectedOptions}
+                                onValueChange={setSelectedOptions}
                             />
                         </View>
                         <View>
