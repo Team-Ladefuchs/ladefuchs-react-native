@@ -13,11 +13,12 @@ import { colors, styles } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
 import { CheckboxComponent } from "../components/detail/feedbackView/checkbox";
 
 function FeedbackView() {
     const route = useRoute();
+    const navigation = useNavigation();
     const { tariff, tariffCondition, operatorName, operatorImageUrl } =
         route.params as {
             tariff: Tariff;
@@ -36,9 +37,14 @@ function FeedbackView() {
         console.log('CPO:', operatorName);
 
         Alert.alert(
-            "Danke für deine Meldung",
+            "Danke für deine Meldung. Wir prüfen unsere Daten.",
             "",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+            [
+                {
+                    text: "OK",
+                    onPress: () => navigation.navigate('Home'),
+                },
+            ]
         );
     };
 
@@ -81,7 +87,7 @@ function FeedbackView() {
                         </Text>
                         <View
                             style={{
-                                height: '25%',
+                                height: '35%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}
