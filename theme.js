@@ -54,34 +54,7 @@ const styles = {
 		lineHeight: 20,
 		paddingBottom: 15,
 	},
-	textInput: {
-        height: 60, // Erhöhte Höhe für mehrere Zeilen
-        borderColor: 'grey',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        width: '100%',
-        alignSelf: 'center',
-        textAlignVertical: 'top', // Text beginnt oben
-		backgroundColor: "white",
-		borderRadius: 12,
-    },
-
-    buttonContainer: {
-        marginTop: 2,
-        width: '100%',
-        alignSelf: 'center',
-		backgroundColor: colors.ladefuchsOrange,
-		borderRadius: 12,
-    },
-	buttonText: {
-        color: '#fff', // Schriftfarbe des Buttons
-        fontSize: 24,
-        fontWeight: 'bold',
-		textAlign: 'center',
-		marginTop:12,
-		marginBottom: 12,
-    },
+	
 
 };
 export { colors, fonts, styles };

@@ -9,7 +9,7 @@ import {
 	Platform,
 	Alert,
 } from "react-native";
-import { colors, styles } from "../theme";
+import { colors,styles } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
@@ -119,7 +119,7 @@ function FeedbackView() {
                         </View>
                         <View>
                             <TextInput
-                                style={styles.textInput}
+                                style={feedbackstyle.textInput}
                                 placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
                                 maxLength={160}
                                 value={freitext}
@@ -128,12 +128,12 @@ function FeedbackView() {
                                 numberOfLines={4}
                             />
                         </View>
-                        <View style={styles.buttonContainer}>
+                        <View style={feedbackstyle.buttonContainer}>
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={handleSubmit}
                             >
-                                <Text style={styles.buttonText}>Senden</Text>
+                                <Text style={feedbackstyle.buttonText}>Senden</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -142,5 +142,36 @@ function FeedbackView() {
         </KeyboardAvoidingView>
     );
 }
+
+const feedbackstyle = {
+	textInput: {
+        height: 60, // Erhöhte Höhe für mehrere Zeilen
+        borderColor: 'grey',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        width: '100%',
+        alignSelf: 'center',
+        textAlignVertical: 'top', // Text beginnt oben
+		backgroundColor: "white",
+		borderRadius: 12,
+    },
+
+    buttonContainer: {
+        marginTop: 2,
+        width: '100%',
+        alignSelf: 'center',
+		backgroundColor: colors.ladefuchsOrange,
+		borderRadius: 12,
+    },
+	buttonText: {
+        color: '#fff', // Schriftfarbe des Buttons
+        fontSize: 24,
+        fontWeight: 'bold',
+		textAlign: 'center',
+		marginTop:12,
+		marginBottom: 12,
+    },
+};
 
 export default FeedbackView;
