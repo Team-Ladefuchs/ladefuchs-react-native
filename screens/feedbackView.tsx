@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import {
-	View,
-	ScrollView,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	KeyboardAvoidingView,
-	Platform,
-	Alert,
+    View,
+    Text,
+    TextInput,
+    Alert,
+    Switch,
 } from "react-native";
-import { colors,styles } from "../theme";
+import { colors, styles } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
-import { useNavigation,useRoute } from "@react-navigation/native";
-import { CheckboxComponent } from "../components/detail/feedbackView/checkbox";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { LadefuchsButton } from "../components/detail/ladefuchsButton";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 function FeedbackView() {
     const route = useRoute();
@@ -27,21 +25,27 @@ function FeedbackView() {
             operatorImageUrl: string | null;
         };
 
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [freitext, setFreitext] = useState('');
+    const [isFalscherPreis, setIsFalscherPreis] = useState(true); // Set initial value to true
+    const [currentPrice, setCurrentPrice] = useState('');
+    const [newPrice, setNewPrice] = useState('');
 
-    const handleSubmit = () => {
-        console.log('Freitext:', freitext);
-        console.log('Hinweis auf:', selectedOptions.join(', '));
-        console.log('Tarif:', tariff.name);
-        console.log('CPO:', operatorName);
+const handleSubmit = () => {
+		console.log("CPO:", operatorName);
+		console.log("Tarif:", tariff.name);
+		console.log(
+			"Hinweis auf:",
+			isFalscherPreis ? "Falscher Preis" : "Anderes"
+		);
+		if (isFalscherPreis) {
+			console.log("Aktueller Preis:", currentPrice);
+			console.log("Neuer Preis:", newPrice);
+		}
+		console.log("Freitext:", freitext);
 
-        Alert.alert(
-            "Danke für deine Meldung. Wir prüfen unsere Daten.",
-            "",
-            [
-                {
-                    text: "OK",
+		Alert.alert("Danke für deine Meldung. Wir prüfen unsere Daten.", "", [
+			{
+				text: "OK",
                     onPress: () => navigation.navigate('Home'),
                 },
             ]
@@ -62,116 +66,154 @@ function FeedbackView() {
     const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
     const OperatorName = operatorName || fallbackImageUrl;
 
-    const checkboxOptions = [
-        { label: 'AC Preis', value: 'AC' },
-        { label: 'DC Preis', value: 'DC' },
-        { label: 'Blockiergebühr', value: 'Blockiergebühr' },
-        { label: 'Monatliche Gebühr', value: 'Monatliche Gebühr' },
-    ];
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.scrollContainer}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled
         >
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <View
-                    style={{
-                        backgroundColor: colors.ladefuchsLightBackground,
-                        height: '100%',
-                    }}
-                >
-                    <View style={styles.headerView}>
-                        <Text style={styles.headLine}>
-                            Hast Du Futter für den Fuchs?
-                        </Text>
-                        <View
-                            style={{
-                                height: '35%',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <DetailLogos
-                                tariff={tariff}
-                                operatorName={OperatorName}
-                                operatorImageUrl={displayedImageUrl}
-                            />
-                        </View>
-                        <View
-                            style={{
-                                height: '5%',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Text style={styles.headerText}>
-                                Sag uns was nicht stimmt!
-                            </Text>
-                        </View>
-
-                        <View>
-                            <CheckboxComponent
-                                options={checkboxOptions}
-                                selectedOptions={selectedOptions}
-                                onValueChange={setSelectedOptions}
-                            />
-                        </View>
-                        <View>
-                            <TextInput
-                                style={feedbackstyle.textInput}
-                                placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
-                                maxLength={160}
-                                value={freitext}
-                                onChangeText={setFreitext}
-                                multiline
-                                numberOfLines={4}
-                            />
-                        </View>
-                        <View style={feedbackstyle.buttonContainer}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={handleSubmit}
-                            >
-                                <Text style={feedbackstyle.buttonText}>Senden</Text>
-                            </TouchableOpacity>
-                        </View>
+            <View
+                style={{
+                    backgroundColor: colors.ladefuchsLightBackground,
+                    height: '100%',
+                }}
+            >
+                <View style={styles.headerView}>
+                    <Text style={styles.headLine}>
+                        Hast Du Futter für den Fuchs?
+                    </Text>
+                    <View
+                        style={{
+                            height: '35%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <DetailLogos
+                            tariff={tariff}
+                            operatorName={OperatorName}
+                            operatorImageUrl={displayedImageUrl}
+                        />
                     </View>
+                    <View
+                        style={{
+                            height: '5%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Text style={styles.headerText}>
+                            Sag uns was nicht stimmt!
+                        </Text>
+                    </View>
+
+
+
+                    <View style={feedbackstyle.toggleContainer}>
+                        <Text style={feedbackstyle.toggleLabel}>Anderes</Text>
+                        <Switch
+                            value={isFalscherPreis}
+                            onValueChange={setIsFalscherPreis}
+                        />
+                        <Text style={feedbackstyle.toggleLabel}>Falscher Preis</Text>
+                    </View>
+
+                  {isFalscherPreis && (
+							<View style={feedbackstyle.priceContainer}>
+								<TextInput
+									style={feedbackstyle.priceInput}
+									placeholder="Aktueller Preis"
+									value={currentPrice}
+									onChangeText={setCurrentPrice}
+								/>
+								<TextInput
+									style={feedbackstyle.priceInput}
+									placeholder="Neuer Preis"
+									value={newPrice}
+									onChangeText={setNewPrice}
+								/>
+							</View>
+						)}
+
+
+                    <View>
+                        <TextInput
+                            style={feedbackstyle.textInput}
+                            placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
+                            maxLength={160}
+                            value={freitext}
+                            onChangeText={setFreitext}
+                            multiline
+                            numberOfLines={4}
+                        />
+                    </View>
+					<View>
+                    <LadefuchsButton link={tariff.affiliateLinkUrl} onPress={handleSubmit} />
+					</View>
                 </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+            </View>
+        </KeyboardAwareScrollView>
     );
 }
 
 const feedbackstyle = {
 	textInput: {
-        height: 60, // Erhöhte Höhe für mehrere Zeilen
-        borderColor: 'grey',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        width: '100%',
-        alignSelf: 'center',
-        textAlignVertical: 'top', // Text beginnt oben
+		height: 60, // Erhöhte Höhe für mehrere Zeilen
+		borderColor: "grey",
+		borderWidth: 1,
+		marginBottom: 10,
+		paddingHorizontal: 10,
+		width: "100%",
+		alignSelf: "center",
+		textAlignVertical: "top", // Text beginnt oben
 		backgroundColor: "white",
 		borderRadius: 12,
-    },
-
-    buttonContainer: {
-        marginTop: 2,
-        width: '100%',
-        alignSelf: 'center',
+	},
+	toggleContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "80%",
+		marginVertical: 20,
+		alignSelf: "center",
+	},
+	toggleLabel: {
+		fontSize: 16,
+	},
+	priceContainer: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		justifyContent: "space-between",
+		marginBottom: 0,
+	},
+	priceInput: {
+		height: 40, // Erhöhte Höhe für mehrere Zeilen
+		borderColor: "grey",
+		borderWidth: 1,
+		marginBottom: 10,
+		paddingHorizontal: 10,
+		width: "40%",
+		alignSelf: "center",
+		textAlignVertical: "top", // Text beginnt oben
+		backgroundColor: "white",
+		borderRadius: 12,
+	},
+	buttonContainer: {
+		marginTop: 2,
+		width: "100%",
+		alignSelf: "center",
 		backgroundColor: colors.ladefuchsOrange,
 		borderRadius: 12,
-    },
+	},
 	buttonText: {
-        color: '#fff', // Schriftfarbe des Buttons
-        fontSize: 24,
-        fontWeight: 'bold',
-		textAlign: 'center',
-		marginTop:12,
+		color: "#fff", // Schriftfarbe des Buttons
+		fontSize: 24,
+		fontWeight: "bold",
+		textAlign: "center",
+		marginTop: 12,
 		marginBottom: 12,
-    },
+	},
 };
 
 export default FeedbackView;
