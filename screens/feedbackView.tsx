@@ -5,7 +5,7 @@ import { DetailLogos } from "../components/detail/detailLogos";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { LadefuchsButton } from "../components/detail/ladefuch-Button";
+import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function FeedbackView() {
