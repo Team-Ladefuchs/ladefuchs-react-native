@@ -1,36 +1,30 @@
 import React, { useState } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    Alert,
-    Switch,
-} from "react-native";
+import { View, Text, TextInput, Alert, Switch } from "react-native";
 import { colors, styles } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { Tariff } from "../types/tariff";
 import { TariffCondition } from "../types/conditions";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { LadefuchsButton } from "../components/detail/ladefuchsButton";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { LadefuchsButton } from "../components/detail/priceButton";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function FeedbackView() {
-    const route = useRoute();
-    const navigation = useNavigation();
-    const { tariff, tariffCondition, operatorName, operatorImageUrl } =
-        route.params as {
-            tariff: Tariff;
-            tariffCondition: TariffCondition;
-            operatorName: string;
-            operatorImageUrl: string | null;
-        };
+	const route = useRoute();
+	const navigation = useNavigation();
+	const { tariff, tariffCondition, operatorName, operatorImageUrl } =
+		route.params as {
+			tariff: Tariff;
+			tariffCondition: TariffCondition;
+			operatorName: string;
+			operatorImageUrl: string | null;
+		};
 
-    const [freitext, setFreitext] = useState('');
-    const [isFalscherPreis, setIsFalscherPreis] = useState(true); // Set initial value to true
-    const [currentPrice, setCurrentPrice] = useState('');
-    const [newPrice, setNewPrice] = useState('');
+	const [freitext, setFreitext] = useState("");
+	const [isFalscherPreis, setIsFalscherPreis] = useState(true); // Set initial value to true
+	const [currentPrice, setCurrentPrice] = useState("");
+	const [newPrice, setNewPrice] = useState("");
 
-const handleSubmit = () => {
+	const handleSubmit = () => {
 		console.log("CPO:", operatorName);
 		console.log("Tarif:", tariff.name);
 		console.log(
@@ -46,115 +40,116 @@ const handleSubmit = () => {
 		Alert.alert("Danke für deine Meldung. Wir prüfen unsere Daten.", "", [
 			{
 				text: "OK",
-                    onPress: () => navigation.navigate('Home'),
-                },
-            ]
-        );
-    };
+				onPress: () => navigation.navigate("Home"),
+			},
+		]);
+	};
 
-    if (!tariff || !tariffCondition || !operatorName) {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.headLine}>
-                    Fehler: Tarif, Tarifbedingung oder Operator nicht gefunden
-                </Text>
-            </View>
-        );
-    }
+	if (!tariff || !tariffCondition || !operatorName) {
+		return (
+			<View style={styles.container}>
+				<Text style={styles.headLine}>
+					Fehler: Tarif, Tarifbedingung oder Operator nicht gefunden
+				</Text>
+			</View>
+		);
+	}
 
-    const fallbackImageUrl = require('@assets/cpo_generic.png');
-    const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
-    const OperatorName = operatorName || fallbackImageUrl;
+	const fallbackImageUrl = require("@assets/cpo_generic.png");
+	const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
+	const OperatorName = operatorName || fallbackImageUrl;
 
-
-    return (
-        <KeyboardAwareScrollView
-            contentContainerStyle={styles.scrollContainer}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            scrollEnabled
-        >
-            <View
-                style={{
-                    backgroundColor: colors.ladefuchsLightBackground,
-                    height: '100%',
-                }}
-            >
-                <View style={styles.headerView}>
-                    <Text style={styles.headLine}>
-                        Hast Du Futter für den Fuchs?
-                    </Text>
-                    <View
-                        style={{
-                            height: '35%',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <DetailLogos
-                            tariff={tariff}
-                            operatorName={OperatorName}
-                            operatorImageUrl={displayedImageUrl}
-                        />
-                    </View>
-                    <View
-                        style={{
-                            height: '5%',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={styles.headerText}>
-                            Sag uns was nicht stimmt!
-                        </Text>
-                    </View>
-
-
-
-                    <View style={feedbackstyle.toggleContainer}>
-                        <Text style={feedbackstyle.toggleLabel}>Anderes</Text>
-                        <Switch
-                            value={isFalscherPreis}
-                            onValueChange={setIsFalscherPreis}
-                        />
-                        <Text style={feedbackstyle.toggleLabel}>Falscher Preis</Text>
-                    </View>
-
-                  {isFalscherPreis && (
-							<View style={feedbackstyle.priceContainer}>
-								<TextInput
-									style={feedbackstyle.priceInput}
-									placeholder="Aktueller Preis"
-									value={currentPrice}
-									onChangeText={setCurrentPrice}
-								/>
-								<TextInput
-									style={feedbackstyle.priceInput}
-									placeholder="Neuer Preis"
-									value={newPrice}
-									onChangeText={setNewPrice}
-								/>
-							</View>
-						)}
-
-
-                    <View>
-                        <TextInput
-                            style={feedbackstyle.textInput}
-                            placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
-                            maxLength={160}
-                            value={freitext}
-                            onChangeText={setFreitext}
-                            multiline
-                            numberOfLines={4}
-                        />
-                    </View>
+	return (
+		<KeyboardAwareScrollView
+			style={{
+				backgroundColor: colors.ladefuchsLightBackground,
+				height: "100%",
+			}}
+			contentContainerStyle={styles.scrollContainer}
+			resetScrollToCoords={{ x: 0, y: 0 }}
+			scrollEnabled
+		>
+			<View>
+				<View style={styles.headerView}>
+					<Text style={styles.headLine}>
+						Hast Du Futter für den Fuchs?
+					</Text>
 					<View>
-                    <LadefuchsButton link={tariff.affiliateLinkUrl} onPress={handleSubmit} />
+						<View
+							style={{
+								justifyContent: "center",
+								alignItems: "center",
+								marginTop: 20,
+							}}
+						>
+							<DetailLogos
+								tariff={tariff}
+								operatorName={OperatorName}
+								operatorImageUrl={displayedImageUrl}
+							/>
+						</View>
+						<View
+							style={{
+								justifyContent: "center",
+								alignItems: "center",
+								marginTop: 20,
+							}}
+						>
+							<Text style={styles.headerText}>
+								Sag uns was nicht stimmt!
+							</Text>
+						</View>
 					</View>
-                </View>
-            </View>
-        </KeyboardAwareScrollView>
-    );
+
+					<View style={feedbackstyle.toggleContainer}>
+						<Text style={feedbackstyle.toggleLabel}>Anderes</Text>
+						<Switch
+							value={isFalscherPreis}
+							onValueChange={setIsFalscherPreis}
+						/>
+						<Text style={feedbackstyle.toggleLabel}>
+							Falscher Preis
+						</Text>
+					</View>
+
+					{isFalscherPreis && (
+						<View style={feedbackstyle.priceContainer}>
+							<TextInput
+								style={feedbackstyle.priceInput}
+								placeholder="Aktueller Preis"
+								value={currentPrice}
+								onChangeText={setCurrentPrice}
+							/>
+							<TextInput
+								style={feedbackstyle.priceInput}
+								placeholder="Neuer Preis"
+								value={newPrice}
+								onChangeText={setNewPrice}
+							/>
+						</View>
+					)}
+
+					<View>
+						<TextInput
+							style={feedbackstyle.textInput}
+							placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
+							maxLength={160}
+							value={freitext}
+							onChangeText={setFreitext}
+							multiline
+							numberOfLines={4}
+						/>
+					</View>
+					<View>
+						<LadefuchsButton
+							link={tariff.affiliateLinkUrl}
+							onPress={handleSubmit}
+						/>
+					</View>
+				</View>
+			</View>
+		</KeyboardAwareScrollView>
+	);
 }
 
 const feedbackstyle = {
@@ -167,7 +162,7 @@ const feedbackstyle = {
 		width: "100%",
 		alignSelf: "center",
 		textAlignVertical: "top", // Text beginnt oben
-		backgroundColor: "white",
+		backgroundColor: colors.ladefuchsLightGrayBackground,
 		borderRadius: 12,
 	},
 	toggleContainer: {
@@ -185,34 +180,19 @@ const feedbackstyle = {
 		flexDirection: "row",
 		flexWrap: "wrap",
 		justifyContent: "space-between",
-		marginBottom: 0,
+		marginBottom: 5,
 	},
 	priceInput: {
 		height: 40, // Erhöhte Höhe für mehrere Zeilen
 		borderColor: "grey",
 		borderWidth: 1,
-		marginBottom: 10,
+		marginBottom: 5,
 		paddingHorizontal: 10,
 		width: "40%",
 		alignSelf: "center",
 		textAlignVertical: "top", // Text beginnt oben
-		backgroundColor: "white",
+		backgroundColor: colors.ladefuchsLightGrayBackground,
 		borderRadius: 12,
-	},
-	buttonContainer: {
-		marginTop: 2,
-		width: "100%",
-		alignSelf: "center",
-		backgroundColor: colors.ladefuchsOrange,
-		borderRadius: 12,
-	},
-	buttonText: {
-		color: "#fff", // Schriftfarbe des Buttons
-		fontSize: 24,
-		fontWeight: "bold",
-		textAlign: "center",
-		marginTop: 12,
-		marginBottom: 12,
 	},
 };
 
