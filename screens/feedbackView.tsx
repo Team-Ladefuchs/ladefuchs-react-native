@@ -19,25 +19,26 @@ function FeedbackView() {
             operatorImageUrl: string | null;
         };
 
-    const [freitext, setFreitext] = useState("");
-    const [isFalscherPreis, setIsFalscherPreis] = useState(true); // Set initial value to true
+    const [freitext, setFreitext] = useState('');
+    const [isFalscherPreis, setIsFalscherPreis] = useState(false);
     const [currentPrice, setCurrentPrice] = useState(tariffCondition.pricePerKwh.toString());
-    const [newPrice, setNewPrice] = useState("");
+    const [newPrice, setNewPrice] = useState('');
 
     const handleSubmit = () => {
-        console.log("CPO:", operatorName);
-        console.log("Tarif:", tariff.name);
+        console.log('CPO:', operatorName);
+        console.log('Tarif:', tariff.name);
         console.log(
-            "Hinweis auf:",
-            isFalscherPreis ? "Falscher Preis" : "Anderes"
+            'Hinweis auf:',
+            isFalscherPreis ? 'Falscher Preis' : 'Anderes'
         );
         if (isFalscherPreis) {
-            console.log("Aktueller Preis:", currentPrice);
-            console.log("Neuer Preis:", newPrice);
+            console.log('Aktueller Preis:', currentPrice);
+            console.log('Neuer Preis:', newPrice);
         }
-        console.log("Freitext:", freitext);
-        console.log("AC Preis:", tariffCondition.pricePerKwh);
+        console.log('Freitext:', freitext);
+        console.log('AC Preis:', tariffCondition.pricePerKwh);
 
+        // API call here if needed
         Alert.alert("Danke für deine Meldung. Wir prüfen unsere Daten.", "", [
             {
                 text: "OK",
@@ -56,7 +57,7 @@ function FeedbackView() {
         );
     }
 
-    const fallbackImageUrl = require("@assets/cpo_generic.png");
+    const fallbackImageUrl = require('@assets/cpo_generic.png');
     const displayedImageUrl = operatorImageUrl || fallbackImageUrl;
     const OperatorName = operatorName || fallbackImageUrl;
 
@@ -64,7 +65,7 @@ function FeedbackView() {
         <KeyboardAwareScrollView
             style={{
                 backgroundColor: colors.ladefuchsLightBackground,
-                height: "100%",
+                height: '100%',
             }}
             contentContainerStyle={styles.scrollContainer}
             resetScrollToCoords={{ x: 0, y: 0 }}
@@ -78,8 +79,8 @@ function FeedbackView() {
                     <View>
                         <View
                             style={{
-                                justifyContent: "center",
-                                alignItems: "center",
+                                justifyContent: 'center',
+                                alignItems: 'center',
                                 marginTop: 20,
                             }}
                         >
@@ -91,8 +92,8 @@ function FeedbackView() {
                         </View>
                         <View
                             style={{
-                                justifyContent: "center",
-                                alignItems: "center",
+                                justifyContent: 'center',
+                                alignItems: 'center',
                                 marginTop: 20,
                             }}
                         >
@@ -103,14 +104,12 @@ function FeedbackView() {
                     </View>
 
                     <View style={feedbackstyle.toggleContainer}>
-                        <Text style={feedbackstyle.toggleLabel}>Andere Info</Text>
+
                         <Switch
                             value={isFalscherPreis}
                             onValueChange={setIsFalscherPreis}
                         />
-                        <Text style={feedbackstyle.toggleLabel}>
-                            Falscher Preis
-                        </Text>
+                        <Text style={styles.headerText}>Falscher Preis</Text>
                     </View>
 
                     {isFalscherPreis && (
@@ -153,16 +152,18 @@ function FeedbackView() {
     );
 }
 
+export default FeedbackView;
+
 const feedbackstyle = {
     textInput: {
-        height: 60, // Erhöhte Höhe für mehrere Zeilen
+        height: 60,
         borderColor: "grey",
         borderWidth: 1,
         marginBottom: 10,
         paddingHorizontal: 10,
         width: "100%",
         alignSelf: "center",
-        textAlignVertical: "top", // Text beginnt oben
+        textAlignVertical: "top",
         backgroundColor: colors.ladefuchsLightGrayBackground,
         borderRadius: 12,
     },
@@ -170,12 +171,9 @@ const feedbackstyle = {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        width: "80%",
+        width: "45%",
         marginVertical: 20,
         alignSelf: "center",
-    },
-    toggleLabel: {
-        fontSize: 16,
     },
     priceContainer: {
         flexDirection: "row",
@@ -184,14 +182,14 @@ const feedbackstyle = {
         marginBottom: 5,
     },
     priceInput: {
-        height: 40, // Erhöhte Höhe für mehrere Zeilen
+        height: 40,
         borderColor: "grey",
         borderWidth: 1,
         marginBottom: 5,
         paddingHorizontal: 10,
         width: "40%",
         alignSelf: "center",
-        textAlignVertical: "top", // Text beginnt oben
+        textAlignVertical: "top",
         backgroundColor: colors.ladefuchsLightGrayBackground,
         borderRadius: 12,
     },
