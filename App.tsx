@@ -20,7 +20,7 @@ import { DetailHeader } from "./components/detail/detailHeader";
 import { useFetchAppData } from "./hooks/fetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
 import { scale } from "react-native-size-matters";
-import FeedbackView from './screens/feedbackView';
+import { FeedbackView } from "./screens/feedbackView";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();

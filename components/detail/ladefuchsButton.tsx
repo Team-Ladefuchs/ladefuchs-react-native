@@ -6,8 +6,10 @@ import { ScaledSheet } from "react-native-size-matters";
 export function LadefuchsButton({
 	link,
 	onPress,
+	disabled = false,
 }: {
 	link: string | null | undefined;
+	disabled?: boolean;
 	onPress: () => void;
 }): JSX.Element {
 	if (!link) {
@@ -16,7 +18,8 @@ export function LadefuchsButton({
 	return (
 		<TouchableOpacity
 			activeOpacity={0.8}
-			style={styles.button}
+			disabled={disabled}
+			style={[styles.button, disabled && styles.disabledButton]}
 			onPress={onPress}
 		>
 			<Text style={styles.buttonText}>
@@ -40,6 +43,9 @@ const styles = ScaledSheet.create({
 		}),
 		backgroundColor: colors.ladefuchsOrange,
 		borderRadius: "12@s",
+	},
+	disabledButton: {
+		opacity: 0.7, // Customize opacity when disabled
 	},
 	buttonText: {
 		fontSize: "22@s",

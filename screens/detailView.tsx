@@ -54,8 +54,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 		chargeMode: "dc",
 		tariffId: tariff.identifier,
 	});
-	console.log("AC", acTariffCondition);
-	console.log("DC", dcTariffCondition);
+
 	return (
 		<View style={styles.detailView}>
 			<ScrollView touchAction={"none"}>
