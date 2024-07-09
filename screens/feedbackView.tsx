@@ -10,7 +10,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { scale } from "react-native-size-matters";
 import { ChargeMode } from "../types/conditions";
 import Arrow from "@assets/plugs/arrow.svg";
-import { useFormatNumber } from "../hooks/numberFormat";
 
 function FeedbackView({
 	chargeMode,
@@ -28,11 +27,11 @@ function FeedbackView({
 			operatorName: string;
 			operatorImageUrl: string | null;
 		};
-
+	const formatPrice = (price: number) => price.toFixed(2);
 	const [freitext, setFreitext] = useState("");
 	const [isFalscherPreis, setIsFalscherPreis] = useState(true);
 	const [currentPrice, setCurrentPrice] = useState(
-		tariffCondition.pricePerKwh.toString()
+		formatPrice(tariffCondition.pricePerKwh)
 	);
 	const [newPrice, setNewPrice] = useState("");
 
@@ -115,6 +114,7 @@ function FeedbackView({
 							placeholder="Aktueller Preis"
 							value={currentPrice}
 							onChangeText={setCurrentPrice}
+							keyboardType="numeric"
 						/>
 						<View style={feedbackstyle.arrow}>{arrow}</View>
 						<TextInput
@@ -122,6 +122,7 @@ function FeedbackView({
 							placeholder="Neu"
 							value={newPrice}
 							onChangeText={setNewPrice}
+							keyboardType="numeric"
 						/>
 					</View>
 
@@ -224,7 +225,7 @@ const feedbackstyle = {
 		fontSize: 20, // Set your desired placeholder font size
 		color: "#888", // Set the placeholder text color
 	},
-	arrow:{
+	arrow: {
 		justifyContent: "center",
 	},
 };
