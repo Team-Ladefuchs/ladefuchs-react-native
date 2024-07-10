@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Alert, Keyboard } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Arrow from "@assets/plugs/arrow.svg";
@@ -97,6 +97,9 @@ export function FeedbackView(): JSX.Element {
 		]);
 	};
 
+	const maxNoteTextLength = 160;
+	const remainingCharacters = maxNoteTextLength - noteText.length;
+
 	return (
 		<KeyboardAwareScrollView
 			style={{
@@ -157,15 +160,20 @@ export function FeedbackView(): JSX.Element {
 						/>
 					</View>
 
-					<TextInput
-						style={feedbackStyles.noteInput}
-						placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
-						maxLength={160}
-						value={noteText}
-						onChangeText={setNoteText}
-						multiline
-						numberOfLines={5}
-					/>
+					<View>
+						<TextInput
+							style={feedbackStyles.noteInput}
+							placeholder="Willst Du dem Fuchs noch etwas flüstern? (max. 160 Zeichen)"
+							maxLength={maxNoteTextLength}
+							value={noteText}
+							onChangeText={setNoteText}
+							multiline
+							numberOfLines={5}
+						/>
+						<Text style={feedbackStyles.charCount}>
+							{remainingCharacters} Zeichen übrig
+						</Text>
+					</View>
 
 					<LadefuchsButton
 						disabled={formInvalid}
@@ -191,6 +199,13 @@ const feedbackStyles = ScaledSheet.create({
 		textAlignVertical: "top",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		borderRadius: "10@s",
+	},
+	charCount: {
+		position: "absolute",
+		bottom: 15,
+		right: 10,
+		opacity: 0.3,
+		fontSize: "12@s",
 	},
 	priceContainer: {
 		flexDirection: "row",
