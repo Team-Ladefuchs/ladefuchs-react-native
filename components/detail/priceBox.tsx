@@ -10,9 +10,11 @@ import { scale } from "react-native-size-matters";
 export function PriceBox({
 	chargeMode,
 	price,
+	rounded = false,
 }: {
 	chargeMode: ChargeMode;
 	price: number | null | undefined;
+	rounded?: boolean;
 }) {
 	const { formatNumber } = useFormatNumber();
 	const plugSize = 25;
@@ -31,7 +33,12 @@ export function PriceBox({
 				</Text>
 				{plug}
 			</View>
-			<View style={styles.priceContainer}>
+			<View
+				style={[
+					styles.priceContainer,
+					rounded && styles.roundedContainer,
+				]}
+			>
 				<Text style={styles.priceText}>
 					{formatNumber(price) ?? "—"}
 				</Text>
@@ -44,18 +51,22 @@ const styles = StyleSheet.create({
 	priceText: {
 		textAlign: "center",
 		fontWeight: "500",
-		fontSize: scale(40),
+		fontSize: scale(38),
 	},
 	priceContainer: {
 		backgroundColor: colors.ladefuchsLightGrayBackground,
-		paddingHorizontal: scale(12),
-		paddingVertical: scale(12),
+		paddingHorizontal: scale(11),
+		paddingVertical: scale(11),
 	},
 	priceHeaderText: {
 		fontSize: scale(24),
 		fontWeight: "700",
 		textAlign: "center",
 		marginRight: scale(4),
+	},
+	roundedContainer: {
+		borderBottomLeftRadius: scale(12),
+		borderBottomRightRadius: scale(12),
 	},
 	priceHeaderContainer: {
 		display: "flex",

@@ -1,47 +1,17 @@
 import React from "react";
-import { SafeAreaView, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Tariff } from "../../../types/tariff";
-import { TariffCondition } from "../../../types/conditions";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { ScaledSheet } from "react-native-size-matters";
+import { colors } from "../../theme";
 
 interface FeedbackButtonProps {
-	link: string | null | undefined;
-	tariff: Tariff | null | undefined;
-	tariffCondition: TariffCondition | null;
-	operatorName: string; // Füge den Operatornamen hinzu
-	operatorImageUrl: string; // Füge die OperatorImageUrl hinzu
+	onPress: () => void;
 }
 
-export function FeedbackButton({
-	link,
-	tariff,
-	tariffCondition,
-	operatorName,
-	operatorImageUrl,
-}: FeedbackButtonProps): JSX.Element {
-	const navigation = useNavigation();
-
-	if (!link) {
-		return <></>;
-	}
-
-	const onPress = () => {
-		navigation.navigate("Feedback", {
-			tariff,
-			tariffCondition,
-			operatorName,
-			operatorImageUrl,
-		});
-	};
-
+export function FeedbackButton({ onPress }: FeedbackButtonProps): JSX.Element {
 	return (
 		<SafeAreaView style={{ marginTop: 10, marginHorizontal: 0 }}>
-			<TouchableOpacity
-				activeOpacity={0.8}
-				style={styles.button}
-				onPress={onPress}
-			>
-				<Text style={[styles.headerText, styles.underlinedText]}>
+			<TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+				<Text style={[styles.underlinedText]}>
 					{"Preise falsch? Dann sag dem Fuchs Bescheid!"}
 				</Text>
 			</TouchableOpacity>
@@ -49,15 +19,12 @@ export function FeedbackButton({
 	);
 }
 
-const styles = StyleSheet.create({
-	button: {
-		// Add your button styles here
-	},
+const styles = ScaledSheet.create({
 	underlinedText: {
 		textDecorationLine: "underline",
-		color: "grey",
+		color: colors.ladefuchsGrayTextColor,
 		fontFamily: "Bitter",
-		fontSize: 15,
-		lineHeight: 20,
+		fontSize: "15@s",
+		lineHeight: "20@s",
 	},
 });

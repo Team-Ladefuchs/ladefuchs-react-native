@@ -14,6 +14,7 @@ import { useShallow } from "zustand/react/shallow";
 import { ScrollView } from "react-native-gesture-handler";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackButton } from "../components/detail/feedbackButton";
+import { useNavigation } from "@react-navigation/native";
 
 function findTariffCondition({
 	tariffConditions,
@@ -30,6 +31,8 @@ function findTariffCondition({
 }
 
 export function DetailScreen({ route }: { route: any }): JSX.Element {
+	const navigation = useNavigation();
+
 	const [operators, operatorId, tariffConditions] = useAppStore(
 		useShallow((state) => [
 			state.operators,
@@ -89,11 +92,20 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 					<MonthlyFee fee={tariff.monthlyFee} />
 					<Notes notes={tariff.note} />
 					<FeedbackButton
-						link={tariff.affiliateLinkUrl}
-						tariff={tariff}
-						tariffCondition={dcTariffCondition || acTariffCondition} // Übergebe die relevante Bedingung
-						operatorName={operator!.name} // Füge den Operatornamen hinzu
-						operatorImageUrl={operator!.imageUrl} // Füge die OperatorImageUrl hinzu
+						onPress={() => {
+							// @ts-ignore
+							navigation.navigate("Feedback", {
+								tariff,
+								acTariffCondition,
+								dcTariffCondition,
+								operator,
+							});
+						}}
+						// link={tariff.affiliateLinkUrl}
+						// tariff={tariff}
+						// tariffCondition={dcTariffCondition || acTariffCondition} // Übergebe die relevante Bedingung
+						// operatorName={operator!.name} // Füge den Operatornamen hinzu
+						// operatorImageUrl={operator!.imageUrl} // Füge die OperatorImageUrl hinzu
 					/>
 				</View>
 			</ScrollView>
