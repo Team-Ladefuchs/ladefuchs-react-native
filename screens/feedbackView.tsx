@@ -10,8 +10,6 @@ import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackContext, FeedbackRequest } from "../types/feedback";
-import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../state/state";
 import { sendFeedback } from "../functions/api";
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
@@ -29,12 +27,6 @@ export function FeedbackView(): JSX.Element {
 			operator: Operator;
 		};
 
-	const { operatorId } = useAppStore(
-		useShallow((state) => ({
-			operatorId: state.operatorId,
-		}))
-	);
-
 	const [noteText, setNoteText] = useState("");
 
 	const [formInvalid, setFormInvalid] = useState(false);
@@ -48,7 +40,7 @@ export function FeedbackView(): JSX.Element {
 	const createRequestPayload = (): FeedbackRequest[] => {
 		const context: FeedbackContext = {
 			tariffId: tariff.identifier,
-			operatorId,
+			operatorId: operator.identifier,
 		};
 
 		if (!acNewPrice) {
