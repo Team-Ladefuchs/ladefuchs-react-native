@@ -9,7 +9,6 @@ import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 import { ScaledSheet } from "react-native-size-matters";
-import { useFormatNumber } from "../hooks/numberFormat";
 import { FeedbackContext, FeedbackRequest } from "../types/feedback";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/state";
@@ -21,7 +20,6 @@ import { Operator } from "../types/operator";
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
 	const navigation = useNavigation();
-	const { formatNumber } = useFormatNumber();
 
 	const { tariff, acTariffCondition, dcTariffCondition, operator } =
 		route.params as {
@@ -119,7 +117,7 @@ export function FeedbackView(): JSX.Element {
 		]);
 	};
 
-	const maxNoteTextLength = 160;
+	const maxNoteTextLength = 200;
 	const remainingCharacters = maxNoteTextLength - noteText.length;
 
 	const renderPriceInput = ({
@@ -206,7 +204,7 @@ export function FeedbackView(): JSX.Element {
 					<View style={feedbackStyles.noteContainer}>
 						<TextInput
 							style={feedbackStyles.noteInput}
-							placeholder="Willst Du dem Fuchs noch etwas flüstern?\n (max. 160 Zeichen)"
+							placeholder={`Willst Du dem Fuchs noch etwas flüstern?\n (max. ${maxNoteTextLength} Zeichen)`}
 							maxLength={maxNoteTextLength}
 							value={noteText}
 							onChangeText={setNoteText}
@@ -214,7 +212,7 @@ export function FeedbackView(): JSX.Element {
 							numberOfLines={5}
 						/>
 						<Text style={feedbackStyles.charCount}>
-							{remainingCharacters} / 160
+							{remainingCharacters} / maxNoteTextLength
 						</Text>
 					</View>
 					<LadefuchsButton
