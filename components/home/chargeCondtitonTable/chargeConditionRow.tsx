@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Tariff } from "../../../types/tariff";
 import { TariffCondition } from "../../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
-import { CardImage } from "../../cardImage";
+import { CardImage } from "../../shared/cardImage";
 import { useFormatNumber } from "../../../hooks/numberFormat";
 import { scale } from "react-native-size-matters";
 

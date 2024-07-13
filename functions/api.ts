@@ -145,21 +145,17 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 
 // todo error handling, and forward errors and show in the UI
 export async function sendFeedback(request: FeedbackRequest): Promise<void> {
-	try {
-		console.log("request", request);
-		const response = await fetchWithTimeout(`${apiPath}/v3/feedback`, {
-			method: "POST",
-			headers: {
-				...authHeader.headers,
-				"Content-Type": "application/json",
-				Accept: "application/json",
-			},
-			body: JSON.stringify(request),
-		});
-		console.log(`feedback response status: ${response.status}`);
-	} catch (error) {
-		console.log("[sendFeedback] error: ", error);
-	}
+	console.log("request", request);
+	const response = await fetchWithTimeout(`${apiPath}/v3/feedback`, {
+		method: "POST",
+		headers: {
+			...authHeader.headers,
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify(request),
+	});
+	console.log(`feedback response status: ${response.status}`);
 }
 
 const storageSet = {

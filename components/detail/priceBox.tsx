@@ -18,7 +18,7 @@ export function PriceBox({
 }) {
 	const { formatNumber } = useFormatNumber();
 	const plugSize = 25;
-	const plugOpacity = 0.45;
+	const plugOpacity = 0.5;
 	const plug =
 		chargeMode === "ac" ? (
 			<Typ2 width={plugSize} height={plugSize} opacity={plugOpacity} />

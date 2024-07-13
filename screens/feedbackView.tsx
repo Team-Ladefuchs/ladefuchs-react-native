@@ -17,6 +17,7 @@ import { sendFeedback } from "../functions/api";
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
+import { parseDecimal } from "../functions/util";
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -31,14 +32,20 @@ export function FeedbackView(): JSX.Element {
 		};
 
 	const [noteText, setNoteText] = useState("");
-
 	const [formInvalid, setFormInvalid] = useState(false);
 	const [acNewPrice, setAcNewPrice] = useState("");
 	const [dcNewPrice, setDcNewPrice] = useState("");
+	const maxNoteTextLength = 200;
+	const [remainingCharacters, setRemainingCharacters] =
+		useState(maxNoteTextLength);
+
+	useEffect(() => {
+		setRemainingCharacters(maxNoteTextLength - noteText.length);
+	}, [setRemainingCharacters, noteText]);
 
 	useEffect(() => {
 		setFormInvalid(!noteText);
-	}, [noteText]);
+	}, [setFormInvalid, noteText]);
 
 	const createRequestPayload = (): FeedbackRequest[] => {
 		const context: FeedbackContext = {
@@ -58,99 +65,63 @@ export function FeedbackView(): JSX.Element {
 			];
 		}
 
-		const wrongPriceRequest = ({
-			displayedPrice,
-			actualPrice,
-		}: {
-			displayedPrice: number;
-			actualPrice: number;
-		}) => {
-			return {
-				context,
-				request: {
-					type: "wrongPriceFeedback",
-					attributes: {
-						notes: noteText,
-						displayedPrice,
-						actualPrice,
-					},
-				},
-			};
-		};
-
 		const requests = [];
+		const actualAcPrice = parseDecimal(acNewPrice);
 
-		const actualAcPrice = parseFloat(acNewPrice || "0");
 		if (actualAcPrice) {
 			requests.push(
 				wrongPriceRequest({
 					displayedPrice: acTariffCondition.pricePerKwh,
 					actualPrice: actualAcPrice,
+					context,
+					noteText,
 				})
 			);
 		}
 
-		const actualDcPrice = parseFloat(dcNewPrice || "0");
+		const actualDcPrice = parseDecimal(dcNewPrice);
 		if (actualDcPrice) {
-			wrongPriceRequest({
-				displayedPrice: dcTariffCondition.pricePerKwh,
-				actualPrice: actualDcPrice,
-			});
+			requests.push(
+				wrongPriceRequest({
+					displayedPrice: dcTariffCondition.pricePerKwh,
+					actualPrice: actualDcPrice,
+					context,
+					noteText,
+				})
+			);
 		}
 		return requests;
 	};
 
 	const handleSubmit = async () => {
-		for (const request of createRequestPayload()) {
-			await sendFeedback(request);
+		try {
+			for (const request of createRequestPayload()) {
+				await sendFeedback(request);
+			}
+			Alert.alert("Danke für deine Meldung", "Wir prüfen unsere Daten.", [
+				{
+					text: "OK",
+					onPress: () => navigation.goBack(),
+				},
+			]);
+		} catch (error) {
+			Alert.alert(
+				"Ups, ein Fehler ist aufgetreten",
+				"Bitte versuche es später erneut.",
+				[
+					{
+						text: "OK",
+						onPress: () => navigation.goBack(),
+					},
+				]
+			);
 		}
-		Alert.alert("Danke für deine Meldung", "Wir prüfen unsere Daten.", [
-			{
-				text: "OK",
-				onPress: () => navigation.goBack(),
-			},
-		]);
 	};
-
-	const maxNoteTextLength = 200;
-	const remainingCharacters = maxNoteTextLength - noteText.length;
-
-	const renderPriceInput = ({
-		chargeMode,
-		currentPrice,
-		newValue,
-		setNewValue,
-	}: {
-		chargeMode: ChargeMode;
-		currentPrice: number;
-		newValue: string;
-		setNewValue: (text: string) => void;
-	}) => (
-		<View style={feedbackStyles.priceContainer}>
-			<PriceBox
-				chargeMode={chargeMode}
-				price={currentPrice}
-				rounded={true}
-			/>
-			<View style={feedbackStyles.arrow}>
-				<Arrow width={scale(27)} height={scale(27)} opacity={0.95} />
-			</View>
-			<TextInput
-				style={feedbackStyles.newPriceInput}
-				placeholder="Neu"
-				value={newValue}
-				maxLength={4}
-				onChangeText={setNewValue}
-				keyboardType="numeric"
-				// returnKeyType="done"
-			/>
-		</View>
-	);
 
 	return (
 		<KeyboardProvider>
 			<KeyboardAwareScrollView
-				bottomOffset={scale(52)}
+				bottomOffset={scale(9)}
 				enabled={true}
 				style={{
 					backgroundColor: colors.ladefuchsLightBackground,
@@ -201,6 +172,9 @@ export function FeedbackView(): JSX.Element {
 								placeholder={`Willst Du dem Fuchs noch etwas flüstern?`}
 								maxLength={maxNoteTextLength}
 								value={noteText}
+								placeholderTextColor={
+									colors.ladefuchsGrayTextColor
+								}
 								onChangeText={setNoteText}
 								multiline
 								numberOfLines={6}
@@ -209,6 +183,7 @@ export function FeedbackView(): JSX.Element {
 								{remainingCharacters} / {maxNoteTextLength}
 							</Text>
 						</View>
+
 						<LadefuchsButton
 							disabled={formInvalid}
 							link={tariff.affiliateLinkUrl}
@@ -229,7 +204,7 @@ const feedbackStyles = ScaledSheet.create({
 		height: "90@s",
 		borderColor: colors.ladefuchsDarkGrayBackground,
 		borderWidth: "2@s",
-		marginTop: 5,
+		marginTop: "3@s",
 		marginBottom: "10@s",
 		paddingVertical: "8@s",
 		paddingHorizontal: "10@s",
@@ -249,11 +224,11 @@ const feedbackStyles = ScaledSheet.create({
 	},
 	priceBoxesContainer: {
 		flexDirection: "row",
-		marginTop: "6@s",
-		gap: "16@s",
+		marginTop: "2@s",
+		gap: "14@s",
 	},
 	priceContainer: {
-		width: "47%",
+		flex: 1,
 	},
 	newPriceInput: {
 		borderColor: colors.ladefuchsDarkGrayBackground,
@@ -277,3 +252,63 @@ const feedbackStyles = ScaledSheet.create({
 		marginBottom: "1@s",
 	},
 });
+
+function renderPriceInput({
+	chargeMode,
+	currentPrice,
+	newValue,
+	setNewValue,
+}: {
+	chargeMode: ChargeMode;
+	currentPrice: number;
+	newValue: string;
+	setNewValue: (text: string) => void;
+}) {
+	return (
+		<View style={feedbackStyles.priceContainer}>
+			<PriceBox
+				chargeMode={chargeMode}
+				price={currentPrice}
+				rounded={true}
+			/>
+			<View style={feedbackStyles.arrow}>
+				<Arrow width={scale(27)} height={scale(27)} opacity={0.95} />
+			</View>
+			<TextInput
+				style={feedbackStyles.newPriceInput}
+				placeholder="Neu"
+				value={newValue}
+				maxLength={4}
+				placeholderTextColor={colors.ladefuchsGrayTextColor}
+				onChangeText={setNewValue}
+				inputMode="decimal"
+				keyboardType="decimal-pad"
+				returnKeyType="done"
+			/>
+		</View>
+	);
+}
+
+function wrongPriceRequest({
+	displayedPrice,
+	actualPrice,
+	noteText,
+	context,
+}: {
+	displayedPrice: number;
+	actualPrice: number;
+	noteText: string;
+	context: FeedbackContext;
+}) {
+	return {
+		context,
+		request: {
+			type: "wrongPriceFeedback",
+			attributes: {
+				notes: noteText,
+				displayedPrice,
+				actualPrice,
+			},
+		},
+	};
+}

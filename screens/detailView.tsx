@@ -117,8 +117,7 @@ const styles = ScaledSheet.create({
 	priceBoxesContainer: {
 		flexDirection: "row",
 		marginTop: 14,
-		gap: "16@s",
-		rowGap: "20@s",
+		gap: "14@s",
 	},
 	scrollView: {
 		paddingTop: 14,

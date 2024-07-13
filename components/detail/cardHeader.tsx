@@ -1,11 +1,14 @@
 import React from "react";
 import { colors } from "../../theme";
 import { Text } from "react-native";
-
 import { ScaledSheet } from "react-native-size-matters";
 
 export function CardHeader({ text }: { text: string }): JSX.Element {
-	return <Text style={styles.headerText}>{text.toLocaleUpperCase()}</Text>;
+	return (
+		<Text style={styles.headerText} lineBreakStrategyIOS="hangul-word">
+			{text.toLocaleUpperCase()}
+		</Text>
+	);
 }
 
 const styles = ScaledSheet.create({
