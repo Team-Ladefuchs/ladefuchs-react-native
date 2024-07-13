@@ -101,11 +101,6 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 								operator,
 							});
 						}}
-						// link={tariff.affiliateLinkUrl}
-						// tariff={tariff}
-						// tariffCondition={dcTariffCondition || acTariffCondition} // Übergebe die relevante Bedingung
-						// operatorName={operator!.name} // Füge den Operatornamen hinzu
-						// operatorImageUrl={operator!.imageUrl} // Füge die OperatorImageUrl hinzu
 					/>
 				</View>
 			</ScrollView>

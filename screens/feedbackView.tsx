@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+	KeyboardAwareScrollView,
+	KeyboardProvider,
+} from "react-native-keyboard-controller";
 import Arrow from "@assets/plugs/arrow.svg";
 import { colors, styles } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
@@ -54,10 +57,6 @@ export function FeedbackView(): JSX.Element {
 				},
 			];
 		}
-		const requests = [];
-
-		const actualAcPrice = parseFloat(acNewPrice) || 0;
-		const actualDcPrice = parseFloat(dcNewPrice) || 0;
 
 		const wrongPriceRequest = ({
 			displayedPrice,
@@ -79,6 +78,9 @@ export function FeedbackView(): JSX.Element {
 			};
 		};
 
+		const requests = [];
+
+		const actualAcPrice = parseFloat(acNewPrice || "0");
 		if (actualAcPrice) {
 			requests.push(
 				wrongPriceRequest({
@@ -88,6 +90,7 @@ export function FeedbackView(): JSX.Element {
 			);
 		}
 
+		const actualDcPrice = parseFloat(dcNewPrice || "0");
 		if (actualDcPrice) {
 			wrongPriceRequest({
 				displayedPrice: dcTariffCondition.pricePerKwh,
@@ -101,7 +104,7 @@ export function FeedbackView(): JSX.Element {
 		for (const request of createRequestPayload()) {
 			await sendFeedback(request);
 		}
-		Alert.alert("Danke für deine Meldung. Wir prüfen unsere Daten.", "", [
+		Alert.alert("Danke für deine Meldung", "Wir prüfen unsere Daten.", [
 			{
 				text: "OK",
 				onPress: () => navigation.goBack(),
@@ -139,82 +142,82 @@ export function FeedbackView(): JSX.Element {
 				maxLength={4}
 				onChangeText={setNewValue}
 				keyboardType="numeric"
-				returnKeyType="done"
+				// returnKeyType="done"
 			/>
 		</View>
 	);
 
 	return (
-		<KeyboardAwareScrollView
-			style={{
-				backgroundColor: colors.ladefuchsLightBackground,
-				height: "100%",
-			}}
-			contentContainerStyle={styles.scrollContainer}
-			enableAutomaticScroll
-			resetScrollToCoords={{ x: 0, y: 0 }}
-			scrollEnabled
-		>
-			<View>
-				<View style={styles.headerView}>
-					<Text style={styles.headLine}>
-						Hast Du Futter für den Fuchs?
-					</Text>
-					<View>
-						<Text style={styles.headerText}>
-							Sag uns was nicht stimmt!
+		<KeyboardProvider>
+			<KeyboardAwareScrollView
+				bottomOffset={scale(52)}
+				enabled={true}
+				style={{
+					backgroundColor: colors.ladefuchsLightBackground,
+					height: "100%",
+				}}
+			>
+				<View>
+					<View style={styles.headerView}>
+						<Text style={styles.headLine}>
+							Hast Du Futter für den Fuchs?
 						</Text>
-						<View
-							style={{
-								justifyContent: "center",
-								alignItems: "center",
-								marginTop: 20,
-								marginBottom: 10,
-							}}
-						>
-							<DetailLogos
-								tariff={tariff}
-								operatorName={operator.name}
-								operatorImageUrl={operator.imageUrl}
-							/>
+						<View>
+							<Text style={styles.headerText}>
+								Sag uns was nicht stimmt!
+							</Text>
+							<View
+								style={{
+									justifyContent: "center",
+									alignItems: "center",
+									marginTop: 20,
+									marginBottom: 10,
+								}}
+							>
+								<DetailLogos
+									tariff={tariff}
+									operatorName={operator.name}
+									operatorImageUrl={operator.imageUrl}
+								/>
+							</View>
 						</View>
-					</View>
-					<View style={feedbackStyles.priceBoxesContainer}>
-						{renderPriceInput({
-							chargeMode: "ac",
-							currentPrice: acTariffCondition.pricePerKwh,
-							newValue: acNewPrice,
-							setNewValue: setAcNewPrice,
-						})}
-						{renderPriceInput({
-							chargeMode: "dc",
-							currentPrice: dcTariffCondition.pricePerKwh,
-							newValue: dcNewPrice,
-							setNewValue: setDcNewPrice,
-						})}
-					</View>
-					<View style={feedbackStyles.noteContainer}>
-						<TextInput
-							style={feedbackStyles.noteInput}
-							placeholder={`Willst Du dem Fuchs noch etwas flüstern?\n (max. ${maxNoteTextLength} Zeichen)`}
-							maxLength={maxNoteTextLength}
-							value={noteText}
-							onChangeText={setNoteText}
-							multiline
-							numberOfLines={5}
+						<View style={feedbackStyles.priceBoxesContainer}>
+							{renderPriceInput({
+								chargeMode: "ac",
+								currentPrice: acTariffCondition.pricePerKwh,
+								newValue: acNewPrice,
+								setNewValue: setAcNewPrice,
+							})}
+							{renderPriceInput({
+								chargeMode: "dc",
+								currentPrice: dcTariffCondition.pricePerKwh,
+								newValue: dcNewPrice,
+								setNewValue: setDcNewPrice,
+							})}
+						</View>
+						<View style={feedbackStyles.noteContainer}>
+							<TextInput
+								style={feedbackStyles.noteInput}
+								placeholder={`Willst Du dem Fuchs noch etwas flüstern?`}
+								maxLength={maxNoteTextLength}
+								value={noteText}
+								onChangeText={setNoteText}
+								multiline
+								numberOfLines={6}
+							/>
+							<Text style={feedbackStyles.charCount}>
+								{remainingCharacters} / {maxNoteTextLength}
+							</Text>
+						</View>
+						<LadefuchsButton
+							disabled={formInvalid}
+							link={tariff.affiliateLinkUrl}
+							onPress={handleSubmit}
 						/>
-						<Text style={feedbackStyles.charCount}>
-							{remainingCharacters} / maxNoteTextLength
-						</Text>
 					</View>
-					<LadefuchsButton
-						disabled={formInvalid}
-						link={tariff.affiliateLinkUrl}
-						onPress={handleSubmit}
-					/>
 				</View>
-			</View>
-		</KeyboardAwareScrollView>
+			</KeyboardAwareScrollView>
+		</KeyboardProvider>
 	);
 }
 
@@ -223,12 +226,14 @@ const feedbackStyles = ScaledSheet.create({
 		position: "relative",
 	},
 	noteInput: {
-		height: "80@s",
+		height: "90@s",
 		borderColor: colors.ladefuchsDarkGrayBackground,
-		borderWidth: 1,
+		borderWidth: "2@s",
 		marginTop: 5,
 		marginBottom: "10@s",
-		padding: "10@s",
+		paddingVertical: "8@s",
+		paddingHorizontal: "10@s",
+		fontSize: "13@s",
 		width: "100%",
 		alignSelf: "center",
 		textAlignVertical: "top",
@@ -237,10 +242,10 @@ const feedbackStyles = ScaledSheet.create({
 	},
 	charCount: {
 		position: "absolute",
-		bottom: "12@s",
-		right: "10@s",
+		bottom: "14@s",
+		right: "8@s",
 		opacity: 0.3,
-		fontSize: "12@s",
+		fontSize: "11@s",
 	},
 	priceBoxesContainer: {
 		flexDirection: "row",
@@ -250,23 +255,9 @@ const feedbackStyles = ScaledSheet.create({
 	priceContainer: {
 		width: "47%",
 	},
-	priceInput: {
-		marginBottom: "5@s",
-		paddingHorizontal: "10@s",
-		paddingVertical: "8@s",
-		width: "100%",
-		alignSelf: "center",
-		textAlignVertical: "top",
-		backgroundColor: colors.ladefuchsLightGrayBackground,
-		borderBottomLeftRadius: scale(12),
-		borderBottomRightRadius: scale(12),
-		fontSize: "32@s",
-		textAlign: "center",
-		fontWeight: "500",
-	},
 	newPriceInput: {
 		borderColor: colors.ladefuchsDarkGrayBackground,
-		borderWidth: 1,
+		borderWidth: "2@s",
 		marginBottom: "6@s",
 		paddingHorizontal: "10@s",
 		paddingVertical: "6@s",

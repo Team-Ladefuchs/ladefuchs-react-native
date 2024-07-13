@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import { colors } from "../../theme";
 
@@ -9,22 +9,27 @@ interface FeedbackButtonProps {
 
 export function FeedbackButton({ onPress }: FeedbackButtonProps): JSX.Element {
 	return (
-		<SafeAreaView style={{ marginTop: 10, marginHorizontal: 0 }}>
+		<View style={styles.container}>
 			<TouchableOpacity activeOpacity={0.8} onPress={onPress}>
 				<Text style={[styles.underlinedText]}>
-					{"Preise falsch? Dann sag dem Fuchs Bescheid!"}
+					{"Preise falsch? Sag dem Fuchs Bescheid!"}
 				</Text>
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 }
 
 const styles = ScaledSheet.create({
+	container: {
+		marginTop: "3@s",
+		paddingBottom: "16@s",
+	},
 	underlinedText: {
 		textDecorationLine: "underline",
+		textAlign: "right",
 		color: colors.ladefuchsGrayTextColor,
 		fontFamily: "Bitter",
-		fontSize: "15@s",
-		lineHeight: "20@s",
+		fontStyle: "italic",
+		fontSize: "13@s",
 	},
 });
