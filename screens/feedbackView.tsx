@@ -6,7 +6,7 @@ import {
 	KeyboardProvider,
 } from "react-native-keyboard-controller";
 import Arrow from "@assets/plugs/arrow.svg";
-import { colors, styles } from "../theme";
+import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
@@ -129,22 +129,15 @@ export function FeedbackView(): JSX.Element {
 				}}
 			>
 				<View>
-					<View style={styles.headerView}>
-						<Text style={styles.headLine}>
+					<View style={themeStyle.headerView}>
+						<Text style={themeStyle.headLine}>
 							Hast Du Futter für den Fuchs?
 						</Text>
 						<View>
-							<Text style={styles.headerText}>
+							<Text style={themeStyle.headerText}>
 								Sag uns was nicht stimmt!
 							</Text>
-							<View
-								style={{
-									justifyContent: "center",
-									alignItems: "center",
-									marginTop: 20,
-									marginBottom: 10,
-								}}
-							>
+							<View style={feedbackthemeStyle.logosContainer}>
 								<DetailLogos
 									tariff={tariff}
 									operatorName={operator.name}
@@ -152,7 +145,7 @@ export function FeedbackView(): JSX.Element {
 								/>
 							</View>
 						</View>
-						<View style={feedbackStyles.priceBoxesContainer}>
+						<View style={feedbackthemeStyle.priceBoxesContainer}>
 							{renderPriceInput({
 								chargeMode: "ac",
 								currentPrice: acTariffCondition.pricePerKwh,
@@ -166,9 +159,9 @@ export function FeedbackView(): JSX.Element {
 								setNewValue: setDcNewPrice,
 							})}
 						</View>
-						<View style={feedbackStyles.noteContainer}>
+						<View style={feedbackthemeStyle.noteContainer}>
 							<TextInput
-								style={feedbackStyles.noteInput}
+								style={feedbackthemeStyle.noteInput}
 								placeholder={`Willst Du dem Fuchs noch etwas flüstern?`}
 								maxLength={maxNoteTextLength}
 								value={noteText}
@@ -179,7 +172,7 @@ export function FeedbackView(): JSX.Element {
 								multiline
 								numberOfLines={6}
 							/>
-							<Text style={feedbackStyles.charCount}>
+							<Text style={feedbackthemeStyle.charCount}>
 								{remainingCharacters} / {maxNoteTextLength}
 							</Text>
 						</View>
@@ -196,7 +189,12 @@ export function FeedbackView(): JSX.Element {
 	);
 }
 
-const feedbackStyles = ScaledSheet.create({
+const feedbackthemeStyle = ScaledSheet.create({
+	logosContainer: {
+		justifyContent: "center",
+		alignItems: "center",
+		marginVertical: "6@s",
+	},
 	noteContainer: {
 		position: "relative",
 	},
@@ -265,17 +263,17 @@ function renderPriceInput({
 	setNewValue: (text: string) => void;
 }) {
 	return (
-		<View style={feedbackStyles.priceContainer}>
+		<View style={feedbackthemeStyle.priceContainer}>
 			<PriceBox
 				chargeMode={chargeMode}
 				price={currentPrice}
 				rounded={true}
 			/>
-			<View style={feedbackStyles.arrow}>
+			<View style={feedbackthemeStyle.arrow}>
 				<Arrow width={scale(27)} height={scale(27)} opacity={0.95} />
 			</View>
 			<TextInput
-				style={feedbackStyles.newPriceInput}
+				style={feedbackthemeStyle.newPriceInput}
 				placeholder="Neu"
 				value={newValue}
 				maxLength={4}
