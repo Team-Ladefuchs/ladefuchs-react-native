@@ -59,59 +59,53 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 	});
 
 	return (
-		<View>
-			<View style={styles.detailView}>
-				<ScrollView touchAction={"none"}>
-					<View style={styles.scrollView}>
-						<DetailLogos
-							tariff={tariff}
-							operatorImageUrl={operator!.imageUrl}
-							operatorName={operator!.name}
-						/>
-						<View style={styles.priceBoxesContainer}>
-							<View style={{ flex: 1 }}>
-								<PriceBox
-									chargeMode="ac"
-									price={acTariffCondition?.pricePerKwh}
-								/>
-								<BlockingFee
-									fee={acTariffCondition?.blockingFee}
-									feeStart={
-										acTariffCondition?.blockingFeeStart
-									}
-								/>
-							</View>
-							<View style={{ flex: 1 }}>
-								<PriceBox
-									chargeMode="dc"
-									price={dcTariffCondition?.pricePerKwh}
-								/>
-								<BlockingFee
-									fee={dcTariffCondition?.blockingFee}
-									feeStart={
-										dcTariffCondition?.blockingFeeStart
-									}
-								/>
-							</View>
+		<View style={styles.detailView}>
+			<ScrollView touchAction={"none"}>
+				<View style={styles.scrollView}>
+					<DetailLogos
+						tariff={tariff}
+						operatorImageUrl={operator!.imageUrl}
+						operatorName={operator!.name}
+					/>
+					<View style={styles.priceBoxesContainer}>
+						<View style={{ flex: 1 }}>
+							<PriceBox
+								chargeMode="ac"
+								price={acTariffCondition?.pricePerKwh}
+							/>
+							<BlockingFee
+								fee={acTariffCondition?.blockingFee}
+								feeStart={acTariffCondition?.blockingFeeStart}
+							/>
 						</View>
-						<MonthlyFee fee={tariff.monthlyFee} />
-						<Notes notes={tariff.note} />
-						<FeedbackButton
-							onPress={() => {
-								// @ts-ignore
-								navigation.navigate("Feedback", {
-									tariff,
-									acTariffCondition,
-									dcTariffCondition,
-									operator,
-								});
-							}}
-						/>
+						<View style={{ flex: 1 }}>
+							<PriceBox
+								chargeMode="dc"
+								price={dcTariffCondition?.pricePerKwh}
+							/>
+							<BlockingFee
+								fee={dcTariffCondition?.blockingFee}
+								feeStart={dcTariffCondition?.blockingFeeStart}
+							/>
+						</View>
 					</View>
-				</ScrollView>
+					<MonthlyFee fee={tariff.monthlyFee} />
+					<Notes notes={tariff.note} />
+					<FeedbackButton
+						onPress={() => {
+							// @ts-ignore
+							navigation.navigate("Feedback", {
+								tariff,
+								acTariffCondition,
+								dcTariffCondition,
+								operator,
+							});
+						}}
+					/>
+				</View>
+			</ScrollView>
 
-				<AffiliateButton link={tariff.affiliateLinkUrl} />
-			</View>
+			<AffiliateButton link={tariff.affiliateLinkUrl} />
 		</View>
 	);
 }

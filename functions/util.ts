@@ -89,7 +89,3 @@ export async function fetchWithTimeout(
 		clearTimeout(timeoutId);
 	}
 }
-
-export function parseDecimal(value: string): number {
-	return parseFloat(value.replace(",", ".") || "0");
-}

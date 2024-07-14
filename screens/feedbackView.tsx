@@ -6,7 +6,7 @@ import {
 	KeyboardAwareScrollView,
 	KeyboardProvider,
 } from "react-native-keyboard-controller";
-
+import { FakeCurrencyInput } from "react-native-currency-input";
 import Arrow from "@assets/plugs/arrow.svg";
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
@@ -19,7 +19,6 @@ import { FeedbackContext, FeedbackRequest } from "../types/feedback";
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
-import { parseDecimal } from "../functions/util";
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -37,8 +36,8 @@ export function FeedbackView(): JSX.Element {
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState("Senden");
 
-	const [acNewPrice, setAcNewPrice] = useState("");
-	const [dcNewPrice, setDcNewPrice] = useState("");
+	const [acNewPrice, setAcNewPrice] = useState(0);
+	const [dcNewPrice, setDcNewPrice] = useState(0);
 	const maxNoteTextLength = 200;
 	const [remainingCharacters, setRemainingCharacters] =
 		useState(maxNoteTextLength);
@@ -70,25 +69,22 @@ export function FeedbackView(): JSX.Element {
 		}
 
 		const requests = [];
-		const actualAcPrice = parseDecimal(acNewPrice);
 
-		if (actualAcPrice) {
+		if (acNewPrice) {
 			requests.push(
 				wrongPriceRequest({
 					displayedPrice: acTariffCondition.pricePerKwh,
-					actualPrice: actualAcPrice,
+					actualPrice: acNewPrice,
 					context,
 					noteText,
 				})
 			);
 		}
-
-		const actualDcPrice = parseDecimal(dcNewPrice);
-		if (actualDcPrice) {
+		if (dcNewPrice) {
 			requests.push(
 				wrongPriceRequest({
 					displayedPrice: dcTariffCondition.pricePerKwh,
-					actualPrice: actualDcPrice,
+					actualPrice: dcNewPrice,
 					context,
 					noteText,
 				})
@@ -105,32 +101,34 @@ export function FeedbackView(): JSX.Element {
 			setSendButtonText("Momentchen …");
 
 			for (const request of createRequestPayload()) {
+				console.log(request);
 				// await sendFeedback(request);
 			}
 
 			await wait(300);
 			navigation.goBack();
-			Toast.show({
-				type: "success",
-				text1: "⚡️ Vielen Dank für dein Feedback!",
-				visibilityTime: 2000,
-			});
+			setTimeout(() => {
+				Toast.show({
+					type: "success",
+					text1: "⚡️ Vielen Dank für dein Feedback!",
+					visibilityTime: 2000,
+				});
+			}, 500);
 		} catch (error) {
+			setSendButtonText("Senden");
+			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
 				text1: "🚧 Ups, ein Fehler ist aufgetreten.",
 				visibilityTime: 2400,
 			});
-		} finally {
-			setSendButtonText("Senden");
-			setDisableSendButton(false);
 		}
 	};
 
 	return (
 		<KeyboardProvider>
 			<KeyboardAwareScrollView
-				bottomOffset={scale(50)}
+				bottomOffset={scale(20)}
 				enabled={true}
 				style={{
 					backgroundColor: colors.ladefuchsLightBackground,
@@ -236,6 +234,7 @@ const feedbackthemeStyle = ScaledSheet.create({
 	},
 	priceContainer: {
 		flex: 1,
+		width: "auto",
 	},
 	newPriceInput: {
 		borderColor: colors.ladefuchsDarkGrayBackground,
@@ -244,12 +243,10 @@ const feedbackthemeStyle = ScaledSheet.create({
 		paddingHorizontal: "10@s",
 		paddingVertical: "6@s",
 		width: "100%",
-		alignSelf: "center",
-		textAlignVertical: "top",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		borderRadius: scale(12),
 		fontSize: "34@s",
-		textAlign: "center",
+		textAlign: "left",
 		fontWeight: "500",
 	},
 	arrow: {
@@ -268,8 +265,8 @@ function renderPriceInput({
 }: {
 	chargeMode: ChargeMode;
 	currentPrice: number;
-	newValue: string;
-	setNewValue: (text: string) => void;
+	newValue: number;
+	setNewValue: (text: number) => void;
 }) {
 	return (
 		<View style={feedbackthemeStyle.priceContainer}>
@@ -281,16 +278,20 @@ function renderPriceInput({
 			<View style={feedbackthemeStyle.arrow}>
 				<Arrow width={scale(27)} height={scale(27)} opacity={0.95} />
 			</View>
-			<TextInput
-				style={feedbackthemeStyle.newPriceInput}
-				placeholder="Neu"
+
+			<FakeCurrencyInput
 				value={newValue}
-				maxLength={4}
-				placeholderTextColor={colors.ladefuchsGrayTextColor}
-				onChangeText={setNewValue}
-				inputMode="decimal"
-				keyboardType="decimal-pad"
+				onChangeValue={setNewValue}
+				containerStyle={feedbackthemeStyle.newPriceInput}
+				style={{ fontSize: 32 }}
+				caretColor={colors.ladefuchsGrayTextColor}
 				returnKeyType="done"
+				maxValue={10}
+				placeholder="Neu"
+				placeholderTextColor={colors.ladefuchsGrayTextColor}
+				delimiter=","
+				precision={2}
+				minValue={0}
 			/>
 		</View>
 	);
