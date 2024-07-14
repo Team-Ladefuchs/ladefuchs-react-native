@@ -145,7 +145,6 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 
 // todo error handling, and forward errors and show in the UI
 export async function sendFeedback(request: FeedbackRequest): Promise<void> {
-	console.log("request", request);
 	const response = await fetchWithTimeout(`${apiPath}/v3/feedback`, {
 		method: "POST",
 		headers: {
@@ -155,7 +154,9 @@ export async function sendFeedback(request: FeedbackRequest): Promise<void> {
 		},
 		body: JSON.stringify(request),
 	});
-	console.log(`feedback response status: ${response.status}`);
+	if (response.status > 299) {
+		throw Error("could not send feedback, got an bad status code");
+	}
 }
 
 const storageSet = {

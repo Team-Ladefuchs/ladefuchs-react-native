@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Text, TextInput } from "react-native";
+import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
 	KeyboardAwareScrollView,
 	KeyboardProvider,
 } from "react-native-keyboard-controller";
+
 import Arrow from "@assets/plugs/arrow.svg";
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
@@ -13,11 +15,13 @@ import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackContext, FeedbackRequest } from "../types/feedback";
+
 import { sendFeedback } from "../functions/api";
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { parseDecimal } from "../functions/util";
+import { ToastNotification } from "../components/detail/feedbackView/toastNotification";
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -32,7 +36,9 @@ export function FeedbackView(): JSX.Element {
 		};
 
 	const [noteText, setNoteText] = useState("");
-	const [formInvalid, setFormInvalid] = useState(false);
+	const [disableSendButton, setDisableSendButton] = useState(false);
+	const [sendButtonText, setSendButtonText] = useState("Senden");
+
 	const [acNewPrice, setAcNewPrice] = useState("");
 	const [dcNewPrice, setDcNewPrice] = useState("");
 	const maxNoteTextLength = 200;
@@ -44,8 +50,8 @@ export function FeedbackView(): JSX.Element {
 	}, [setRemainingCharacters, noteText]);
 
 	useEffect(() => {
-		setFormInvalid(!noteText);
-	}, [setFormInvalid, noteText]);
+		setDisableSendButton(!noteText);
+	}, [setDisableSendButton, noteText]);
 
 	const createRequestPayload = (): FeedbackRequest[] => {
 		const context: FeedbackContext = {
@@ -95,26 +101,29 @@ export function FeedbackView(): JSX.Element {
 
 	const handleSubmit = async () => {
 		try {
+			setDisableSendButton(true);
+			setSendButtonText("Momentchen …");
+
 			for (const request of createRequestPayload()) {
 				await sendFeedback(request);
 			}
-			Alert.alert("Danke für deine Meldung", "Wir prüfen unsere Daten.", [
-				{
-					text: "OK",
-					onPress: () => navigation.goBack(),
-				},
-			]);
+
+			Toast.show({
+				onHide: () => navigation.goBack(),
+				type: "error",
+				text1: "⚡️ Vielen Dank für dein Feedback!",
+				visibilityTime: 1100,
+			});
 		} catch (error) {
-			Alert.alert(
-				"Ups, ein Fehler ist aufgetreten",
-				"Bitte versuche es später erneut.",
-				[
-					{
-						text: "OK",
-						onPress: () => navigation.goBack(),
-					},
-				]
-			);
+			Toast.show({
+				onHide: () => navigation.goBack(),
+				type: "error",
+				text1: "🚧 Ups, ein Fehler ist aufgetreten.",
+				visibilityTime: 1200,
+			});
+		} finally {
+			setSendButtonText("Senden");
+			setDisableSendButton(false);
 		}
 	};
 
@@ -141,7 +150,7 @@ export function FeedbackView(): JSX.Element {
 								<DetailLogos
 									tariff={tariff}
 									operatorName={operator.name}
-									operatorImageUrl={operator.imageUrl}
+									operatorImageUrl={operator?.imageUrl}
 								/>
 							</View>
 						</View>
@@ -178,13 +187,14 @@ export function FeedbackView(): JSX.Element {
 						</View>
 
 						<LadefuchsButton
-							disabled={formInvalid}
-							link={tariff.affiliateLinkUrl}
+							text={sendButtonText}
+							disabled={disableSendButton}
 							onPress={handleSubmit}
 						/>
 					</View>
 				</View>
 			</KeyboardAwareScrollView>
+			<ToastNotification />
 		</KeyboardProvider>
 	);
 }

@@ -1,13 +1,6 @@
-import {
-	SafeAreaView,
-	Linking,
-	Text,
-	TouchableOpacity,
-	Platform,
-} from "react-native";
-import { colors } from "../../theme";
+import { SafeAreaView, Linking } from "react-native";
 import React from "react";
-import { ScaledSheet } from "react-native-size-matters";
+import { LadefuchsButton } from "./ladefuchsButton";
 
 export function AffiliateButton({
 	link,
@@ -19,38 +12,10 @@ export function AffiliateButton({
 	}
 	return (
 		<SafeAreaView style={{ marginTop: "auto", marginHorizontal: 16 }}>
-			<TouchableOpacity
-				activeOpacity={0.8}
-				style={styles.button}
+			<LadefuchsButton
+				text="Hol dir die Karte!"
 				onPress={async () => await Linking.openURL(link)}
-			>
-				<Text style={styles.buttonText}>
-					{"Hol dir die Karte!".toLocaleUpperCase()}
-				</Text>
-			</TouchableOpacity>
+			/>
 		</SafeAreaView>
 	);
 }
-
-const styles = ScaledSheet.create({
-	button: {
-		...Platform.select({
-			android: {
-				marginBottom: "14@s",
-				padding: "8@s",
-			},
-			default: {
-				marginBottom: "1@s",
-				padding: "9@s",
-			},
-		}),
-		backgroundColor: colors.ladefuchsOrange,
-		borderRadius: "12@s",
-	},
-	buttonText: {
-		fontSize: "22@s",
-		color: "#fff",
-		textAlign: "center",
-		fontWeight: "bold",
-	},
-});

@@ -4,17 +4,14 @@ import { colors } from "../../theme";
 import { ScaledSheet } from "react-native-size-matters";
 
 export function LadefuchsButton({
-	link,
 	onPress,
+	text,
 	disabled = false,
 }: {
-	link: string | null | undefined;
+	text: string;
 	disabled?: boolean;
 	onPress: () => void;
 }): JSX.Element {
-	if (!link) {
-		return <></>;
-	}
 	return (
 		<TouchableOpacity
 			activeOpacity={0.8}
@@ -22,9 +19,7 @@ export function LadefuchsButton({
 			style={[styles.button, disabled && styles.disabledButton]}
 			onPress={onPress}
 		>
-			<Text style={styles.buttonText}>
-				{"Senden".toLocaleUpperCase()}
-			</Text>
+			<Text style={styles.buttonText}>{text.toLocaleUpperCase()}</Text>
 		</TouchableOpacity>
 	);
 }
