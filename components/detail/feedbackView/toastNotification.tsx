@@ -24,7 +24,7 @@ function baseToastConfig(props: ToastConfigParams<object>) {
 				borderLeftWidth: 0,
 				height: "100%",
 				borderRadius: scale(16),
-				bottom: scale(20),
+				top: scale(68),
 			}}
 			contentContainerStyle={{
 				paddingVertical: scale(12),

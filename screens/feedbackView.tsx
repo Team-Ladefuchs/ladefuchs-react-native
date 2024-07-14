@@ -16,12 +16,10 @@ import { ChargeMode, TariffCondition } from "../types/conditions";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackContext, FeedbackRequest } from "../types/feedback";
 
-import { sendFeedback } from "../functions/api";
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { parseDecimal } from "../functions/util";
-import { ToastNotification } from "../components/detail/feedbackView/toastNotification";
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -100,26 +98,28 @@ export function FeedbackView(): JSX.Element {
 	};
 
 	const handleSubmit = async () => {
+		const wait = (ms: number) =>
+			new Promise((resolve) => setTimeout(resolve, ms));
 		try {
 			setDisableSendButton(true);
 			setSendButtonText("Momentchen …");
 
 			for (const request of createRequestPayload()) {
-				await sendFeedback(request);
+				// await sendFeedback(request);
 			}
 
+			await wait(300);
+			navigation.goBack();
 			Toast.show({
-				onHide: () => navigation.goBack(),
-				type: "error",
+				type: "success",
 				text1: "⚡️ Vielen Dank für dein Feedback!",
-				visibilityTime: 1100,
+				visibilityTime: 2000,
 			});
 		} catch (error) {
 			Toast.show({
-				onHide: () => navigation.goBack(),
 				type: "error",
 				text1: "🚧 Ups, ein Fehler ist aufgetreten.",
-				visibilityTime: 1200,
+				visibilityTime: 2400,
 			});
 		} finally {
 			setSendButtonText("Senden");
@@ -130,7 +130,7 @@ export function FeedbackView(): JSX.Element {
 	return (
 		<KeyboardProvider>
 			<KeyboardAwareScrollView
-				bottomOffset={scale(9)}
+				bottomOffset={scale(50)}
 				enabled={true}
 				style={{
 					backgroundColor: colors.ladefuchsLightBackground,
@@ -194,7 +194,6 @@ export function FeedbackView(): JSX.Element {
 					</View>
 				</View>
 			</KeyboardAwareScrollView>
-			<ToastNotification />
 		</KeyboardProvider>
 	);
 }

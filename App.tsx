@@ -37,6 +37,7 @@ export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AppWrapper />
+			<ToastNotification />
 		</QueryClientProvider>
 	);
 }
