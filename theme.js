@@ -54,7 +54,5 @@ const styles = {
 		lineHeight: 20,
 		paddingBottom: 15,
 	},
-	
-
 };
 export { colors, fonts, styles };

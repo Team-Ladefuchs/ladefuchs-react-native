@@ -6,19 +6,19 @@ import {
 	KeyboardAwareScrollView,
 	KeyboardProvider,
 } from "react-native-keyboard-controller";
-import { FakeCurrencyInput } from "react-native-currency-input";
-import Arrow from "@assets/plugs/arrow.svg";
+
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
-import { ChargeMode, TariffCondition } from "../types/conditions";
+import { TariffCondition } from "../types/conditions";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackContext, FeedbackRequest } from "../types/feedback";
 
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
+import { useCounter } from "../hooks/useCounter";
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -27,8 +27,8 @@ export function FeedbackView(): JSX.Element {
 	const { tariff, acTariffCondition, dcTariffCondition, operator } =
 		route.params as {
 			tariff: Tariff;
-			acTariffCondition: TariffCondition;
-			dcTariffCondition: TariffCondition;
+			acTariffCondition: TariffCondition | null;
+			dcTariffCondition: TariffCondition | null;
 			operator: Operator;
 		};
 
@@ -36,8 +36,13 @@ export function FeedbackView(): JSX.Element {
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState("Senden");
 
-	const [acNewPrice, setAcNewPrice] = useState(0);
-	const [dcNewPrice, setDcNewPrice] = useState(0);
+	const acPriceCounter = useCounter({
+		initialValue: acTariffCondition?.pricePerKwh ?? 0,
+	});
+	const dcPriceCounter = useCounter({
+		initialValue: dcTariffCondition?.pricePerKwh ?? 0,
+	});
+
 	const maxNoteTextLength = 200;
 	const [remainingCharacters, setRemainingCharacters] =
 		useState(maxNoteTextLength);
@@ -56,39 +61,37 @@ export function FeedbackView(): JSX.Element {
 			operatorId: operator.identifier,
 		};
 
-		if (!acNewPrice) {
-			return [
-				{
-					context,
-					request: {
-						type: "otherFeedback",
-						attributes: { notes: noteText },
-					},
-				},
-			];
-		}
-
 		const requests = [];
 
-		if (acNewPrice) {
-			requests.push(
-				wrongPriceRequest({
-					displayedPrice: acTariffCondition.pricePerKwh,
-					actualPrice: acNewPrice,
-					context,
-					noteText,
-				})
-			);
+		const acPriceRequest = checkPriceAndPushRequest({
+			displayedPrice: acTariffCondition.pricePerKwh,
+			actualPrice: acPriceCounter.value,
+			context,
+			noteText,
+		});
+
+		if (acPriceRequest) {
+			requests.push(acPriceCounter);
 		}
-		if (dcNewPrice) {
-			requests.push(
-				wrongPriceRequest({
-					displayedPrice: dcTariffCondition.pricePerKwh,
-					actualPrice: dcNewPrice,
-					context,
-					noteText,
-				})
-			);
+
+		const dcPriceRequest = checkPriceAndPushRequest({
+			displayedPrice: dcTariffCondition.pricePerKwh,
+			actualPrice: dcPriceCounter.value,
+			context,
+			noteText,
+		});
+		if (dcPriceRequest) {
+			requests.push(dcPriceRequest);
+		}
+
+		if (!requests.length) {
+			requests.push({
+				context,
+				request: {
+					type: "otherFeedback",
+					attributes: { notes: noteText },
+				},
+			});
 		}
 		return requests;
 	};
@@ -101,7 +104,7 @@ export function FeedbackView(): JSX.Element {
 			setSendButtonText("Momentchen …");
 
 			for (const request of createRequestPayload()) {
-				console.log(request);
+				console.log("request", request);
 				// await sendFeedback(request);
 			}
 
@@ -128,7 +131,7 @@ export function FeedbackView(): JSX.Element {
 	return (
 		<KeyboardProvider>
 			<KeyboardAwareScrollView
-				bottomOffset={scale(20)}
+				bottomOffset={scale(14)}
 				enabled={true}
 				style={{
 					backgroundColor: colors.ladefuchsLightBackground,
@@ -153,18 +156,26 @@ export function FeedbackView(): JSX.Element {
 							</View>
 						</View>
 						<View style={feedbackthemeStyle.priceBoxesContainer}>
-							{renderPriceInput({
-								chargeMode: "ac",
-								currentPrice: acTariffCondition.pricePerKwh,
-								newValue: acNewPrice,
-								setNewValue: setAcNewPrice,
-							})}
-							{renderPriceInput({
-								chargeMode: "dc",
-								currentPrice: dcTariffCondition.pricePerKwh,
-								newValue: dcNewPrice,
-								setNewValue: setDcNewPrice,
-							})}
+							<View style={feedbackthemeStyle.priceContainer}>
+								<PriceBox
+									editMode={true}
+									chargeMode={"ac"}
+									onIncrement={acPriceCounter.increment}
+									onDecrease={acPriceCounter.decrement}
+									price={acPriceCounter.value}
+									rounded={true}
+								/>
+							</View>
+							<View style={feedbackthemeStyle.priceContainer}>
+								<PriceBox
+									editMode={true}
+									onIncrement={dcPriceCounter.increment}
+									onDecrease={dcPriceCounter.decrement}
+									chargeMode={"dc"}
+									price={dcPriceCounter.value}
+									rounded={true}
+								/>
+							</View>
 						</View>
 						<View style={feedbackthemeStyle.noteContainer}>
 							<TextInput
@@ -200,17 +211,16 @@ const feedbackthemeStyle = ScaledSheet.create({
 	logosContainer: {
 		justifyContent: "center",
 		alignItems: "center",
-		marginVertical: "6@s",
+		marginVertical: "10@s",
 	},
 	noteContainer: {
+		marginVertical: "16@s",
 		position: "relative",
 	},
 	noteInput: {
 		height: "90@s",
 		borderColor: colors.ladefuchsDarkGrayBackground,
 		borderWidth: "2@s",
-		marginTop: "3@s",
-		marginBottom: "10@s",
 		paddingVertical: "8@s",
 		paddingHorizontal: "10@s",
 		fontSize: "13@s",
@@ -222,14 +232,14 @@ const feedbackthemeStyle = ScaledSheet.create({
 	},
 	charCount: {
 		position: "absolute",
-		bottom: "14@s",
+		bottom: "4@s",
 		right: "8@s",
 		opacity: 0.3,
 		fontSize: "11@s",
 	},
 	priceBoxesContainer: {
 		flexDirection: "row",
-		marginTop: "2@s",
+		marginTop: "8@s",
 		gap: "14@s",
 	},
 	priceContainer: {
@@ -239,84 +249,43 @@ const feedbackthemeStyle = ScaledSheet.create({
 	newPriceInput: {
 		borderColor: colors.ladefuchsDarkGrayBackground,
 		borderWidth: "2@s",
-		marginBottom: "6@s",
 		paddingHorizontal: "10@s",
 		paddingVertical: "6@s",
 		width: "100%",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 		borderRadius: scale(12),
-		fontSize: "34@s",
 		textAlign: "left",
 		fontWeight: "500",
 	},
-	arrow: {
-		justifyContent: "center",
-		alignItems: "center",
-		marginTop: "5@s",
-		marginBottom: "1@s",
-	},
 });
 
-function renderPriceInput({
-	chargeMode,
-	currentPrice,
-	newValue,
-	setNewValue,
-}: {
-	chargeMode: ChargeMode;
-	currentPrice: number;
-	newValue: number;
-	setNewValue: (text: number) => void;
-}) {
-	return (
-		<View style={feedbackthemeStyle.priceContainer}>
-			<PriceBox
-				chargeMode={chargeMode}
-				price={currentPrice}
-				rounded={true}
-			/>
-			<View style={feedbackthemeStyle.arrow}>
-				<Arrow width={scale(27)} height={scale(27)} opacity={0.95} />
-			</View>
-
-			<FakeCurrencyInput
-				value={newValue}
-				onChangeValue={setNewValue}
-				containerStyle={feedbackthemeStyle.newPriceInput}
-				style={{ fontSize: 32 }}
-				caretColor={colors.ladefuchsGrayTextColor}
-				returnKeyType="done"
-				maxValue={10}
-				placeholder="Neu"
-				placeholderTextColor={colors.ladefuchsGrayTextColor}
-				delimiter=","
-				precision={2}
-				minValue={0}
-			/>
-		</View>
-	);
-}
-
-function wrongPriceRequest({
+function checkPriceAndPushRequest({
 	displayedPrice,
 	actualPrice,
-	noteText,
 	context,
+	noteText,
 }: {
-	displayedPrice: number;
+	displayedPrice: number | null;
 	actualPrice: number;
-	noteText: string;
-	context: FeedbackContext;
+	context;
+	noteText;
 }) {
-	return {
-		context,
-		request: {
-			type: "wrongPriceFeedback",
-			attributes: {
-				notes: noteText,
-				displayedPrice,
-				actualPrice,
+	if (
+		displayedPrice &&
+		displayedPrice.toFixed(2) !== actualPrice.toFixed(2)
+	) {
+		return {
+			context,
+			request: {
+				type: "wrongPriceFeedback",
+				attributes: {
+					notes: noteText,
+					displayedPrice,
+					actualPrice,
+				},
 			},
-		},
-	};
+		};
+	}
+
+	return null;
 }
