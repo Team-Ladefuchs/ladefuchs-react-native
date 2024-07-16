@@ -13,8 +13,8 @@ interface Props {
 	chargeMode: ChargeMode;
 	price: number | null | undefined;
 	rounded?: boolean;
-	onIncrement: () => void;
-	onDecrement: () => void;
+	onIncrement?: () => void;
+	onDecrement?: () => void;
 }
 
 export function PriceBox({
@@ -22,8 +22,8 @@ export function PriceBox({
 	price,
 	rounded = false,
 	editMode = false,
-	onIncrement,
-	onDecrement,
+	onIncrement = () => {},
+	onDecrement = () => {},
 }: Props) {
 	const { formatNumber } = useFormatNumber();
 

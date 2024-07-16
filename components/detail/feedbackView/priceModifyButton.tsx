@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 
-import PlusCircle from "@assets/plus_circle_fill.svg";
-import MinusIcon from "@assets/minus_circle_fill.svg";
+import PlusCircle from "@assets/plusMinus/plus_circle_fill.svg";
+import MinusIcon from "@assets/plusMinus/minus_circle_fill.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 export function PriceModifyButton({
 	buttonType,
 	onPress,
-	size = 20,
+	size = 22,
 }: Props): JSX.Element {
 	const editButtonSize = scale(size);
 
@@ -22,7 +22,9 @@ export function PriceModifyButton({
 
 	useEffect(() => {
 		return () => {
-			clearInterval(intervalId);
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
 		};
 	}, [intervalId]);
 
