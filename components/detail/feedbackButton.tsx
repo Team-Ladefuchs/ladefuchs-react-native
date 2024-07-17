@@ -12,7 +12,7 @@ export function FeedbackButton({ onPress }: FeedbackButtonProps): JSX.Element {
 		<View style={styles.container}>
 			<TouchableOpacity activeOpacity={0.8} onPress={onPress}>
 				<Text style={[styles.underlinedText]}>
-					{"Preise falsch? Sag dem Fuchs Bescheid!"}
+					{"Preise/Infos falsch?"}
 				</Text>
 			</TouchableOpacity>
 		</View>
@@ -21,7 +21,7 @@ export function FeedbackButton({ onPress }: FeedbackButtonProps): JSX.Element {
 
 const styles = ScaledSheet.create({
 	container: {
-		marginTop: "3@s",
+		marginTop: "5@s",
 		paddingBottom: "16@s",
 	},
 	underlinedText: {

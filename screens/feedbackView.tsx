@@ -246,17 +246,6 @@ const feedbackthemeStyle = ScaledSheet.create({
 		flex: 1,
 		width: "auto",
 	},
-	newPriceInput: {
-		borderColor: colors.ladefuchsDarkGrayBackground,
-		borderWidth: "2@s",
-		paddingHorizontal: "10@s",
-		paddingVertical: "6@s",
-		width: "100%",
-		backgroundColor: colors.ladefuchsLightGrayBackground,
-		borderRadius: scale(12),
-		textAlign: "left",
-		fontWeight: "500",
-	},
 });
 
 function checkPriceAndPushRequest({
