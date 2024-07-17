@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
@@ -29,19 +29,26 @@ export function PriceBox({
 
 	const plugSize = 25;
 	const plugOpacity = 0.5;
-	const plug =
-		chargeMode === "ac" ? (
-			<Typ2 width={plugSize} height={plugSize} opacity={plugOpacity} />
-		) : (
-			<CCS width={plugSize} height={plugSize} opacity={plugOpacity} />
-		);
+
 	return (
 		<View>
 			<View style={styles.headerContainer}>
 				<Text style={styles.headerText}>
 					{chargeMode.toLocaleUpperCase()}
 				</Text>
-				{plug}
+				{chargeMode === "ac" ? (
+					<Typ2
+						width={plugSize}
+						height={plugSize}
+						opacity={plugOpacity}
+					/>
+				) : (
+					<CCS
+						width={plugSize}
+						height={plugSize}
+						opacity={plugOpacity}
+					/>
+				)}
 			</View>
 			<View
 				style={[
@@ -101,13 +108,12 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		alignContent: "center",
-		paddingHorizontal: scale(11),
+		paddingHorizontal: scale(9),
 		paddingVertical: scale(14),
 		width: "100%",
 		display: "flex",
 		flexDirection: "row",
-		overflow: "hidden",
-		gap: scale(5),
+		rowGap: scale(1),
 	},
 	headerText: {
 		fontSize: scale(24),

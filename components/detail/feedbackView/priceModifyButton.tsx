@@ -14,7 +14,7 @@ interface Props {
 export function PriceModifyButton({
 	buttonType,
 	onPress,
-	size = 22,
+	size = 23,
 }: Props): JSX.Element {
 	const editButtonSize = scale(size);
 

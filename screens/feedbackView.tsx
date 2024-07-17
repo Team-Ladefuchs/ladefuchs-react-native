@@ -19,6 +19,7 @@ import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { useCounter } from "../hooks/useCounter";
+import { sendFeedback } from "../functions/api";
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -63,25 +64,25 @@ export function FeedbackView(): JSX.Element {
 
 		const requests = [];
 
-		const acPriceRequest = checkPriceAndPushRequest({
+		const acWrongPrice = checkPriceAndPushRequest({
 			displayedPrice: acTariffCondition.pricePerKwh,
 			actualPrice: acPriceCounter.value,
 			context,
 			noteText,
 		});
 
-		if (acPriceRequest) {
-			requests.push(acPriceCounter);
+		if (acWrongPrice) {
+			requests.push(acWrongPrice);
 		}
 
-		const dcPriceRequest = checkPriceAndPushRequest({
+		const dcWrongPrice = checkPriceAndPushRequest({
 			displayedPrice: dcTariffCondition.pricePerKwh,
 			actualPrice: dcPriceCounter.value,
 			context,
 			noteText,
 		});
-		if (dcPriceRequest) {
-			requests.push(dcPriceRequest);
+		if (dcWrongPrice) {
+			requests.push(dcWrongPrice);
 		}
 
 		if (!requests.length) {
@@ -97,18 +98,14 @@ export function FeedbackView(): JSX.Element {
 	};
 
 	const handleSubmit = async () => {
-		const wait = (ms: number) =>
-			new Promise((resolve) => setTimeout(resolve, ms));
 		try {
 			setDisableSendButton(true);
 			setSendButtonText("Momentchen …");
 
 			for (const request of createRequestPayload()) {
-				console.log("request", request);
-				// await sendFeedback(request);
+				await sendFeedback(request);
 			}
 
-			await wait(300);
 			navigation.goBack();
 			setTimeout(() => {
 				Toast.show({
@@ -119,6 +116,7 @@ export function FeedbackView(): JSX.Element {
 			}, 500);
 		} catch (error) {
 			setSendButtonText("Senden");
+			console.log("sedning feedback", error);
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
@@ -161,7 +159,7 @@ export function FeedbackView(): JSX.Element {
 									editMode={true}
 									chargeMode={"ac"}
 									onIncrement={acPriceCounter.increment}
-									onDecrease={acPriceCounter.decrement}
+									onDecrement={acPriceCounter.decrement}
 									price={acPriceCounter.value}
 									rounded={true}
 								/>
@@ -170,7 +168,7 @@ export function FeedbackView(): JSX.Element {
 								<PriceBox
 									editMode={true}
 									onIncrement={dcPriceCounter.increment}
-									onDecrease={dcPriceCounter.decrement}
+									onDecrement={dcPriceCounter.decrement}
 									chargeMode={"dc"}
 									price={dcPriceCounter.value}
 									rounded={true}
@@ -240,7 +238,7 @@ const feedbackthemeStyle = ScaledSheet.create({
 	priceBoxesContainer: {
 		flexDirection: "row",
 		marginTop: "8@s",
-		gap: "14@s",
+		gap: "12@s",
 	},
 	priceContainer: {
 		flex: 1,
