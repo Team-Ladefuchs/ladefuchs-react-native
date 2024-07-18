@@ -6,58 +6,126 @@ import CCS from "@assets/plugs/ccs.svg";
 import Typ2 from "@assets/plugs/typ2.svg";
 import { useFormatNumber } from "../../hooks/numberFormat";
 import { scale } from "react-native-size-matters";
+import { PriceModifyButton } from "./feedbackView/priceModifyButton";
+
+interface Props {
+	editMode?: boolean;
+	chargeMode: ChargeMode;
+	price: number | null | undefined;
+	rounded?: boolean;
+	onIncrement?: () => void;
+	onDecrement?: () => void;
+}
 
 export function PriceBox({
 	chargeMode,
 	price,
-}: {
-	chargeMode: ChargeMode;
-	price: number | null | undefined;
-}) {
+	rounded = false,
+	editMode = false,
+	onIncrement = () => {},
+	onDecrement = () => {},
+}: Props) {
 	const { formatNumber } = useFormatNumber();
+
 	const plugSize = 25;
-	const plugOpacity = 0.45;
-	const plug =
-		chargeMode === "ac" ? (
-			<Typ2 width={plugSize} height={plugSize} opacity={plugOpacity} />
-		) : (
-			<CCS width={plugSize} height={plugSize} opacity={plugOpacity} />
-		);
+	const plugOpacity = 0.5;
+
 	return (
 		<View>
-			<View style={styles.priceHeaderContainer}>
-				<Text style={styles.priceHeaderText}>
+			<View style={styles.headerContainer}>
+				<Text style={styles.headerText}>
 					{chargeMode.toLocaleUpperCase()}
 				</Text>
-				{plug}
+				{chargeMode === "ac" ? (
+					<Typ2
+						width={plugSize}
+						height={plugSize}
+						opacity={plugOpacity}
+					/>
+				) : (
+					<CCS
+						width={plugSize}
+						height={plugSize}
+						opacity={plugOpacity}
+					/>
+				)}
 			</View>
-			<View style={styles.priceContainer}>
-				<Text style={styles.priceText}>
-					{formatNumber(price) ?? "—"}
-				</Text>
+			<View
+				style={[
+					styles.bodyContainer,
+					rounded && styles.roundedContainer,
+				]}
+			>
+				{editMode && price ? (
+					<View style={[styles.editPriceContainer]}>
+						<PriceModifyButton
+							buttonType="minus"
+							onPress={onDecrement}
+						/>
+
+						<Text
+							style={[styles.priceText, { fontSize: scale(28) }]}
+						>
+							{formatNumber(price) ?? "—"}
+						</Text>
+
+						<PriceModifyButton
+							buttonType="plus"
+							onPress={onIncrement}
+						/>
+					</View>
+				) : (
+					<View style={styles.priceContainer}>
+						<Text
+							style={{ ...styles.priceText, fontSize: scale(36) }}
+						>
+							{formatNumber(price) ?? "—"}
+						</Text>
+					</View>
+				)}
 			</View>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	bodyContainer: {
+		backgroundColor: colors.ladefuchsLightGrayBackground,
+	},
 	priceText: {
 		textAlign: "center",
 		fontWeight: "500",
-		fontSize: scale(40),
 	},
 	priceContainer: {
-		backgroundColor: colors.ladefuchsLightGrayBackground,
-		paddingHorizontal: scale(12),
-		paddingVertical: scale(12),
+		paddingHorizontal: scale(11),
+		paddingVertical: scale(11),
+		justifyContent: "center",
+		display: "flex",
+		flexDirection: "row",
+		fontSize: scale(40),
 	},
-	priceHeaderText: {
+	editPriceContainer: {
+		justifyContent: "space-between",
+		alignItems: "center",
+		alignContent: "center",
+		paddingHorizontal: scale(9),
+		paddingVertical: scale(14),
+		width: "100%",
+		display: "flex",
+		flexDirection: "row",
+		rowGap: scale(1),
+	},
+	headerText: {
 		fontSize: scale(24),
 		fontWeight: "700",
 		textAlign: "center",
 		marginRight: scale(4),
 	},
-	priceHeaderContainer: {
+	roundedContainer: {
+		borderBottomLeftRadius: scale(12),
+		borderBottomRightRadius: scale(12),
+	},
+	headerContainer: {
 		display: "flex",
 		borderTopLeftRadius: scale(12),
 		borderTopRightRadius: scale(12),

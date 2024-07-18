@@ -11,6 +11,7 @@ import {
 	ConditionsResponse,
 	TariffCondition,
 } from "../types/conditions";
+import { FeedbackRequest } from "../types/feedback";
 import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
 import { fetchWithTimeout } from "./util";
@@ -139,6 +140,22 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 		return response.json();
 	} catch {
 		return null;
+	}
+}
+
+// todo error handling, and forward errors and show in the UI
+export async function sendFeedback(request: FeedbackRequest): Promise<void> {
+	const response = await fetchWithTimeout(`${apiPath}/v3/feedback`, {
+		method: "POST",
+		headers: {
+			...authHeader.headers,
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify(request),
+	});
+	if (response.status > 299) {
+		throw Error("could not send feedback, got an bad status code");
 	}
 }
 

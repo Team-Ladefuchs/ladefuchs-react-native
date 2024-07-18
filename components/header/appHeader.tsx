@@ -43,11 +43,7 @@ export function AppHeader(): JSX.Element {
 					style={styles.chargepriceIcon}
 				/>
 			</TouchableOpacity>
-			<View
-				style={{
-					marginBottom: scale(-10),
-				}}
-			>
+			<View style={{ marginBottom: -scale(10) }}>
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={handleLongPress}

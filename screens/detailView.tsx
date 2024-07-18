@@ -1,8 +1,8 @@
+import React from "react";
 import { View } from "react-native";
 import { colors } from "../theme";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
-
 import { DetailLogos } from "../components/detail/detailLogos";
 import { PriceBox } from "../components/detail/priceBox";
 import { AffiliateButton } from "../components/detail/affiliateButton";
@@ -12,8 +12,9 @@ import { BlockingFee } from "../components/detail/blockingFee";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { ScrollView } from "react-native-gesture-handler";
-import React from "react";
 import { ScaledSheet } from "react-native-size-matters";
+import { FeedbackButton } from "../components/detail/feedbackButton";
+import { useNavigation } from "@react-navigation/native";
 
 function findTariffCondition({
 	tariffConditions,
@@ -30,6 +31,8 @@ function findTariffCondition({
 }
 
 export function DetailScreen({ route }: { route: any }): JSX.Element {
+	const navigation = useNavigation();
+
 	const [operators, operatorId, tariffConditions] = useAppStore(
 		useShallow((state) => [
 			state.operators,
@@ -39,10 +42,8 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 	);
 
 	const operator = operators.find((item) => item.identifier === operatorId);
-
 	const { tariff } = route.params as {
 		tariff: Tariff;
-		tariffCondition: TariffCondition;
 	};
 
 	const acTariffCondition = findTariffCondition({
@@ -77,7 +78,6 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 								feeStart={acTariffCondition?.blockingFeeStart}
 							/>
 						</View>
-
 						<View style={{ flex: 1 }}>
 							<PriceBox
 								chargeMode="dc"
@@ -91,12 +91,25 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 					</View>
 					<MonthlyFee fee={tariff.monthlyFee} />
 					<Notes notes={tariff.note} />
+					<FeedbackButton
+						onPress={() => {
+							// @ts-ignore
+							navigation.navigate("Feedback", {
+								tariff,
+								acTariffCondition,
+								dcTariffCondition,
+								operator,
+							});
+						}}
+					/>
 				</View>
 			</ScrollView>
+
 			<AffiliateButton link={tariff.affiliateLinkUrl} />
 		</View>
 	);
 }
+
 const styles = ScaledSheet.create({
 	detailView: {
 		backgroundColor: colors.ladefuchsLightBackground,
@@ -105,8 +118,7 @@ const styles = ScaledSheet.create({
 	priceBoxesContainer: {
 		flexDirection: "row",
 		marginTop: 14,
-		gap: "16@s",
-		rowGap: "20@s",
+		gap: "14@s",
 	},
 	scrollView: {
 		paddingTop: 14,

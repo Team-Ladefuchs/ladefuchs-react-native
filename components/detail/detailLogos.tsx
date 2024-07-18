@@ -1,6 +1,6 @@
 import { View, Image, Text } from "react-native";
 import { authHeader } from "../../functions/api";
-import { CardImage } from "../cardImage";
+import { CardImage } from "../shared/cardImage";
 import { Tariff } from "../../types/tariff";
 import React, { useEffect, useState } from "react";
 import { hyphenText } from "../../functions/util";

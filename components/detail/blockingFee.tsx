@@ -5,6 +5,7 @@ import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
 import { useFormatNumber } from "../../hooks/numberFormat";
+import { ScaledSheet } from "react-native-size-matters";
 
 export function BlockingFee({
 	feeStart,
@@ -32,19 +33,20 @@ export function BlockingFee({
 	return (
 		<View style={styles.container}>
 			{showHighlightCorner && <HighlightCorner />}
-			<CardHeader text="Blockiergebühr" />
+			<CardHeader text={"Blockier\u00ADgebühr"} />
 			{textBlock}
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	container: {
 		position: "relative",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
-		padding: 12,
-		borderBottomLeftRadius: 12,
-		borderBottomRightRadius: 12,
+		paddingHorizontal: "12@s",
+		paddingVertical: "10@s",
+		borderBottomLeftRadius: "12@s",
+		borderBottomRightRadius: "12@s",
 		marginTop: 2,
 		flex: 1,
 	},

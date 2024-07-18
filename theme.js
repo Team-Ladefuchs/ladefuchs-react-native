@@ -10,7 +10,7 @@ const colors = {
 	ladefuchsDunklerBalken: "#E0D7C8",
 	text: "#343a40",
 	ladefuchsOrange: "#F2642D",
-	ladefuchsGrayTextColor: "rgba(0, 0, 0, 0.5)",
+	ladefuchsGrayTextColor: "rgba(0, 0, 0, 0.8)",
 };
 
 const fonts = {
@@ -55,5 +55,4 @@ const styles = {
 		paddingBottom: 15,
 	},
 };
-
 export { colors, fonts, styles };

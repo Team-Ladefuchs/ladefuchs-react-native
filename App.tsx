@@ -12,6 +12,7 @@ import {
 	QueryClientProvider,
 	focusManager,
 } from "@tanstack/react-query";
+
 import { DetailScreen } from "./screens/detailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
@@ -20,6 +21,8 @@ import { DetailHeader } from "./components/detail/detailHeader";
 import { useFetchAppData } from "./hooks/fetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
 import { scale } from "react-native-size-matters";
+import { FeedbackView } from "./screens/feedbackView";
+import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -34,6 +37,7 @@ export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AppWrapper />
+			<ToastNotification />
 		</QueryClientProvider>
 	);
 }
@@ -111,6 +115,17 @@ function AppWrapper(): JSX.Element {
 						name="Einstellungen"
 						options={modalHeader}
 						component={AboutScreen}
+					/>
+				</RootStack.Group>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+					}}
+				>
+					<RootStack.Screen
+						name="Feedback"
+						options={modalHeader}
+						component={FeedbackView}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>

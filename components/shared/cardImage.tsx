@@ -1,5 +1,5 @@
-import { authHeader } from "../functions/api";
-import { Tariff } from "../types/tariff";
+import { authHeader } from "../../functions/api";
+import { Tariff } from "../../types/tariff";
 import {
 	View,
 	Image,
@@ -9,9 +9,9 @@ import {
 	ViewStyle,
 	ImageStyle,
 } from "react-native";
-import { HighlightCorner } from "./detail/highlightCorner";
+import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
-import { colors } from "../theme";
+import { colors } from "../../theme";
 import { scale } from "react-native-size-matters";
 interface Props {
 	tariff: Tariff;

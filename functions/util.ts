@@ -72,12 +72,12 @@ export function hyphenText(input: string): string {
 export async function fetchWithTimeout(
 	url: string,
 	options: RequestInit = null,
-	timeout = 3000
+	timeout = 2800
 ) {
 	const controller = new AbortController();
 	options.signal = controller.signal;
 
-	const timeoutId = setTimeout(function () {
+	const timeoutId = setTimeout(() => {
 		controller.abort();
 	}, timeout);
 

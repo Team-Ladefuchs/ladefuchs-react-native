@@ -6,7 +6,7 @@ import Typ2 from "@assets/plugs/typ2.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 
 export function ChargingTableHeader(): JSX.Element {
-	const plugOpacity = 0.45;
+	const plugOpacity = 0.5;
 	return (
 		<View style={styles.headerContainer}>
 			<View style={styles.headerView}>
