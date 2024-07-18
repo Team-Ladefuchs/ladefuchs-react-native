@@ -1,6 +1,7 @@
 import React from "react";
 import LottieView from "lottie-react-native";
 import { scale } from "react-native-size-matters";
+import { View } from "react-native";
 
 interface Props {
 	size: number;
@@ -13,7 +14,10 @@ export function AppLogo({ size }: Props): JSX.Element {
 			source={require("@assets/fuchs/wackelfuchs.json")}
 			autoPlay
 			loop
-			style={{ width: scaledSize, height: scaledSize }}
+			style={{
+				width: scaledSize,
+				height: scaledSize,
+			}}
 		/>
 	);
 }
