@@ -21,6 +21,8 @@ import { Operator } from "../types/operator";
 import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api";
 
+const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
+
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
 	const navigation = useNavigation();
@@ -33,6 +35,7 @@ export function FeedbackView(): JSX.Element {
 			operator: Operator;
 		};
 
+	const [notePlaceholder, setNotePlaceholder] = useState(notePlaceholderText);
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState("Senden");
@@ -178,12 +181,18 @@ export function FeedbackView(): JSX.Element {
 						<View style={feedbackthemeStyle.noteContainer}>
 							<TextInput
 								style={feedbackthemeStyle.noteInput}
-								placeholder={`Willst Du dem Fuchs noch etwas flüstern?`}
+								placeholder={notePlaceholder}
+								onFocus={() => setNotePlaceholder(null)}
 								maxLength={maxNoteTextLength}
 								value={noteText}
 								placeholderTextColor={
 									colors.ladefuchsGrayTextColor
 								}
+								onBlur={() => {
+									if (!noteText) {
+										setNotePlaceholder(notePlaceholderText);
+									}
+								}}
 								onChangeText={setNoteText}
 								multiline
 								numberOfLines={6}
@@ -216,7 +225,7 @@ const feedbackthemeStyle = ScaledSheet.create({
 		position: "relative",
 	},
 	noteInput: {
-		height: "90@s",
+		height: "92@s",
 		borderColor: colors.ladefuchsDarkGrayBackground,
 		borderWidth: "2@s",
 		paddingVertical: "8@s",

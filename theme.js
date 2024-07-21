@@ -10,7 +10,7 @@ const colors = {
 	ladefuchsDunklerBalken: "#E0D7C8",
 	text: "#343a40",
 	ladefuchsOrange: "#F2642D",
-	ladefuchsGrayTextColor: "rgba(0, 0, 0, 0.8)",
+	ladefuchsGrayTextColor: "#716B61",
 };
 
 const fonts = {
