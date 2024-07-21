@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { colors } from "../../theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";

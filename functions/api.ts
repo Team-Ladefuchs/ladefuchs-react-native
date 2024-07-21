@@ -32,7 +32,7 @@ export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 					...authHeader.headers,
 					Accept: "application/json",
 				},
-			}
+			},
 		);
 		const data = (await response.json()) as OperatorsResponse;
 		return data.operators;
@@ -55,7 +55,7 @@ export async function fetchTariffs({
 					...authHeader.headers,
 					Accept: "application/json",
 				},
-			}
+			},
 		);
 		const data = (await response.json()) as TariffResponse;
 		return data.tariffs;
@@ -99,7 +99,7 @@ function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
 }
 
 function chargeConditionToHashMap(
-	data: ChargingCondition[]
+	data: ChargingCondition[],
 ): Map<string, TariffCondition[]> {
 	const map = new Map();
 
@@ -135,7 +135,7 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 					...authHeader.headers,
 					Accept: "application/json",
 				},
-			}
+			},
 		);
 		return response.json();
 	} catch {
@@ -177,7 +177,7 @@ export async function getBanners({
 
 	if (!ladefuchsBanners.length) {
 		const offlineData = await retrieveFromStorage<BannerData>(
-			storageSet.banners
+			storageSet.banners,
 		);
 		if (!offlineData) {
 			throw new Error("The Api is maybe down");
@@ -209,7 +209,7 @@ export async function getAllChargeConditions({
 	async function getOfflineChargeConditionData() {
 		const offlineData =
 			await retrieveFromStorage<OfflineChargeConditionData>(
-				storageSet.chargeConditionData
+				storageSet.chargeConditionData,
 			);
 		if (!offlineData?.chargingConditions) {
 			throw new Error("The Api is maybe down");
@@ -218,7 +218,7 @@ export async function getAllChargeConditions({
 			operators: offlineData.operators,
 			tariffs: tariffsToHashMap(offlineData.tariffs),
 			chargingConditions: chargeConditionToHashMap(
-				offlineData.chargingConditions
+				offlineData.chargingConditions,
 			),
 		};
 	}
@@ -244,7 +244,7 @@ export async function getAllChargeConditions({
 				operators,
 				tariffs,
 				chargingConditions,
-			}
+			},
 		);
 	}
 

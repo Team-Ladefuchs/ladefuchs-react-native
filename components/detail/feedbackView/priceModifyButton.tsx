@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 
 import PlusCircle from "@assets/plusMinus/plus_circle_fill.svg";
 import MinusIcon from "@assets/plusMinus/minus_circle_fill.svg";
@@ -20,6 +20,8 @@ export function PriceModifyButton({
 
 	const [intervalId, setIntervalId] = useState(null);
 
+	const delayMs = Platform.OS === "ios" ? 170 : 250;
+
 	useEffect(() => {
 		return () => {
 			if (intervalId) {
@@ -29,10 +31,11 @@ export function PriceModifyButton({
 	}, [intervalId]);
 
 	const handlePressIn = () => {
-		const id = setInterval(() => {
-			onPress();
-		}, 150);
-		setIntervalId(id);
+		setIntervalId(
+			setInterval(() => {
+				onPress();
+			}, delayMs)
+		);
 	};
 
 	const handlePressOut = () => {

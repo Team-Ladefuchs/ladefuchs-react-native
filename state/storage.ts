@@ -16,7 +16,7 @@ export async function getBannerType(): Promise<BannerType> {
 			await AsyncStorage.setItem(key, chargePriceValue);
 			return ladefuchsValue;
 		}
-	} catch (error) {
+	} catch {
 		console.log("Could not get banner type from storage");
 	}
 	return ladefuchsValue;
