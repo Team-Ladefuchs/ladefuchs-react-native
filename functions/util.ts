@@ -1,3 +1,15 @@
+import Constants from "expo-constants";
+
+export const isDebug = __DEV__;
+
+export function getMinutes(minutes: number): number {
+	return minutes * 60 * 1000;
+}
+
+export function appVersionNumber(): number {
+	return parseInt(Constants.expoConfig.version.replaceAll(".", ""));
+}
+
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
 	const len1 = list1.length;
 	const len2 = list2.length;
@@ -43,7 +55,7 @@ function compose<T>(...functions: ((arg: T) => T)[]): (arg: T) => T {
 export const shuffleAndPickOne = compose(
 	repeatItemsByFrequency,
 	shuffle,
-	pickRandom
+	pickRandom,
 );
 
 function repeatNTimes<T>(element: T, times: number): T[] {
@@ -51,7 +63,7 @@ function repeatNTimes<T>(element: T, times: number): T[] {
 }
 
 export function repeatItemsByFrequency<T extends { frequency: number }>(
-	items: T[]
+	items: T[],
 ): T[] {
 	return items.flatMap((item) => repeatNTimes(item, item.frequency));
 }
@@ -72,7 +84,7 @@ export function hyphenText(input: string): string {
 export async function fetchWithTimeout(
 	url: string,
 	options: RequestInit = null,
-	timeout = 2800
+	timeout = 2700,
 ) {
 	const controller = new AbortController();
 	options.signal = controller.signal;

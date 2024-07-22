@@ -116,6 +116,7 @@ function selectLadefuchsBanner({
 		return null;
 	}
 	return {
+		identifier: banner.identifier,
 		bannerType: "ladefuchs",
 		affiliateLinkUrl: banner.affiliateLinkUrl,
 		imageUrl: banner.imageUrl,

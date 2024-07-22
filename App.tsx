@@ -46,7 +46,7 @@ function AppWrapper(): JSX.Element {
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
-			onAppStateChange
+			onAppStateChange,
 		);
 
 		return () => {
