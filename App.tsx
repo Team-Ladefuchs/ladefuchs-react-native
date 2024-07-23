@@ -25,6 +25,7 @@ import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import {CPOView} from "./screens/cpoView";
 import {MSPView} from "./screens/mspView";
+import {LicenseView} from "./screens/thirdpartyLicenses";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -150,6 +151,17 @@ function AppWrapper(): JSX.Element {
 						name="Meine Ladetarife"
 						options={modalHeader}
 						component={MSPView}
+					/>
+				</RootStack.Group>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+					}}
+				>
+					<RootStack.Screen
+						name="Drittlizenzen"
+						options={modalHeader}
+						component={LicenseView}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>

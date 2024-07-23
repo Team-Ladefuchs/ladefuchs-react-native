@@ -8,8 +8,6 @@ const expoVersion = Constants.expoConfig.version;
 export function AppFooter() {
 	return (
 		<View style={styles.headerView}>
-			<Text style={styles.headLine}>DRITTLIZENZEN</Text>
-			<Text style={styles.sponsorText}>Momentan keine!</Text>
 			<Text style={styles.sponsorText}>
 				Handgefertigt aus ❤️ zur Elektromobilität in 👑 Aachen, 🥨
 				Fürstenfeldbruck, 🏰 Ludwigsburg, ⚒️ Ahlen und 🐻 Berlin

@@ -1,0 +1,162 @@
+{
+  "@react-native-async-storage/async-storage@1.24.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-native-async-storage/async-storage",
+    "publisher": "Krzysztof Borowy",
+    "email": "contact@kborowy.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/@react-native-async-storage/async-storage",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/@react-native-async-storage/async-storage/LICENSE"
+  },
+  "@react-native-picker/picker@2.7.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-native-picker/picker",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/@react-native-picker/picker",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/@react-native-picker/picker/LICENSE"
+  },
+  "@types/react@18.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/@types/react",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/@types/react/LICENSE"
+  },
+  "expo-constants@16.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/expo-constants",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/expo-constants/README.md"
+  },
+  "expo-localization@15.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/expo-localization",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/expo-localization/README.md"
+  },
+  "expo-status-bar@1.12.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/expo-status-bar",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/expo-status-bar/README.md"
+  },
+  "license-checker@25.0.1": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/davglass/license-checker",
+    "publisher": "Dav Glass",
+    "email": "davglass@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/license-checker",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/license-checker/LICENSE"
+  },
+  "lottie-react-native@6.7.2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/react-native-community/lottie-react-native",
+    "publisher": "Emilio Rodriguez",
+    "email": "emiliorodriguez@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/lottie-react-native",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/lottie-react-native/README.md"
+  },
+  "react@18.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react/LICENSE"
+  },
+  "react-native@0.74.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react-native",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native/LICENSE"
+  },
+  "react-native-elements@3.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-native-elements/react-native-elements",
+    "publisher": "Nader Dabit & Monte Thakkar",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-elements",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-elements/LICENSE"
+  },
+  "react-native-gesture-handler@2.17.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/software-mansion/react-native-gesture-handler",
+    "publisher": "Krzysztof Magiera",
+    "email": "krzys.magiera@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-gesture-handler",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-gesture-handler/LICENSE"
+  },
+  "react-native-keyboard-controller@1.12.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kirillzyusko/react-native-keyboard-controller",
+    "publisher": "Kiryl Ziusko",
+    "email": "zyusko.kirik@gmail.com",
+    "url": "https://github.com/kirillzyusko",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-keyboard-controller",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-keyboard-controller/LICENSE"
+  },
+  "react-native-reanimated@3.14.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/software-mansion/react-native-reanimated",
+    "publisher": "Krzysztof Magiera",
+    "email": "krzys.magiera@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-reanimated",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-reanimated/LICENSE"
+  },
+  "react-native-safe-area-context@4.10.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/th3rdwave/react-native-safe-area-context",
+    "publisher": "Janic Duplessis",
+    "email": "janicduplessis@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-safe-area-context",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-safe-area-context/LICENSE"
+  },
+  "react-native-screens@3.32.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/software-mansion/react-native-screens",
+    "publisher": "Krzysztof Magiera",
+    "email": "krzys.magiera@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-screens",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-screens/LICENSE"
+  },
+  "react-native-size-matters@0.4.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nirsky/react-native-size-matters",
+    "publisher": "nirsky",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-size-matters",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-size-matters/LICENSE"
+  },
+  "react-native-svg@15.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-native-community/react-native-svg",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-svg",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-svg/LICENSE"
+  },
+  "react-native-svg-transformer@1.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kristerkari/react-native-svg-transformer",
+    "publisher": "Krister Kari",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-svg-transformer",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-svg-transformer/LICENSE"
+  },
+  "react-native-toast-message@2.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/calintamas/react-native-toast-message",
+    "publisher": "Calin Tamas",
+    "email": "calintamas2@gmail.com",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-toast-message",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-toast-message/LICENSE"
+  },
+  "react-native-wheely@0.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/erksch/react-native-wheely",
+    "publisher": "erksch",
+    "url": "Erik Ziegler",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-wheely",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/react-native-wheely/README.md"
+  },
+  "zustand@4.5.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pmndrs/zustand",
+    "publisher": "Paul Henschel",
+    "path": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/zustand",
+    "licenseFile": "/Users/maxxweb/Xcode/github/ladefuchs-react-native/node_modules/zustand/LICENSE"
+  }
+}
