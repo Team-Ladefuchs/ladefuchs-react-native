@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, Linking, TouchableOpacity } from 'react-native';
 
 // Importiere die Lizenzdatei direkt
 import licenses from '@assets/licenses.json';
@@ -30,7 +30,11 @@ export function LicenseView(): JSX.Element {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.version}>Version: {version}</Text>
         <Text style={styles.license}>License: {licenseInfo.licenses}</Text>
-        <Text style={styles.repo}>Repository: {licenseInfo.repository}</Text>
+        {licenseInfo.repository && (
+          <TouchableOpacity onPress={() => Linking.openURL(licenseInfo.repository)}>
+            <Text style={styles.repo}>{licenseInfo.repository}</Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   };
