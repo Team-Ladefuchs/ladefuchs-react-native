@@ -54,5 +54,10 @@ const styles = {
 		lineHeight: 20,
 		paddingBottom: 15,
 	},
+	arrow:{
+		fontSize: 40,
+		color: '#f45c2d',
+		paddingLeft: 10,
+	},
 };
 export { colors, fonts, styles };

@@ -23,6 +23,8 @@ import { useCustomFonts } from "./hooks/customFont";
 import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
+import {CPOView} from "./screens/cpoView";
+import {MSPView} from "./screens/mspView";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -126,6 +128,28 @@ function AppWrapper(): JSX.Element {
 						name="Feedback"
 						options={modalHeader}
 						component={FeedbackView}
+					/>
+				</RootStack.Group>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+					}}
+				>
+					<RootStack.Screen
+						name="Meine Stromanbieter"
+						options={modalHeader}
+						component={CPOView}
+					/>
+				</RootStack.Group>
+				<RootStack.Group
+					screenOptions={{
+						presentation: "modal",
+					}}
+				>
+					<RootStack.Screen
+						name="Meine Ladetarife"
+						options={modalHeader}
+						component={MSPView}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>
