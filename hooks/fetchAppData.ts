@@ -70,7 +70,7 @@ export function useFetchAppData(): void {
 
 	useEffect(() => {
 		const handleAppStateChange = (nextAppState: AppStateStatus) => {
-			if (nextAppState === "active") {
+			if (nextAppState === "active" && !isDebug) {
 				setTimeout(async () => {
 					await sendAppMetric.mutateAsync();
 				}, 1100);
