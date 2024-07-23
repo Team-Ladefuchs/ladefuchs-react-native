@@ -4,6 +4,7 @@
 npm install
 npm i lottie-react-native
 npm install @react-native-picker/picker --save
+node generateLicenses.js
 ```
 
 ## Create .env file
