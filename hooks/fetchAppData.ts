@@ -73,7 +73,7 @@ export function useFetchAppData(): void {
 			if (nextAppState === "active") {
 				setTimeout(async () => {
 					await sendAppMetric.mutateAsync();
-				}, 1020);
+				}, 1100);
 			}
 		};
 		const subscription = AppState.addEventListener(
