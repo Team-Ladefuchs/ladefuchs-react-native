@@ -21,11 +21,8 @@ export function useAopMetrics() {
 		if (!sendBannerImpression.isIdle) {
 			return;
 		}
-		if (!banner?.identifier) {
-			return;
-		}
 		sendBannerImpression.mutateAsync();
-	}, [banner?.identifier]);
+	}, [banner]);
 
 	const sendAppMetric = useMutation({
 		mutationFn: async () => await postAppMetric(),

@@ -174,11 +174,16 @@ const storageSet = {
 	chargeConditionData: "chargeConditionData",
 };
 
-export async function postBannerImpression(banner: Banner): Promise<void> {
+export async function postBannerImpression(
+	banner: Banner | null,
+): Promise<void> {
 	if (isDebug) {
 		return;
 	}
 
+	if (!banner?.identifier) {
+		return;
+	}
 	const response = await fetchWithTimeout(
 		`${apiPath}/v3/banners/impression`,
 		{
@@ -208,7 +213,7 @@ export async function postAppMetric(): Promise<void> {
 
 	if (cache?.lastUpdated) {
 		const updatedDevice = Date.parse(cache?.lastUpdated);
-		const oneHourInMs = getMinutes(45);
+		const oneHourInMs = getMinutes(20);
 		if (Date.now() - updatedDevice < oneHourInMs) {
 			return;
 		}

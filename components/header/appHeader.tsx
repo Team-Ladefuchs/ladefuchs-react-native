@@ -19,11 +19,6 @@ export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
 	const reloadBanner = useAppStore((state) => state.reloadBanner);
 
-	const handleLongPress = () => {
-		console.log("handleLongPress reloadBanner");
-		reloadBanner();
-	};
-
 	return (
 		<SafeAreaView style={styles.headerContainer}>
 			<StatusBar
@@ -46,7 +41,7 @@ export function AppHeader(): JSX.Element {
 			<View style={{ marginBottom: -scale(10) }}>
 				<TouchableOpacity
 					activeOpacity={1}
-					onLongPress={handleLongPress}
+					onLongPress={() => reloadBanner()}
 				>
 					<AppLogo size={85} />
 				</TouchableOpacity>
