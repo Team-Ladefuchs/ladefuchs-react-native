@@ -56,6 +56,7 @@ export function LicenseView(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+	backgroundColor: "#F3EEE2",
   },
   item: {
     marginBottom: 20,
