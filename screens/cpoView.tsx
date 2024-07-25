@@ -34,15 +34,11 @@ export function CPOView(): JSX.Element {
 	};
 
 	const handleAlphabetSearch = (letter) => {
-		// Find index of the first item that starts with the selected letter
 		const index = sortedData.findIndex(
 			(item) => item.title.charAt(0).toUpperCase() === letter,
 		);
-
 		if (index >= 0 && flatListRef.current) {
-			// Use InteractionManager to ensure the FlatList is rendered before scrolling
 			InteractionManager.runAfterInteractions(() => {
-				// Ensure index is within the valid range
 				const itemCount = sortedData.length;
 				if (index >= 0 && index < itemCount) {
 					flatListRef.current.scrollToIndex({
@@ -72,16 +68,18 @@ export function CPOView(): JSX.Element {
 					renderItem={({ item }) => <Item title={item.title} />}
 					keyExtractor={(item) => item.id}
 				/>
-				<View style={styles.alphabetContainer}>
-					{ALPHABET.map((letter) => (
-						<TouchableOpacity
-							key={letter}
-							onPress={() => handleAlphabetSearch(letter)}
-						>
-							<Text style={styles.letter}>{letter}</Text>
-						</TouchableOpacity>
-					))}
-				</View>
+				{!search && (
+					<View style={styles.alphabetContainer}>
+						{ALPHABET.map((letter) => (
+							<TouchableOpacity
+								key={letter}
+								onPress={() => handleAlphabetSearch(letter)}
+							>
+								<Text style={styles.letter}>{letter}</Text>
+							</TouchableOpacity>
+						))}
+					</View>
+				)}
 			</View>
 		</View>
 	);
@@ -108,8 +106,9 @@ const styles = StyleSheet.create({
 	item: {
 		backgroundColor: "#C2B49C",
 		padding: 20,
-		marginVertical: 8,
+		marginVertical: 2,
 		marginHorizontal: 16,
+		borderRadius: 12,
 	},
 	title: {
 		fontSize: 22,
