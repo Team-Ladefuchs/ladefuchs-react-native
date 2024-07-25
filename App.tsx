@@ -18,14 +18,18 @@ import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
-import { useFetchAppData } from "./hooks/fetchAppData";
+import { useFetchAppData } from "./hooks/usefetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
 import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
+<<<<<<< HEAD
+import { useAopMetrics } from "./hooks/useAppMetrics";
+=======
 import {CPOView} from "./screens/cpoView";
 import {MSPView} from "./screens/mspView";
 import {LicenseView} from "./screens/thirdpartyLicenses";
+>>>>>>> b4d804f (license-checker from dependencies)
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -58,6 +62,7 @@ function AppWrapper(): JSX.Element {
 	}, [onAppStateChange]);
 
 	useFetchAppData();
+	useAopMetrics();
 
 	const fontLoaded = useCustomFonts();
 	if (!fontLoaded) {
@@ -131,6 +136,8 @@ function AppWrapper(): JSX.Element {
 						component={FeedbackView}
 					/>
 				</RootStack.Group>
+<<<<<<< HEAD
+=======
 				<RootStack.Group
 					screenOptions={{
 						presentation: "modal",
@@ -164,6 +171,7 @@ function AppWrapper(): JSX.Element {
 						component={LicenseView}
 					/>
 				</RootStack.Group>
+>>>>>>> b4d804f (license-checker from dependencies)
 			</RootStack.Navigator>
 		</NavigationContainer>
 	);

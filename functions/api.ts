@@ -15,7 +15,12 @@ import {
 import { FeedbackRequest } from "../types/feedback";
 import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
-import { appVersionNumber, fetchWithTimeout, getMinutes } from "./util";
+import {
+	appVersionNumber,
+	fetchWithTimeout,
+	getMinutes,
+	isDebug,
+} from "./util";
 import {
 	AppMetricCache,
 	AppMetricResponse,
@@ -170,9 +175,10 @@ const storageSet = {
 };
 
 export async function postBannerImpression(banner: Banner): Promise<void> {
-	if (!banner?.identifier) {
+	if (isDebug) {
 		return;
 	}
+
 	const response = await fetchWithTimeout(
 		`${apiPath}/v3/banners/impression`,
 		{
@@ -194,12 +200,15 @@ export async function postBannerImpression(banner: Banner): Promise<void> {
 }
 
 export async function postAppMetric(): Promise<void> {
+	if (isDebug) {
+		return;
+	}
 	const cacheKey = "appMetric";
 	const cache = await retrieveFromStorage<AppMetricCache>(cacheKey);
 
 	if (cache?.lastUpdated) {
 		const updatedDevice = Date.parse(cache?.lastUpdated);
-		const oneHourInMs = getMinutes(60);
+		const oneHourInMs = getMinutes(45);
 		if (Date.now() - updatedDevice < oneHourInMs) {
 			return;
 		}
