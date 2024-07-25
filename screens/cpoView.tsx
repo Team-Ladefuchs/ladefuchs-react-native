@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	StatusBar,
 	TouchableOpacity,
+	InteractionManager,
 } from "react-native";
 
 const DATA = Array.from({ length: 100 }, (_, i) => ({
@@ -23,49 +24,68 @@ const Item = ({ title }) => (
 		<Text style={styles.title}>{title}</Text>
 	</View>
 );
+
 export function CPOView(): JSX.Element {
-	const [search, setSearch] = useState('');
-  const flatListRef = useRef(null);
+	const [search, setSearch] = useState("");
+	const flatListRef = useRef(null);
 
-  const handleSearch = (text) => {
-    setSearch(text);
-  };
+	const handleSearch = (text) => {
+		setSearch(text);
+	};
 
-  const handleAlphabetSearch = (letter) => {
-    const index = sortedData.findIndex(item => item.title.charAt(6).toUpperCase() === letter);
-    if (index !== -1) {
-      flatListRef.current.scrollToIndex({ animated: true, index });
-    }
-  };
+	const handleAlphabetSearch = (letter) => {
+		// Find index of the first item that starts with the selected letter
+		const index = sortedData.findIndex(
+			(item) => item.title.charAt(0).toUpperCase() === letter,
+		);
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search by title..."
-        value={search}
-        onChangeText={handleSearch}
-      />
-      <View style={styles.mainContainer}>
-        <FlatList
-          ref={flatListRef}
-          data={sortedData.filter(item => item.title.toLowerCase().includes(search.toLowerCase()))}
-          renderItem={({ item }) => <Item title={item.title} />}
-          keyExtractor={item => item.id}
-        />
-        <View style={styles.alphabetContainer}>
-          {ALPHABET.map(letter => (
-            <TouchableOpacity key={letter} onPress={() => handleAlphabetSearch(letter)}>
-              <Text style={styles.letter}>{letter}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-    </View>
-  );
-};
+		if (index >= 0 && flatListRef.current) {
+			// Use InteractionManager to ensure the FlatList is rendered before scrolling
+			InteractionManager.runAfterInteractions(() => {
+				// Ensure index is within the valid range
+				const itemCount = sortedData.length;
+				if (index >= 0 && index < itemCount) {
+					flatListRef.current.scrollToIndex({
+						animated: true,
+						index,
+					});
+				}
+			});
+		}
+	};
 
+	return (
+		<View style={styles.container}>
+			<StatusBar barStyle="dark-content" />
+			<TextInput
+				style={styles.searchBar}
+				placeholder="Search by title..."
+				value={search}
+				onChangeText={handleSearch}
+			/>
+			<View style={styles.mainContainer}>
+				<FlatList
+					ref={flatListRef}
+					data={sortedData.filter((item) =>
+						item.title.toLowerCase().includes(search.toLowerCase()),
+					)}
+					renderItem={({ item }) => <Item title={item.title} />}
+					keyExtractor={(item) => item.id}
+				/>
+				<View style={styles.alphabetContainer}>
+					{ALPHABET.map((letter) => (
+						<TouchableOpacity
+							key={letter}
+							onPress={() => handleAlphabetSearch(letter)}
+						>
+							<Text style={styles.letter}>{letter}</Text>
+						</TouchableOpacity>
+					))}
+				</View>
+			</View>
+		</View>
+	);
+}
 
 const styles = StyleSheet.create({
 	container: {
@@ -82,9 +102,9 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 	mainContainer: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		flex: 1,
-	  },
+	},
 	item: {
 		backgroundColor: "#C2B49C",
 		padding: 20,
@@ -92,6 +112,15 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16,
 	},
 	title: {
-		fontSize: 32,
+		fontSize: 22,
+	},
+	alphabetContainer: {
+		justifyContent: "center",
+		paddingRight: 10,
+	},
+	letter: {
+		fontSize: 15,
+		paddingVertical: 2,
+		paddingHorizontal: 5,
 	},
 });
