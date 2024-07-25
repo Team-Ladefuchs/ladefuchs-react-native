@@ -47,7 +47,7 @@ export function CPOView(): JSX.Element {
         value={search}
         onChangeText={handleSearch}
       />
-      <View style={styles.listContainer}>
+      <View style={styles.mainContainer}>
         <FlatList
           ref={flatListRef}
           data={sortedData.filter(item => item.title.toLowerCase().includes(search.toLowerCase()))}
@@ -81,6 +81,10 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		margin: 10,
 	},
+	mainContainer: {
+		flexDirection: 'row',
+		flex: 1,
+	  },
 	item: {
 		backgroundColor: "#C2B49C",
 		padding: 20,
