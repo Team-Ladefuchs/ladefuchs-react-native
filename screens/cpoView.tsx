@@ -21,7 +21,7 @@ const DATA = Array.from({ length: 100 }, (_, i) => ({
 
 const sortedData = DATA.sort((a, b) => a.title.localeCompare(b.title));
 
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const ALPHABET = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
 const Item = ({ item, onIncrement, onDecrement }) => {
   const swipeableRef = useRef(null);
