@@ -10,11 +10,12 @@ import { Illustration } from "../components/about/illuView";
 import { Teamfuchs } from "../components/about/headerView";
 import { LicenseView } from "../components/about/licenses";
 import { NavigationItem } from "../components/about/navigationItem";
+import { scale } from "react-native-size-matters";
 
 export function AboutScreen() {
 	return (
 		<ScrollView style={styles.scrollView} bounces>
-			<View>
+			<View style={{ marginTop: scale(12) }}>
 				<NavigationItem
 					title="Meine Ladetarife"
 					description="Wenn Du Kunde bei einem anderen als unserem Standard-Ladekarten..."
