@@ -15,7 +15,7 @@ import { scale } from "react-native-size-matters";
 export function AboutScreen() {
 	return (
 		<ScrollView style={styles.scrollView} bounces>
-			<View style={{ marginTop: scale(12) }}>
+			<View style={{ marginTop: scale(14), marginBottom: scale(2) }}>
 				<NavigationItem
 					title="Meine Ladetarife"
 					description="Wenn Du Kunde bei einem anderen als unserem Standard-Ladekarten..."
@@ -27,6 +27,7 @@ export function AboutScreen() {
 					description="Wenn Du einen anderen Ladesäulen-Betreiber..."
 					screenName="Meine Stromanbieter"
 				/>
+				<View style={styles.line} />
 			</View>
 			<Teamfuchs />
 			<MemberView />

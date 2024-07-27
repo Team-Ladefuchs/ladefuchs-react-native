@@ -49,8 +49,7 @@ const navigationItemStyle = ScaledSheet.create({
 	descriptionText: {
 		color: "black",
 		fontFamily: "Bitter",
-		fontSize: "15@s",
-		lineHeight: "20@s",
+		lineHeight: "18@s",
 		paddingBottom: "3@s",
 	},
 });

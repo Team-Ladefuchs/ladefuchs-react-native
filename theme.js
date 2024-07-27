@@ -32,12 +32,11 @@ const styles = ScaledSheet.create({
 		color: colors.ladefuchsOrange,
 		fontFamily: "Roboto",
 		fontSize: "18@s",
-		lineHeight: "19@s",
+		marginBottom: "3@s",
 	},
 	headerText: {
 		color: "black",
 		fontFamily: "Bitter",
-		fontSize: "15@s",
 		lineHeight: "20@s",
 	},
 	sponsorText: {
