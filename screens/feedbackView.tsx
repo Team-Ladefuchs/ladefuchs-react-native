@@ -158,8 +158,7 @@ export function FeedbackView(): JSX.Element {
 							<View style={feedbackthemeStyle.logosContainer}>
 								<DetailLogos
 									tariff={tariff}
-									operatorName={operator.name}
-									operatorImageUrl={operator?.imageUrl}
+									operator={operator}
 								/>
 							</View>
 						</View>

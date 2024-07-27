@@ -24,9 +24,9 @@ import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
-import {CPOView} from "./screens/OperatorView";
-import {MSPView} from "./screens/mspView";
-import {LicenseView} from "./screens/thirdpartyLicenses";
+import { OperatorScreen } from "./screens/OperatorScreen";
+import { MSPView } from "./screens/mspView";
+import { LicenseView } from "./screens/thirdpartyLicenses";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -141,7 +141,7 @@ function AppWrapper(): JSX.Element {
 					<RootStack.Screen
 						name="Meine Stromanbieter"
 						options={modalHeader}
-						component={CPOView}
+						component={OperatorScreen}
 					/>
 				</RootStack.Group>
 				<RootStack.Group

@@ -25,7 +25,7 @@ export function SwipeList<T extends { identifier: string }>({
 	const editButtonSize = scale(21);
 	return (
 		<FlatList
-			contentContainerStyle={{ gap: 2 }}
+			contentContainerStyle={{ gap: 3 }}
 			data={data}
 			renderItem={({ item }) => (
 				<SwipeItem
