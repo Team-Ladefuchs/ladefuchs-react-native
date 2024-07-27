@@ -55,8 +55,10 @@ export function OperatorScreen(): JSX.Element {
 	});
 
 	const filteredOperators = useMemo(() => {
-		return allOperatorsQuery.data.filter((operator) =>
-			operator.name.toLowerCase().includes(search.toLowerCase()),
+		return (
+			allOperatorsQuery.data?.filter((operator) =>
+				operator.name.toLowerCase().includes(search.toLowerCase()),
+			) ?? []
 		);
 	}, [search, allOperatorsQuery.data]);
 
