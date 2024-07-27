@@ -26,7 +26,8 @@ function findTariffCondition({
 	chargeMode: ChargeMode;
 }): TariffCondition | null | undefined {
 	return tariffConditions.find(
-		(item) => item.tariffId === tariffId && item.chargingMode === chargeMode
+		(item) =>
+			item.tariffId === tariffId && item.chargingMode === chargeMode,
 	);
 }
 
@@ -38,7 +39,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 			state.operators,
 			state.operatorId,
 			state.tariffConditions,
-		])
+		]),
 	);
 
 	const operator = operators.find((item) => item.identifier === operatorId);
@@ -62,11 +63,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 		<View style={styles.detailView}>
 			<ScrollView touchAction={"none"}>
 				<View style={styles.scrollView}>
-					<DetailLogos
-						tariff={tariff}
-						operatorImageUrl={operator!.imageUrl}
-						operatorName={operator!.name}
-					/>
+					<DetailLogos tariff={tariff} operator={operator} />
 					<View style={styles.priceBoxesContainer}>
 						<View style={{ flex: 1 }}>
 							<PriceBox

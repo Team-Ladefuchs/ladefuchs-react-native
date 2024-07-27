@@ -145,7 +145,7 @@ export function MemberView(): JSX.Element {
 						gap: scale(20),
 						alignContent: "center",
 						alignItems: "center",
-						paddingHorizontal: scale(16),
+						paddingHorizontal: scale(2),
 						paddingVertical: scale(10),
 					}}
 				>
@@ -189,7 +189,7 @@ export function MemberView(): JSX.Element {
 										</Text>
 									</View>
 								</TouchableWithoutFeedback>
-							) : null
+							) : null,
 						)}
 					</View>
 				</View>

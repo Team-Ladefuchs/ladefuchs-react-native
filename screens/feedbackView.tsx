@@ -17,7 +17,6 @@ import {
 	FeedbackContext,
 	FeedbackRequest,
 	OtherFeedbackRequest,
-	WrongPriceFeedbackAttributes,
 	WrongPriceRequest,
 } from "../types/feedback";
 

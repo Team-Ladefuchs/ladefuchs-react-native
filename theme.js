@@ -1,12 +1,12 @@
 // theme.js
-import { scale } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 
 const colors = {
 	primary: "#00700",
 	ladefuchsLightBackground: "#F3EEE2",
 	ladefuchsDarkBackground: "#C2B49C",
 	ladefuchsLightGrayBackground: "rgba(194,180,156, 0.4)", // 20% opacity
-	ladefuchsDarkGrayBackground: "rgba(194,180,156,0.6)", //dunkler Balken
+	ladefuchsDarkGrayBackground: "rgba(194,180,156,0.6)",
 	ladefuchsDunklerBalken: "#E0D7C8",
 	text: "#343a40",
 	ladefuchsOrange: "#F2642D",
@@ -20,44 +20,50 @@ const fonts = {
 	italicStyle: "italic",
 };
 
-const styles = {
+const styles = ScaledSheet.create({
 	scrollView: {
 		backgroundColor: colors.ladefuchsLightBackground,
+		paddingHorizontal: "20@s",
 	},
 	headerView: {
-		paddingHorizontal: scale(20),
-		paddingVertical: scale(20),
+		paddingVertical: "12@s",
 	},
 	headLine: {
 		color: colors.ladefuchsOrange,
 		fontFamily: "Roboto",
-		fontSize: 20,
-		lineHeight: 20,
+		fontSize: "18@s",
+		lineHeight: "19@s",
 	},
 	headerText: {
 		color: "black",
 		fontFamily: "Bitter",
-		fontSize: 15,
-		lineHeight: 20,
+		fontSize: "15@s",
+		lineHeight: "20@s",
 	},
 	sponsorText: {
 		color: "black",
 		fontFamily: "Bitter",
-		fontSize: 15,
-		lineHeight: 20,
-		paddingBottom: 15,
+		fontSize: "15@s",
+		lineHeight: "20@s",
+		paddingBottom: "15@s",
 	},
 	sponsorTextLink: {
 		color: "#f45c2d",
 		fontFamily: "Bitter",
-		fontSize: 15,
-		lineHeight: 20,
-		paddingBottom: 15,
+		fontSize: "15@s",
+		lineHeight: "20@s",
+		paddingBottom: "15@s",
 	},
-	arrow:{
-		fontSize: 40,
-		color: '#f45c2d',
-		paddingLeft: 10,
+	arrow: {
+		fontSize: "40@s",
+		color: "#f45c2d",
+		paddingLeft: "10@s",
 	},
-};
+	line: {
+		height: "1@s",
+		backgroundColor: colors.ladefuchsDarkGrayBackground,
+		marginTop: "8@s",
+		marginBottom: "12@s",
+	},
+});
 export { colors, fonts, styles };

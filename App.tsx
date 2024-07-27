@@ -24,7 +24,7 @@ import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
-import {CPOView} from "./screens/cpoView";
+import {CPOView} from "./screens/OperatorView";
 import {MSPView} from "./screens/mspView";
 import {LicenseView} from "./screens/thirdpartyLicenses";
 
