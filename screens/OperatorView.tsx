@@ -55,6 +55,11 @@ export function CPOView(): JSX.Element {
 		return <View></View>;
 	}
 
+	// Filter operators based on search term
+	const filteredOperators = allOperatorsQuery.data.filter((operator) =>
+		operator.name.toLowerCase().includes(search.toLowerCase()),
+	);
+
 	// TODO
 	// const handleAlphabetSearch = (letter) => {
 	// 	const index = sortedData.findIndex(
@@ -74,15 +79,9 @@ export function CPOView(): JSX.Element {
 	// };
 	return (
 		<View style={styles.container}>
-			<TextInput
-				style={styles.searchBar}
-				placeholder="Search by title..."
-				value={search}
-				onChangeText={handleSearch}
-			/>
 			<View style={styles.mainContainer}>
 				<SwipeList
-					data={allOperatorsQuery.data}
+					data={filteredOperators}
 					onRemove={(item) => {
 						setOwnCurrentOpenItem([
 							...ownOperators.filter(
@@ -126,8 +125,14 @@ export function CPOView(): JSX.Element {
 						))}
 					</View>
 				)}
-			</View>
-		</View>
+
+			<TextInput
+				style={styles.searchBar}
+				placeholder="Search by title..."
+				value={search}
+				onChangeText={handleSearch}
+			/>
+		</View></View>
 	);
 }
 
@@ -138,15 +143,16 @@ const styles = ScaledSheet.create({
 		backgroundColor: "#F3EEE2",
 	},
 	searchBar: {
-		height: 40,
-		borderColor: "gray",
+		height: '40@s',
+		borderColor: '#ccc',
 		borderWidth: 1,
-		borderRadius: 5,
-		paddingHorizontal: 10,
-		margin: 10,
+		paddingHorizontal: '10@s',
+		borderRadius: '5@s',
+		marginVertical: '1@s',
+		marginBottom: 40,
 	},
 	mainContainer: {
-		flexDirection: "row",
+		//flexDirection: "row",
 		marginHorizontal: 16,
 		flex: 1,
 		rowGap: 6,
