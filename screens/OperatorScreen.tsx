@@ -54,15 +54,17 @@ export function OperatorScreen(): JSX.Element {
 		},
 	});
 
+	const filteredOperators = useMemo(() => {
+		return (
+			allOperatorsQuery.data?.filter((operator) =>
+				operator.name.toLowerCase().includes(search.toLowerCase()),
+			) ?? []
+		);
+	}, [search, allOperatorsQuery.data]);
+
 	if (!allOperatorsQuery.data) {
 		return <View></View>;
 	}
-
-	const filteredOperators = useMemo(() => {
-		return allOperatorsQuery.data.filter((operator) =>
-			operator.name.toLowerCase().includes(search.toLowerCase()),
-		);
-	}, [search, allOperatorsQuery.data]);
 
 	return (
 		<KeyboardAvoidingView
