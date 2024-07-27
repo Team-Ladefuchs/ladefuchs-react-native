@@ -33,7 +33,7 @@
         "resizeMode": "contain",
         "backgroundColor": "#F3EEE2"
       },
-      "versionCode": 237,
+      "versionCode": 238,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"

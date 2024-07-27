@@ -1,3 +1,5 @@
+import { ChargeMode } from "./conditions";
+
 export interface FeedbackContext {
 	operatorId: string;
 	tariffId: string;
@@ -9,6 +11,7 @@ export interface WrongPriceFeedbackAttributes {
 	notes: string;
 	displayedPrice: number;
 	actualPrice: number;
+	chargeType: ChargeMode;
 }
 
 export interface OtherFeedbackAttributes {
@@ -17,18 +20,20 @@ export interface OtherFeedbackAttributes {
 
 export type FeedbackType = "wrongPriceFeedback" | "otherFeedback";
 
-export type FeedbackRequest =
-	| {
-			context: FeedbackContext;
-			request: {
-				type: "wrongPriceFeedback";
-				attributes: WrongPriceFeedbackAttributes;
-			};
-	  }
-	| {
-			context: FeedbackContext;
-			request: {
-				type: "otherFeedback";
-				attributes: OtherFeedbackAttributes;
-			};
-	  };
+export type WrongPriceRequest = {
+	context: FeedbackContext;
+	request: {
+		type: "wrongPriceFeedback";
+		attributes: WrongPriceFeedbackAttributes;
+	};
+};
+
+export type OtherFeedbackRequest = {
+	context: FeedbackContext;
+	request: {
+		type: "otherFeedback";
+		attributes: OtherFeedbackAttributes;
+	};
+};
+
+export type FeedbackRequest = WrongPriceRequest | OtherFeedbackRequest;

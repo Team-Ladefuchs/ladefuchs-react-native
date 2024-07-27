@@ -11,9 +11,15 @@ import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
-import { TariffCondition } from "../types/conditions";
+import { ChargeMode, TariffCondition } from "../types/conditions";
 import { ScaledSheet } from "react-native-size-matters";
-import { FeedbackContext, FeedbackRequest } from "../types/feedback";
+import {
+	FeedbackContext,
+	FeedbackRequest,
+	OtherFeedbackRequest,
+	WrongPriceFeedbackAttributes,
+	WrongPriceRequest,
+} from "../types/feedback";
 
 import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
@@ -67,22 +73,24 @@ export function FeedbackView(): JSX.Element {
 
 		const requests = [];
 
-		const acWrongPrice = checkPriceAndPushRequest({
+		const acWrongPrice = buildWrongPriceRequest({
 			displayedPrice: acTariffCondition.pricePerKwh,
 			actualPrice: acPriceCounter.value,
 			context,
 			noteText,
+			chargeType: "ac",
 		});
 
 		if (acWrongPrice) {
 			requests.push(acWrongPrice);
 		}
 
-		const dcWrongPrice = checkPriceAndPushRequest({
+		const dcWrongPrice = buildWrongPriceRequest({
 			displayedPrice: dcTariffCondition.pricePerKwh,
 			actualPrice: dcPriceCounter.value,
 			context,
 			noteText,
+			chargeType: "dc",
 		});
 		if (dcWrongPrice) {
 			requests.push(dcWrongPrice);
@@ -95,7 +103,7 @@ export function FeedbackView(): JSX.Element {
 					type: "otherFeedback",
 					attributes: { notes: noteText },
 				},
-			});
+			} satisfies OtherFeedbackRequest);
 		}
 		return requests;
 	};
@@ -119,7 +127,7 @@ export function FeedbackView(): JSX.Element {
 			}, 500);
 		} catch (error) {
 			setSendButtonText("Senden");
-			console.log("sedning feedback", error);
+			console.log("sending feedback", error);
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
@@ -255,16 +263,18 @@ const feedbackthemeStyle = ScaledSheet.create({
 	},
 });
 
-function checkPriceAndPushRequest({
+function buildWrongPriceRequest({
 	displayedPrice,
 	actualPrice,
 	context,
 	noteText,
+	chargeType,
 }: {
 	displayedPrice: number | null;
 	actualPrice: number;
-	context;
-	noteText;
+	context: FeedbackContext;
+	noteText: string;
+	chargeType: ChargeMode;
 }) {
 	if (
 		displayedPrice &&
@@ -278,9 +288,10 @@ function checkPriceAndPushRequest({
 					notes: noteText,
 					displayedPrice,
 					actualPrice,
+					chargeType,
 				},
 			},
-		};
+		} satisfies WrongPriceRequest;
 	}
 
 	return null;
