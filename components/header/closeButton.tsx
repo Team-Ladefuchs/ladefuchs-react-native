@@ -13,7 +13,7 @@ interface Props {
 export function CloseButton({
 	onPress,
 	style,
-	backgroundColor = colors.ladefuchsDarkGrayBackground,
+	backgroundColor = colors.ladefuchsDarkBackground,
 }: Props): JSX.Element {
 	const size = scale(19);
 	return (

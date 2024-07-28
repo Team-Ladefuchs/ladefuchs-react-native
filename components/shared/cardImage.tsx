@@ -16,11 +16,18 @@ import { scale } from "react-native-size-matters";
 interface Props {
 	tariff: Tariff;
 	showHighlightCorner?: boolean;
+	hideFallBackText?: boolean;
 	width: number;
 	style?: ImageStyle;
 }
 
-function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
+function FallBack({
+	tariff,
+	hideFallBackText,
+}: {
+	tariff: Tariff;
+	hideFallBackText: boolean;
+}): JSX.Element {
 	return (
 		<View
 			style={{
@@ -31,18 +38,20 @@ function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
 				borderRadius: 4,
 			}}
 		>
-			<Text
-				numberOfLines={3}
-				style={{
-					marginHorizontal: 6,
-					marginVertical: 4,
-					fontFamily: "RobotoCondensed",
-					color: "#fff",
-					fontSize: 12,
-				}}
-			>
-				{tariff.name}
-			</Text>
+			{!hideFallBackText && (
+				<Text
+					numberOfLines={3}
+					style={{
+						marginHorizontal: 6,
+						marginVertical: 4,
+						fontFamily: "RobotoCondensed",
+						color: "#fff",
+						fontSize: 12,
+					}}
+				>
+					{tariff.name}
+				</Text>
+			)}
 			<Image
 				source={require("@assets/blitz.png")}
 				resizeMethod={"scale"}
@@ -64,6 +73,7 @@ export function CardImage({
 	tariff,
 	showHighlightCorner = false,
 	width,
+	hideFallBackText = false,
 	style: styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
@@ -77,7 +87,7 @@ export function CardImage({
 		>
 			{showHighlightCorner && <HighlightCorner />}
 			{!tariff.imageUrl || imageError ? (
-				<FallBack tariff={tariff} />
+				<FallBack tariff={tariff} hideFallBackText={hideFallBackText} />
 			) : (
 				<Image
 					onError={() => setImageError(true)}

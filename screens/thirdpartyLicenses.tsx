@@ -100,6 +100,5 @@ const styles = StyleSheet.create({
 		color: "#716B61",
 		fontFamily: "Bitter",
 		fontStyle: "italic",
-		fontSize: "13@s",
 	},
 });

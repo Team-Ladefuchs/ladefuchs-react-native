@@ -24,9 +24,9 @@ import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
-import { OperatorScreen } from "./screens/OperatorScreen";
-import { MSPView } from "./screens/mspView";
 import { LicenseView } from "./screens/thirdpartyLicenses";
+import { OperatorListScreen } from "./screens/operatorListScreen";
+import { TariffListScreen } from "./screens/tariffListScreen";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -141,7 +141,7 @@ function AppWrapper(): JSX.Element {
 					<RootStack.Screen
 						name="Meine Stromanbieter"
 						options={modalHeader}
-						component={OperatorScreen}
+						component={OperatorListScreen}
 					/>
 				</RootStack.Group>
 				<RootStack.Group
@@ -152,7 +152,7 @@ function AppWrapper(): JSX.Element {
 					<RootStack.Screen
 						name="Meine Ladetarife"
 						options={modalHeader}
-						component={MSPView}
+						component={TariffListScreen}
 					/>
 				</RootStack.Group>
 				<RootStack.Group
@@ -188,7 +188,7 @@ function modalHeader({
 			);
 		},
 		headerStyle: {
-			backgroundColor: colors.ladefuchsLightBackground,
+			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
 		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
 	};

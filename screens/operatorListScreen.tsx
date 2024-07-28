@@ -20,12 +20,13 @@ import { retrieveFromStorage } from "../state/storage";
 import { SwipeList } from "../components/shared/swipeList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
+import { SearchInput } from "../components/shared/searchInput";
 
 const ALPHABET = Array.from({ length: 26 }, (_, i) =>
 	String.fromCharCode(65 + i),
 );
 
-export function OperatorScreen(): JSX.Element {
+export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
 	const [ownOperators, setOwnCurrentOpenItem] = useState<string[]>([]);
@@ -75,6 +76,7 @@ export function OperatorScreen(): JSX.Element {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={styles.listContainer}>
 					<SwipeList
+						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
 						onRemove={(item) => {
 							setOwnCurrentOpenItem([
@@ -110,14 +112,10 @@ export function OperatorScreen(): JSX.Element {
 					/>
 				</View>
 			</TouchableWithoutFeedback>
-			<SafeAreaView style={styles.searchContainer}>
-				<TextInput
-					style={styles.searchInput}
-					autoCorrect={false}
-					placeholder="Search by title..."
-					onChangeText={setSearch}
-				/>
-			</SafeAreaView>
+			<SearchInput
+				setSearch={setSearch}
+				placeHolder="Search by title..."
+			/>
 		</KeyboardAvoidingView>
 	);
 }
@@ -161,53 +159,29 @@ export function OperatorScreen(): JSX.Element {
 const styles = ScaledSheet.create({
 	container: {
 		flex: 1,
-		marginTop: StatusBar.currentHeight || 0,
-		marginBottom: -10,
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
-	searchContainer: {
-		backgroundColor: colors.ladefuchsDarkBackground,
-	},
-	searchInput: {
-		// height: "40@s",
-		borderColor: "#ccc",
-		borderWidth: 1,
-		paddingHorizontal: "10@s",
+	listItemContainer: {
 		paddingVertical: "10@s",
-		backgroundColor: "#fff",
-		borderRadius: "8@s",
-		marginVertical: "7@s",
-		fontSize: "15@s",
-		marginHorizontal: "16@s",
+		paddingLeft: "14@s",
+		paddingRight: "12@s",
+		display: "flex",
+		gap: "6@s",
 	},
+
 	listContainer: {
-		marginTop: "16@s",
 		marginHorizontal: "16@s",
 		flex: 2,
-		rowGap: 6,
 	},
 	itemBody: {
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 2,
-		borderRadius: 2,
 	},
 	itemText: {
 		flex: 2,
 		fontSize: "16@s",
 		fontWeight: "bold",
-	},
-	// title: {
-	// 	fontSize: 22,
-	// },
-	alphabetContainer: {
-		justifyContent: "center",
-		paddingRight: 10,
-	},
-	letter: {
-		fontSize: 15,
-		paddingVertical: 2,
-		paddingHorizontal: 5,
 	},
 });

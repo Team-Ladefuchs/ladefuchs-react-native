@@ -24,6 +24,7 @@ const styles = ScaledSheet.create({
 	scrollView: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		paddingHorizontal: "20@s",
+		flex: 1,
 	},
 	headerView: {
 		paddingVertical: "12@s",
