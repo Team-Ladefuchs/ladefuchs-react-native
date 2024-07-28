@@ -30,61 +30,75 @@ export function SwipeList<T extends { identifier: string }>({
 }: Props<T>): JSX.Element {
 	const [currentOpenItem, setCurrentOpenItem] = useState<T>(null);
 	const editButtonSize = scale(22);
+
 	return (
 		<FlatList
 			contentContainerStyle={{ gap: scale(1) }}
 			data={data}
 			initialNumToRender={10}
 			renderItem={({ item, index }) => {
+				const isFirst = index === 0;
+				const isLast = index === data.length - 1;
 				return (
-					<SwipeItem
-						onDelete={() => {
-							onRemove(item);
-						}}
-						onCloseAction={() => {
-							setCurrentOpenItem(null);
-						}}
-						onOpenAction={() => {
-							setCurrentOpenItem({ ...item });
-						}}
-						isOpen={item.identifier === currentOpenItem?.identifier}
-						item={
-							<TouchableWithoutFeedback
-								onPress={() => setCurrentOpenItem(null)}
-							>
-								<View
-									style={[
-										styles.item,
-										containerStyle,
-										index === 0 && styles.firstItem,
-										index === data.length - 1 &&
-											styles.lastItem,
-									]}
+					<View
+						style={[
+							styles.swipeContainer,
+							isFirst && styles.firstItem,
+							isLast && styles.lastItem,
+						]}
+					>
+						<SwipeItem
+							onDelete={() => {
+								onRemove(item);
+							}}
+							onCloseAction={() => {
+								setCurrentOpenItem(null);
+							}}
+							onOpenAction={() => {
+								setCurrentOpenItem({ ...item });
+							}}
+							isOpen={
+								item.identifier === currentOpenItem?.identifier
+							}
+							item={
+								<TouchableWithoutFeedback
+									onPress={() => setCurrentOpenItem(null)}
 								>
-									<View>
-										{exists(item) ? (
-											<RemoveCircle
-												height={editButtonSize}
-												width={editButtonSize}
-												onPress={() => {
-													setCurrentOpenItem(item);
-												}}
-											/>
-										) : (
-											<AddCircle
-												onPress={() => {
-													onAdd(item);
-												}}
-												height={editButtonSize}
-												width={editButtonSize}
-											/>
-										)}
+									<View
+										style={[
+											styles.item,
+											containerStyle,
+											isFirst && styles.firstItemBorder,
+											isLast && styles.lastItemBorder,
+										]}
+									>
+										<View>
+											{exists(item) ? (
+												<RemoveCircle
+													height={editButtonSize}
+													width={editButtonSize}
+													onPress={() => {
+														setCurrentOpenItem(
+															item,
+														);
+													}}
+												/>
+											) : (
+												<AddCircle
+													onPress={() => {
+														onAdd(item);
+													}}
+													height={editButtonSize}
+													width={editButtonSize}
+												/>
+											)}
+										</View>
+										{renderItem(item)}
 									</View>
-									{renderItem(item)}
-								</View>
-							</TouchableWithoutFeedback>
-						}
-					/>
+								</TouchableWithoutFeedback>
+							}
+						/>
+					</View>
 				);
 			}}
 			keyExtractor={(item) => item.identifier}
@@ -93,19 +107,26 @@ export function SwipeList<T extends { identifier: string }>({
 }
 
 const styles = ScaledSheet.create({
+	swipeContainer: {
+		// backgroundColor: "#E1D8C7",
+	},
 	item: {
 		backgroundColor: "#E1D8C7",
 		flexDirection: "row",
 		alignItems: "center",
 	},
-	firstItem: {
+	firstItemBorder: {
 		borderTopStartRadius: "8@s",
 		borderTopEndRadius: "8@s",
+	},
+	firstItem: {
 		marginTop: "18@s",
 	},
-	lastItem: {
+	lastItemBorder: {
 		borderBottomStartRadius: "8@s",
 		borderBottomEndRadius: "8@s",
+	},
+	lastItem: {
 		marginBottom: "20@s",
 	},
 });

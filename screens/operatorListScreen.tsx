@@ -12,11 +12,15 @@ import { fetchOperators } from "../functions/api";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { OperatorImage } from "../components/shared/operatorImage";
 
-import { retrieveFromStorage } from "../state/storage";
 import { SwipeList } from "../components/shared/swipeList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
+import {
+	readOperatorSettings,
+	saveOperatorSettings,
+} from "../functions/storage/operatorsStorage";
+import { Operator } from "../types/operator";
 
 const ALPHABET = Array.from({ length: 26 }, (_, i) =>
 	String.fromCharCode(65 + i),
@@ -25,23 +29,36 @@ const ALPHABET = Array.from({ length: 26 }, (_, i) =>
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
-	const [ownOperators, setOwnCurrentOpenItem] = useState<string[]>([]);
+	const [operatorAddList, setOperatorAddList] = useState<Operator[]>([]);
+	const [operatorRemoveList, setOperatorRemoveList] = useState<Operator[]>(
+		[],
+	);
 
 	useEffect(() => {
-		retrieveFromStorage<string[]>("ownOperators").then((operators) => {
-			setOwnCurrentOpenItem(operators ?? []);
+		readOperatorSettings().then(({ toAdd: add, toRemove: remove }) => {
+			setOperatorAddList(add ?? []);
+			setOperatorRemoveList(remove ?? []);
 		});
 	}, []);
 
 	useEffect(() => {
-		return () => {
-			console.log("cia");
+		const saveSettings = () => {
+			// maybe refresh operatorAddList from operator data, so there are not too updated
+			saveOperatorSettings({
+				toAdd: operatorAddList,
+				toRemove: operatorRemoveList,
+			});
 		};
-	}, []);
+
+		// Save settings when the component unmounts
+		return () => {
+			saveSettings();
+		};
+	}, [operatorAddList, operatorRemoveList]); // T
 
 	useEffect(() => {
-		console.log("ownOperators", ownOperators);
-	}, [ownOperators]);
+		console.log("Operators", operatorAddList, operatorRemoveList);
+	}, [operatorAddList, operatorRemoveList]);
 
 	const allOperatorsQuery = useQuery({
 		queryKey: ["AllOperators"],
@@ -75,17 +92,31 @@ export function OperatorListScreen(): JSX.Element {
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
 						onRemove={(item) => {
-							setOwnCurrentOpenItem([
-								...ownOperators.filter(
-									(id) => id !== item.identifier,
-								),
-							]);
+							if (item.isStandard) {
+								setOperatorRemoveList([
+									item,
+									...operatorRemoveList,
+								]);
+							} else {
+								setOperatorAddList([
+									...operatorAddList.filter(
+										({ identifier }) =>
+											identifier !== item.identifier,
+									),
+								]);
+							}
 						}}
 						onAdd={(item) => {
-							setOwnCurrentOpenItem([
-								item.identifier,
-								...ownOperators,
-							]);
+							if (item.isStandard) {
+								setOperatorRemoveList([
+									...operatorRemoveList.filter(
+										({ identifier }) =>
+											identifier !== item.identifier,
+									),
+								]);
+							} else {
+								setOperatorAddList([item, ...operatorAddList]);
+							}
 						}}
 						renderItem={(item) => {
 							return (
@@ -103,7 +134,13 @@ export function OperatorListScreen(): JSX.Element {
 							);
 						}}
 						exists={(item) =>
-							ownOperators.includes(item.identifier)
+							(operatorAddList
+								.map(({ identifier }) => identifier)
+								.includes(item.identifier) ||
+								item.isStandard) &&
+							!operatorRemoveList
+								.map(({ identifier }) => identifier)
+								.includes(item.identifier)
 						}
 					/>
 				</View>

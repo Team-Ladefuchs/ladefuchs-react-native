@@ -1,4 +1,6 @@
 import Constants from "expo-constants";
+import { Tariff } from "../types/tariff";
+import type { ChargingCondition, TariffCondition } from "../types/conditions";
 
 export const isDebug = __DEV__;
 
@@ -100,4 +102,25 @@ export async function fetchWithTimeout(
 	} finally {
 		clearTimeout(timeoutId);
 	}
+}
+
+export function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
+	const map = new Map();
+
+	for (const tariff of data) {
+		map.set(tariff.identifier, tariff);
+	}
+	return map;
+}
+
+export function chargeConditionToHashMap(
+	data: ChargingCondition[],
+): Map<string, TariffCondition[]> {
+	const map = new Map();
+
+	for (const conditions of data) {
+		map.set(conditions.operatorId, conditions.tariffConditions);
+	}
+
+	return map;
 }

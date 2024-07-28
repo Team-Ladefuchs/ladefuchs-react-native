@@ -14,6 +14,7 @@ export function SearchInput({ setSearch, placeHolder }: Props): JSX.Element {
 			<TextInput
 				style={styles.searchInput}
 				autoCorrect={false}
+				autoComplete="off"
 				clearButtonMode="while-editing"
 				placeholder={placeHolder}
 				onChangeText={setSearch}

@@ -17,15 +17,26 @@ import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
 import {
 	appVersionNumber,
+	chargeConditionToHashMap,
 	fetchWithTimeout,
 	getMinutes,
 	isDebug,
+	tariffsToHashMap,
 } from "./util";
 import {
 	AppMetricCache,
 	AppMetricResponse,
 	AppMetricsRequest,
 } from "../types/metrics";
+import {
+	readOperatorSettings,
+	saveOperatorSettings,
+} from "./storage/operatorsStorage";
+import {
+	OfflineChargeConditionData,
+	getOfflineChargeConditionData,
+	storageSet,
+} from "./storage/chargeConditionStorage";
 
 const apiPath = "https://api.ladefuchs.app";
 export const authHeader = {
@@ -100,27 +111,6 @@ export async function fetchChargingConditions(requestBody: {
 	}
 }
 
-function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
-	const map = new Map();
-
-	for (const tariff of data) {
-		map.set(tariff.identifier, tariff);
-	}
-	return map;
-}
-
-function chargeConditionToHashMap(
-	data: ChargingCondition[],
-): Map<string, TariffCondition[]> {
-	const map = new Map();
-
-	for (const conditions of data) {
-		map.set(conditions.operatorId, conditions.tariffConditions);
-	}
-
-	return map;
-}
-
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
 		const response = await fetchWithTimeout(`${apiPath}/v3/banners`, {
@@ -168,11 +158,6 @@ export async function sendFeedback(request: FeedbackRequest): Promise<void> {
 		throw Error("could not send feedback, got an bad status code");
 	}
 }
-
-const storageSet = {
-	banners: "ladefuchsOfflineCache",
-	chargeConditionData: "chargeConditionData",
-};
 
 export async function postBannerImpression(
 	banner: Banner | null,
@@ -275,38 +260,37 @@ export async function getBanners({
 	return { bannerType, ladefuchsBanners, chargePriceAdBanner };
 }
 
-interface OfflineChargeConditionData {
-	operators: Operator[];
-	tariffs: Tariff[];
-	chargingConditions: ChargingCondition[];
-}
-
 export async function getAllChargeConditions({
 	writeToCache,
 }: {
 	writeToCache: boolean;
 }): Promise<ChargeConditionData> {
-	async function getOfflineChargeConditionData() {
-		const offlineData =
-			await retrieveFromStorage<OfflineChargeConditionData>(
-				storageSet.chargeConditionData,
-			);
-		if (!offlineData?.chargingConditions) {
-			throw new Error("The Api is maybe down");
-		}
-		return {
-			operators: offlineData.operators,
-			tariffs: tariffsToHashMap(offlineData.tariffs),
-			chargingConditions: chargeConditionToHashMap(
-				offlineData.chargingConditions,
-			),
-		};
-	}
-
-	const [operators, tariffs] = await Promise.all([
+	const operatorSettings = await readOperatorSettings();
+	const [operatorResponse, tariffs] = await Promise.all([
 		fetchOperators({ standard: true }),
 		fetchTariffs({ standard: true }),
 	]);
+
+	operatorSettings.toAdd = operatorSettings.toAdd.filter(
+		(item) =>
+			!operatorResponse.find(
+				({ identifier }) => identifier === item.identifier,
+			),
+	);
+
+	if (writeToCache) {
+		saveOperatorSettings(operatorSettings);
+	}
+
+	const operators = [
+		...operatorSettings.toAdd,
+		...operatorResponse.filter(
+			(op) =>
+				!operatorSettings.toRemove
+					.map(({ identifier }) => identifier)
+					.includes(op.identifier),
+		),
+	];
 
 	const chargingConditions = await fetchChargingConditions({
 		tariffsIds: tariffs.map((item) => item.identifier),

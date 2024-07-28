@@ -25,10 +25,6 @@ export function TariffListScreen(): JSX.Element {
 
 	const [ownTariffs, setOwnCurrentOpenItem] = useState<string[]>([]);
 
-	const handleSearch = (text) => {
-		setSearch(text);
-	};
-
 	useEffect(() => {
 		retrieveFromStorage<string[]>("ownTariffs").then((tariffs) => {
 			setOwnCurrentOpenItem(tariffs ?? []);
