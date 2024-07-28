@@ -16,9 +16,34 @@ export async function readOperatorSettings(): Promise<OperatorSettings> {
 	);
 }
 
+export async function getOperatorsFromStorage({
+	operatorResponse,
+	writeToCache,
+}: {
+	operatorResponse: Operator[];
+	writeToCache: boolean;
+}): Promise<Operator[]> {
+	const operatorSettings = await readOperatorSettings();
 
-export async function getOperatorsFromStorage() {
+	operatorSettings.toAdd = operatorSettings.toAdd.filter(
+		(item) =>
+			!operatorResponse.find(
+				({ identifier }) => identifier === item.identifier,
+			),
+	);
 
+	if (writeToCache) {
+		await saveOperatorSettings(operatorSettings);
+	}
+	return [
+		...operatorSettings.toAdd,
+		...operatorResponse.filter(
+			(op) =>
+				!operatorSettings.toRemove
+					.map(({ identifier }) => identifier)
+					.includes(op.identifier),
+		),
+	];
 }
 
 export async function saveOperatorSettings(

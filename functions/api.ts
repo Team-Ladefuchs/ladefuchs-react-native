@@ -10,7 +10,6 @@ import {
 	ChargeMode,
 	ChargingCondition,
 	ConditionsResponse,
-	TariffCondition,
 } from "../types/conditions";
 import { FeedbackRequest } from "../types/feedback";
 import { Operator, OperatorsResponse } from "../types/operator";
@@ -28,10 +27,7 @@ import {
 	AppMetricResponse,
 	AppMetricsRequest,
 } from "../types/metrics";
-import {
-	readOperatorSettings,
-	saveOperatorSettings,
-} from "./storage/operatorsStorage";
+import { getOperatorsFromStorage } from "./storage/operatorsStorage";
 import {
 	OfflineChargeConditionData,
 	getOfflineChargeConditionData,
@@ -265,32 +261,15 @@ export async function getAllChargeConditions({
 }: {
 	writeToCache: boolean;
 }): Promise<ChargeConditionData> {
-	const operatorSettings = await readOperatorSettings();
 	const [operatorResponse, tariffs] = await Promise.all([
 		fetchOperators({ standard: true }),
 		fetchTariffs({ standard: true }),
 	]);
 
-	operatorSettings.toAdd = operatorSettings.toAdd.filter(
-		(item) =>
-			!operatorResponse.find(
-				({ identifier }) => identifier === item.identifier,
-			),
-	);
-
-	if (writeToCache) {
-		saveOperatorSettings(operatorSettings);
-	}
-
-	const operators = [
-		...operatorSettings.toAdd,
-		...operatorResponse.filter(
-			(op) =>
-				!operatorSettings.toRemove
-					.map(({ identifier }) => identifier)
-					.includes(op.identifier),
-		),
-	];
+	const operators = await getOperatorsFromStorage({
+		operatorResponse,
+		writeToCache,
+	});
 
 	const chargingConditions = await fetchChargingConditions({
 		tariffsIds: tariffs.map((item) => item.identifier),
