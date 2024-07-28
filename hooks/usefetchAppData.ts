@@ -5,7 +5,7 @@ import { getAllChargeConditions, getBanners } from "../functions/api";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/state";
 
-export function useFetchAppData(): void {
+export function useFetchAppData() {
 	const [setAppData, setAppError, operators, setBanners, ladefuchsBanners] =
 		useAppStore(
 			useShallow((state) => [
@@ -52,4 +52,6 @@ export function useFetchAppData(): void {
 			setBanners(bannerQuery.data);
 		}
 	}, [bannerQuery.data, setBanners]);
+
+	return { allChargeConditionsQuery };
 }

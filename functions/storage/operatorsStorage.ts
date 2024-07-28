@@ -43,7 +43,9 @@ export async function getOperatorsFromStorage({
 					.map(({ identifier }) => identifier)
 					.includes(op.identifier),
 		),
-	];
+	].sort((a, b) =>
+		a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()),
+	);
 }
 
 export async function saveOperatorSettings(

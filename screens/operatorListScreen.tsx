@@ -21,6 +21,7 @@ import {
 	saveOperatorSettings,
 } from "../functions/storage/operatorsStorage";
 import { Operator } from "../types/operator";
+import { useFetchAppData } from "../hooks/usefetchAppData";
 
 const ALPHABET = Array.from({ length: 26 }, (_, i) =>
 	String.fromCharCode(65 + i),
@@ -33,6 +34,8 @@ export function OperatorListScreen(): JSX.Element {
 	const [operatorRemoveList, setOperatorRemoveList] = useState<Operator[]>(
 		[],
 	);
+
+	const { allChargeConditionsQuery } = useFetchAppData();
 
 	useEffect(() => {
 		readOperatorSettings().then(({ toAdd: add, toRemove: remove }) => {
@@ -47,6 +50,11 @@ export function OperatorListScreen(): JSX.Element {
 			saveOperatorSettings({
 				toAdd: operatorAddList,
 				toRemove: operatorRemoveList,
+			}).then(() => {
+				if (allChargeConditionsQuery.isFetching) {
+					return;
+				}
+				allChargeConditionsQuery.refetch();
 			});
 		};
 
