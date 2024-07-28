@@ -2,10 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
 	View,
 	Text,
-	TextInput,
-	StatusBar,
-	TouchableOpacity,
-	SafeAreaView,
 	KeyboardAvoidingView,
 	Platform,
 	Keyboard,
