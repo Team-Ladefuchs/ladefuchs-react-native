@@ -12,51 +12,75 @@ import { fetchTariffs } from "../functions/api";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { CardImage } from "../components/shared/cardImage";
 
-import { retrieveFromStorage } from "../state/storage";
+//import { retrieveFromStorage } from "../state/storage";
 import { SwipeList } from "../components/shared/swipeList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
+import {
+	readTariffSettings,
+	saveTariffSettings,
+} from "../functions/storage/tariffsStorage";
+import { Tariff } from "../types/tariff";
+import { useFetchAppData } from "../hooks/usefetchAppData";
 
-const adHocRegex = /ad[-]?hoc/i;
+//const adHocRegex = /ad[-]?hoc/i;
 
 export function TariffListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
+	const [tariffAddList, setTariffAddList] = useState<Tariff[]>([]);
+	const [tariffRemoveList, setTariffRemoveList] = useState<Tariff[]>(
+		[],
+	);
+	const { allChargeConditionsQuery } = useFetchAppData();
 
-	const [ownTariffs, setOwnCurrentOpenItem] = useState<string[]>([]);
+
+	//const [ownTariffs, setOwnCurrentOpenItem] = useState<string[]>([]);
 
 	useEffect(() => {
-		retrieveFromStorage<string[]>("ownTariffs").then((tariffs) => {
-			setOwnCurrentOpenItem(tariffs ?? []);
+		readTariffSettings().then(({ toAdd: add, toRemove: remove }) => {
+			setTariffAddList(add ?? []);
+			setTariffRemoveList(remove ?? []);
 		});
 	}, []);
 
 	useEffect(() => {
-		return () => {
-			console.log("cia");
+		const saveSettings = () => {
+			// maybe refresh operatorAddList from operator data, so there are not too updated
+			saveTariffSettings({
+				toAdd: tariffAddList,
+				toRemove: tariffRemoveList,
+			}).then(() => {
+				if (allChargeConditionsQuery.isFetching) {
+					return;
+				}
+				allChargeConditionsQuery.refetch();
+			});
 		};
-	}, []);
+
+		// Save settings when the component unmounts
+		return () => {
+			saveSettings();
+		};
+	}, [tariffAddList, tariffRemoveList]); // T
 
 	useEffect(() => {
-		console.log("ownTariffs", ownTariffs);
-	}, [ownTariffs]);
+		console.log("Tariffs", tariffAddList, tariffRemoveList);
+	}, [tariffAddList, tariffRemoveList]);
 
 	const allTariffsQuery = useQuery({
 		queryKey: ["AllTariffs"],
 		retry: 3,
 		queryFn: async () => {
-			const data = await fetchTariffs({ standard: false });
-			return data
-				.filter((tariff) => !tariff.isStandard)
-				.filter((tariff) => !adHocRegex.test(tariff.name));
+			return await fetchTariffs({ standard: false });
 		},
 	});
 
-	const filteredTariffs = useMemo(() => {
-		const tariffs = allTariffsQuery?.data ?? [];
-
-		return tariffs.filter((tariff) =>
-			tariff.name.toLowerCase().includes(search.toLowerCase()),
+	const filteredTariffs= useMemo(() => {
+		return (
+			allTariffsQuery.data?.filter((tariff) =>
+				tariff.name.toLowerCase().includes(search.toLowerCase()),
+			) ?? []
 		);
 	}, [search, allTariffsQuery.data]);
 
@@ -76,17 +100,31 @@ export function TariffListScreen(): JSX.Element {
 						containerStyle={styles.listItemContainer}
 						data={filteredTariffs}
 						onRemove={(item) => {
-							setOwnCurrentOpenItem([
-								...ownTariffs.filter(
-									(id) => id !== item.identifier,
-								),
-							]);
+							if (item.isStandard) {
+								setTariffRemoveList([
+									item,
+									...tariffRemoveList,
+								]);
+							} else {
+								setTariffAddList([
+									...tariffAddList.filter(
+										({ identifier }) =>
+											identifier !== item.identifier,
+									),
+								]);
+							}
 						}}
 						onAdd={(item) => {
-							setOwnCurrentOpenItem([
-								item.identifier,
-								...ownTariffs,
-							]);
+							if (item.isStandard) {
+								setTariffRemoveList([
+									...tariffRemoveList.filter(
+										({ identifier }) =>
+											identifier !== item.identifier,
+									),
+								]);
+							} else {
+								setTariffAddList([item, ...tariffAddList]);
+							}
 						}}
 						renderItem={(item) => {
 							return (
@@ -112,7 +150,15 @@ export function TariffListScreen(): JSX.Element {
 								</View>
 							);
 						}}
-						exists={(item) => ownTariffs.includes(item.identifier)}
+						exists={(item) =>
+							(tariffAddList
+								.map(({ identifier }) => identifier)
+								.includes(item.identifier) ||
+								item.isStandard) &&
+							!tariffRemoveList
+								.map(({ identifier }) => identifier)
+								.includes(item.identifier)
+						}
 					/>
 				</View>
 			</TouchableWithoutFeedback>

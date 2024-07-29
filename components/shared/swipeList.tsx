@@ -28,7 +28,7 @@ export function SwipeList<T extends { identifier: string }>({
 	renderItem,
 	containerStyle,
 }: Props<T>): JSX.Element {
-	const [currentOpenItem, setCurrentOpenItem] = useState<T>(null);
+	const [currentOpenItem, setCurrentOpenItem] = useState<T | null>(null);
 	const editButtonSize = scale(22);
 
 	return (
@@ -39,6 +39,8 @@ export function SwipeList<T extends { identifier: string }>({
 			renderItem={({ item, index }) => {
 				const isFirst = index === 0;
 				const isLast = index === data.length - 1;
+				const itemExists = exists(item);
+
 				return (
 					<View
 						style={[
@@ -47,57 +49,71 @@ export function SwipeList<T extends { identifier: string }>({
 							isLast && styles.lastItem,
 						]}
 					>
-						<SwipeItem
-							onDelete={() => {
-								onRemove(item);
-							}}
-							onCloseAction={() => {
-								setCurrentOpenItem(null);
-							}}
-							onOpenAction={() => {
-								setCurrentOpenItem({ ...item });
-							}}
-							isOpen={
-								item.identifier === currentOpenItem?.identifier
-							}
-							item={
-								<TouchableWithoutFeedback
-									onPress={() => setCurrentOpenItem(null)}
-								>
-									<View
-										style={[
-											styles.item,
-											containerStyle,
-											isFirst && styles.firstItemBorder,
-											isLast && styles.lastItemBorder,
-										]}
+						{itemExists ? (
+							<SwipeItem
+								onDelete={() => {
+									onRemove(item);
+								}}
+								onCloseAction={() => {
+									setCurrentOpenItem(null);
+								}}
+								onOpenAction={() => {
+									setCurrentOpenItem({ ...item });
+								}}
+								isOpen={
+									item.identifier === currentOpenItem?.identifier
+								}
+								item={
+									<TouchableWithoutFeedback
+										onPress={() => setCurrentOpenItem(null)}
 									>
-										<View>
-											{exists(item) ? (
+										<View
+											style={[
+												styles.item,
+												containerStyle,
+												isFirst && styles.firstItemBorder,
+												isLast && styles.lastItemBorder,
+											]}
+										>
+											<View>
 												<RemoveCircle
 													height={editButtonSize}
 													width={editButtonSize}
 													onPress={() => {
-														setCurrentOpenItem(
-															item,
-														);
+														setCurrentOpenItem(item);
 													}}
 												/>
-											) : (
-												<AddCircle
-													onPress={() => {
-														onAdd(item);
-													}}
-													height={editButtonSize}
-													width={editButtonSize}
-												/>
-											)}
+											</View>
+											{renderItem(item)}
 										</View>
-										{renderItem(item)}
+									</TouchableWithoutFeedback>
+								}
+							/>
+						) : (
+							<TouchableWithoutFeedback
+								onPress={() => setCurrentOpenItem(null)}
+							>
+								<View
+									style={[
+										styles.item,
+										containerStyle,
+										isFirst && styles.firstItemBorder,
+										isLast && styles.lastItemBorder,
+									]}
+								>
+									<View>
+										<AddCircle
+											onPress={() => {
+												onAdd(item);
+											}}
+											height={editButtonSize}
+											width={editButtonSize}
+										/>
 									</View>
-								</TouchableWithoutFeedback>
-							}
-						/>
+									{renderItem(item)}
+								</View>
+							</TouchableWithoutFeedback>
+						)}
 					</View>
 				);
 			}}
