@@ -8,6 +8,7 @@ interface Props {
 	onDelete: () => void;
 	isOpen: boolean;
 	onOpenAction: () => void;
+	disableAction: boolean;
 	onCloseAction: () => void;
 }
 
@@ -16,6 +17,7 @@ export function SwipeItem({
 	onDelete,
 	isOpen,
 	onOpenAction,
+	disableAction,
 	onCloseAction,
 }: Props): JSX.Element {
 	const swipeableRef = useRef<Swipeable>(null);
@@ -44,7 +46,7 @@ export function SwipeItem({
 	return (
 		<Swipeable
 			ref={swipeableRef}
-			renderRightActions={renderRightActions}
+			renderRightActions={disableAction ? renderRightActions : null}
 			onSwipeableOpen={onOpenAction}
 			onSwipeableClose={onCloseAction}
 		>

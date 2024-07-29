@@ -19,7 +19,7 @@ import { SearchInput } from "../components/shared/searchInput";
 import {
 	readOperatorSettings,
 	saveOperatorSettings,
-} from "../functions/storage/operatorsStorage";
+} from "../functions/storage/operatorStorage";
 import { Operator } from "../types/operator";
 import { useFetchAppData } from "../hooks/usefetchAppData";
 

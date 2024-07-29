@@ -27,7 +27,7 @@ import {
 	AppMetricResponse,
 	AppMetricsRequest,
 } from "../types/metrics";
-import { getOperatorsFromStorage } from "./storage/operatorsStorage";
+import { getOperatorsFromStorage } from "./storage/operatorStorage";
 import {
 	OfflineChargeConditionData,
 	getOfflineChargeConditionData,

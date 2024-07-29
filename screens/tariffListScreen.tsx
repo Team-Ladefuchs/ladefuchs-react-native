@@ -20,27 +20,20 @@ import { SearchInput } from "../components/shared/searchInput";
 import {
 	readTariffSettings,
 	saveTariffSettings,
-} from "../functions/storage/tariffsStorage";
+} from "../functions/storage/tariffStorage";
 import { Tariff } from "../types/tariff";
 import { useFetchAppData } from "../hooks/usefetchAppData";
 
-//const adHocRegex = /ad[-]?hoc/i;
+const adHocRegex = /ad[-]?hoc/i;
 
 export function TariffListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 	const [tariffAddList, setTariffAddList] = useState<Tariff[]>([]);
-	const [tariffRemoveList, setTariffRemoveList] = useState<Tariff[]>(
-		[],
-	);
 	const { allChargeConditionsQuery } = useFetchAppData();
 
-
-	//const [ownTariffs, setOwnCurrentOpenItem] = useState<string[]>([]);
-
 	useEffect(() => {
-		readTariffSettings().then(({ toAdd: add, toRemove: remove }) => {
-			setTariffAddList(add ?? []);
-			setTariffRemoveList(remove ?? []);
+		readTariffSettings().then(({ toAdd }) => {
+			setTariffAddList(toAdd ?? []);
 		});
 	}, []);
 
@@ -49,7 +42,6 @@ export function TariffListScreen(): JSX.Element {
 			// maybe refresh operatorAddList from operator data, so there are not too updated
 			saveTariffSettings({
 				toAdd: tariffAddList,
-				toRemove: tariffRemoveList,
 			}).then(() => {
 				if (allChargeConditionsQuery.isFetching) {
 					return;
@@ -58,27 +50,30 @@ export function TariffListScreen(): JSX.Element {
 			});
 		};
 
-		// Save settings when the component unmounts
 		return () => {
 			saveSettings();
 		};
-	}, [tariffAddList, tariffRemoveList]); // T
+	}, [tariffAddList]); // T
 
 	useEffect(() => {
-		console.log("Tariffs", tariffAddList, tariffRemoveList);
-	}, [tariffAddList, tariffRemoveList]);
+		console.log("Tariffs", tariffAddList);
+	}, [tariffAddList]);
 
 	const allTariffsQuery = useQuery({
 		queryKey: ["AllTariffs"],
 		retry: 3,
 		queryFn: async () => {
-			return await fetchTariffs({ standard: false });
+			const tariffs = await fetchTariffs({ standard: false });
+			return tariffs
+				.filter((tariff) => !tariff.isStandard)
+				.filter((tariff) => !adHocRegex.test(tariff.name));
 		},
 	});
 
-	const filteredTariffs= useMemo(() => {
+	const filteredTariffs = useMemo(() => {
+		const tariffs = allTariffsQuery.data ?? [];
 		return (
-			allTariffsQuery.data?.filter((tariff) =>
+			tariffs.filter((tariff) =>
 				tariff.name.toLowerCase().includes(search.toLowerCase()),
 			) ?? []
 		);
@@ -100,31 +95,15 @@ export function TariffListScreen(): JSX.Element {
 						containerStyle={styles.listItemContainer}
 						data={filteredTariffs}
 						onRemove={(item) => {
-							if (item.isStandard) {
-								setTariffRemoveList([
-									item,
-									...tariffRemoveList,
-								]);
-							} else {
-								setTariffAddList([
-									...tariffAddList.filter(
-										({ identifier }) =>
-											identifier !== item.identifier,
-									),
-								]);
-							}
+							setTariffAddList([
+								...tariffAddList.filter(
+									({ identifier }) =>
+										identifier !== item.identifier,
+								),
+							]);
 						}}
 						onAdd={(item) => {
-							if (item.isStandard) {
-								setTariffRemoveList([
-									...tariffRemoveList.filter(
-										({ identifier }) =>
-											identifier !== item.identifier,
-									),
-								]);
-							} else {
-								setTariffAddList([item, ...tariffAddList]);
-							}
+							setTariffAddList([item, ...tariffAddList]);
 						}}
 						renderItem={(item) => {
 							return (
@@ -151,13 +130,9 @@ export function TariffListScreen(): JSX.Element {
 							);
 						}}
 						exists={(item) =>
-							(tariffAddList
+							tariffAddList
 								.map(({ identifier }) => identifier)
-								.includes(item.identifier) ||
-								item.isStandard) &&
-							!tariffRemoveList
-								.map(({ identifier }) => identifier)
-								.includes(item.identifier)
+								.includes(item.identifier) || item.isStandard
 						}
 					/>
 				</View>

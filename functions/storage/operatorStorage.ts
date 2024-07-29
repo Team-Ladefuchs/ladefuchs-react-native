@@ -25,18 +25,20 @@ export async function getOperatorsFromStorage({
 }): Promise<Operator[]> {
 	const operatorSettings = await readOperatorSettings();
 
-	operatorSettings.toAdd = operatorSettings.toAdd.filter(
-		(item) =>
-			!operatorResponse.find(
-				({ identifier }) => identifier === item.identifier,
-			),
+	const existingIdentifiers = new Set(
+		operatorResponse.map((item) => item.identifier),
+	);
+
+	const operatorsToAdd = operatorSettings.toAdd.filter(
+		(item) => !existingIdentifiers.has(item.identifier),
 	);
 
 	if (writeToCache) {
 		await saveOperatorSettings(operatorSettings);
 	}
+
 	return [
-		...operatorSettings.toAdd,
+		...operatorsToAdd,
 		...operatorResponse.filter(
 			(op) =>
 				!operatorSettings.toRemove

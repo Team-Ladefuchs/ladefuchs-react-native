@@ -9,7 +9,7 @@ import {
 import AddCircle from "@assets/addRemove/add_circle_fill.svg";
 import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { SwipeItem } from "./swipItem";
+import { SwipeItem } from "./swipeItem";
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -28,7 +28,7 @@ export function SwipeList<T extends { identifier: string }>({
 	renderItem,
 	containerStyle,
 }: Props<T>): JSX.Element {
-	const [currentOpenItem, setCurrentOpenItem] = useState<T | null>(null);
+	const [currentOpenItem, setCurrentOpenItem] = useState<T>(null);
 	const editButtonSize = scale(22);
 
 	return (
@@ -39,81 +39,66 @@ export function SwipeList<T extends { identifier: string }>({
 			renderItem={({ item, index }) => {
 				const isFirst = index === 0;
 				const isLast = index === data.length - 1;
-				const itemExists = exists(item);
-
+				const itemExist = exists(item);
 				return (
 					<View
 						style={[
-							styles.swipeContainer,
 							isFirst && styles.firstItem,
 							isLast && styles.lastItem,
 						]}
 					>
-						{itemExists ? (
-							<SwipeItem
-								onDelete={() => {
-									onRemove(item);
-								}}
-								onCloseAction={() => {
-									setCurrentOpenItem(null);
-								}}
-								onOpenAction={() => {
-									setCurrentOpenItem({ ...item });
-								}}
-								isOpen={
-									item.identifier === currentOpenItem?.identifier
-								}
-								item={
-									<TouchableWithoutFeedback
-										onPress={() => setCurrentOpenItem(null)}
+						<SwipeItem
+							onDelete={() => {
+								onRemove(item);
+							}}
+							disableAction={itemExist}
+							onCloseAction={() => {
+								setCurrentOpenItem(null);
+							}}
+							onOpenAction={() => {
+								setCurrentOpenItem({ ...item });
+							}}
+							isOpen={
+								item.identifier === currentOpenItem?.identifier
+							}
+							item={
+								<TouchableWithoutFeedback
+									onPress={() => setCurrentOpenItem(null)}
+								>
+									<View
+										style={[
+											styles.item,
+											containerStyle,
+											isFirst && styles.firstItemBorder,
+											isLast && styles.lastItemBorder,
+										]}
 									>
-										<View
-											style={[
-												styles.item,
-												containerStyle,
-												isFirst && styles.firstItemBorder,
-												isLast && styles.lastItemBorder,
-											]}
-										>
-											<View>
+										<View>
+											{itemExist ? (
 												<RemoveCircle
 													height={editButtonSize}
 													width={editButtonSize}
 													onPress={() => {
-														setCurrentOpenItem(item);
+														setCurrentOpenItem(
+															item,
+														);
 													}}
 												/>
-											</View>
-											{renderItem(item)}
+											) : (
+												<AddCircle
+													onPress={() => {
+														onAdd(item);
+													}}
+													height={editButtonSize}
+													width={editButtonSize}
+												/>
+											)}
 										</View>
-									</TouchableWithoutFeedback>
-								}
-							/>
-						) : (
-							<TouchableWithoutFeedback
-								onPress={() => setCurrentOpenItem(null)}
-							>
-								<View
-									style={[
-										styles.item,
-										containerStyle,
-										isFirst && styles.firstItemBorder,
-										isLast && styles.lastItemBorder,
-									]}
-								>
-									<View>
-										<AddCircle
-											onPress={() => {
-												onAdd(item);
-											}}
-											height={editButtonSize}
-											width={editButtonSize}
-										/>
+										{renderItem(item)}
 									</View>
-									{renderItem(item)}
-								</View>
-							</TouchableWithoutFeedback>
-						)}
+								</TouchableWithoutFeedback>
+							}
+						/>
 					</View>
 				);
 			}}
@@ -123,9 +108,6 @@ export function SwipeList<T extends { identifier: string }>({
 }
 
 const styles = ScaledSheet.create({
-	swipeContainer: {
-		// backgroundColor: "#E1D8C7",
-	},
 	item: {
 		backgroundColor: "#E1D8C7",
 		flexDirection: "row",
