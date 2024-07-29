@@ -1,10 +1,14 @@
 import { Platform } from "react-native";
 import { LadefuchsBanner, Banner, ImpressionRequest } from "../../types/banner";
-import { apiUrl, authHeader } from "../api";
+import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout, isDebug } from "../util";
 import { BannerData } from "../../state/state";
 import { storageSet } from "../storage/chargeConditionStorage";
-import { getBannerType, retrieveFromStorage, saveToStorage } from "../../state/storage";
+import {
+	getBannerType,
+	retrieveFromStorage,
+	saveToStorage,
+} from "../../state/storage";
 
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {

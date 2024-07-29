@@ -1,5 +1,5 @@
 import { Operator, OperatorsResponse } from "../../types/operator";
-import { apiUrl, authHeader } from "../api";
+import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout } from "../util";
 
 export async function fetchOperators({ standard = true }): Promise<Operator[]> {

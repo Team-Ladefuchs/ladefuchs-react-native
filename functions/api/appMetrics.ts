@@ -5,7 +5,7 @@ import {
 	AppMetricsRequest,
 	AppMetricResponse,
 } from "../../types/metrics";
-import { apiUrl, authHeader } from "../api";
+import { apiUrl, authHeader } from "./base";
 import {
 	isDebug,
 	getMinutes,

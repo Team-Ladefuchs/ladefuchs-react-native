@@ -5,10 +5,18 @@ import {
 	ChargingCondition,
 	ConditionsResponse,
 } from "../../types/conditions";
-import { apiUrl, authHeader } from "../api";
-import { getOfflineChargeConditionData, OfflineChargeConditionData, storageSet } from "../storage/chargeConditionStorage";
+import { apiUrl, authHeader } from "./base";
+import {
+	getOfflineChargeConditionData,
+	OfflineChargeConditionData,
+	storageSet,
+} from "../storage/chargeConditionStorage";
 import { getOperatorsFromStorage } from "../storage/operatorStorage";
-import { chargeConditionToHashMap, fetchWithTimeout, tariffsToHashMap } from "../util";
+import {
+	chargeConditionToHashMap,
+	fetchWithTimeout,
+	tariffsToHashMap,
+} from "../util";
 import { fetchOperators } from "./operator";
 import { fetchTariffs } from "./tariff";
 

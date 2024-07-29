@@ -8,7 +8,7 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTariffs } from "../functions/api";
+import { fetchTariffs } from "../functions/api/base";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { CardImage } from "../components/shared/cardImage";
 

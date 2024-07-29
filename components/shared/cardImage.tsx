@@ -1,4 +1,4 @@
-import { authHeader } from "../../functions/api";
+import { authHeader } from "../../functions/api/base";
 import { Tariff } from "../../types/tariff";
 import {
 	View,

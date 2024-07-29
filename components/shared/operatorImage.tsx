@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { scale } from "react-native-size-matters";
 import { Operator } from "../../types/operator";
-import { authHeader } from "../../functions/api";
+import { authHeader } from "../../functions/api/base";
 import { Image, View, Text } from "react-native";
 import { hyphenText } from "../../functions/util";
 

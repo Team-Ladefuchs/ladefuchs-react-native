@@ -1,5 +1,5 @@
 import { Tariff, TariffResponse } from "../../types/tariff";
-import { apiUrl, authHeader } from "../api";
+import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout } from "../util";
 
 export async function fetchTariffs({

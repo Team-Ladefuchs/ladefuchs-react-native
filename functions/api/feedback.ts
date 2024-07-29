@@ -1,5 +1,5 @@
 import { FeedbackRequest } from "../../types/feedback";
-import { apiUrl, authHeader } from "../api";
+import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout } from "../util";
 
 export async function sendFeedback(request: FeedbackRequest): Promise<void> {
