@@ -62,7 +62,7 @@ export function OperatorListScreen(): JSX.Element {
 		return () => {
 			saveSettings();
 		};
-	}, [operatorAddList, operatorRemoveList]); // T
+	}, [operatorAddList, operatorRemoveList]);
 
 	useEffect(() => {
 		console.log("Operators", operatorAddList, operatorRemoveList);
@@ -83,10 +83,6 @@ export function OperatorListScreen(): JSX.Element {
 			) ?? []
 		);
 	}, [search, allOperatorsQuery.data]);
-
-	if (!allOperatorsQuery.data) {
-		return <View></View>;
-	}
 
 	return (
 		<KeyboardAvoidingView

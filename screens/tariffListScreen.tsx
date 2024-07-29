@@ -8,11 +8,9 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTariffs } from "../functions/api/base";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { CardImage } from "../components/shared/cardImage";
 
-//import { retrieveFromStorage } from "../state/storage";
 import { SwipeList } from "../components/shared/swipeList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
@@ -23,6 +21,7 @@ import {
 } from "../functions/storage/tariffStorage";
 import { Tariff } from "../types/tariff";
 import { useFetchAppData } from "../hooks/usefetchAppData";
+import { fetchTariffs } from "../functions/api/tariff";
 
 const adHocRegex = /ad[-]?hoc/i;
 
@@ -39,7 +38,6 @@ export function TariffListScreen(): JSX.Element {
 
 	useEffect(() => {
 		const saveSettings = () => {
-			// maybe refresh operatorAddList from operator data, so there are not too updated
 			saveTariffSettings({
 				toAdd: tariffAddList,
 			}).then(() => {
@@ -53,7 +51,7 @@ export function TariffListScreen(): JSX.Element {
 		return () => {
 			saveSettings();
 		};
-	}, [tariffAddList]); // T
+	}, [tariffAddList]);
 
 	useEffect(() => {
 		console.log("Tariffs", tariffAddList);
@@ -72,16 +70,10 @@ export function TariffListScreen(): JSX.Element {
 
 	const filteredTariffs = useMemo(() => {
 		const tariffs = allTariffsQuery.data ?? [];
-		return (
-			tariffs.filter((tariff) =>
-				tariff.name.toLowerCase().includes(search.toLowerCase()),
-			) ?? []
+		return tariffs.filter((tariff) =>
+			tariff.name.toLowerCase().includes(search.toLowerCase()),
 		);
 	}, [search, allTariffsQuery.data]);
-
-	if (!allTariffsQuery.data) {
-		return <View></View>;
-	}
 
 	return (
 		<KeyboardAvoidingView
