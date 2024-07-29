@@ -8,7 +8,6 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { fetchOperators } from "../functions/api";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { OperatorImage } from "../components/shared/operatorImage";
 
@@ -22,6 +21,7 @@ import {
 } from "../functions/storage/operatorStorage";
 import { Operator } from "../types/operator";
 import { useFetchAppData } from "../hooks/usefetchAppData";
+import { fetchOperators } from "../functions/api/operator";
 
 const ALPHABET = Array.from({ length: 26 }, (_, i) =>
 	String.fromCharCode(65 + i),

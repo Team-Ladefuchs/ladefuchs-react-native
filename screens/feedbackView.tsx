@@ -24,7 +24,7 @@ import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { useCounter } from "../hooks/useCounter";
-import { sendFeedback } from "../functions/api";
+import { sendFeedback } from "../functions/api/feedback";
 
 const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
 

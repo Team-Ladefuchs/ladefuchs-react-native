@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { getAllChargeConditions, getBanners } from "../functions/api";
 
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/state";
+import { getBanners } from "../functions/api/banner";
+import { getAllChargeConditions } from "../functions/api/chargeCondition";
 
 export function useFetchAppData() {
 	const [setAppData, setAppError, operators, setBanners, ladefuchsBanners] =

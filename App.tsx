@@ -19,7 +19,7 @@ import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
 import { useFetchAppData } from "./hooks/usefetchAppData";
-import { useCustomFonts } from "./hooks/customFont";
+import { useCustomFonts } from "./hooks/useCustomFonts";
 import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
