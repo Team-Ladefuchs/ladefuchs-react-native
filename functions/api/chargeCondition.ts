@@ -22,7 +22,7 @@ import { fetchTariffs } from "./tariff";
 import { getTariffsFromStorage } from "../storage/tariffStorage";
 
 export async function fetchChargingConditions(requestBody: {
-	tariffsIds: string[];
+	tariffIds: string[];
 	operatorIds: string[];
 	chargingModes: ChargeMode[];
 }): Promise<ChargingCondition[]> {
@@ -64,10 +64,8 @@ export async function getAllChargeConditions({
 		tariffResponse,
 	});
 
-	console.log("12323", tariffs[0].name, tariffs[0].identifier);
-
 	const chargingConditions = await fetchChargingConditions({
-		tariffsIds: tariffs.map((item) => item.identifier),
+		tariffIds: tariffs.map((item) => item.identifier),
 		operatorIds: operators.map((item) => item.identifier),
 		chargingModes: ["ac", "dc"],
 	});
