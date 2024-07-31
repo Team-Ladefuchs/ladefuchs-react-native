@@ -51,7 +51,7 @@ export function TariffListScreen(): JSX.Element {
 		return () => {
 			saveSettings();
 		};
-	}, [tariffAddList]);
+	}, [allChargeConditionsQuery, tariffAddList]);
 
 	useEffect(() => {
 		console.log("Tariffs", tariffAddList);

@@ -19,6 +19,7 @@ import {
 } from "../util";
 import { fetchOperators } from "./operator";
 import { fetchTariffs } from "./tariff";
+import { getTariffsFromStorage } from "../storage/tariffStorage";
 
 export async function fetchChargingConditions(requestBody: {
 	tariffsIds: string[];
@@ -49,7 +50,7 @@ export async function getAllChargeConditions({
 }: {
 	writeToCache: boolean;
 }): Promise<ChargeConditionData> {
-	const [operatorResponse, tariffs] = await Promise.all([
+	const [operatorResponse, tariffResponse] = await Promise.all([
 		fetchOperators({ standard: true }),
 		fetchTariffs({ standard: true }),
 	]);
@@ -58,6 +59,12 @@ export async function getAllChargeConditions({
 		operatorResponse,
 		writeToCache,
 	});
+
+	const tariffs = await getTariffsFromStorage({
+		tariffResponse,
+	});
+
+	console.log("12323", tariffs[0].name, tariffs[0].identifier);
 
 	const chargingConditions = await fetchChargingConditions({
 		tariffsIds: tariffs.map((item) => item.identifier),

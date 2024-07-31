@@ -19,3 +19,20 @@ export async function saveTariffSettings(
 ): Promise<void> {
 	await saveToStorage("tariffSettings", settings);
 }
+
+export async function getTariffsFromStorage({
+	tariffResponse,
+}: {
+	tariffResponse: Tariff[];
+}): Promise<Tariff[]> {
+	const tariffSettings = await readTariffSettings();
+
+	const existingIdentifiers = new Set(
+		tariffResponse.map((item) => item.identifier),
+	);
+
+	const tariffToAdd = tariffSettings.toAdd.filter(
+		(item) => !existingIdentifiers.has(item.identifier),
+	);
+	return [...tariffToAdd, ...tariffResponse];
+}
