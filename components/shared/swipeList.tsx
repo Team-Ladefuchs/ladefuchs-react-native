@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+	useState,
+	useImperativeHandle,
+	forwardRef,
+	useRef,
+} from "react";
 import {
 	FlatList,
 	StyleProp,
@@ -20,22 +25,37 @@ interface Props<T extends { identifier: string }> {
 	exists: (item: T) => boolean;
 }
 
-export function SwipeList<T extends { identifier: string }>({
-	data,
-	onRemove,
-	onAdd,
-	exists,
-	renderItem,
-	containerStyle,
-}: Props<T>): JSX.Element {
-	const [currentOpenItem, setCurrentOpenItem] = useState<T>(null);
+export const SwipeList = forwardRef(function SwipeList<
+	T extends { identifier: string },
+>(
+	{ data, onRemove, onAdd, exists, renderItem, containerStyle }: Props<T>,
+	ref: React.Ref<any>,
+) {
+	const [currentOpenItem, setCurrentOpenItem] = useState<T | null>(null);
 	const editButtonSize = scale(22);
+	const flatListRef = useRef<FlatList<T> | null>(null);
+
+	// Expose scrollToIndex to parent via ref
+	useImperativeHandle(ref, () => ({
+		scrollToIndex: (index: number) => {
+			flatListRef.current?.scrollToIndex({ index, animated: true });
+		},
+	}));
+
+	// Define the height of each item (assuming all items have the same height)
+	const getItemLayout = (_: any, index: number) => ({
+		length: scale(86), // Adjust this to the actual item height
+		offset: scale(86) * index,
+		index,
+	});
 
 	return (
 		<FlatList
+			ref={flatListRef}
 			contentContainerStyle={{ gap: scale(1) }}
 			data={data}
 			initialNumToRender={10}
+			getItemLayout={getItemLayout}
 			renderItem={({ item, index }) => {
 				const isFirst = index === 0;
 				const isLast = index === data.length - 1;
@@ -48,16 +68,10 @@ export function SwipeList<T extends { identifier: string }>({
 						]}
 					>
 						<SwipeItem
-							onDelete={() => {
-								onRemove(item);
-							}}
+							onDelete={() => onRemove(item)}
 							disableAction={itemExist}
-							onCloseAction={() => {
-								setCurrentOpenItem(null);
-							}}
-							onOpenAction={() => {
-								setCurrentOpenItem({ ...item });
-							}}
+							onCloseAction={() => setCurrentOpenItem(null)}
+							onOpenAction={() => setCurrentOpenItem({ ...item })}
 							isOpen={
 								item.identifier === currentOpenItem?.identifier
 							}
@@ -78,17 +92,13 @@ export function SwipeList<T extends { identifier: string }>({
 												<RemoveCircle
 													height={editButtonSize}
 													width={editButtonSize}
-													onPress={() => {
-														setCurrentOpenItem(
-															item,
-														);
-													}}
+													onPress={() =>
+														setCurrentOpenItem(item)
+													}
 												/>
 											) : (
 												<AddCircle
-													onPress={() => {
-														onAdd(item);
-													}}
+													onPress={() => onAdd(item)}
 													height={editButtonSize}
 													width={editButtonSize}
 												/>
@@ -105,7 +115,7 @@ export function SwipeList<T extends { identifier: string }>({
 			keyExtractor={(item) => item.identifier}
 		/>
 	);
-}
+});
 
 const styles = ScaledSheet.create({
 	item: {
