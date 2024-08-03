@@ -98,6 +98,9 @@ export async function fetchWithTimeout(
 	try {
 		const response = await fetch(url, options);
 		clearTimeout(timeoutId);
+		if (!response.ok) {
+			throw Error("fetchWithTimeout error");
+		}
 		return response;
 	} finally {
 		clearTimeout(timeoutId);

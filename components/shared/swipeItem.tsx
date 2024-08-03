@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { ScaledSheet } from "react-native-size-matters";
 
@@ -43,10 +43,13 @@ export function SwipeItem({
 		</TouchableOpacity>
 	);
 
+	if (!disableAction) {
+		return <View>{item}</View>;
+	}
 	return (
 		<Swipeable
 			ref={swipeableRef}
-			renderRightActions={disableAction ? renderRightActions : null}
+			renderRightActions={renderRightActions}
 			onSwipeableOpen={onOpenAction}
 			onSwipeableClose={onCloseAction}
 		>

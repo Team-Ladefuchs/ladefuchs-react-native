@@ -11,15 +11,14 @@ import {
 	OfflineChargeConditionData,
 	storageSet,
 } from "../storage/chargeConditionStorage";
-import { getOperatorsFromStorage } from "../storage/operatorStorage";
 import {
 	chargeConditionToHashMap,
 	fetchWithTimeout,
 	tariffsToHashMap,
 } from "../util";
-import { fetchOperators } from "./operator";
-import { fetchTariffs } from "./tariff";
-import { getTariffsFromStorage } from "../storage/tariffStorage";
+import { fetchOperatorCustom } from "./operator";
+import { fetchTariffsCustom } from "./tariff";
+import { getCustomTariffsOperators } from "../../hooks/useCustomTariffsOperators";
 
 export async function fetchChargingConditions(requestBody: {
 	tariffIds: string[];
@@ -37,8 +36,9 @@ export async function fetchChargingConditions(requestBody: {
 			body: JSON.stringify(requestBody),
 		});
 
-		const data = (await response.json()) as ConditionsResponse;
-		return data.chargingConditions;
+		const json = await response.json();
+		const data = json as ConditionsResponse;
+		return data?.chargingConditions;
 	} catch (error) {
 		console.error("fetchConditions", error);
 		return [];
@@ -50,19 +50,14 @@ export async function getAllChargeConditions({
 }: {
 	writeToCache: boolean;
 }): Promise<ChargeConditionData> {
-	const [operatorResponse, tariffResponse] = await Promise.all([
-		fetchOperators({ standard: true }),
-		fetchTariffs({ standard: true }),
+	const { tariffs: customTariffs, operators: customOperators } =
+		await getCustomTariffsOperators();
+
+	console.log("customTariffs", customTariffs);
+	const [operators, tariffs] = await Promise.all([
+		fetchOperatorCustom(customOperators),
+		fetchTariffsCustom(customTariffs),
 	]);
-
-	const operators = await getOperatorsFromStorage({
-		operatorResponse,
-		writeToCache,
-	});
-
-	const tariffs = await getTariffsFromStorage({
-		tariffResponse,
-	});
 
 	const chargingConditions = await fetchChargingConditions({
 		tariffIds: tariffs.map((item) => item.identifier),

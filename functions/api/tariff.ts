@@ -17,10 +17,38 @@ export async function fetchTariffs({
 				},
 			},
 		);
-		const data = (await response.json()) as TariffResponse;
-		return data.tariffs;
+		const { tariffs } = (await response.json()) as TariffResponse;
+		return tariffs;
 	} catch (error) {
 		console.error("fetchTariffs", error);
+		return [];
+	}
+}
+
+interface TariffCustomRequest {
+	add: string[];
+	remove: string[];
+}
+
+export async function fetchTariffsCustom(
+	request: TariffCustomRequest,
+): Promise<Tariff[]> {
+	try {
+		const response = await fetchWithTimeout(`${apiUrl}/v3/tariffs`, {
+			method: "POST",
+			headers: {
+				...authHeader.headers,
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(request),
+		});
+
+		const { tariffs } = (await response.json()) as TariffResponse;
+
+		return tariffs;
+	} catch (error) {
+		console.error("fetchTariffsCustom", error);
 		return [];
 	}
 }

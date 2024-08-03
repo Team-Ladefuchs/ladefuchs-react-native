@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -15,54 +15,50 @@ import { SwipeList } from "../components/shared/swipeList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
-import {
-	readOperatorSettings,
-	saveOperatorSettings,
-} from "../functions/storage/operatorStorage";
 import { Operator } from "../types/operator";
 import { useFetchAppData } from "../hooks/usefetchAppData";
 import { fetchOperators } from "../functions/api/operator";
-
-const ALPHABET = Array.from({ length: 26 }, (_, i) =>
-	String.fromCharCode(65 + i),
-);
+import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
+import { useFocus } from "../hooks/useFocus";
+import { useFocusEffect } from "@react-navigation/native";
 
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
+	const { focus } = useFocus();
 
-	const [operatorAddList, setOperatorAddList] = useState<Operator[]>([]);
-	const [operatorRemoveList, setOperatorRemoveList] = useState<Operator[]>(
-		[],
-	);
+	const [operatorAddList, setOperatorAddList] = useState<string[]>([]);
+	const [operatorRemoveList, setOperatorRemoveList] = useState<string[]>([]);
 
 	const { allChargeConditionsQuery } = useFetchAppData();
 
-	useEffect(() => {
-		readOperatorSettings().then(({ toAdd: add, toRemove: remove }) => {
-			setOperatorAddList(add ?? []);
-			setOperatorRemoveList(remove ?? []);
-		});
-	}, []);
+	const { customOperators, saveCustomOperators } =
+		useCustomTariffsOperators();
 
-	useEffect(() => {
-		const saveSettings = () => {
-			// maybe refresh operatorAddList from operator data, so there are not too updated
-			saveOperatorSettings({
-				toAdd: operatorAddList,
-				toRemove: operatorRemoveList,
-			}).then(() => {
-				if (allChargeConditionsQuery.isFetching) {
-					return;
+	useFocusEffect(
+		useCallback(() => {
+			const saveSettings = () => {
+				saveCustomOperators({
+					add: operatorAddList,
+					remove: operatorRemoveList,
+				}).then(() => {
+					if (allChargeConditionsQuery.isFetching) {
+						return;
+					}
+					allChargeConditionsQuery.refetch();
+				});
+			};
+			return () => {
+				if (focus) {
+					saveSettings();
 				}
-				allChargeConditionsQuery.refetch();
-			});
-		};
+			};
+		}, [operatorAddList, operatorRemoveList]),
+	);
 
-		// Save settings when the component unmounts
-		return () => {
-			saveSettings();
-		};
-	}, [operatorAddList, operatorRemoveList]);
+	useEffect(() => {
+		setOperatorAddList(customOperators.add);
+		setOperatorRemoveList(customOperators.remove);
+	}, [customOperators, setOperatorAddList, setOperatorRemoveList]);
 
 	useEffect(() => {
 		console.log("Operators", operatorAddList, operatorRemoveList);
@@ -95,34 +91,35 @@ export function OperatorListScreen(): JSX.Element {
 					<SwipeList
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
-						onRemove={(item) => {
+						onRemove={(item: Operator) => {
 							if (item.isStandard) {
 								setOperatorRemoveList([
-									item,
+									item.identifier,
 									...operatorRemoveList,
 								]);
 							} else {
 								setOperatorAddList([
 									...operatorAddList.filter(
-										({ identifier }) =>
-											identifier !== item.identifier,
+										(id) => id !== item.identifier,
 									),
 								]);
 							}
 						}}
-						onAdd={(item) => {
+						onAdd={(item: Operator) => {
 							if (item.isStandard) {
 								setOperatorRemoveList([
 									...operatorRemoveList.filter(
-										({ identifier }) =>
-											identifier !== item.identifier,
+										(id) => id !== item.identifier,
 									),
 								]);
 							} else {
-								setOperatorAddList([item, ...operatorAddList]);
+								setOperatorAddList([
+									item.identifier,
+									...operatorAddList,
+								]);
 							}
 						}}
-						renderItem={(item) => {
+						renderItem={(item: Operator) => {
 							return (
 								<View style={styles.itemBody}>
 									<OperatorImage
@@ -137,14 +134,10 @@ export function OperatorListScreen(): JSX.Element {
 								</View>
 							);
 						}}
-						exists={(item) =>
-							(operatorAddList
-								.map(({ identifier }) => identifier)
-								.includes(item.identifier) ||
+						exists={(item: Operator) =>
+							(operatorAddList.includes(item.identifier) ||
 								item.isStandard) &&
-							!operatorRemoveList
-								.map(({ identifier }) => identifier)
-								.includes(item.identifier)
+							!operatorRemoveList.includes(item.identifier)
 						}
 					/>
 				</View>
@@ -156,42 +149,6 @@ export function OperatorListScreen(): JSX.Element {
 		</KeyboardAvoidingView>
 	);
 }
-
-// TODO
-
-// {
-// 	!search && (
-// 		<View style={styles.alphabetContainer}>
-// 			{ALPHABET.map((letter) => (
-// 				<TouchableOpacity
-// 					key={letter}
-// 					// onPress={() => handleAlphabetSearch(letter)}
-// 				>
-// 					{/* <View style={styles.item}>
-// 									<Text style={styles.letter}>{letter}</Text>
-// 								</View> */}
-// 				</TouchableOpacity>
-// 			))}
-// 		</View>
-// 	);
-// }
-
-// const handleAlphabetSearch = (letter) => {
-// 	const index = sortedData.findIndex(
-// 		(item) => item.title.charAt(0).toUpperCase() === letter,
-// 	);
-// 	if (index >= 0 && flatListRef.current) {
-// 		InteractionManager.runAfterInteractions(() => {
-// 			const itemCount = sortedData.length;
-// 			if (index >= 0 && index < itemCount) {
-// 				flatListRef.current.scrollToIndex({
-// 					animated: true,
-// 					index,
-// 				});
-// 			}
-// 		});
-// 	}
-// };
 
 const styles = ScaledSheet.create({
 	container: {
@@ -207,7 +164,6 @@ const styles = ScaledSheet.create({
 	},
 
 	listContainer: {
-		marginHorizontal: "16@s",
 		flex: 2,
 	},
 	itemBody: {
