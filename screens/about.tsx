@@ -18,13 +18,13 @@ export function AboutScreen() {
 			<View style={{ marginTop: scale(14), marginBottom: scale(2) }}>
 				<NavigationItem
 					title="Meine Ladetarife"
-					description="Wenn Du Kunde bei einem anderen als unserem Standard-Ladekarten..."
+					description="Bei welchem Anbieter von Stromtarifen (EMP) bist du Kunde?"
 					screenKey="customTariffs"
 				/>
 				<View style={styles.line} />
 				<NavigationItem
 					title="Meine Stromanbieter"
-					description="Wenn Du einen anderen Ladesäulen-Betreiber..."
+					description="Für welchen Ladesäulen-Anbieter (CPO) möchtest du einen Preisvergleich sehen?"
 					screenKey="customOperators"
 				/>
 				<View style={styles.line} />

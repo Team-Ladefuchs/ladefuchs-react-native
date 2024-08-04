@@ -128,7 +128,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	);
 	return (
 		<SectionList
-			initialNumToRender={15}
+			initialNumToRender={16}
 			maxToRenderPerBatch={60}
 			windowSize={100}
 			stickySectionHeadersEnabled={true}

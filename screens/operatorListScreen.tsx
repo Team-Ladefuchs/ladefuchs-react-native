@@ -162,8 +162,8 @@ const styles = ScaledSheet.create({
 	listItemContainer: {
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
-		// paddingRight: "24@s",
-		marginRight: "30@s",
+		paddingRight: "36@s",
+		// marginRight: "30@s",
 		height: "82@s",
 		display: "flex",
 		gap: "6@s",
