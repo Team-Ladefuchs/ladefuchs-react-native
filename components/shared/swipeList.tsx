@@ -154,11 +154,11 @@ const styles = ScaledSheet.create({
 		borderTopWidth: "2@s",
 		opacity: 0.9,
 		backgroundColor: colors.ladefuchsDunklerBalken,
-		paddingLeft: "2@s",
-		paddingVertical: "4@s",
 	},
 	separatorHeader: {
 		fontWeight: "bold",
+		paddingHorizontal: "18@s",
+		paddingVertical: "4@s",
 		fontSize: "16@s",
 		color: "#66625A",
 	},
