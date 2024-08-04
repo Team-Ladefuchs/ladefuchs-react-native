@@ -139,8 +139,11 @@ function AppWrapper(): JSX.Element {
 					}}
 				>
 					<RootStack.Screen
-						name="Meine Stromanbieter"
-						options={modalHeader}
+						name="customOperators"
+						options={({ navigation }) => ({
+							...modalHeader({ navigation }),
+							title: "Meine Stromanbieter",
+						})}
 						component={OperatorListScreen}
 					/>
 				</RootStack.Group>
@@ -150,8 +153,11 @@ function AppWrapper(): JSX.Element {
 					}}
 				>
 					<RootStack.Screen
-						name="Meine Ladetarife"
-						options={modalHeader}
+						name="customTariffs"
+						options={({ navigation }) => ({
+							...modalHeader({ navigation }),
+							title: "Meine Ladetarife",
+						})}
 						component={TariffListScreen}
 					/>
 				</RootStack.Group>

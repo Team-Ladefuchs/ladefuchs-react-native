@@ -19,13 +19,13 @@ export function AboutScreen() {
 				<NavigationItem
 					title="Meine Ladetarife"
 					description="Wenn Du Kunde bei einem anderen als unserem Standard-Ladekarten..."
-					screenName="Meine Ladetarife"
+					screenKey="customTariffs"
 				/>
 				<View style={styles.line} />
 				<NavigationItem
 					title="Meine Stromanbieter"
 					description="Wenn Du einen anderen Ladesäulen-Betreiber..."
-					screenName="Meine Stromanbieter"
+					screenKey="customOperators"
 				/>
 				<View style={styles.line} />
 			</View>

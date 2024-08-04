@@ -21,7 +21,7 @@ import { fetchOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { useFocus } from "../hooks/useFocus";
 import { useFocusEffect } from "@react-navigation/native";
-import { getMinutes } from "../functions/util";
+import { getMinutes, isDebug } from "../functions/util";
 
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -62,7 +62,9 @@ export function OperatorListScreen(): JSX.Element {
 	}, [customOperators, setOperatorAddList, setOperatorRemoveList]);
 
 	useEffect(() => {
-		console.log("Operators", operatorAddList, operatorRemoveList);
+		if (isDebug) {
+			console.log("Operators", operatorAddList, operatorRemoveList);
+		}
 	}, [operatorAddList, operatorRemoveList]);
 
 	const allOperatorsQuery = useQuery({
@@ -160,7 +162,8 @@ const styles = ScaledSheet.create({
 	listItemContainer: {
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
-		paddingRight: "24@s",
+		// paddingRight: "24@s",
+		marginRight: "30@s",
 		height: "82@s",
 		display: "flex",
 		gap: "6@s",

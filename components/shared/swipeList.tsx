@@ -65,13 +65,15 @@ export const SwipeList = forwardRef(
 		return (
 			<SectionList
 				ref={ref}
-				contentContainerStyle={styles.listContainer}
+				// contentContainerStyle={styles.listContainer}
 				sections={sections}
 				ItemSeparatorComponent={() => (
 					<View style={styles.itemSeparator} />
 				)}
 				renderSectionHeader={({ section: { title } }) => (
-					<Text style={styles.separatorHeader}>{title}</Text>
+					<View style={styles.separatorHeaderContainer}>
+						<Text style={styles.separatorHeader}>{title}</Text>
+					</View>
 				)}
 				initialNumToRender={30}
 				getItemLayout={getItemLayout}
@@ -83,7 +85,6 @@ export const SwipeList = forwardRef(
 					return (
 						<View
 							style={[
-								styles.swipeView,
 								isFirst && styles.firstItem,
 								isLast && styles.lastItem,
 							]}
@@ -148,18 +149,18 @@ export const SwipeList = forwardRef(
 );
 
 const styles = ScaledSheet.create({
-	listContainer: {},
-	swipeView: {
-		// marginRight: "16@s",
+	separatorHeaderContainer: {
+		borderTopColor: colors.ladefuchsDarkGrayBackground,
+		borderTopWidth: "2@s",
+		opacity: 0.9,
+		backgroundColor: colors.ladefuchsDunklerBalken,
+		paddingLeft: "2@s",
+		paddingVertical: "4@s",
 	},
 	separatorHeader: {
-		backgroundColor: colors.ladefuchsDunklerBalken,
-		opacity: 0.9,
 		fontWeight: "bold",
-		fontSize: scale(16),
+		fontSize: "16@s",
 		color: "#66625A",
-		paddingLeft: scale(16),
-		paddingVertical: scale(4),
 	},
 	itemSeparator: {
 		height: scale(1.5),
@@ -169,9 +170,6 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 		flexDirection: "row",
 		alignItems: "center",
-		// marginHorizontal: "16@s",
-		// marginLeft: scale(12),
-		// : scale(16),
 	},
 	firstItemBorder: {
 		// borderTopStartRadius: "8@s",

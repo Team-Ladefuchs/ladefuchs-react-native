@@ -6,13 +6,13 @@ import { ScaledSheet } from "react-native-size-matters";
 
 interface Props {
 	title: string;
-	screenName: string;
+	screenKey: string;
 	description: string;
 }
 
 export function NavigationItem({
 	title,
-	screenName,
+	screenKey,
 	description,
 }: Props): JSX.Element {
 	const navigation = useNavigation();
@@ -23,7 +23,7 @@ export function NavigationItem({
 				activeOpacity={0.6}
 				onPress={() => {
 					// @ts-ignore
-					navigation.navigate(screenName);
+					navigation.navigate(screenKey);
 				}}
 			>
 				<View

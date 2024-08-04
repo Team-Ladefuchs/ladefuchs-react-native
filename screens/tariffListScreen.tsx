@@ -28,7 +28,7 @@ import { useFetchAppData } from "../hooks/usefetchAppData";
 import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { useFocus } from "../hooks/useFocus";
-import { getMinutes } from "../functions/util";
+import { getMinutes, isDebug } from "../functions/util";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -64,7 +64,9 @@ export function TariffListScreen(): JSX.Element {
 	);
 
 	useEffect(() => {
-		console.log("Tariffs", tariffAddList);
+		if (isDebug) {
+			console.log("Tariffs", tariffAddList);
+		}
 	}, [tariffAddList]);
 
 	const allTariffsQuery = useQuery({

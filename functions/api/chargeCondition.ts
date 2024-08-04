@@ -40,7 +40,7 @@ export async function fetchChargingConditions(requestBody: {
 		const data = json as ConditionsResponse;
 		return data?.chargingConditions;
 	} catch (error) {
-		console.error("fetchConditions", error);
+		console.log("fetchConditions", error);
 		return [];
 	}
 }
@@ -53,7 +53,6 @@ export async function getAllChargeConditions({
 	const { tariffs: customTariffs, operators: customOperators } =
 		await getCustomTariffsOperators();
 
-	console.log("customTariffs", customTariffs);
 	const [operators, tariffs] = await Promise.all([
 		fetchOperatorCustom(customOperators),
 		fetchTariffsCustom(customTariffs),
@@ -65,7 +64,7 @@ export async function getAllChargeConditions({
 		chargingModes: ["ac", "dc"],
 	});
 
-	if (!chargingConditions.length) {
+	if (!chargingConditions[0]?.tariffConditions[0]) {
 		return await getOfflineChargeConditionData();
 	}
 	if (writeToCache) {
