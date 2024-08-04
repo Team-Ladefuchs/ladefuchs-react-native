@@ -12,6 +12,7 @@ import {
 	Platform,
 	Keyboard,
 	TouchableWithoutFeedback,
+	SectionList,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
@@ -25,9 +26,9 @@ import { SearchInput } from "../components/shared/searchInput";
 import { Tariff } from "../types/tariff";
 import { useFetchAppData } from "../hooks/usefetchAppData";
 import { fetchTariffs } from "../functions/api/tariff";
-import { AlphabetList } from "../components/shared/alphabetList";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { useFocus } from "../hooks/useFocus";
+import { getMinutes } from "../functions/util";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -36,7 +37,6 @@ export function TariffListScreen(): JSX.Element {
 	const { focus } = useFocus();
 
 	const { allChargeConditionsQuery } = useFetchAppData();
-	const swipeListRef = useRef<any>(null); // Change `any` to the appropriate type if possible
 
 	const [tariffAddList, setTariffAddList] = useState<string[]>([]);
 
@@ -56,7 +56,7 @@ export function TariffListScreen(): JSX.Element {
 				allChargeConditionsQuery.refetch();
 			};
 			return () => {
-				if (focus) {
+				if (focus && !allChargeConditionsQuery.isFetching) {
 					saveSettings();
 				}
 			};
@@ -70,6 +70,7 @@ export function TariffListScreen(): JSX.Element {
 	const allTariffsQuery = useQuery({
 		queryKey: ["AllTariffs"],
 		retry: 3,
+		gcTime: getMinutes(30),
 		queryFn: async () => {
 			const tariffs = await fetchTariffs({ standard: false });
 			return tariffs
@@ -80,19 +81,14 @@ export function TariffListScreen(): JSX.Element {
 
 	const filteredTariffs = useMemo(() => {
 		const tariffs = allTariffsQuery.data ?? [];
-		return tariffs.filter((tariff) =>
-			tariff.name.toLowerCase().includes(search.toLowerCase()),
-		);
+		return tariffs.filter((tariff) => {
+			const term = search.toLowerCase();
+			return (
+				tariff.name.toLowerCase().includes(term) ||
+				tariff.providerName.toLowerCase().includes(term)
+			);
+		});
 	}, [search, allTariffsQuery.data]);
-
-	const scrollToTariff = (letter: string) => {
-		const index = filteredTariffs.findIndex(
-			(tariff) => tariff.name[0].toLowerCase() === letter.toLowerCase(),
-		);
-		if (index >= 0 && swipeListRef.current) {
-			swipeListRef.current.scrollToIndex(index);
-		}
-	};
 
 	return (
 		<KeyboardAvoidingView
@@ -103,7 +99,6 @@ export function TariffListScreen(): JSX.Element {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={styles.listContainer}>
 					<SwipeList
-						ref={swipeListRef}
 						containerStyle={styles.listItemContainer}
 						data={filteredTariffs}
 						onRemove={(item: Tariff) => {
@@ -150,7 +145,6 @@ export function TariffListScreen(): JSX.Element {
 					/>
 				</View>
 			</TouchableWithoutFeedback>
-			<AlphabetList onLetterPress={scrollToTariff} />
 			<SearchInput
 				setSearch={setSearch}
 				placeHolder="Search by title..."
@@ -172,8 +166,8 @@ const styles = ScaledSheet.create({
 	},
 	listItemContainer: {
 		paddingVertical: "5@s",
-		paddingLeft: "12@s",
-		paddingRight: "22@s",
+		paddingLeft: "16@s",
+		paddingRight: "20@s",
 		display: "flex",
 		height: "86@s",
 		gap: "10@s",

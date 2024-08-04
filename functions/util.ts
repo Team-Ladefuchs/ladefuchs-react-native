@@ -98,8 +98,10 @@ export async function fetchWithTimeout(
 	try {
 		const response = await fetch(url, options);
 		clearTimeout(timeoutId);
-		if (!response.ok) {
-			throw Error("fetchWithTimeout error");
+		if (response.status > 399) {
+			throw Error(
+				`network request error with status code: ${response.status}`,
+			);
 		}
 		return response;
 	} finally {

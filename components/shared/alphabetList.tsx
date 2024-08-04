@@ -7,7 +7,7 @@ const alphabet = Array.from({ length: 26 }, (_, i) =>
 );
 
 interface AlphabetListProps {
-	onLetterPress: (letter: string) => void;
+	onLetterPress: (letter: string, index: number) => void;
 }
 
 export const AlphabetList: React.FC<AlphabetListProps> = ({
@@ -15,10 +15,10 @@ export const AlphabetList: React.FC<AlphabetListProps> = ({
 }) => {
 	return (
 		<View style={styles.container}>
-			{alphabet.map((letter) => (
+			{alphabet.map((letter, index) => (
 				<TouchableOpacity
 					key={letter}
-					onPress={() => onLetterPress(letter)}
+					onPress={() => onLetterPress(letter, index)}
 				>
 					<Text style={styles.letter}>{letter}</Text>
 				</TouchableOpacity>

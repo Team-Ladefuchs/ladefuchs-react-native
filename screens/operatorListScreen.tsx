@@ -21,6 +21,7 @@ import { fetchOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { useFocus } from "../hooks/useFocus";
 import { useFocusEffect } from "@react-navigation/native";
+import { getMinutes } from "../functions/util";
 
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -48,7 +49,7 @@ export function OperatorListScreen(): JSX.Element {
 				});
 			};
 			return () => {
-				if (focus) {
+				if (focus && !allChargeConditionsQuery.isFetching) {
 					saveSettings();
 				}
 			};
@@ -66,6 +67,7 @@ export function OperatorListScreen(): JSX.Element {
 
 	const allOperatorsQuery = useQuery({
 		queryKey: ["AllOperators"],
+		gcTime: getMinutes(30),
 		retry: 3,
 		queryFn: async () => {
 			return await fetchOperators({ standard: false });
@@ -158,7 +160,8 @@ const styles = ScaledSheet.create({
 	listItemContainer: {
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
-		paddingRight: "12@s",
+		paddingRight: "24@s",
+		height: "82@s",
 		display: "flex",
 		gap: "6@s",
 	},

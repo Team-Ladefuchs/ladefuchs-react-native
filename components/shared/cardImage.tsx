@@ -21,54 +21,6 @@ interface Props {
 	style?: ImageStyle;
 }
 
-function FallBack({
-	tariff,
-	hideFallBackText,
-}: {
-	tariff: Tariff;
-	hideFallBackText: boolean;
-}): JSX.Element {
-	return (
-		<View
-			style={{
-				backgroundColor: colors.ladefuchsOrange,
-				height: "100%",
-				overflow: "hidden",
-				alignContent: "center",
-				borderRadius: 4,
-			}}
-		>
-			{!hideFallBackText && (
-				<Text
-					numberOfLines={3}
-					style={{
-						marginHorizontal: 6,
-						marginVertical: 4,
-						fontFamily: "RobotoCondensed",
-						color: "#fff",
-						fontSize: 12,
-					}}
-				>
-					{tariff.name}
-				</Text>
-			)}
-			<Image
-				source={require("@assets/blitz.png")}
-				resizeMethod={"scale"}
-				fadeDuration={0}
-				style={{
-					position: "absolute",
-					right: -2,
-					bottom: -2,
-					height: 23,
-					objectFit: "scale-down",
-					width: 23,
-				}}
-			/>
-		</View>
-	);
-}
-
 export function CardImage({
 	tariff,
 	showHighlightCorner = false,
@@ -98,6 +50,30 @@ export function CardImage({
 					style={{ ...styles.cardImage }}
 				/>
 			)}
+		</View>
+	);
+}
+
+function FallBack({
+	tariff,
+	hideFallBackText,
+}: {
+	tariff: Tariff;
+	hideFallBackText: boolean;
+}): JSX.Element {
+	return (
+		<View style={styles.fallbackContainer}>
+			{!hideFallBackText && (
+				<Text numberOfLines={3} style={styles.fallbackText}>
+					{tariff.name}
+				</Text>
+			)}
+			<Image
+				source={require("@assets/blitz.png")}
+				resizeMethod={"scale"}
+				fadeDuration={0}
+				style={styles.fallbackImage}
+			/>
 		</View>
 	);
 }
@@ -132,5 +108,27 @@ const styles = StyleSheet.create({
 	priceText: {
 		fontSize: 25,
 		fontWeight: "400",
+	},
+	fallbackContainer: {
+		backgroundColor: colors.ladefuchsOrange,
+		height: "100%",
+		overflow: "hidden",
+		alignContent: "center",
+		borderRadius: 4,
+	},
+	fallbackText: {
+		marginHorizontal: 6,
+		marginVertical: 4,
+		fontFamily: "RobotoCondensed",
+		color: "#fff",
+		fontSize: scale(10.5),
+	},
+	fallbackImage: {
+		position: "absolute",
+		right: -2,
+		bottom: -2,
+		height: scale(20),
+		objectFit: "scale-down",
+		width: scale(20),
 	},
 });
