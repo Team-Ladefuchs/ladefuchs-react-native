@@ -164,6 +164,7 @@ const styles = ScaledSheet.create({
 		flexDirection: "row",
 	},
 	listContainer: {
+		flex: 2,
 		flexDirection: "row",
 	},
 	listItemContainer: {
