@@ -24,11 +24,12 @@ function baseToastConfig(props: ToastConfigParams<object>) {
 				backgroundColor: colors.ladefuchsOrange,
 				borderLeftWidth: 0,
 				height: "100%",
+				width: "90%",
 				borderRadius: scale(16),
 				top: Platform.OS === "ios" ? scale(68) : scale(40),
 			}}
 			contentContainerStyle={{
-				paddingVertical: scale(12),
+				paddingVertical: scale(11),
 			}}
 			text1Style={{
 				fontSize: scale(15),

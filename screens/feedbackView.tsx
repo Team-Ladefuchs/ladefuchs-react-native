@@ -28,6 +28,8 @@ import { sendFeedback } from "../functions/api/feedback";
 
 const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
 
+// Call the function with the route.params
+
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
 	const navigation = useNavigation();
@@ -40,7 +42,8 @@ export function FeedbackView(): JSX.Element {
 			operator: Operator;
 		};
 
-	const [notePlaceholder, setNotePlaceholder] = useState(notePlaceholderText);
+	const [notePlaceholder, setNotePlaceholder] =
+		useState<string>(notePlaceholderText);
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState("Senden");
@@ -70,10 +73,10 @@ export function FeedbackView(): JSX.Element {
 			operatorId: operator.identifier,
 		};
 
-		const requests = [];
+		const requests: FeedbackRequest[] = [];
 
 		const acWrongPrice = buildWrongPriceRequest({
-			displayedPrice: acTariffCondition.pricePerKwh,
+			displayedPrice: acTariffCondition?.pricePerKwh,
 			actualPrice: acPriceCounter.value,
 			context,
 			noteText,
@@ -85,7 +88,7 @@ export function FeedbackView(): JSX.Element {
 		}
 
 		const dcWrongPrice = buildWrongPriceRequest({
-			displayedPrice: dcTariffCondition.pricePerKwh,
+			displayedPrice: dcTariffCondition?.pricePerKwh,
 			actualPrice: dcPriceCounter.value,
 			context,
 			noteText,
@@ -130,7 +133,7 @@ export function FeedbackView(): JSX.Element {
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
-				text1: "🚧 Ups, ein Fehler ist aufgetreten.",
+				text1: "🚧 Ups, ein Fehler ist aufgetreten",
 				visibilityTime: 2400,
 			});
 		}
@@ -189,7 +192,7 @@ export function FeedbackView(): JSX.Element {
 							<TextInput
 								style={feedbackthemeStyle.noteInput}
 								placeholder={notePlaceholder}
-								onFocus={() => setNotePlaceholder(null)}
+								onFocus={() => setNotePlaceholder("")}
 								maxLength={maxNoteTextLength}
 								value={noteText}
 								placeholderTextColor={
@@ -269,7 +272,7 @@ function buildWrongPriceRequest({
 	noteText,
 	chargeType,
 }: {
-	displayedPrice: number | null;
+	displayedPrice?: number | null;
 	actualPrice: number;
 	context: FeedbackContext;
 	noteText: string;
