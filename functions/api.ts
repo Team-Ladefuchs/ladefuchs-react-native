@@ -312,8 +312,7 @@ export async function getAllChargeConditions({
 		operatorIds: operators.map((item) => item.identifier),
 		chargingModes: ["ac", "dc"],
 	});
-
-	if (!chargingConditions.length) {
+	if (!chargingConditions[0]?.tariffConditions?.length) {
 		return await getOfflineChargeConditionData();
 	}
 	if (writeToCache) {
