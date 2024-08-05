@@ -1,10 +1,4 @@
-import React, {
-	useState,
-	useRef,
-	useEffect,
-	useMemo,
-	useCallback,
-} from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -12,7 +6,6 @@ import {
 	Platform,
 	Keyboard,
 	TouchableWithoutFeedback,
-	SectionList,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
@@ -31,6 +24,8 @@ import { useFocus } from "../hooks/useFocus";
 import { getMinutes, isDebug } from "../functions/util";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
+
+const itemHeight = 72;
 
 export function TariffListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -101,6 +96,7 @@ export function TariffListScreen(): JSX.Element {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={styles.listContainer}>
 					<SwipeList
+						itemHeight={itemHeight}
 						containerStyle={styles.listItemContainer}
 						data={filteredTariffs}
 						onRemove={(item: Tariff) => {
@@ -171,7 +167,7 @@ const styles = ScaledSheet.create({
 		paddingLeft: "16@s",
 		paddingRight: "20@s",
 		display: "flex",
-		height: "86@s",
+		height: `${itemHeight}@s`,
 		gap: "10@s",
 	},
 	itemBody: {

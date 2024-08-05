@@ -20,6 +20,7 @@ interface Props<T extends { identifier: string }> {
 	renderItem: (item: T) => JSX.Element;
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
+	itemHeight: number;
 }
 
 interface Section<T> {
@@ -36,6 +37,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	exists,
 	renderItem,
 	containerStyle,
+	itemHeight,
 }: Props<T>) {
 	const [currentOpenItem, setCurrentOpenItem] = useState<T | null>(null);
 	const editButtonSize = scale(22);
@@ -60,8 +62,8 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 
 	// Define the height of each item (assuming all items have the same height)
 	const getItemLayout = (_: any, index: number) => ({
-		length: scale(82), // Adjust this to the actual item height
-		offset: scale(82) * index,
+		length: scale(itemHeight), // Adjust this to the actual item height
+		offset: scale(itemHeight) * index,
 		index,
 	});
 

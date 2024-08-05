@@ -23,6 +23,8 @@ import { useFocus } from "../hooks/useFocus";
 import { useFocusEffect } from "@react-navigation/native";
 import { getMinutes, isDebug } from "../functions/util";
 
+const itemHeight = 76;
+
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 	const { focus } = useFocus();
@@ -93,6 +95,7 @@ export function OperatorListScreen(): JSX.Element {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={styles.listContainer}>
 					<SwipeList
+						itemHeight={itemHeight}
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
 						onRemove={(item: Operator) => {
@@ -128,11 +131,14 @@ export function OperatorListScreen(): JSX.Element {
 								<View style={styles.itemBody}>
 									<OperatorImage
 										operator={item}
-										height={55}
-										width={80}
+										height={50}
+										width={72}
 										hideFallBackText={true}
 									/>
-									<Text style={styles.itemText}>
+									<Text
+										style={styles.itemText}
+										numberOfLines={2}
+									>
 										{item.name}
 									</Text>
 								</View>
@@ -164,7 +170,7 @@ const styles = ScaledSheet.create({
 		paddingLeft: "14@s",
 		paddingRight: "36@s",
 		// marginRight: "30@s",
-		height: "82@s",
+		height: `${itemHeight}@s`,
 		display: "flex",
 		gap: "6@s",
 	},

@@ -144,6 +144,7 @@ export function FeedbackView(): JSX.Element {
 				style={{
 					backgroundColor: colors.ladefuchsLightBackground,
 					height: "100%",
+					paddingHorizontal: scale(16),
 				}}
 			>
 				<View>
