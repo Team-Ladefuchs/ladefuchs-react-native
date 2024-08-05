@@ -18,11 +18,12 @@ import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
-import { useFetchAppData } from "./hooks/fetchAppData";
+import { useFetchAppData } from "./hooks/usefetchAppData";
 import { useCustomFonts } from "./hooks/customFont";
 import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
+import { useAopMetrics } from "./hooks/useAppMetrics";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -46,7 +47,7 @@ function AppWrapper(): JSX.Element {
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
-			onAppStateChange
+			onAppStateChange,
 		);
 
 		return () => {
@@ -55,6 +56,7 @@ function AppWrapper(): JSX.Element {
 	}, [onAppStateChange]);
 
 	useFetchAppData();
+	useAopMetrics();
 
 	const fontLoaded = useCustomFonts();
 	if (!fontLoaded) {

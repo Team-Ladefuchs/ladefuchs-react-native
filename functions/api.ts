@@ -1,10 +1,11 @@
+import { Platform } from "react-native";
 import { BannerData, ChargeConditionData } from "../state/state";
 import {
 	getBannerType,
 	retrieveFromStorage,
 	saveToStorage,
 } from "../state/storage";
-import { Banner, LadefuchsBanner } from "../types/banner";
+import { Banner, ImpressionRequest, LadefuchsBanner } from "../types/banner";
 import {
 	ChargeMode,
 	ChargingCondition,
@@ -14,7 +15,17 @@ import {
 import { FeedbackRequest } from "../types/feedback";
 import { Operator, OperatorsResponse } from "../types/operator";
 import { Tariff, TariffResponse } from "../types/tariff";
-import { fetchWithTimeout } from "./util";
+import {
+	appVersionNumber,
+	fetchWithTimeout,
+	getMinutes,
+	isDebug,
+} from "./util";
+import {
+	AppMetricCache,
+	AppMetricResponse,
+	AppMetricsRequest,
+} from "../types/metrics";
 
 const apiPath = "https://api.ladefuchs.app";
 export const authHeader = {
@@ -143,7 +154,6 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 	}
 }
 
-// todo error handling, and forward errors and show in the UI
 export async function sendFeedback(request: FeedbackRequest): Promise<void> {
 	const response = await fetchWithTimeout(`${apiPath}/v3/feedback`, {
 		method: "POST",
@@ -154,7 +164,7 @@ export async function sendFeedback(request: FeedbackRequest): Promise<void> {
 		},
 		body: JSON.stringify(request),
 	});
-	if (response.status > 299) {
+	if (!response.ok) {
 		throw Error("could not send feedback, got an bad status code");
 	}
 }
@@ -163,6 +173,75 @@ const storageSet = {
 	banners: "ladefuchsOfflineCache",
 	chargeConditionData: "chargeConditionData",
 };
+
+export async function postBannerImpression(
+	banner: Banner | null,
+): Promise<void> {
+	if (isDebug) {
+		return;
+	}
+
+	if (!banner?.identifier) {
+		return;
+	}
+	const response = await fetchWithTimeout(
+		`${apiPath}/v3/banners/impression`,
+		{
+			method: "POST",
+			headers: {
+				...authHeader.headers,
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
+			body: JSON.stringify({
+				bannerId: banner.identifier,
+				platform: Platform.OS,
+			} satisfies ImpressionRequest),
+		},
+	);
+	if (!response.ok) {
+		throw new Error("Network response was not ok");
+	}
+}
+
+export async function postAppMetric(): Promise<void> {
+	if (isDebug) {
+		return;
+	}
+	const cacheKey = "appMetric";
+	const cache = await retrieveFromStorage<AppMetricCache>(cacheKey);
+
+	if (cache?.lastUpdated) {
+		const updatedDevice = Date.parse(cache?.lastUpdated);
+		const oneHourInMs = getMinutes(20);
+		if (Date.now() - updatedDevice < oneHourInMs) {
+			return;
+		}
+	}
+
+	const response = await fetchWithTimeout(`${apiPath}/v3/app/metrics`, {
+		method: "POST",
+		headers: {
+			...authHeader.headers,
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({
+			deviceId: cache?.deviceId ?? null,
+			version: appVersionNumber(),
+			platform: Platform.OS,
+		} satisfies AppMetricsRequest),
+	});
+	if (!response.ok) {
+		throw new Error("Network response was not ok");
+	}
+	const json: AppMetricResponse = await response.json();
+
+	await saveToStorage(cacheKey, {
+		deviceId: json.deviceId,
+		lastUpdated: new Date().toISOString(),
+	} satisfies AppMetricCache);
+}
 
 export async function getBanners({
 	writeToCache,

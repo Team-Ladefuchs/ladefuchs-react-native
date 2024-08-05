@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { getAllChargeConditions, getBanners } from "../functions/api";
+
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/state";
 
@@ -13,7 +14,7 @@ export function useFetchAppData(): void {
 				state.operators,
 				state.setBanners,
 				state.ladefuchsBanners,
-			])
+			]),
 		);
 	const allChargeConditionsQuery = useQuery({
 		queryKey: ["appChargeConditions"],

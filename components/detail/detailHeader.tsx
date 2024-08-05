@@ -23,7 +23,10 @@ export function DetailHeader({ tariff, navigation }: Props): JSX.Element {
 				<Text style={styles.providerName}>{tariff.providerName}</Text>
 			</View>
 			<View>
-				<CloseButton onPress={() => navigation.goBack()} />
+				<CloseButton
+					onPress={() => navigation.goBack()}
+					backgroundColor={colors.ladefuchsDarkBackground}
+				/>
 			</View>
 		</View>
 	);

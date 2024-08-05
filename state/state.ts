@@ -90,7 +90,7 @@ export const useAppStore = create<AppState>((set, get) => {
 					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
 				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
 			} while (newBanner.imageUrl === banner?.imageUrl);
-			set(() => ({ banner: newBanner }));
+			set(() => ({ banner: { ...newBanner, bannerType: "ladefuchs" } }));
 		},
 	};
 });
@@ -116,6 +116,7 @@ function selectLadefuchsBanner({
 		return null;
 	}
 	return {
+		identifier: banner.identifier,
 		bannerType: "ladefuchs",
 		affiliateLinkUrl: banner.affiliateLinkUrl,
 		imageUrl: banner.imageUrl,
