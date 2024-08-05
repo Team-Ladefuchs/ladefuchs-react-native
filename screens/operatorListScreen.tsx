@@ -23,7 +23,7 @@ import { useFocus } from "../hooks/useFocus";
 import { useFocusEffect } from "@react-navigation/native";
 import { getMinutes, isDebug } from "../functions/util";
 
-const itemHeight = 76;
+const itemHeight = 66;
 
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -169,7 +169,6 @@ const styles = ScaledSheet.create({
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
 		paddingRight: "36@s",
-		// marginRight: "30@s",
 		height: `${itemHeight}@s`,
 		display: "flex",
 		gap: "6@s",
@@ -179,10 +178,10 @@ const styles = ScaledSheet.create({
 		flex: 2,
 	},
 	itemBody: {
-		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 2,
+		marginLeft: scale(-6),
 	},
 	itemText: {
 		flex: 2,

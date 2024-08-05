@@ -25,7 +25,7 @@ import { getMinutes, isDebug } from "../functions/util";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
-const itemHeight = 72;
+const itemHeight = 61;
 
 export function TariffListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -115,21 +115,26 @@ export function TariffListScreen(): JSX.Element {
 						renderItem={(item: Tariff) => {
 							return (
 								<View style={styles.itemBody}>
-									<CardImage
-										tariff={item}
-										width={60}
-										hideFallBackText={true}
-									/>
-									<View
-										style={{
-											flex: 2,
-											marginRight: scale(16),
-										}}
-									>
-										<Text style={styles.tariffText}>
+									<View>
+										<CardImage
+											tariff={item}
+											width={60}
+											hideFallBackText={true}
+										/>
+									</View>
+									<View>
+										<Text
+											style={styles.tariffText}
+											ellipsizeMode="tail"
+											numberOfLines={2}
+										>
 											{item.name}
 										</Text>
-										<Text style={styles.providerText}>
+										<Text
+											style={styles.providerText}
+											ellipsizeMode="tail"
+											numberOfLines={1}
+										>
 											{item.providerName}
 										</Text>
 									</View>
@@ -159,22 +164,21 @@ const styles = ScaledSheet.create({
 		flexDirection: "row",
 	},
 	listContainer: {
-		flex: 2,
 		flexDirection: "row",
 	},
 	listItemContainer: {
-		paddingVertical: "5@s",
-		paddingLeft: "16@s",
-		paddingRight: "20@s",
-		display: "flex",
+		paddingLeft: "10@s",
+		paddingRight: "16@s",
 		height: `${itemHeight}@s`,
-		gap: "10@s",
+		gap: "7@s",
 	},
 	itemBody: {
-		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 		gap: "10@s",
+		height: "100%",
+		width: "90%",
+		paddingRight: "90@s",
 	},
 	tariffText: {
 		fontSize: "14@s",

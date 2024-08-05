@@ -64,7 +64,7 @@ export async function getAllChargeConditions({
 		chargingModes: ["ac", "dc"],
 	});
 
-	if (!chargingConditions[0]?.tariffConditions[0]) {
+	if (!chargingConditions[0]?.tariffConditions?.length) {
 		return await getOfflineChargeConditionData();
 	}
 	if (writeToCache) {

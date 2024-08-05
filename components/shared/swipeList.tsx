@@ -6,6 +6,7 @@ import {
 	View,
 	Text,
 	ViewStyle,
+	TouchableOpacity,
 } from "react-native";
 import AddCircle from "@assets/addRemove/add_circle_fill.svg";
 import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
@@ -69,91 +70,81 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 
 	const renderItemCallback = useMemo(
 		() =>
-			({ item, index }) => {
-				const isFirst = index === 0;
-				const isLast = index === data.length - 1;
+			({ item }) => {
 				const itemExist = exists(item);
-
 				return (
-					<View
-						style={[
-							isFirst && styles.firstItem,
-							isLast && styles.lastItem,
-						]}
-					>
-						<SwipeItem
-							onDelete={() => onRemove(item)}
-							disableAction={itemExist}
-							onCloseAction={() => setCurrentOpenItem(null)}
-							onOpenAction={() => setCurrentOpenItem({ ...item })}
-							isOpen={
-								item.identifier === currentOpenItem?.identifier
-							}
-							item={
-								<TouchableWithoutFeedback
-									onPress={() => setCurrentOpenItem(null)}
-								>
-									<View
-										style={[
-											styles.item,
-											containerStyle,
-											isFirst && styles.firstItemBorder,
-											isLast && styles.lastItemBorder,
-										]}
+					<SwipeItem
+						onDelete={() => onRemove(item)}
+						disableAction={itemExist}
+						onCloseAction={() => setCurrentOpenItem(null)}
+						onOpenAction={() => setCurrentOpenItem({ ...item })}
+						isOpen={item.identifier === currentOpenItem?.identifier}
+						item={
+							<TouchableWithoutFeedback
+								onPress={() => setCurrentOpenItem(null)}
+							>
+								<View style={[styles.item, containerStyle]}>
+									<TouchableOpacity
+										activeOpacity={0.9}
+										style={styles.buttonTouchTarget}
+										onPress={() =>
+											itemExist
+												? onRemove(item)
+												: onAdd(item)
+										}
 									>
-										<View>
-											{itemExist ? (
-												<RemoveCircle
-													height={editButtonSize}
-													width={editButtonSize}
-													onPress={() =>
-														setCurrentOpenItem(item)
-													}
-												/>
-											) : (
-												<AddCircle
-													onPress={() => onAdd(item)}
-													height={editButtonSize}
-													width={editButtonSize}
-												/>
-											)}
-										</View>
-										{renderItem(item)}
-									</View>
-								</TouchableWithoutFeedback>
-							}
-						/>
-					</View>
+										{itemExist ? (
+											<RemoveCircle
+												height={editButtonSize}
+												width={editButtonSize}
+											/>
+										) : (
+											<AddCircle
+												height={editButtonSize}
+												width={editButtonSize}
+											/>
+										)}
+									</TouchableOpacity>
+									{renderItem(item)}
+								</View>
+							</TouchableWithoutFeedback>
+						}
+					/>
 				);
 			},
 		[sections, currentOpenItem, exists],
 	);
 	return (
-		<SectionList
-			initialNumToRender={16}
-			maxToRenderPerBatch={60}
-			windowSize={100}
-			stickySectionHeadersEnabled={true}
-			sections={sections}
-			ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-			renderSectionHeader={({ section: { title } }) => (
-				<View style={styles.separatorHeaderContainer}>
+		<View>
+			<View style={styles.separatorHeaderContainer} />
+			<SectionList
+				initialNumToRender={16}
+				maxToRenderPerBatch={60}
+				windowSize={100}
+				stickySectionHeadersEnabled={true}
+				sections={sections}
+				ItemSeparatorComponent={() => (
+					<View style={styles.itemSeparator} />
+				)}
+				renderSectionHeader={({ section: { title } }) => (
 					<Text style={styles.separatorHeader}>{title}</Text>
-				</View>
-			)}
-			getItemLayout={getItemLayout}
-			renderItem={renderItemCallback}
-			keyExtractor={(item) => item.identifier}
-		/>
+				)}
+				getItemLayout={getItemLayout}
+				renderItem={renderItemCallback}
+				keyExtractor={(item) => item.identifier}
+			/>
+		</View>
 	);
 }
 
 const styles = ScaledSheet.create({
+	buttonTouchTarget: {
+		padding: "7@s",
+	},
 	separatorHeaderContainer: {
 		borderTopColor: colors.ladefuchsDarkGrayBackground,
 		borderTopWidth: "2@s",
 		opacity: 0.9,
-		backgroundColor: colors.ladefuchsDunklerBalken,
 	},
 	separatorHeader: {
 		fontWeight: "bold",
@@ -161,6 +152,7 @@ const styles = ScaledSheet.create({
 		paddingVertical: "4@s",
 		fontSize: "16@s",
 		color: "#66625A",
+		backgroundColor: colors.ladefuchsDunklerBalken,
 	},
 	itemSeparator: {
 		height: scale(1.5),
@@ -169,18 +161,8 @@ const styles = ScaledSheet.create({
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		flexDirection: "row",
+		flex: 2,
 		alignItems: "center",
-	},
-	firstItemBorder: {
-		// borderTopStartRadius: "8@s",
-		// borderTopEndRadius: "8@s",
-	},
-	firstItem: {
-		// marginTop: "18@s",
-	},
-	lastItemBorder: {
-		// borderBottomStartRadius: "8@s",
-		// borderBottomEndRadius: "8@s",
 	},
 	lastItem: {
 		marginBottom: "20@s",
