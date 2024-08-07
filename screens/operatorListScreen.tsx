@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
 	View,
 	Text,
@@ -19,55 +19,61 @@ import { Operator } from "../types/operator";
 import { useFetchAppData } from "../hooks/usefetchAppData";
 import { fetchOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
-import { useFocus } from "../hooks/useFocus";
-import { useFocusEffect } from "@react-navigation/native";
 import { getMinutes, isDebug } from "../functions/util";
+import { useNavigation } from "@react-navigation/native";
+import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 
 const itemHeight = 66;
 
+type filerType = "all" | "ownOperators";
+
+const tabs = [
+	{ key: "all", label: "Alle" },
+	{ key: "ownOperators", label: "Meine Anbieter" },
+] satisfies TabItem<filerType>[];
+
 export function OperatorListScreen(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
-	const { focus } = useFocus();
 
-	const [operatorAddList, setOperatorAddList] = useState<string[]>([]);
-	const [operatorRemoveList, setOperatorRemoveList] = useState<string[]>([]);
+	const [operatorAddSet, setOperatorAddSet] = useState<Set<string>>(
+		new Set(),
+	);
+	const [operatorRemoveSet, setOperatorRemoveSet] = useState<Set<string>>(
+		new Set(),
+	);
+	const [filterMode, setFilterMode] = useState<filerType>("all");
 
 	const { allChargeConditionsQuery } = useFetchAppData();
-
 	const { customOperators, saveCustomOperators } =
 		useCustomTariffsOperators();
-
-	useFocusEffect(
-		useCallback(() => {
-			const saveSettings = () => {
-				saveCustomOperators({
-					add: operatorAddList,
-					remove: operatorRemoveList,
-				}).then(() => {
-					if (allChargeConditionsQuery.isFetching) {
-						return;
-					}
-					allChargeConditionsQuery.refetch();
-				});
-			};
-			return () => {
-				if (focus && !allChargeConditionsQuery.isFetching) {
-					saveSettings();
-				}
-			};
-		}, [operatorAddList, operatorRemoveList]),
-	);
+	const navigator = useNavigation();
 
 	useEffect(() => {
-		setOperatorAddList(customOperators.add);
-		setOperatorRemoveList(customOperators.remove);
-	}, [customOperators, setOperatorAddList, setOperatorRemoveList]);
+		const unsubscribe = navigator.addListener("beforeRemove", async () => {
+			await saveCustomOperators({
+				add: Array.from(operatorAddSet),
+				remove: Array.from(operatorRemoveSet),
+			});
+			await allChargeConditionsQuery.refetch();
+		});
+
+		return unsubscribe;
+	}, [navigator, operatorAddSet, operatorRemoveSet]);
+
+	useEffect(() => {
+		setOperatorAddSet(new Set(customOperators.add));
+		setOperatorRemoveSet(new Set(customOperators.remove));
+	}, [customOperators]);
 
 	useEffect(() => {
 		if (isDebug) {
-			console.log("Operators", operatorAddList, operatorRemoveList);
+			console.log(
+				"Operators",
+				Array.from(operatorAddSet),
+				Array.from(operatorRemoveSet),
+			);
 		}
-	}, [operatorAddList, operatorRemoveList]);
+	}, [operatorAddSet, operatorRemoveSet]);
 
 	const allOperatorsQuery = useQuery({
 		queryKey: ["AllOperators"],
@@ -79,12 +85,22 @@ export function OperatorListScreen(): JSX.Element {
 	});
 
 	const filteredOperators = useMemo(() => {
+		let operators = allOperatorsQuery.data ?? [];
+
+		if (filterMode === "ownOperators") {
+			operators = operators.filter(
+				(operator) =>
+					(operator.isStandard &&
+						!operatorRemoveSet.has(operator.identifier)) ||
+					operatorAddSet.has(operator.identifier),
+			);
+		}
 		return (
-			allOperatorsQuery.data?.filter((operator) =>
+			operators.filter((operator) =>
 				operator.name.toLowerCase().includes(search.toLowerCase()),
 			) ?? []
 		);
-	}, [search, allOperatorsQuery.data]);
+	}, [search, allOperatorsQuery.data, filterMode, operatorRemoveSet]);
 
 	return (
 		<KeyboardAvoidingView
@@ -94,36 +110,42 @@ export function OperatorListScreen(): JSX.Element {
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={styles.listContainer}>
+					<TabButtonGroup
+						tabs={tabs}
+						onSelected={(item) => {
+							setFilterMode(item.key);
+						}}
+					/>
 					<SwipeList
 						itemHeight={itemHeight}
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
 						onRemove={(item: Operator) => {
 							if (item.isStandard) {
-								setOperatorRemoveList([
-									item.identifier,
-									...operatorRemoveList,
-								]);
+								setOperatorRemoveSet(
+									(prev) =>
+										new Set([item.identifier, ...prev]),
+								);
 							} else {
-								setOperatorAddList([
-									...operatorAddList.filter(
-										(id) => id !== item.identifier,
-									),
-								]);
+								setOperatorAddSet((prev) => {
+									const newSet = new Set(prev);
+									newSet.delete(item.identifier);
+									return newSet;
+								});
 							}
 						}}
 						onAdd={(item: Operator) => {
 							if (item.isStandard) {
-								setOperatorRemoveList([
-									...operatorRemoveList.filter(
-										(id) => id !== item.identifier,
-									),
-								]);
+								setOperatorRemoveSet((prev) => {
+									const newSet = new Set(prev);
+									newSet.delete(item.identifier);
+									return newSet;
+								});
 							} else {
-								setOperatorAddList([
-									item.identifier,
-									...operatorAddList,
-								]);
+								setOperatorAddSet(
+									(prev) =>
+										new Set([item.identifier, ...prev]),
+								);
 							}
 						}}
 						renderItem={(item: Operator) => {
@@ -145,9 +167,9 @@ export function OperatorListScreen(): JSX.Element {
 							);
 						}}
 						exists={(item: Operator) =>
-							(operatorAddList.includes(item.identifier) ||
+							(operatorAddSet.has(item.identifier) ||
 								item.isStandard) &&
-							!operatorRemoveList.includes(item.identifier)
+							!operatorRemoveSet.has(item.identifier)
 						}
 					/>
 				</View>
@@ -181,6 +203,7 @@ const styles = ScaledSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 2,
+		width: "94%",
 		marginLeft: scale(-6),
 	},
 	itemText: {

@@ -89,7 +89,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 										style={styles.buttonTouchTarget}
 										onPress={() =>
 											itemExist
-												? onRemove(item)
+												? setCurrentOpenItem(item)
 												: onAdd(item)
 										}
 									>
@@ -123,6 +123,11 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 				windowSize={100}
 				stickySectionHeadersEnabled={true}
 				sections={sections}
+				ListEmptyComponent={() => (
+					<Text style={styles.emptyListStyle}>
+						Hier gibt es nichts zu sehen 🦊
+					</Text>
+				)}
 				ItemSeparatorComponent={() => (
 					<View style={styles.itemSeparator} />
 				)}
@@ -157,6 +162,14 @@ const styles = ScaledSheet.create({
 	itemSeparator: {
 		height: scale(1.5),
 		backgroundColor: colors.ladefuchsLightGrayBackground,
+	},
+	emptyListStyle: {
+		fontWeight: "bold",
+		color: colors.ladefuchsGrayTextColor,
+		fontStyle: "italic",
+		textAlign: "center",
+		fontSize: "15@s",
+		marginTop: "38@s",
 	},
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,
