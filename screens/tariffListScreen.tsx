@@ -94,17 +94,9 @@ export function TariffListScreen(): JSX.Element {
 		});
 	}, [search, allTariffsQuery.data, filterMode, tariffsAdd]);
 
-	const addTariff = (tariff: Tariff) => {
-		setTariffsAdd((prev) => new Set([tariff.identifier, ...prev]));
-	};
+	const addTariff = (tariff: Tariff) => {};
 
-	const removeTariff = (tariff: Tariff) => {
-		setTariffsRemove((prevSet) => {
-			const newSet = new Set(prevSet);
-			newSet.delete(tariff.identifier);
-			return newSet;
-		});
-	};
+	const removeTariff = (tariff: Tariff) => {};
 
 	return (
 		<KeyboardAvoidingView
@@ -126,15 +118,39 @@ export function TariffListScreen(): JSX.Element {
 							itemHeight={itemHeight}
 							containerStyle={styles.listItemContainer}
 							data={filteredTariffs}
-							onRemove={(item: Tariff) => {
-								item.isStandard
-									? addTariff(item)
-									: removeTariff(item);
+							onRemove={(tariff: Tariff) => {
+								if (tariff.isStandard) {
+									setTariffsRemove(
+										(prev) =>
+											new Set([
+												tariff.identifier,
+												...prev,
+											]),
+									);
+								} else {
+									setTariffsAdd((prevSet) => {
+										const newSet = new Set(prevSet);
+										newSet.delete(tariff.identifier);
+										return newSet;
+									});
+								}
 							}}
-							onAdd={(item: Tariff) => {
-								item.isStandard
-									? removeTariff(item)
-									: addTariff(item);
+							onAdd={(tariff: Tariff) => {
+								if (tariff.isStandard) {
+									setTariffsRemove((prevSet) => {
+										const newSet = new Set(prevSet);
+										newSet.delete(tariff.identifier);
+										return newSet;
+									});
+								} else {
+									setTariffsAdd(
+										(prev) =>
+											new Set([
+												tariff.identifier,
+												...prev,
+											]),
+									);
+								}
 							}}
 							renderItem={(item: Tariff) => {
 								return (
