@@ -55,6 +55,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 						]}
 						onPress={() => handleTabPress(tabItem, index)}
 						onLayout={(event) => setTabWidth(event, index)}
+						key={index}
 					>
 						<Text
 							style={[

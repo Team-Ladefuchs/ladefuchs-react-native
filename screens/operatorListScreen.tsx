@@ -109,69 +109,72 @@ export function OperatorListScreen(): JSX.Element {
 			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View style={styles.listContainer}>
+				<View style={{ flex: 1 }}>
 					<TabButtonGroup
 						tabs={tabs}
 						onSelected={(item) => {
 							setFilterMode(item.key);
 						}}
 					/>
-					<SwipeList
-						itemHeight={itemHeight}
-						containerStyle={styles.listItemContainer}
-						data={filteredOperators}
-						onRemove={(item: Operator) => {
-							if (item.isStandard) {
-								setOperatorRemoveSet(
-									(prev) =>
-										new Set([item.identifier, ...prev]),
+
+					<View style={styles.listContainer}>
+						<SwipeList
+							itemHeight={itemHeight}
+							containerStyle={styles.listItemContainer}
+							data={filteredOperators}
+							onRemove={(item: Operator) => {
+								if (item.isStandard) {
+									setOperatorRemoveSet(
+										(prev) =>
+											new Set([item.identifier, ...prev]),
+									);
+								} else {
+									setOperatorAddSet((prev) => {
+										const newSet = new Set(prev);
+										newSet.delete(item.identifier);
+										return newSet;
+									});
+								}
+							}}
+							onAdd={(item: Operator) => {
+								if (item.isStandard) {
+									setOperatorRemoveSet((prev) => {
+										const newSet = new Set(prev);
+										newSet.delete(item.identifier);
+										return newSet;
+									});
+								} else {
+									setOperatorAddSet(
+										(prev) =>
+											new Set([item.identifier, ...prev]),
+									);
+								}
+							}}
+							renderItem={(item: Operator) => {
+								return (
+									<View style={styles.itemBody}>
+										<OperatorImage
+											operator={item}
+											height={50}
+											width={72}
+											hideFallBackText={true}
+										/>
+										<Text
+											style={styles.itemText}
+											numberOfLines={2}
+										>
+											{item.name}
+										</Text>
+									</View>
 								);
-							} else {
-								setOperatorAddSet((prev) => {
-									const newSet = new Set(prev);
-									newSet.delete(item.identifier);
-									return newSet;
-								});
+							}}
+							exists={(item: Operator) =>
+								(operatorAddSet.has(item.identifier) ||
+									item.isStandard) &&
+								!operatorRemoveSet.has(item.identifier)
 							}
-						}}
-						onAdd={(item: Operator) => {
-							if (item.isStandard) {
-								setOperatorRemoveSet((prev) => {
-									const newSet = new Set(prev);
-									newSet.delete(item.identifier);
-									return newSet;
-								});
-							} else {
-								setOperatorAddSet(
-									(prev) =>
-										new Set([item.identifier, ...prev]),
-								);
-							}
-						}}
-						renderItem={(item: Operator) => {
-							return (
-								<View style={styles.itemBody}>
-									<OperatorImage
-										operator={item}
-										height={50}
-										width={72}
-										hideFallBackText={true}
-									/>
-									<Text
-										style={styles.itemText}
-										numberOfLines={2}
-									>
-										{item.name}
-									</Text>
-								</View>
-							);
-						}}
-						exists={(item: Operator) =>
-							(operatorAddSet.has(item.identifier) ||
-								item.isStandard) &&
-							!operatorRemoveSet.has(item.identifier)
-						}
-					/>
+						/>
+					</View>
 				</View>
 			</TouchableWithoutFeedback>
 			<SearchInput

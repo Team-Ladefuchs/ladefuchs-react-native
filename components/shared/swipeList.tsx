@@ -177,7 +177,8 @@ const styles = ScaledSheet.create({
 		flex: 2,
 		alignItems: "center",
 	},
+	// todo use it
 	lastItem: {
-		marginBottom: "20@s",
+		marginBottom: "22@s",
 	},
 });

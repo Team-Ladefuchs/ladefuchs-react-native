@@ -94,12 +94,8 @@ export function TariffListScreen(): JSX.Element {
 		});
 	}, [search, allTariffsQuery.data, filterMode, tariffsAdd]);
 
-
-	const addtariff = (tariff: Tariff) => {
-		setTariffsAdd(
-			(prev) =>
-				new Set([tariff.identifier, ...prev]),
-		);
+	const addTariff = (tariff: Tariff) => {
+		setTariffsAdd((prev) => new Set([tariff.identifier, ...prev]));
 	};
 
 	const removeTariff = (tariff: Tariff) => {
@@ -108,7 +104,7 @@ export function TariffListScreen(): JSX.Element {
 			newSet.delete(tariff.identifier);
 			return newSet;
 		});
-	}
+	};
 
 	return (
 		<KeyboardAvoidingView
@@ -117,7 +113,7 @@ export function TariffListScreen(): JSX.Element {
 			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View style={styles.listContainer}>
+				<View style={{ flex: 1 }}>
 					<TabButtonGroup
 						tabs={tabs}
 						onSelected={(item) => {
@@ -125,51 +121,57 @@ export function TariffListScreen(): JSX.Element {
 						}}
 					/>
 
-					<SwipeList
-						itemHeight={itemHeight}
-						containerStyle={styles.listItemContainer}
-						data={filteredTariffs}
-						onRemove={(item: Tariff) => {
-							item.isStandard ? addtariff(item) : removeTariff(item);
-						}}
-						onAdd={(item: Tariff) => {
-							item.isStandard ? removeTariff(item) : addtariff(item);
-						}}
-						renderItem={(item: Tariff) => {
-							return (
-								<View style={styles.itemBody}>
-									<View>
-										<CardImage
-											tariff={item}
-											width={60}
-											hideFallBackText={true}
-										/>
+					<View style={styles.listContainer}>
+						<SwipeList
+							itemHeight={itemHeight}
+							containerStyle={styles.listItemContainer}
+							data={filteredTariffs}
+							onRemove={(item: Tariff) => {
+								item.isStandard
+									? addTariff(item)
+									: removeTariff(item);
+							}}
+							onAdd={(item: Tariff) => {
+								item.isStandard
+									? removeTariff(item)
+									: addTariff(item);
+							}}
+							renderItem={(item: Tariff) => {
+								return (
+									<View style={styles.itemBody}>
+										<View>
+											<CardImage
+												tariff={item}
+												width={60}
+												hideFallBackText={true}
+											/>
+										</View>
+										<View>
+											<Text
+												style={styles.tariffText}
+												ellipsizeMode="tail"
+												numberOfLines={2}
+											>
+												{item.name}
+											</Text>
+											<Text
+												style={styles.providerText}
+												ellipsizeMode="tail"
+												numberOfLines={1}
+											>
+												{item.providerName}
+											</Text>
+										</View>
 									</View>
-									<View>
-										<Text
-											style={styles.tariffText}
-											ellipsizeMode="tail"
-											numberOfLines={2}
-										>
-											{item.name}
-										</Text>
-										<Text
-											style={styles.providerText}
-											ellipsizeMode="tail"
-											numberOfLines={1}
-										>
-											{item.providerName}
-										</Text>
-									</View>
-								</View>
-							);
-						}}
-						exists={(item: Tariff) =>
-							tariffsAdd.has(item.identifier) ||
-							(item.isStandard &&
-								!tariffsRemove.has(item.identifier))
-						}
-					/>
+								);
+							}}
+							exists={(item: Tariff) =>
+								tariffsAdd.has(item.identifier) ||
+								(item.isStandard &&
+									!tariffsRemove.has(item.identifier))
+							}
+						/>
+					</View>
 				</View>
 			</TouchableWithoutFeedback>
 			<SearchInput
