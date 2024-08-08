@@ -24,7 +24,8 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 		Animated.timing(translateX, {
 			toValue: tabWidths.current[tabIndex] * tabIndex,
 			useNativeDriver: true,
-			duration: 250,
+			delay: 0,
+			duration: 210,
 		}).start();
 	};
 
