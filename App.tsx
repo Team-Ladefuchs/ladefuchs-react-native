@@ -28,15 +28,13 @@ import { LicenseView } from "./screens/thirdpartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffListScreen } from "./screens/tariffListScreen";
 
+
+// Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
+const EinstellungenStack = createStackNavigator();
 
-function onAppStateChange(status: AppStateStatus) {
-	if (Platform.OS !== "web") {
-		focusManager.setFocused(status === "active");
-	}
-}
-
+// Main App component
 export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -52,7 +50,6 @@ function AppWrapper(): JSX.Element {
 			"change",
 			onAppStateChange,
 		);
-
 		return () => {
 			subscription.remove();
 		};
@@ -69,29 +66,22 @@ function AppWrapper(): JSX.Element {
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				<RootStack.Group>
+				<RootStack.Screen
+					name="Home"
+					component={HomeScreen}
+					options={() => ({
+						header: () => <AppHeader />,
+						headerStyle: {
+							backgroundColor: colors.ladefuchsDarkBackground,
+						},
+						headerTintColor: colors.ladefuchsOrange,
+					})}
+				/>
+				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
-						name="Home"
-						component={HomeScreen}
-						options={() => ({
-							header: () => {
-								return <AppHeader />;
-							},
-							headerStyle: {
-								backgroundColor: colors.ladefuchsDarkBackground,
-							},
-							headerTintColor: colors.ladefuchsOrange,
-						})}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
+						name="detailScreen"
 						component={DetailScreen}
-						options={({ navigation, route }: any): object => ({
+						options={({ navigation, route }: any) => ({
 							headerBackTitleVisible: false,
 							headerLeft: null,
 							header: () => {
@@ -108,68 +98,16 @@ function AppWrapper(): JSX.Element {
 								display: "none",
 							},
 						})}
-						name="detailScreen"
 					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
-						name="Einstellungen"
-						options={modalHeader}
-						component={AboutScreen}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
 					<RootStack.Screen
 						name="Feedback"
-						options={modalHeader}
 						component={FeedbackView}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
-						name="customOperators"
-						options={({ navigation }) => ({
-							...modalHeader({ navigation }),
-							title: "Meine Stromanbieter",
-						})}
-						component={OperatorListScreen}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
-						name="customTariffs"
-						options={({ navigation }) => ({
-							...modalHeader({ navigation }),
-							title: "Meine Ladetarife",
-						})}
-						component={TariffListScreen}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
-						name="Drittlizenzen"
 						options={modalHeader}
-						component={LicenseView}
+					/>
+					<RootStack.Screen
+						name="Einstellungen"
+						component={SettingsStackNavigator}
+						options={{ headerShown: false }}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>
@@ -177,22 +115,69 @@ function AppWrapper(): JSX.Element {
 	);
 }
 
-function modalHeader({
-	navigation,
-}: {
-	navigation: { goBack: () => void };
-}): object {
+// Define the Einstellungen stack with nested screens
+function SettingsStackNavigator(): JSX.Element {
+	return (
+		<EinstellungenStack.Navigator>
+			<EinstellungenStack.Screen
+				name="Einstellungen"
+				component={AboutScreen}
+				options={modalHeader}
+			/>
+			<EinstellungenStack.Screen
+				name="customOperators"
+				component={OperatorListScreen}
+				options={({ navigation }) => ({
+					...normalHeader({ navigation }),
+					title: "Meine Stromanbieter",
+				})}
+			/>
+			<EinstellungenStack.Screen
+				name="customTariffs"
+				component={TariffListScreen}
+				options={({ navigation }) => ({
+					...normalHeader({ navigation }),
+
+					title: "Meine Ladetarife",
+				})}
+			/>
+			<EinstellungenStack.Screen
+				name="Drittlizenzen"
+				component={LicenseView}
+				options={modalHeader}
+			/>
+		</EinstellungenStack.Navigator>
+	);
+}
+
+function onAppStateChange(status: AppStateStatus) {
+	if (Platform.OS !== "web") {
+		focusManager.setFocused(status === "active");
+	}
+}
+
+function normalHeader({ navigation }: { navigation: { goBack: () => void } }) {
+	return {
+		// headerBackTitleVisible: false,
+		headerBackTitle: "Zurück",
+		// headerLeft: null,
+		headerStyle: {
+			backgroundColor: colors.ladefuchsDunklerBalken,
+		},
+		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
+	};
+}
+
+function modalHeader({ navigation }: { navigation: { goBack: () => void } }) {
 	return {
 		headerBackTitleVisible: false,
 		headerLeft: null,
-		headerRight: () => {
-			return (
-				<CloseButton
-					onPress={() => navigation.goBack()}
-					style={{ marginRight: scale(16) }}
-				/>
-			);
-		},
+		headerRight: () => (
+			<CloseButton
+				onPress={() => navigation.goBack()}
+				style={{ marginRight: scale(16) }}
+			/>
+		),
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},

@@ -76,16 +76,14 @@ const styles = ScaledSheet.create({
 	container: {
 		justifyContent: "center",
 		marginHorizontal: "14@s",
-		marginVertical: "8@s",
 	},
 	tabContainer: {
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
 		flexDirection: "row",
 		paddingVertical: "3@s",
 		paddingHorizontal: "4@s",
-		borderRadius: "10@s",
-		opacity: 0.8,
-		// borderRadius: "10@s",
+		borderRadius: "12@s",
+		// opacity: 0.9,
 		position: "relative",
 	},
 	animatedBackground: {
@@ -96,7 +94,6 @@ const styles = ScaledSheet.create({
 		borderRadius: "10@s",
 		top: "3@s",
 		left: "4@s",
-		// right: 0,
 		...Platform.select({
 			ios: {
 				shadowColor: "#000",
@@ -119,10 +116,11 @@ const styles = ScaledSheet.create({
 	},
 	tabText: {
 		fontSize: 16,
-		fontWeight: "bold",
+		opacity: 1,
 	},
 	activeTabText: {
-		color: colors.ladefuchsOrange,
+		fontWeight: "bold",
+		// color: colors.ladefuchsOrange,
 	},
 	content: {
 		flex: 1,

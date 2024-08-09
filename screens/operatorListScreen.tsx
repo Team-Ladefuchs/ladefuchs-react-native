@@ -6,6 +6,7 @@ import {
 	Platform,
 	Keyboard,
 	TouchableWithoutFeedback,
+	Alert,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -22,6 +23,7 @@ import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
+import { ListHeaderFilter } from "./listheaderFilter";
 
 const itemHeight = 66;
 
@@ -44,7 +46,7 @@ export function OperatorListScreen(): JSX.Element {
 	const [filterMode, setFilterMode] = useState<filerType>("all");
 
 	const { allChargeConditionsQuery } = useFetchAppData();
-	const { customOperators, saveCustomOperators } =
+	const { customOperators, saveCustomOperators, resetCustomOperators } =
 		useCustomTariffsOperators();
 	const navigator = useNavigation();
 
@@ -102,6 +104,27 @@ export function OperatorListScreen(): JSX.Element {
 		);
 	}, [search, allOperatorsQuery.data, filterMode, operatorRemoveSet]);
 
+	const handleOperatorReset = () => {
+		Alert.alert(
+			"Anbieter zurücksetzen",
+			"Deine Anbieter werden zurückgesetzt. Bist du dir ganz sicher?",
+			[
+				{
+					text: "Abbrechen",
+					style: "cancel",
+				},
+				{
+					text: "Ja bin ich",
+					onPress: async () => {
+						setOperatorAddSet(new Set([]));
+						setOperatorRemoveSet(new Set([]));
+						await resetCustomOperators();
+					},
+				},
+			],
+		);
+	};
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -110,12 +133,14 @@ export function OperatorListScreen(): JSX.Element {
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={{ flex: 1 }}>
-					<TabButtonGroup
-						tabs={tabs}
-						onSelected={(item) => {
-							setFilterMode(item.key);
-						}}
-					/>
+					<ListHeaderFilter onReset={handleOperatorReset}>
+						<TabButtonGroup
+							tabs={tabs}
+							onSelected={(item) => {
+								setFilterMode(item.key);
+							}}
+						/>
+					</ListHeaderFilter>
 
 					<View style={styles.listContainer}>
 						<SwipeList
@@ -177,10 +202,7 @@ export function OperatorListScreen(): JSX.Element {
 					</View>
 				</View>
 			</TouchableWithoutFeedback>
-			<SearchInput
-				setSearch={setSearch}
-				placeHolder="Search by title..."
-			/>
+			<SearchInput setSearch={setSearch} placeHolder="Suche" />
 		</KeyboardAvoidingView>
 	);
 }

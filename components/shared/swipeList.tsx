@@ -29,7 +29,7 @@ interface Section<T> {
 	data: T[];
 }
 
-const isDigit = /[0-9]/;
+const isLetter = /[a-zA-Z]/;
 
 export function SwipeList<T extends { identifier: string; name: string }>({
 	data,
@@ -45,7 +45,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	const sections: Section<T>[] = useMemo(() => {
 		const sectionMap = data.reduce((acc, item) => {
 			let firstLetter = item.name.charAt(0).toUpperCase();
-			if (isDigit.test(firstLetter)) {
+			if (!isLetter.test(firstLetter)) {
 				firstLetter = "#";
 			}
 			if (!acc[firstLetter]) {
@@ -61,7 +61,6 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		return Object.values(sectionMap);
 	}, [data]);
 
-	// Define the height of each item (assuming all items have the same height)
 	const getItemLayout = (_: any, index: number) => ({
 		length: scale(itemHeight), // Adjust this to the actual item height
 		offset: scale(itemHeight) * index,
@@ -76,7 +75,11 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 					<SwipeItem
 						onDelete={() => onRemove(item)}
 						disableAction={itemExist}
-						onCloseAction={() => setCurrentOpenItem(null)}
+						onCloseAction={() => {
+							if (currentOpenItem?.identifier) {
+								setCurrentOpenItem(null);
+							}
+						}}
 						onOpenAction={() => setCurrentOpenItem({ ...item })}
 						isOpen={item.identifier === currentOpenItem?.identifier}
 						item={
@@ -125,7 +128,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 				sections={sections}
 				ListEmptyComponent={() => (
 					<Text style={styles.emptyListStyle}>
-						Hier gibt es nichts zu sehen 🦊
+						Hier gibt es nichts zu sehen, bitte laden Sie weiter. 🦊
 					</Text>
 				)}
 				ItemSeparatorComponent={() => (
@@ -149,14 +152,14 @@ const styles = ScaledSheet.create({
 	separatorHeaderContainer: {
 		borderTopColor: colors.ladefuchsDarkGrayBackground,
 		borderTopWidth: "2@s",
-		opacity: 0.9,
 	},
 	separatorHeader: {
 		fontWeight: "bold",
 		paddingHorizontal: "18@s",
 		paddingVertical: "4@s",
 		fontSize: "16@s",
-		color: "#66625A",
+		opacity: 0.95,
+		color: "#54524F",
 		backgroundColor: colors.ladefuchsDunklerBalken,
 	},
 	itemSeparator: {

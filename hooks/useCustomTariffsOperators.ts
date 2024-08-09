@@ -54,21 +54,43 @@ export function useCustomTariffsOperators() {
 		const newValue = {
 			...current,
 			tariffs,
-		};
+		} satisfies CustomTariffsOperators;
 		await saveToStorage(key, newValue);
 	}
+
+	async function resetCustomTariffs(): Promise<void> {
+		await saveToStorage(key, {
+			...current,
+			tariffs: {
+				add: [],
+				remove: [],
+			},
+		} satisfies CustomTariffsOperators);
+	}
+
+	async function resetCustomOperators(): Promise<void> {
+		await saveToStorage(key, {
+			...current,
+			operators: {
+				add: [],
+				remove: [],
+			},
+		} satisfies CustomTariffsOperators);
+	}
+
 	async function saveCustomOperators(operators: CustomTariff): Promise<void> {
-		await saveToStorage(key, current);
 		const newValue = {
 			...current,
 			operators,
-		};
+		} satisfies CustomTariffsOperators;
 		await saveToStorage(key, newValue);
 	}
 
 	return {
 		saveCustomTariffs,
 		saveCustomOperators,
+		resetCustomTariffs,
+		resetCustomOperators,
 		customTariffs: current.tariffs,
 		customOperators: current.operators,
 	};

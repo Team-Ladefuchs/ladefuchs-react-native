@@ -14,8 +14,10 @@ export function SearchInput({ setSearch, placeHolder }: Props): JSX.Element {
 			<TextInput
 				style={styles.searchInput}
 				autoCorrect={false}
+				keyboardType="ascii-capable"
 				autoComplete="off"
 				clearButtonMode="while-editing"
+				textContentType="none"
 				placeholder={placeHolder}
 				onChangeText={setSearch}
 			/>
@@ -29,6 +31,12 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	searchContainer: {
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: -2 },
+		shadowOpacity: 0.3,
+		shadowRadius: 3,
+		elevation: 5,
+		zIndex: 1,
 		backgroundColor: colors.ladefuchsDarkBackground,
 	},
 	searchInput: {
@@ -37,7 +45,6 @@ const styles = ScaledSheet.create({
 		paddingHorizontal: "10@s",
 		paddingVertical: "10@s",
 		backgroundColor: colors.ladefuchsLightBackground,
-		// backgroundColor: "#fff",
 		borderRadius: "8@s",
 		marginVertical: "10@s",
 		fontSize: "15@s",

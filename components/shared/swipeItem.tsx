@@ -51,7 +51,7 @@ export function SwipeItem({
 			ref={swipeableRef}
 			renderRightActions={renderRightActions}
 			onSwipeableOpen={onOpenAction}
-			onSwipeableClose={onCloseAction}
+			// onSwipeableClose={onCloseAction}
 		>
 			{item}
 		</Swipeable>

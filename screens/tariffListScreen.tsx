@@ -6,6 +6,7 @@ import {
 	Platform,
 	Keyboard,
 	TouchableWithoutFeedback,
+	Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -23,6 +24,7 @@ import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
+import { ListHeaderFilter } from "./listheaderFilter";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -45,7 +47,8 @@ export function TariffListScreen(): JSX.Element {
 
 	const [filterMode, setFilterMode] = useState<filerType>("all");
 
-	const { customTariffs, saveCustomTariffs } = useCustomTariffsOperators();
+	const { customTariffs, saveCustomTariffs, resetCustomTariffs } =
+		useCustomTariffsOperators();
 
 	const navigator = useNavigation();
 
@@ -94,9 +97,26 @@ export function TariffListScreen(): JSX.Element {
 		});
 	}, [search, allTariffsQuery.data, filterMode, tariffsAdd]);
 
-	const addTariff = (tariff: Tariff) => {};
-
-	const removeTariff = (tariff: Tariff) => {};
+	const handleTariffReset = () => {
+		Alert.alert(
+			"Tarife zurücksetzen",
+			"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
+			[
+				{
+					text: "Abbrechen",
+					style: "cancel",
+				},
+				{
+					text: "Ja bin ich",
+					onPress: async () => {
+						setTariffsAdd(new Set([]));
+						setTariffsRemove(new Set([]));
+						await resetCustomTariffs();
+					},
+				},
+			],
+		);
+	};
 
 	return (
 		<KeyboardAvoidingView
@@ -106,13 +126,14 @@ export function TariffListScreen(): JSX.Element {
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={{ flex: 1 }}>
-					<TabButtonGroup
-						tabs={tabs}
-						onSelected={(item) => {
-							setFilterMode(item.key);
-						}}
-					/>
-
+					<ListHeaderFilter onReset={handleTariffReset}>
+						<TabButtonGroup
+							tabs={tabs}
+							onSelected={(item) => {
+								setFilterMode(item.key);
+							}}
+						/>
+					</ListHeaderFilter>
 					<View style={styles.listContainer}>
 						<SwipeList
 							itemHeight={itemHeight}
@@ -190,10 +211,7 @@ export function TariffListScreen(): JSX.Element {
 					</View>
 				</View>
 			</TouchableWithoutFeedback>
-			<SearchInput
-				setSearch={setSearch}
-				placeHolder="Search by title..."
-			/>
+			<SearchInput setSearch={setSearch} placeHolder="Suche" />
 		</KeyboardAvoidingView>
 	);
 }
