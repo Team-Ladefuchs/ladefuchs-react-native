@@ -104,7 +104,7 @@ function AppWrapper(): JSX.Element {
 						options={modalHeader}
 					/>
 					<RootStack.Screen
-						name="Einstellungen"
+						name="EinstellungenStack"
 						component={SettingsStackNavigator}
 						options={{ headerShown: false }}
 					/>
@@ -119,24 +119,23 @@ function SettingsStackNavigator(): JSX.Element {
 	return (
 		<EinstellungenStack.Navigator>
 			<EinstellungenStack.Screen
-				name="aboutScreen"
+				name="Einstellungen"
 				component={AboutScreen}
 				options={modalHeader}
 			/>
 			<EinstellungenStack.Screen
 				name="customOperators"
 				component={OperatorListScreen}
-				options={({ navigation }) => ({
-					...normalHeader({ navigation }),
+				options={() => ({
+					...normalHeader(),
 					title: "Meine Stromanbieter",
 				})}
 			/>
 			<EinstellungenStack.Screen
 				name="customTariffs"
 				component={TariffListScreen}
-				options={({ navigation }) => ({
-					...normalHeader({ navigation }),
-
+				options={() => ({
+					...normalHeader(),
 					title: "Meine Ladetarife",
 				})}
 			/>
@@ -155,7 +154,7 @@ function onAppStateChange(status: AppStateStatus) {
 	}
 }
 
-function normalHeader({ navigation }: { navigation: { goBack: () => void } }) {
+function normalHeader() {
 	return {
 		// headerBackTitleVisible: false,
 		headerBackTitle: "Zurück",

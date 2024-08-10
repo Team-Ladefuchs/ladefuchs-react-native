@@ -50,7 +50,7 @@ export function AppHeader(): JSX.Element {
 				activeOpacity={0.6}
 				onPress={() => {
 					//@ts-ignore
-					navigation.navigate("Einstellungen");
+					navigation.navigate("EinstellungenStack");
 				}}
 				style={styles.headerSettingsIcon}
 			>

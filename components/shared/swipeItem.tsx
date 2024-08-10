@@ -1,22 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { TouchableOpacity, Text, View } from "react-native";
-import Swipeable, {
-	SwipeableMethods,
-} from "react-native-gesture-handler/ReanimatedSwipeable";
-import Reanimated, {
-	SharedValue,
-	useAnimatedStyle,
-} from "react-native-reanimated";
+import React, { useEffect, useRef } from "react";
+import { TouchableOpacity, View } from "react-native";
+
 import { ScaledSheet } from "react-native-size-matters";
 
 import TrashIcon from "@assets/generic/trash.svg";
+import { Swipeable } from "react-native-gesture-handler";
 
 interface Props {
 	onDelete: () => void;
-	// isOpen: boolean;
+	isOpen: boolean;
 	onOpenAction: () => void;
 	disableAction: boolean;
-	onCloseAction: () => void;
 	children: React.ReactNode;
 }
 
@@ -24,35 +18,22 @@ export function SwipeItem({
 	onDelete,
 	onOpenAction,
 	disableAction,
-	onCloseAction,
 	children,
+	isOpen,
 }: Props): JSX.Element {
-	// const swipeableRef = useRef<SwipeableMethods>(null);
-	const [width, setWidth] = useState(0);
+	const swipeableRef = useRef<Swipeable>();
 
-	// useEffect(() => {
-	// 	if (isOpen) {
-	// 		console.log("o", isOpen);
-	// 		swipeableRef.current?.openRight();
-	// 	}
-	// }, [isOpen]);
+	useEffect(() => {
+		if (isOpen) {
+			swipeableRef.current?.openRight();
+		} else {
+			swipeableRef.current?.close();
+		}
+	}, [isOpen]);
 
-	const renderRightActions = (
-		_prog: SharedValue<number>,
-		drag: SharedValue<number>,
-	) => {
-		const styleAnimation = useAnimatedStyle(() => ({
-			transform: [{ translateX: drag.value + width }],
-		}));
-
+	const renderRightActions = () => {
 		return (
-			<Reanimated.View
-				onLayout={(event) => {
-					const { width } = event.nativeEvent.layout;
-					setWidth(width);
-				}}
-				style={[styles.rightActionContainer, styleAnimation]}
-			>
+			<View style={styles.rightActionContainer}>
 				<TouchableOpacity
 					activeOpacity={0.8}
 					onPress={() => {
@@ -62,7 +43,7 @@ export function SwipeItem({
 				>
 					<TrashIcon />
 				</TouchableOpacity>
-			</Reanimated.View>
+			</View>
 		);
 	};
 
@@ -71,11 +52,11 @@ export function SwipeItem({
 	}
 	return (
 		<Swipeable
+			ref={swipeableRef}
 			renderRightActions={renderRightActions}
 			onSwipeableOpen={onOpenAction}
-			// friction={2}
-			rightThreshold={30}
-			onSwipeableClose={onCloseAction}
+			friction={1}
+			rightThreshold={10}
 		>
 			{children}
 		</Swipeable>

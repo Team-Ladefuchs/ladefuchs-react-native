@@ -75,13 +75,8 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 					<SwipeItem
 						onDelete={() => onRemove(item)}
 						disableAction={itemExist}
-						onCloseAction={() => {
-							if (currentOpenItem?.identifier) {
-								setCurrentOpenItem(null);
-							}
-						}}
 						onOpenAction={() => setCurrentOpenItem({ ...item })}
-						// isOpen={item.identifier === currentOpenItem?.identifier}
+						isOpen={item.identifier === currentOpenItem?.identifier}
 					>
 						<TouchableWithoutFeedback
 							onPress={() => setCurrentOpenItem(null)}
@@ -98,9 +93,6 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 								>
 									{itemExist ? (
 										<RemoveCircle
-											style={{
-												opacity: 0,
-											}}
 											height={editButtonSize}
 											width={editButtonSize}
 										/>
