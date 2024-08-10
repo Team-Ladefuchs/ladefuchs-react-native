@@ -142,7 +142,7 @@ function SettingsStackNavigator(): JSX.Element {
 			<EinstellungenStack.Screen
 				name="Drittlizenzen"
 				component={LicenseView}
-				options={modalHeader}
+				options={normalHeader}
 			/>
 		</EinstellungenStack.Navigator>
 	);

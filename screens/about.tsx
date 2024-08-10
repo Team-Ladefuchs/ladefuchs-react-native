@@ -35,7 +35,11 @@ export function AboutScreen() {
 			<PodcastView />
 			<Illustration />
 			<Impressum />
-			<LicenseView />
+			<NavigationItem
+				title="Drittlizenzen"
+				screenKey="Drittlizenzen"
+				description="placeholder..."
+			/>
 			<AppFooter />
 		</ScrollView>
 	);

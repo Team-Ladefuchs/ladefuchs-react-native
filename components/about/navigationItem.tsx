@@ -7,7 +7,7 @@ import { ScaledSheet } from "react-native-size-matters";
 interface Props {
 	title: string;
 	screenKey: string;
-	description: string;
+	description?: string;
 }
 
 export function NavigationItem({
@@ -36,9 +36,11 @@ export function NavigationItem({
 						<Text style={styles.headLine}>
 							{title.toUpperCase()}
 						</Text>
-						<Text style={navigationItemStyle.descriptionText}>
-							{description}
-						</Text>
+						{description && (
+							<Text style={navigationItemStyle.descriptionText}>
+								{description}
+							</Text>
+						)}
 					</View>
 					<Text style={styles.arrow}>›</Text>
 				</View>

@@ -19,7 +19,8 @@ export function useFetchAppData() {
 		);
 	const allChargeConditionsQuery = useQuery({
 		queryKey: ["appChargeConditions"],
-		retry: 3,
+		retryDelay: 100,
+		retry: 2,
 		queryFn: async () => {
 			return await getAllChargeConditions({
 				writeToCache: !operators.length,
@@ -29,7 +30,8 @@ export function useFetchAppData() {
 
 	const bannerQuery = useQuery({
 		queryKey: ["appBanners"],
-		retry: 3,
+		retryDelay: 100,
+		retry: 2,
 		queryFn: async () => {
 			return await getBanners({ writeToCache: !ladefuchsBanners.length });
 		},

@@ -72,6 +72,7 @@ export function TariffListScreen(): JSX.Element {
 	const allTariffsQuery = useQuery({
 		queryKey: ["AllTariffs"],
 		retry: 3,
+		retryDelay: 100,
 		gcTime: getMinutes(30),
 		queryFn: async () => {
 			const tariffs = await fetchTariffs({ standard: false });

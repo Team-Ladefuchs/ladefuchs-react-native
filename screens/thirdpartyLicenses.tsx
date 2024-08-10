@@ -1,98 +1,77 @@
-import React, { useEffect, useState } from "react";
-import {
-	View,
-	Text,
-	FlatList,
-	StyleSheet,
-	ActivityIndicator,
-	Linking,
-	TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, Text, FlatList, Linking, TouchableOpacity } from "react-native";
 
-// Importiere die Lizenzdatei direkt
 import licenses from "@assets/licenses.json";
+import { ScaledSheet } from "react-native-size-matters";
+import { colors } from "../theme";
 
 export function LicenseView(): JSX.Element {
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const loadLicenses = async () => {
-			try {
-				// Simuliere eine Verzögerung, um den Ladevorgang zu demonstrieren
-				await new Promise((resolve) => setTimeout(resolve, 1000));
-			} catch (error) {
-				console.error("Error loading licenses:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		loadLicenses();
-	}, []);
-
 	const renderItem = ({ item }) => {
 		const [packageName, licenseInfo] = item;
 		const [name, version] = packageName.split("@");
 		return (
 			<View style={styles.item}>
 				{licenseInfo.repository && (
-					<TouchableOpacity
-						onPress={() => Linking.openURL(licenseInfo.repository)}
-					>
+					<View>
 						<Text style={styles.name}>{name}</Text>
 						<Text style={styles.version}>Version: {version}</Text>
 						<Text style={styles.license}>
 							License: {licenseInfo.licenses}
 						</Text>
 
-						<Text style={styles.repo}>
-							{licenseInfo.repository}
-						</Text>
-					</TouchableOpacity>
+						<TouchableOpacity
+							activeOpacity={0.75}
+							onPress={() =>
+								Linking.openURL(licenseInfo.repository)
+							}
+						>
+							<Text style={styles.repo}>
+								{licenseInfo.repository}
+							</Text>
+						</TouchableOpacity>
+					</View>
 				)}
 			</View>
 		);
 	};
 
-	if (loading) {
-		return <ActivityIndicator size="large" color="#0000ff" />;
-	}
-
 	return (
-		<FlatList
-			data={Object.entries(licenses)}
-			keyExtractor={(item) => item[0]}
-			renderItem={renderItem}
-			contentContainerStyle={styles.container}
-		/>
+		<View style={styles.screen}>
+			<FlatList
+				data={Object.entries(licenses)}
+				keyExtractor={(item) => item[0]}
+				renderItem={renderItem}
+				contentContainerStyle={styles.itemContainer}
+			/>
+		</View>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		padding: 10,
-		backgroundColor: "#F3EEE2",
+const styles = ScaledSheet.create({
+	screen: {
+		paddingBottom: "32@s",
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	itemContainer: {
+		gap: 2,
 	},
 	item: {
-		marginBottom: 2,
-		backgroundColor: "rgba(194,180,156, 0.4)",
-		padding: 5,
-		marginVertical: 2,
+		paddingVertical: "4@s",
+		paddingHorizontal: "14@s",
 		marginHorizontal: 6,
-		borderRadius: 12,
 	},
 	name: {
-		fontSize: 16,
+		fontSize: "16@s",
 		fontWeight: "bold",
 		fontFamily: "Roboto",
 		color: "#F2642D",
 	},
 	version: {
-		fontSize: 14,
+		fontSize: "14@s",
 		fontFamily: "Bitter",
 	},
 	license: {
-		fontSize: 14,
+		fontSize: "14@s",
 		fontFamily: "Bitter",
 	},
 	repo: {
