@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { scale } from "react-native-size-matters";
-import ArrowLeftBack from "@assets/arrow_back-left.svg";
+import ArrowLeftBack from "@assets/generic/arrow_back-left.svg";
 import { colors } from "../theme";
 
 interface ListHeaderProps {

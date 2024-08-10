@@ -24,7 +24,7 @@ import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListHeaderFilter } from "./listheaderFilter";
+import { ListHeaderFilter } from "./listHeaderFilter";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -173,12 +173,12 @@ export function TariffListScreen(): JSX.Element {
 									);
 								}
 							}}
-							renderItem={(item: Tariff) => {
+							renderItem={(tariff: Tariff) => {
 								return (
 									<View style={styles.itemBody}>
 										<View>
 											<CardImage
-												tariff={item}
+												tariff={tariff}
 												width={60}
 												hideFallBackText={true}
 											/>
@@ -189,14 +189,14 @@ export function TariffListScreen(): JSX.Element {
 												ellipsizeMode="tail"
 												numberOfLines={2}
 											>
-												{item.name}
+												{tariff.name}
 											</Text>
 											<Text
 												style={styles.providerText}
 												ellipsizeMode="tail"
 												numberOfLines={1}
 											>
-												{item.providerName}
+												{tariff.providerName}
 											</Text>
 										</View>
 									</View>

@@ -28,7 +28,6 @@ import { LicenseView } from "./screens/thirdpartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffListScreen } from "./screens/tariffListScreen";
 
-
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -120,7 +119,7 @@ function SettingsStackNavigator(): JSX.Element {
 	return (
 		<EinstellungenStack.Navigator>
 			<EinstellungenStack.Screen
-				name="Einstellungen"
+				name="aboutScreen"
 				component={AboutScreen}
 				options={modalHeader}
 			/>

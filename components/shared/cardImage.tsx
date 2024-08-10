@@ -1,4 +1,4 @@
-import { authHeader } from "../../functions/api/base";
+import { apiUrl, authHeader } from "../../functions/api/base";
 import { Tariff } from "../../types/tariff";
 import {
 	View,
@@ -29,6 +29,10 @@ export function CardImage({
 	style: styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
+
+	if (hideFallBackText && !tariff?.imageUrl) {
+		tariff.imageUrl = `${apiUrl}/images/generic/lf_user_tariff.jpg`;
+	}
 	return (
 		<View
 			style={{
@@ -42,12 +46,14 @@ export function CardImage({
 				<FallBack tariff={tariff} hideFallBackText={hideFallBackText} />
 			) : (
 				<Image
-					onError={() => setImageError(true)}
+					onError={() => {
+						setImageError(true);
+					}}
 					source={{
 						uri: tariff.imageUrl,
 						...authHeader,
 					}}
-					style={{ ...styles.cardImage }}
+					style={styles.cardImage}
 				/>
 			)}
 		</View>
@@ -61,6 +67,24 @@ function FallBack({
 	tariff: Tariff;
 	hideFallBackText: boolean;
 }): JSX.Element {
+	// if (hideFallBackText) {
+	// 	return (
+	// 		<View
+	// 			style={[
+	// 				styles.fallbackContainer,
+	// 				{ justifyContent: "center", alignItems: "center" },
+	// 			]}
+	// 		>
+	// 			<Image
+	// 				source={require("@assets/blitz.png")}
+	// 				resizeMethod={"scale"}
+	// 				fadeDuration={0}
+	// 				style={{ height: scale(22), width: scale(22) }}
+	// 			/>
+	// 		</View>
+	// 	);
+	// }
+
 	return (
 		<View style={styles.fallbackContainer}>
 			{!hideFallBackText && (
@@ -69,7 +93,7 @@ function FallBack({
 				</Text>
 			)}
 			<Image
-				source={require("@assets/blitz.png")}
+				source={require("@assets/generic/blitz.png")}
 				resizeMethod={"scale"}
 				fadeDuration={0}
 				style={styles.fallbackImage}
@@ -104,6 +128,7 @@ const styles = StyleSheet.create({
 	cardImage: {
 		...card,
 		width: "100%",
+		height: "100%",
 	},
 	priceText: {
 		fontSize: 25,

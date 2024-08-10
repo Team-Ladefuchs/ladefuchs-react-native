@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
 	SectionList,
 	StyleProp,
@@ -81,38 +81,40 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 							}
 						}}
 						onOpenAction={() => setCurrentOpenItem({ ...item })}
-						isOpen={item.identifier === currentOpenItem?.identifier}
-						item={
-							<TouchableWithoutFeedback
-								onPress={() => setCurrentOpenItem(null)}
-							>
-								<View style={[styles.item, containerStyle]}>
-									<TouchableOpacity
-										activeOpacity={0.9}
-										style={styles.buttonTouchTarget}
-										onPress={() =>
-											itemExist
-												? setCurrentOpenItem(item)
-												: onAdd(item)
-										}
-									>
-										{itemExist ? (
-											<RemoveCircle
-												height={editButtonSize}
-												width={editButtonSize}
-											/>
-										) : (
-											<AddCircle
-												height={editButtonSize}
-												width={editButtonSize}
-											/>
-										)}
-									</TouchableOpacity>
-									{renderItem(item)}
-								</View>
-							</TouchableWithoutFeedback>
-						}
-					/>
+						// isOpen={item.identifier === currentOpenItem?.identifier}
+					>
+						<TouchableWithoutFeedback
+							onPress={() => setCurrentOpenItem(null)}
+						>
+							<View style={[styles.item, containerStyle]}>
+								<TouchableOpacity
+									activeOpacity={0.9}
+									style={styles.buttonTouchTarget}
+									onPress={() =>
+										itemExist
+											? setCurrentOpenItem(item)
+											: onAdd(item)
+									}
+								>
+									{itemExist ? (
+										<RemoveCircle
+											style={{
+												opacity: 0,
+											}}
+											height={editButtonSize}
+											width={editButtonSize}
+										/>
+									) : (
+										<AddCircle
+											height={editButtonSize}
+											width={editButtonSize}
+										/>
+									)}
+								</TouchableOpacity>
+								{renderItem(item)}
+							</View>
+						</TouchableWithoutFeedback>
+					</SwipeItem>
 				);
 			},
 		[sections, currentOpenItem, exists],

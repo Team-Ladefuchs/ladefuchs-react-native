@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { scale } from "react-native-size-matters";
 import { Operator } from "../../types/operator";
-import { authHeader } from "../../functions/api/base";
+import { apiUrl, authHeader } from "../../functions/api/base";
 import { Image, View, Text } from "react-native";
 import { hyphenText } from "../../functions/util";
 
@@ -12,7 +12,7 @@ interface Props {
 	hideFallBackText?: boolean;
 }
 
-const fallBack = require("@assets/cpo_generic.png");
+const fallBack = require("@assets/generic/cpo_generic.png");
 
 export function OperatorImage({
 	operator,
@@ -21,6 +21,11 @@ export function OperatorImage({
 	hideFallBackText = false,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
+
+	if (hideFallBackText && !operator?.imageUrl) {
+		operator.imageUrl = `${apiUrl}/images/generic/cpo_generic_fuchs.png`;
+	}
+
 	let [operatorImage, setOperatorImage] = useState(
 		operator?.imageUrl
 			? { uri: operator?.imageUrl, ...authHeader }

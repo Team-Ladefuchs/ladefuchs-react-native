@@ -23,7 +23,7 @@ import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListHeaderFilter } from "./listheaderFilter";
+import { ListHeaderFilter } from "./listHeaderFilter";
 
 const itemHeight = 66;
 
@@ -147,16 +147,16 @@ export function OperatorListScreen(): JSX.Element {
 							itemHeight={itemHeight}
 							containerStyle={styles.listItemContainer}
 							data={filteredOperators}
-							onRemove={(item: Operator) => {
-								if (item.isStandard) {
+							onRemove={(operator: Operator) => {
+								if (operator.isStandard) {
 									setOperatorRemoveSet(
 										(prev) =>
-											new Set([item.identifier, ...prev]),
+											new Set([operator.identifier, ...prev]),
 									);
 								} else {
 									setOperatorAddSet((prev) => {
 										const newSet = new Set(prev);
-										newSet.delete(item.identifier);
+										newSet.delete(operator.identifier);
 										return newSet;
 									});
 								}

@@ -1,59 +1,83 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
+import Swipeable, {
+	SwipeableMethods,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
+import Reanimated, {
+	SharedValue,
+	useAnimatedStyle,
+} from "react-native-reanimated";
 import { ScaledSheet } from "react-native-size-matters";
 
+import TrashIcon from "@assets/generic/trash.svg";
+
 interface Props {
-	item: JSX.Element;
 	onDelete: () => void;
-	isOpen: boolean;
+	// isOpen: boolean;
 	onOpenAction: () => void;
 	disableAction: boolean;
 	onCloseAction: () => void;
+	children: React.ReactNode;
 }
 
 export function SwipeItem({
-	item,
 	onDelete,
-	isOpen,
 	onOpenAction,
 	disableAction,
 	onCloseAction,
+	children,
 }: Props): JSX.Element {
-	const swipeableRef = useRef<Swipeable>(null);
+	// const swipeableRef = useRef<SwipeableMethods>(null);
+	const [width, setWidth] = useState(0);
 
-	useEffect(() => {
-		if (isOpen) {
-			swipeableRef.current?.openRight();
-		} else {
-			swipeableRef.current?.close();
-		}
-	}, [isOpen, swipeableRef]);
+	// useEffect(() => {
+	// 	if (isOpen) {
+	// 		console.log("o", isOpen);
+	// 		swipeableRef.current?.openRight();
+	// 	}
+	// }, [isOpen]);
 
-	const renderRightActions = () => (
-		<TouchableOpacity
-			activeOpacity={1}
-			style={styles.rightActionContainer}
-			onPress={() => {
-				onDelete();
-				swipeableRef.current?.close();
-			}}
-		>
-			<Text style={styles.actionText}>Entfernen</Text>
-		</TouchableOpacity>
-	);
+	const renderRightActions = (
+		_prog: SharedValue<number>,
+		drag: SharedValue<number>,
+	) => {
+		const styleAnimation = useAnimatedStyle(() => ({
+			transform: [{ translateX: drag.value + width }],
+		}));
+
+		return (
+			<Reanimated.View
+				onLayout={(event) => {
+					const { width } = event.nativeEvent.layout;
+					setWidth(width);
+				}}
+				style={[styles.rightActionContainer, styleAnimation]}
+			>
+				<TouchableOpacity
+					activeOpacity={0.8}
+					onPress={() => {
+						onDelete();
+					}}
+					style={styles.trashIcon}
+				>
+					<TrashIcon />
+				</TouchableOpacity>
+			</Reanimated.View>
+		);
+	};
 
 	if (!disableAction) {
-		return <View>{item}</View>;
+		return <View>{children}</View>;
 	}
 	return (
 		<Swipeable
-			ref={swipeableRef}
 			renderRightActions={renderRightActions}
 			onSwipeableOpen={onOpenAction}
-			// onSwipeableClose={onCloseAction}
+			// friction={2}
+			rightThreshold={30}
+			onSwipeableClose={onCloseAction}
 		>
-			{item}
+			{children}
 		</Swipeable>
 	);
 }
@@ -63,8 +87,10 @@ const styles = ScaledSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "red",
-		borderRadius: 2,
-		padding: "8@s",
+	},
+	trashIcon: {
+		padding: "16@s",
+		paddingHorizontal: "24@s",
 	},
 	actionText: {
 		fontSize: "16@s",
