@@ -136,7 +136,7 @@ export function OperatorListScreen(): JSX.Element {
 
 			<View style={styles.listContainer}>
 				<SwipeList
-					estimatedItemSize={200}
+					estimatedItemSize={250}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
 					onRemove={(operator: Operator) => {
