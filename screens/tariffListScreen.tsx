@@ -24,7 +24,7 @@ import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListHeaderFilter } from "./listHeaderFilter";
+import { ListHeaderFilter } from "./listheaderFilter";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 

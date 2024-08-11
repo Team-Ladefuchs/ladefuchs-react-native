@@ -23,7 +23,7 @@ import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListHeaderFilter } from "./listHeaderFilter";
+import { ListHeaderFilter } from "./listheaderFilter";
 
 const itemHeight = 66;
 
