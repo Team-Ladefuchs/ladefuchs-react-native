@@ -7,7 +7,7 @@ import {
 	KeyboardProvider,
 } from "react-native-keyboard-controller";
 
-import { colors, styles as themeStyle } from "../theme";
+import { colors, styles, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
@@ -144,87 +144,81 @@ export function FeedbackView(): JSX.Element {
 			<KeyboardAwareScrollView
 				bottomOffset={scale(14)}
 				enabled={true}
-				style={{
-					backgroundColor: colors.ladefuchsLightBackground,
-					height: "100%",
-					paddingHorizontal: scale(16),
-				}}
+				style={feedbackStyle.keyboardView}
 			>
 				<View>
-					<View style={themeStyle.headerView}>
-						<Text style={themeStyle.headLine}>
-							Hast Du Futter für den Fuchs?
+					<Text style={themeStyle.headLine}>
+						Hast Du Futter für den Fuchs?
+					</Text>
+					<View>
+						<Text style={themeStyle.headerText}>
+							Sag uns was nicht stimmt!
 						</Text>
-						<View>
-							<Text style={themeStyle.headerText}>
-								Sag uns was nicht stimmt!
-							</Text>
-							<View style={feedbackthemeStyle.logosContainer}>
-								<DetailLogos
-									tariff={tariff}
-									operator={operator}
-								/>
-							</View>
+						<View style={feedbackStyle.logosContainer}>
+							<DetailLogos tariff={tariff} operator={operator} />
 						</View>
-						<View style={feedbackthemeStyle.priceBoxesContainer}>
-							<View style={feedbackthemeStyle.priceContainer}>
-								<PriceBox
-									editMode={true}
-									chargeMode={"ac"}
-									onIncrement={acPriceCounter.increment}
-									onDecrement={acPriceCounter.decrement}
-									price={acPriceCounter.value}
-									rounded={true}
-								/>
-							</View>
-							<View style={feedbackthemeStyle.priceContainer}>
-								<PriceBox
-									editMode={true}
-									onIncrement={dcPriceCounter.increment}
-									onDecrement={dcPriceCounter.decrement}
-									chargeMode={"dc"}
-									price={dcPriceCounter.value}
-									rounded={true}
-								/>
-							</View>
-						</View>
-						<View style={feedbackthemeStyle.noteContainer}>
-							<TextInput
-								style={feedbackthemeStyle.noteInput}
-								placeholder={notePlaceholder}
-								onFocus={() => setNotePlaceholder("")}
-								maxLength={maxNoteTextLength}
-								value={noteText}
-								placeholderTextColor={
-									colors.ladefuchsGrayTextColor
-								}
-								onBlur={() => {
-									if (!noteText) {
-										setNotePlaceholder(notePlaceholderText);
-									}
-								}}
-								onChangeText={setNoteText}
-								multiline
-								numberOfLines={6}
-							/>
-							<Text style={feedbackthemeStyle.charCount}>
-								{remainingCharacters} / {maxNoteTextLength}
-							</Text>
-						</View>
-
-						<LadefuchsButton
-							text={sendButtonText}
-							disabled={disableSendButton}
-							onPress={handleSubmit}
-						/>
 					</View>
+					<View style={feedbackStyle.priceBoxesContainer}>
+						<View style={feedbackStyle.priceContainer}>
+							<PriceBox
+								editMode={true}
+								chargeMode={"ac"}
+								onIncrement={acPriceCounter.increment}
+								onDecrement={acPriceCounter.decrement}
+								price={acPriceCounter.value}
+								rounded={true}
+							/>
+						</View>
+						<View style={feedbackStyle.priceContainer}>
+							<PriceBox
+								editMode={true}
+								onIncrement={dcPriceCounter.increment}
+								onDecrement={dcPriceCounter.decrement}
+								chargeMode={"dc"}
+								price={dcPriceCounter.value}
+								rounded={true}
+							/>
+						</View>
+					</View>
+					<View style={feedbackStyle.noteContainer}>
+						<TextInput
+							style={feedbackStyle.noteInput}
+							placeholder={notePlaceholder}
+							onFocus={() => setNotePlaceholder("")}
+							maxLength={maxNoteTextLength}
+							value={noteText}
+							placeholderTextColor={colors.ladefuchsGrayTextColor}
+							onBlur={() => {
+								if (!noteText) {
+									setNotePlaceholder(notePlaceholderText);
+								}
+							}}
+							onChangeText={setNoteText}
+							multiline
+							numberOfLines={6}
+						/>
+						<Text style={feedbackStyle.charCount}>
+							{remainingCharacters} / {maxNoteTextLength}
+						</Text>
+					</View>
+
+					<LadefuchsButton
+						text={sendButtonText}
+						disabled={disableSendButton}
+						onPress={handleSubmit}
+					/>
 				</View>
 			</KeyboardAwareScrollView>
 		</KeyboardProvider>
 	);
 }
 
-const feedbackthemeStyle = ScaledSheet.create({
+const feedbackStyle = ScaledSheet.create({
+	keyboardView: {
+		backgroundColor: colors.ladefuchsLightBackground,
+		height: "100%",
+		padding: scale(16),
+	},
 	logosContainer: {
 		justifyContent: "center",
 		alignItems: "center",
