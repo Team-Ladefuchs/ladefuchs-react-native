@@ -4,8 +4,6 @@ import {
 	Text,
 	KeyboardAvoidingView,
 	Platform,
-	Keyboard,
-	TouchableWithoutFeedback,
 	Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -24,11 +22,10 @@ import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListHeaderFilter } from "./listheaderFilter";
+import { ListerFilerHeader } from "./listFilerHeader";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
-
-const itemHeight = 61;
+// 61
 
 type filerType = "all" | "ownTariffs";
 
@@ -96,7 +93,7 @@ export function TariffListScreen(): JSX.Element {
 				tariff.providerName.toLowerCase().includes(term)
 			);
 		});
-	}, [search, allTariffsQuery.data, filterMode, tariffsAdd]);
+	}, [search, allTariffsQuery.data, filterMode, tariffsAdd, tariffsRemove]);
 
 	const handleTariffReset = () => {
 		Alert.alert(
@@ -121,21 +118,21 @@ export function TariffListScreen(): JSX.Element {
 
 	return (
 		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			behavior={Platform.OS === "ios" ? "height" : undefined}
 			style={styles.container}
-			keyboardVerticalOffset={scale(100)} // Adjust this value as needed
+			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
-			<ListHeaderFilter onReset={handleTariffReset}>
+			<ListerFilerHeader onReset={handleTariffReset}>
 				<TabButtonGroup
 					tabs={tabs}
 					onSelected={(item) => {
 						setFilterMode(item.key);
 					}}
 				/>
-			</ListHeaderFilter>
+			</ListerFilerHeader>
 			<View style={styles.listContainer}>
 				<SwipeList
-					itemHeight={itemHeight}
+					estimatedItemSize={300}
 					containerStyle={styles.listItemContainer}
 					data={filteredTariffs}
 					onRemove={(tariff: Tariff) => {
@@ -218,7 +215,7 @@ const styles = ScaledSheet.create({
 	listItemContainer: {
 		paddingLeft: "10@s",
 		paddingRight: "16@s",
-		height: `${itemHeight}@s`,
+		height: `80@s`,
 		gap: "7@s",
 	},
 	itemBody: {

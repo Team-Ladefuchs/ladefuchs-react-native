@@ -1,19 +1,20 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import {
-	SectionList,
 	StyleProp,
 	TouchableWithoutFeedback,
 	View,
 	Text,
 	ViewStyle,
 	TouchableOpacity,
-	Platform,
 } from "react-native";
+
+import { FlashList } from "@shopify/flash-list";
 import AddCircle from "@assets/addRemove/add_circle_fill.svg";
 import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SwipeItem } from "./swipeItem";
 import { colors } from "../../theme";
+import { Swipeable } from "react-native-gesture-handler";
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -22,12 +23,7 @@ interface Props<T extends { identifier: string }> {
 	renderItem: (item: T) => JSX.Element;
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
-	itemHeight: number;
-}
-
-interface Section<T> {
-	title: string;
-	data: T[];
+	estimatedItemSize: number;
 }
 
 const isLetter = /[a-zA-Z]/;
@@ -39,110 +35,119 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	exists,
 	renderItem,
 	containerStyle,
-	itemHeight,
+	estimatedItemSize,
 }: Props<T>) {
-	const [currentOpenItem, setCurrentOpenItem] = useState<T | null>(null);
-	const editButtonSize = scale(22);
-	const sections: Section<T>[] = useMemo(() => {
-		const sectionMap = data.reduce((acc, item) => {
-			let firstLetter = item.name.charAt(0).toUpperCase();
-			if (!isLetter.test(firstLetter)) {
-				firstLetter = "#";
-			}
-			if (!acc[firstLetter]) {
-				acc[firstLetter] = {
-					title: firstLetter,
-					data: [],
-				} satisfies Section<T>;
-			}
-			acc[firstLetter].data.push(item);
-			return acc;
-		}, {});
+	const itemsRef = useRef<Swipeable[]>([]);
 
-		return Object.values(sectionMap);
+	const editButtonSize = scale(22);
+	const sections = useMemo(() => {
+		const sectionMap = data.reduce(
+			(acc, item) => {
+				let firstLetter = item.name.charAt(0).toUpperCase();
+				if (!isLetter.test(firstLetter)) {
+					firstLetter = "#";
+				}
+				if (!acc[firstLetter]) {
+					acc[firstLetter] = [];
+					acc[firstLetter].push(firstLetter);
+				}
+				acc[firstLetter].push(item);
+				return acc;
+			},
+			{} as Record<string, (string | T)[]>,
+		);
+
+		return Object.values(sectionMap).flat();
 	}, [data]);
 
-	const getItemLayout = (_: any, index: number) => ({
-		length: scale(itemHeight), // Adjust this to the actual item height
-		offset: scale(itemHeight) * index,
-		index,
-	});
+	const renderItemCallback = ({ item, index }) => {
+		if (typeof item === "string") {
+			// Rendering header
+			return <Text style={styles.separatorHeader}>{item}</Text>;
+		}
 
-	const renderItemCallback = useMemo(
-		() =>
-			({ item }) => {
-				const itemExist = exists(item);
-				return (
-					<SwipeItem
-						onDelete={() => onRemove(item)}
-						disableAction={itemExist}
-						onOpenAction={() => setCurrentOpenItem({ ...item })}
-						isOpen={item.identifier === currentOpenItem?.identifier}
-					>
-						<TouchableWithoutFeedback
-							onPress={() => setCurrentOpenItem(null)}
+		const itemExist = exists(item);
+		return (
+			<SwipeItem
+				ref={(el) => (itemsRef.current[index] = el)}
+				onDelete={() => onRemove(item)}
+			>
+				<TouchableWithoutFeedback hitSlop={scale(12)}>
+					<View style={[styles.item, containerStyle]}>
+						<TouchableOpacity
+							activeOpacity={0.9}
+							style={styles.buttonTouchTarget}
+							hitSlop={scale(10)}
+							onPress={() => {
+								itemExist
+									? itemsRef.current[index].openRight()
+									: onAdd(item);
+							}}
 						>
-							<View style={[styles.item, containerStyle]}>
-								<TouchableOpacity
-									activeOpacity={0.9}
-									style={styles.buttonTouchTarget}
-									onPress={() =>
-										itemExist
-											? setCurrentOpenItem(item)
-											: onAdd(item)
-									}
-								>
-									{itemExist ? (
-										<RemoveCircle
-											height={editButtonSize}
-											width={editButtonSize}
-										/>
-									) : (
-										<AddCircle
-											height={editButtonSize}
-											width={editButtonSize}
-										/>
-									)}
-								</TouchableOpacity>
-								{renderItem(item)}
-							</View>
-						</TouchableWithoutFeedback>
-					</SwipeItem>
-				);
-			},
-		[sections, currentOpenItem, exists],
-	);
+							{itemExist ? (
+								<RemoveCircle
+									height={editButtonSize}
+									width={editButtonSize}
+								/>
+							) : (
+								<AddCircle
+									height={editButtonSize}
+									width={editButtonSize}
+								/>
+							)}
+						</TouchableOpacity>
+						{renderItem(item)}
+					</View>
+				</TouchableWithoutFeedback>
+			</SwipeItem>
+		);
+	};
 	return (
-		<View>
+		<View
+			style={{
+				height: 300,
+				flex: 1,
+			}}
+		>
 			<View style={styles.separatorHeaderContainer} />
-			<SectionList
-				initialNumToRender={16}
-				maxToRenderPerBatch={60}
-				windowSize={100}
-				stickySectionHeadersEnabled={true}
-				sections={sections}
+			<FlashList
+				getItemType={(item) => {
+					return typeof item === "string" ? "sectionHeader" : "row";
+				}}
+				estimatedItemSize={estimatedItemSize}
+				ItemSeparatorComponent={SeparatorItem}
+				data={sections}
+				stickyHeaderHiddenOnScroll={false}
+				stickyHeaderIndices={
+					sections
+						.map((item, index) => {
+							return typeof item === "string" ? index : null;
+						})
+						.filter((item) => item !== null) as number[]
+				}
 				ListEmptyComponent={() => (
-					<Text style={styles.emptyListStyle}>
-						Hier gibt es nichts zu sehen, bitte laden Sie weiter. 🦊
-					</Text>
+					<View style={styles.emptyListStyle}>
+						<Text style={styles.emptyListTextStyle}>
+							Hier gibt es nichts zu sehen,
+						</Text>
+						<Text style={styles.emptyListTextStyle}>
+							bitte laden Sie weiter. 🦊
+						</Text>
+					</View>
 				)}
-				ItemSeparatorComponent={() => (
-					<View style={styles.itemSeparator} />
-				)}
-				renderSectionHeader={({ section: { title } }) => (
-					<Text style={styles.separatorHeader}>{title}</Text>
-				)}
-				getItemLayout={getItemLayout}
 				renderItem={renderItemCallback}
-				keyExtractor={(item) => item.identifier}
 			/>
 		</View>
 	);
 }
 
+function SeparatorItem() {
+	return <View style={styles.itemSeparator} />;
+}
+
 const styles = ScaledSheet.create({
 	buttonTouchTarget: {
-		padding: "7@s",
+		marginRight: "8@s",
 	},
 	separatorHeaderContainer: {
 		borderTopColor: colors.ladefuchsDarkGrayBackground,
@@ -162,12 +167,15 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 	},
 	emptyListStyle: {
-		fontWeight: "bold",
 		color: colors.ladefuchsGrayTextColor,
+		marginHorizontal: "16@s",
+		marginTop: "38@s",
+	},
+	emptyListTextStyle: {
 		fontStyle: "italic",
 		textAlign: "center",
 		fontSize: "15@s",
-		marginTop: "38@s",
+		fontWeight: "bold",
 	},
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,

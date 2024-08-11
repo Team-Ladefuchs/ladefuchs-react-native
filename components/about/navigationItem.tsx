@@ -2,7 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { styles } from "../../theme";
 import { useNavigation } from "@react-navigation/native";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
 interface Props {
 	title: string;
@@ -18,34 +18,31 @@ export function NavigationItem({
 	const navigation = useNavigation();
 
 	return (
-		<View>
-			<TouchableOpacity
-				activeOpacity={0.6}
-				onPress={() => {
-					// @ts-ignore
-					navigation.navigate(screenKey);
+		<TouchableOpacity
+			activeOpacity={0.6}
+			hitSlop={scale(10)}
+			onPress={async () => {
+				// @ts-ignore
+				await navigation.navigate(screenKey);
+			}}
+		>
+			<View
+				style={{
+					flexDirection: "row",
+					alignItems: "center",
 				}}
 			>
-				<View
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-					}}
-				>
-					<View style={{ flex: 1 }}>
-						<Text style={styles.headLine}>
-							{title.toUpperCase()}
+				<View style={{ flex: 1 }}>
+					<Text style={styles.headLine}>{title.toUpperCase()}</Text>
+					{description && (
+						<Text style={navigationItemStyle.descriptionText}>
+							{description}
 						</Text>
-						{description && (
-							<Text style={navigationItemStyle.descriptionText}>
-								{description}
-							</Text>
-						)}
-					</View>
-					<Text style={styles.arrow}>›</Text>
+					)}
 				</View>
-			</TouchableOpacity>
-		</View>
+				<Text style={styles.arrow}>›</Text>
+			</View>
+		</TouchableOpacity>
 	);
 }
 

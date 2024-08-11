@@ -20,9 +20,10 @@ export function CloseButton({
 		<TouchableOpacity
 			activeOpacity={0.6}
 			onPress={onPress}
+			hitSlop={scale(10)}
 			style={{
 				...style,
-				padding: 4,
+				// padding: 4,
 			}}
 		>
 			<View

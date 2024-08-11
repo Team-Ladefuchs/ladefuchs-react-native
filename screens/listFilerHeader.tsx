@@ -9,7 +9,7 @@ interface ListHeaderProps {
 	onReset: () => void;
 }
 
-export function ListHeaderFilter({
+export function ListerFilerHeader({
 	children,
 	onReset,
 }: ListHeaderProps): JSX.Element {
@@ -25,6 +25,7 @@ export function ListHeaderFilter({
 			<View style={{ flex: 2 }}>{children}</View>
 			<TouchableOpacity
 				onPress={onReset}
+				hitSlop={scale(8)}
 				activeOpacity={0.8}
 				style={{
 					backgroundColor: colors.ladefuchsOrange,

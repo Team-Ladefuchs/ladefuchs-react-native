@@ -53,7 +53,6 @@ export function useCustomTariffsOperators() {
 	);
 
 	async function saveCustomTariffs(tariffs: CustomTariff): Promise<void> {
-		console.log("saveCustomTariffs", tariffs);
 		const newValue = {
 			...current,
 			tariffs,

@@ -26,10 +26,6 @@ export function SearchInput({ setSearch, placeHolder }: Props): JSX.Element {
 }
 
 const styles = ScaledSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: colors.ladefuchsLightBackground,
-	},
 	searchContainer: {
 		shadowColor: "#000",
 		shadowOffset: { width: 0, height: -2 },

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, Animated, Platform } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "../../theme";
 
 export interface TabItem<T> {
@@ -41,7 +41,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 					style={[
 						styles.animatedBackground,
 						{
-							width: tabWidths.current[activeTab] || 0,
+							width: tabWidths.current[activeTab] || "50%",
 							transform: [{ translateX }],
 						},
 					]}
@@ -49,6 +49,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 				{tabs.map((tabItem, index) => (
 					<TouchableOpacity
 						activeOpacity={0.9}
+						hitSlop={scale(10)}
 						style={[
 							styles.tab,
 							activeTab === index && styles.activeTab,

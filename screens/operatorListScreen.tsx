@@ -23,9 +23,7 @@ import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListHeaderFilter } from "./listheaderFilter";
-
-const itemHeight = 66;
+import { ListerFilerHeader } from "./listFilerHeader";
 
 type filerType = "all" | "ownOperators";
 
@@ -92,7 +90,13 @@ export function OperatorListScreen(): JSX.Element {
 				operator.name.toLowerCase().includes(search.toLowerCase()),
 			) ?? []
 		);
-	}, [search, allOperatorsQuery.data, filterMode, operatorRemoveSet]);
+	}, [
+		search,
+		allOperatorsQuery.data,
+		filterMode,
+		operatorAddSet,
+		operatorRemoveSet,
+	]);
 
 	const handleOperatorReset = () => {
 		Alert.alert(
@@ -117,22 +121,22 @@ export function OperatorListScreen(): JSX.Element {
 
 	return (
 		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			behavior={Platform.OS === "ios" ? "height" : undefined}
 			style={styles.container}
-			keyboardVerticalOffset={scale(100)} // Adjust this value as needed
+			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
-			<ListHeaderFilter onReset={handleOperatorReset}>
+			<ListerFilerHeader onReset={handleOperatorReset}>
 				<TabButtonGroup
 					tabs={tabs}
 					onSelected={(item) => {
 						setFilterMode(item.key);
 					}}
 				/>
-			</ListHeaderFilter>
+			</ListerFilerHeader>
 
 			<View style={styles.listContainer}>
 				<SwipeList
-					itemHeight={itemHeight}
+					estimatedItemSize={200}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
 					onRemove={(operator: Operator) => {
@@ -198,7 +202,7 @@ const styles = ScaledSheet.create({
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
 		paddingRight: "36@s",
-		height: `${itemHeight}@s`,
+		height: `66@s`,
 		display: "flex",
 		gap: "6@s",
 	},

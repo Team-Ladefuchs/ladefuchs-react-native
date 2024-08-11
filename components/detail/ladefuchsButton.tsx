@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity, Platform } from "react-native";
 import { colors } from "../../theme";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
 export function LadefuchsButton({
 	onPress,
@@ -15,6 +15,7 @@ export function LadefuchsButton({
 	return (
 		<TouchableOpacity
 			activeOpacity={0.8}
+			hitSlop={scale(8)}
 			disabled={disabled}
 			style={[styles.button, disabled && styles.disabledButton]}
 			onPress={onPress}

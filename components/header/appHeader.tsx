@@ -30,6 +30,7 @@ export function AppHeader(): JSX.Element {
 					await Linking.openURL("https://chargeprice.app")
 				}
 				activeOpacity={0.6}
+				hitSlop={scale(5)}
 				style={styles.headerWrapperChargepriceIcon}
 			>
 				<ChargepriceButton
@@ -48,9 +49,10 @@ export function AppHeader(): JSX.Element {
 			</View>
 			<TouchableOpacity
 				activeOpacity={0.6}
-				onPress={() => {
+				hitSlop={scale(10)}
+				onPress={async () => {
 					//@ts-ignore
-					navigation.navigate("EinstellungenStack");
+					await navigation.navigate("EinstellungenStack");
 				}}
 				style={styles.headerSettingsIcon}
 			>

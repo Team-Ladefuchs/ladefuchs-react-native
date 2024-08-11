@@ -1,67 +1,53 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, forwardRef, Ref } from "react";
 import { TouchableOpacity, View } from "react-native";
-
 import { ScaledSheet } from "react-native-size-matters";
-
 import TrashIcon from "@assets/generic/trash.svg";
 import { Swipeable } from "react-native-gesture-handler";
 
 interface Props {
 	onDelete: () => void;
-	isOpen: boolean;
-	onOpenAction: () => void;
-	disableAction: boolean;
 	children: React.ReactNode;
 }
 
-export function SwipeItem({
-	onDelete,
-	onOpenAction,
-	disableAction,
-	children,
-	isOpen,
-}: Props): JSX.Element {
-	const swipeableRef = useRef<Swipeable>();
+// Forward ref to the Swipeable component
+export const SwipeItem = forwardRef<Swipeable, Props>(
+	({ onDelete, children }: Props, ref: Ref<Swipeable>) => {
+		const swipeableRef = useRef<Swipeable>(null);
 
-	useEffect(() => {
-		if (isOpen) {
-			swipeableRef.current?.openRight();
-		} else {
-			swipeableRef.current?.close();
-		}
-	}, [isOpen]);
+		const renderRightActions = () => {
+			return (
+				<View style={styles.rightActionContainer}>
+					<TouchableOpacity
+						activeOpacity={0.8}
+						onPress={() => {
+							onDelete();
+							swipeableRef.current.close();
+						}}
+						style={styles.trashIcon}
+					>
+						<TrashIcon />
+					</TouchableOpacity>
+				</View>
+			);
+		};
 
-	const renderRightActions = () => {
 		return (
-			<View style={styles.rightActionContainer}>
-				<TouchableOpacity
-					activeOpacity={0.8}
-					onPress={() => {
-						onDelete();
-					}}
-					style={styles.trashIcon}
-				>
-					<TrashIcon />
-				</TouchableOpacity>
-			</View>
+			<Swipeable
+				ref={(node) => {
+					swipeableRef.current = node;
+					if (typeof ref === "function") {
+						ref(node);
+					}
+				}}
+				renderRightActions={renderRightActions}
+				friction={1}
+				rightThreshold={10}
+			>
+				{children}
+			</Swipeable>
 		);
-	};
-
-	if (!disableAction) {
-		return <View>{children}</View>;
-	}
-	return (
-		<Swipeable
-			ref={swipeableRef}
-			renderRightActions={renderRightActions}
-			onSwipeableOpen={onOpenAction}
-			friction={1}
-			rightThreshold={10}
-		>
-			{children}
-		</Swipeable>
-	);
-}
+	},
+);
 
 const styles = ScaledSheet.create({
 	rightActionContainer: {

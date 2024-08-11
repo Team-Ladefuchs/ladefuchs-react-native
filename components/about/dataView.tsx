@@ -13,6 +13,7 @@ export function DatenView(): JSX.Element {
 			</Text>
 			<TouchableOpacity
 				activeOpacity={0.9}
+				hitSlop={scale(10)}
 				onPress={async () =>
 					await Linking.openURL("https://www.chargeprice.app")
 				}

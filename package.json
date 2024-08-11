@@ -38,7 +38,8 @@
     "react-native-svg-transformer": "^1.5.0",
     "react-native-toast-message": "^2.2.0",
     "react-native-wheely": "^0.6.0",
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.4",
+    "@shopify/flash-list": "1.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "../../theme";
 
 interface FeedbackButtonProps {
@@ -10,7 +10,11 @@ interface FeedbackButtonProps {
 export function FeedbackButton({ onPress }: FeedbackButtonProps): JSX.Element {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+			<TouchableOpacity
+				activeOpacity={0.8}
+				onPress={onPress}
+				hitSlop={scale(10)}
+			>
 				<Text style={[styles.underlinedText]}>
 					{"Preise/Infos falsch?"}
 				</Text>

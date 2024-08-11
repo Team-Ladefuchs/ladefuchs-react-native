@@ -34,7 +34,7 @@ export function PriceModifyButton({
 		setIntervalId(
 			setInterval(() => {
 				onPress();
-			}, delayMs)
+			}, delayMs),
 		);
 	};
 
@@ -46,6 +46,7 @@ export function PriceModifyButton({
 	return (
 		<TouchableOpacity
 			activeOpacity={0.8}
+			hitSlop={scale(8)}
 			style={style.button}
 			onPress={onPress}
 			onPressIn={handlePressIn}

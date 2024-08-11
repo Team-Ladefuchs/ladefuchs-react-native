@@ -67,24 +67,6 @@ function FallBack({
 	tariff: Tariff;
 	hideFallBackText: boolean;
 }): JSX.Element {
-	// if (hideFallBackText) {
-	// 	return (
-	// 		<View
-	// 			style={[
-	// 				styles.fallbackContainer,
-	// 				{ justifyContent: "center", alignItems: "center" },
-	// 			]}
-	// 		>
-	// 			<Image
-	// 				source={require("@assets/blitz.png")}
-	// 				resizeMethod={"scale"}
-	// 				fadeDuration={0}
-	// 				style={{ height: scale(22), width: scale(22) }}
-	// 			/>
-	// 		</View>
-	// 	);
-	// }
-
 	return (
 		<View style={styles.fallbackContainer}>
 			{!hideFallBackText && (
