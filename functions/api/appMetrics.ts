@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { retrieveFromStorage, saveToStorage } from "../../state/storage";
+import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 import {
 	AppMetricCache,
 	AppMetricsRequest,

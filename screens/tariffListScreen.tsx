@@ -123,95 +123,82 @@ export function TariffListScreen(): JSX.Element {
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 			style={styles.container}
-			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
+			keyboardVerticalOffset={scale(100)} // Adjust this value as needed
 		>
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View style={{ flex: 1 }}>
-					<ListHeaderFilter onReset={handleTariffReset}>
-						<TabButtonGroup
-							tabs={tabs}
-							onSelected={(item) => {
-								setFilterMode(item.key);
-							}}
-						/>
-					</ListHeaderFilter>
-					<View style={styles.listContainer}>
-						<SwipeList
-							itemHeight={itemHeight}
-							containerStyle={styles.listItemContainer}
-							data={filteredTariffs}
-							onRemove={(tariff: Tariff) => {
-								if (tariff.isStandard) {
-									setTariffsRemove(
-										(prev) =>
-											new Set([
-												tariff.identifier,
-												...prev,
-											]),
-									);
-								} else {
-									setTariffsAdd((prevSet) => {
-										const newSet = new Set(prevSet);
-										newSet.delete(tariff.identifier);
-										return newSet;
-									});
-								}
-							}}
-							onAdd={(tariff: Tariff) => {
-								if (tariff.isStandard) {
-									setTariffsRemove((prevSet) => {
-										const newSet = new Set(prevSet);
-										newSet.delete(tariff.identifier);
-										return newSet;
-									});
-								} else {
-									setTariffsAdd(
-										(prev) =>
-											new Set([
-												tariff.identifier,
-												...prev,
-											]),
-									);
-								}
-							}}
-							renderItem={(tariff: Tariff) => {
-								return (
-									<View style={styles.itemBody}>
-										<View>
-											<CardImage
-												tariff={tariff}
-												width={60}
-												hideFallBackText={true}
-											/>
-										</View>
-										<View>
-											<Text
-												style={styles.tariffText}
-												ellipsizeMode="tail"
-												numberOfLines={2}
-											>
-												{tariff.name}
-											</Text>
-											<Text
-												style={styles.providerText}
-												ellipsizeMode="tail"
-												numberOfLines={1}
-											>
-												{tariff.providerName}
-											</Text>
-										</View>
-									</View>
-								);
-							}}
-							exists={(item: Tariff) =>
-								tariffsAdd.has(item.identifier) ||
-								(item.isStandard &&
-									!tariffsRemove.has(item.identifier))
-							}
-						/>
-					</View>
-				</View>
-			</TouchableWithoutFeedback>
+			<ListHeaderFilter onReset={handleTariffReset}>
+				<TabButtonGroup
+					tabs={tabs}
+					onSelected={(item) => {
+						setFilterMode(item.key);
+					}}
+				/>
+			</ListHeaderFilter>
+			<View style={styles.listContainer}>
+				<SwipeList
+					itemHeight={itemHeight}
+					containerStyle={styles.listItemContainer}
+					data={filteredTariffs}
+					onRemove={(tariff: Tariff) => {
+						if (tariff.isStandard) {
+							setTariffsRemove(
+								(prev) => new Set([tariff.identifier, ...prev]),
+							);
+						} else {
+							setTariffsAdd((prevSet) => {
+								const newSet = new Set(prevSet);
+								newSet.delete(tariff.identifier);
+								return newSet;
+							});
+						}
+					}}
+					onAdd={(tariff: Tariff) => {
+						if (tariff.isStandard) {
+							setTariffsRemove((prevSet) => {
+								const newSet = new Set(prevSet);
+								newSet.delete(tariff.identifier);
+								return newSet;
+							});
+						} else {
+							setTariffsAdd(
+								(prev) => new Set([tariff.identifier, ...prev]),
+							);
+						}
+					}}
+					renderItem={(tariff: Tariff) => {
+						return (
+							<View style={styles.itemBody}>
+								<View>
+									<CardImage
+										tariff={tariff}
+										width={60}
+										hideFallBackText={true}
+									/>
+								</View>
+								<View>
+									<Text
+										style={styles.tariffText}
+										ellipsizeMode="tail"
+										numberOfLines={2}
+									>
+										{tariff.name}
+									</Text>
+									<Text
+										style={styles.providerText}
+										ellipsizeMode="tail"
+										numberOfLines={1}
+									>
+										{tariff.providerName}
+									</Text>
+								</View>
+							</View>
+						);
+					}}
+					exists={(item: Tariff) =>
+						tariffsAdd.has(item.identifier) ||
+						(item.isStandard && !tariffsRemove.has(item.identifier))
+					}
+				/>
+			</View>
 			<SearchInput setSearch={setSearch} placeHolder="Suche" />
 		</KeyboardAvoidingView>
 	);

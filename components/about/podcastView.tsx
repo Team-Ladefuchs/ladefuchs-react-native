@@ -1,45 +1,46 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
+// dont use svg use png, or jpg
 import Audiodump from "@assets/podcast/podcast_audiodump.svg"; // Ensure this path is correct
 import MalikFM from "@assets/podcast/podcast_malik-fm.svg"; // Ensure this path is correct
 import BitsundSo from "@assets/podcast/podcast_bitsundso.svg"; // Ensure this path is correct
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 
+const podcasts = [
+	{ link: "https://audiodump.de", icon: Audiodump },
+	{ link: "https://malik.fm", icon: MalikFM },
+	{ link: "https://bitsundso.de", icon: BitsundSo },
+];
+
 export function PodcastView(): JSX.Element {
-	const touchOpacity = 1;
 	const size = scale(80);
 	return (
-		<View style={styles.headerView}>
+		<View
+			style={{
+				paddingBottom: scale(4),
+			}}
+		>
 			<Text style={styles.headLine}>PODCASTFUCHS</Text>
-			<Text style={styles.sponsorText}>
+			<Text style={styles.italicText}>
 				Abonnieren Sie, sonst ist der Fuchs ganz traurig.
 			</Text>
-			<View style={{ flexDirection: "row", columnGap: scale(10) }}>
-				<TouchableOpacity
-					activeOpacity={touchOpacity}
-					onPress={async () =>
-						await Linking.openURL("https://audiodump.de")
-					}
-				>
-					<Audiodump width={size} height={size} />
-				</TouchableOpacity>
-				<TouchableOpacity
-					activeOpacity={touchOpacity}
-					onPress={async () =>
-						await Linking.openURL("https://malik.fm")
-					}
-				>
-					<MalikFM width={size} height={size} />
-				</TouchableOpacity>
-				<TouchableOpacity
-					activeOpacity={touchOpacity}
-					onPress={async () =>
-						await Linking.openURL("https://bitsundso.de")
-					}
-				>
-					<BitsundSo width={size} height={size} />
-				</TouchableOpacity>
+			<View
+				style={{
+					flexDirection: "row",
+					columnGap: scale(10),
+					marginTop: scale(12),
+				}}
+			>
+				{podcasts.map(({ link, icon: Icon }) => (
+					<TouchableOpacity
+						key={link}
+						activeOpacity={0.9}
+						onPress={async () => await Linking.openURL(link)}
+					>
+						<Icon width={size} height={size} />
+					</TouchableOpacity>
+				))}
 			</View>
 		</View>
 	);

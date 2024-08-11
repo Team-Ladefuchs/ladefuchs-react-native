@@ -1,4 +1,4 @@
-import { retrieveFromStorage } from "../../state/storage";
+import { retrieveFromStorage } from "./storage";
 import { ChargingCondition } from "../../types/conditions";
 import { Operator } from "../../types/operator";
 import { Tariff } from "../../types/tariff";

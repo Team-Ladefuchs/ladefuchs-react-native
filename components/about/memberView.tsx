@@ -5,13 +5,15 @@ import {
 	Image,
 	TouchableWithoutFeedback,
 	Linking,
+	ImageSourcePropType,
 } from "react-native";
 import { styles as appStyle } from "../../theme";
 import MailIcon from "@assets/about/icon_mail.svg";
 import MastodonIcon from "@assets/about/icon_mastodon.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
+import { SvgProps } from "react-native-svg";
 
-const members = [
+const activeMember = [
 	{
 		name: "MALIK",
 		role: "Designfuchs",
@@ -29,41 +31,6 @@ const members = [
 			},
 		],
 	},
-	{
-		name: "BASTI SCHLINGEL",
-		role: "Androidfuchs",
-		imageSource: require("@assets/team/team_basti.jpg"),
-		links: [
-			{
-				text: "@schlingel",
-				url: "https://mastodon.social/@schlingel",
-				icon: MastodonIcon,
-			},
-			{
-				text: "android@ladefuchs.app",
-				url: "mailto:android@ladefuchs.app",
-				icon: MailIcon,
-			},
-		],
-	},
-	{
-		name: "FLOWINHO",
-		role: "APFELfuchs",
-		imageSource: require("@assets/team/team_flow.jpg"),
-		links: [
-			{
-				text: "@flowinho",
-				url: "https://chaos.social/@flowinho",
-				icon: MastodonIcon,
-			},
-			{
-				text: "ios@ladefuchs.app",
-				url: "mailto:ios@ladefuchs.app",
-				icon: MailIcon,
-			},
-		],
-	},
-
 	{
 		name: "DOMINIC",
 		role: "APIfuchs",
@@ -98,6 +65,9 @@ const members = [
 			},
 		],
 	},
+];
+
+const veteranMember = [
 	{
 		name: "RODDI",
 		role: "iOSfuchs",
@@ -125,6 +95,18 @@ const members = [
 				url: "",
 				icon: MastodonIcon,
 			},
+		],
+	},
+	{
+		name: "BASTI SCHLINGEL",
+		role: "Androidfuchs",
+		imageSource: require("@assets/team/team_basti.jpg"),
+		links: [
+			{
+				text: "@schlingel",
+				url: "https://mastodon.social/@schlingel",
+				icon: MastodonIcon,
+			},
 			{
 				text: "android@ladefuchs.app",
 				url: "mailto:android@ladefuchs.app",
@@ -132,23 +114,63 @@ const members = [
 			},
 		],
 	},
+	{
+		name: "FLOWINHO",
+		role: "APFELfuchs",
+		imageSource: require("@assets/team/team_flow.jpg"),
+		links: [
+			{
+				text: "@flowinho",
+				url: "https://chaos.social/@flowinho",
+				icon: MastodonIcon,
+			},
+			{
+				text: "",
+				url: "",
+			},
+		],
+	},
 ];
+
+interface Link {
+	text: string;
+	url: string;
+	icon?: React.FC<SvgProps>;
+}
+
+interface TeamMember {
+	name: string;
+	role: string;
+	imageSource: ImageSourcePropType;
+	links: Link[];
+}
+
+interface Props {
+	items: TeamMember[];
+}
 
 export function MemberView(): JSX.Element {
 	return (
-		<>
-			{members.map((member, index) => (
-				<View
-					key={index}
-					style={{
-						flexDirection: "row",
-						gap: scale(20),
-						alignContent: "center",
-						alignItems: "center",
-						paddingHorizontal: scale(2),
-						paddingVertical: scale(10),
-					}}
-				>
+		<View>
+			<Text style={appStyle.headLine}>TEAMFUCHS</Text>
+			<Text style={appStyle.headerText}>
+				Wir sind schuld. Wirklich! Trotzdem alle Angaben ohne Gewähr.
+			</Text>
+			<MemberList items={activeMember} />
+			<View style={[appStyle.line]} />
+			<Text style={[appStyle.headLine, { marginTop: scale(6) }]}>
+				VETERANE
+			</Text>
+			<MemberList items={veteranMember} />
+		</View>
+	);
+}
+
+export function MemberList({ items }: Props): JSX.Element {
+	return (
+		<View>
+			{items.map((member, index) => (
+				<View key={index} style={styles.memberItem}>
 					<Image
 						style={styles.memberImage}
 						source={member.imageSource}
@@ -156,12 +178,12 @@ export function MemberView(): JSX.Element {
 					<View>
 						<Text style={appStyle.headLine}>{member.name}</Text>
 						<Text style={styles.memberText}>{member.role}</Text>
-						{member.links.map((line, idx) =>
-							line.text && line.url ? (
+						{member.links.map(({ text, url, icon: Icon }, idx) =>
+							text && url ? (
 								<TouchableWithoutFeedback
 									key={idx}
 									onPress={async () =>
-										await Linking.openURL(line.url)
+										await Linking.openURL(url)
 									}
 								>
 									<View
@@ -170,22 +192,15 @@ export function MemberView(): JSX.Element {
 											alignItems: "center",
 										}}
 									>
-										<line.icon
+										<Icon
 											width={scale(20)}
 											height={scale(20)}
 											style={{
 												marginRight: 5,
 											}}
 										/>
-										<Text
-											style={{
-												fontFamily: "Bitter",
-												fontSize: scale(13),
-												lineHeight: scale(20),
-												paddingVertical: 3,
-											}}
-										>
-											{line.text}
+										<Text style={styles.memberLink}>
+											{text}
 										</Text>
 									</View>
 								</TouchableWithoutFeedback>
@@ -194,7 +209,7 @@ export function MemberView(): JSX.Element {
 					</View>
 				</View>
 			))}
-		</>
+		</View>
 	);
 }
 
@@ -209,5 +224,19 @@ const styles = ScaledSheet.create({
 		fontFamily: "Bitter",
 		fontSize: "13@s",
 		lineHeight: "20@s",
+	},
+	memberLink: {
+		fontFamily: "Bitter",
+		fontSize: scale(13),
+		lineHeight: scale(20),
+		paddingVertical: 3,
+	},
+	memberItem: {
+		flexDirection: "row",
+		gap: scale(20),
+		alignContent: "center",
+		alignItems: "center",
+		paddingHorizontal: scale(2),
+		paddingVertical: scale(10),
 	},
 });

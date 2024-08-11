@@ -1,5 +1,8 @@
 import { useCallback, useState } from "react";
-import { retrieveFromStorage, saveToStorage } from "../state/storage";
+import {
+	retrieveFromStorage,
+	saveToStorage,
+} from "../functions/storage/storage";
 import { useFocusEffect } from "@react-navigation/native";
 
 export interface CustomTariff {

@@ -7,14 +7,15 @@ import { Impressum } from "../components/about/impressum";
 import { MemberView } from "../components/about/memberView";
 import { AppFooter } from "../components/about/footerView";
 import { Illustration } from "../components/about/illuView";
-import { Teamfuchs } from "../components/about/headerView";
-import { LicenseView } from "../components/about/licenses";
 import { NavigationItem } from "../components/about/navigationItem";
-import { scale } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
-export function AboutScreen() {
+export function SettingsScreen() {
 	return (
-		<ScrollView style={styles.scrollView} bounces>
+		<ScrollView
+			style={[styles.scrollView, settingsStyle.container]}
+			bounces
+		>
 			<View style={{ marginTop: scale(14), marginBottom: scale(2) }}>
 				<NavigationItem
 					title="Meine Ladetarife"
@@ -29,18 +30,30 @@ export function AboutScreen() {
 				/>
 				<View style={styles.line} />
 			</View>
-			<Teamfuchs />
-			<MemberView />
-			<DatenView />
-			<PodcastView />
-			<Illustration />
-			<Impressum />
-			<NavigationItem
-				title="Drittlizenzen"
-				screenKey="Drittlizenzen"
-				description="placeholder..."
-			/>
-			<AppFooter />
+			<View style={settingsStyle.innerContainer}>
+				<MemberView />
+				<DatenView />
+				<PodcastView />
+				<Illustration />
+				<Impressum />
+				<NavigationItem
+					title="Drittlizenzen"
+					screenKey="Drittlizenzen"
+					description="Der Blick unter die Haube 🚗"
+				/>
+				<AppFooter />
+			</View>
 		</ScrollView>
 	);
 }
+const settingsStyle = ScaledSheet.create({
+	container: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	innerContainer: {
+		marginTop: "14@s",
+		paddingBottom: "14@s",
+		gap: "20@s",
+	},
+});

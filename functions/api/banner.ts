@@ -2,13 +2,9 @@ import { Platform } from "react-native";
 import { LadefuchsBanner, Banner, ImpressionRequest } from "../../types/banner";
 import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout, isDebug } from "../util";
-import { BannerData } from "../../state/state";
+import { BannerData, getBannerType } from "../../state/state";
 import { storageSet } from "../storage/chargeConditionStorage";
-import {
-	getBannerType,
-	retrieveFromStorage,
-	saveToStorage,
-} from "../../state/storage";
+import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
@@ -86,6 +82,7 @@ export async function getBanners({
 		const offlineData = await retrieveFromStorage<BannerData>(
 			storageSet.banners,
 		);
+
 		if (!offlineData) {
 			throw new Error("The Api is maybe down");
 		}

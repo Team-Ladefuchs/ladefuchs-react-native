@@ -1,5 +1,4 @@
 import { ChargeConditionData } from "../../state/state";
-import { saveToStorage } from "../../state/storage";
 import {
 	ChargeMode,
 	ChargingCondition,
@@ -19,6 +18,7 @@ import {
 import { fetchOperatorCustom } from "./operator";
 import { fetchTariffsCustom } from "./tariff";
 import { getCustomTariffsOperators } from "../../hooks/useCustomTariffsOperators";
+import { saveToStorage } from "../storage/storage";
 
 export async function fetchChargingConditions(requestBody: {
 	tariffIds: string[];

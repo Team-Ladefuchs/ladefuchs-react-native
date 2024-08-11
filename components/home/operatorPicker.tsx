@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
@@ -13,9 +13,10 @@ export default function OperatorPicker(): JSX.Element {
 			operators: state.operators,
 			operatorId: state.operatorId,
 			setOperatorId: state.setOperatorId,
-		}))
+		})),
 	);
 
+	const [operatorA, setOperatorA] = useState([]);
 	const [operatorIndex, setOperatorIndex] = useState(0);
 
 	const operatorList = useMemo(() => {
@@ -30,6 +31,7 @@ export default function OperatorPicker(): JSX.Element {
 	}
 
 	if (Platform.OS === "android") {
+		const optionLabels = operatorList?.map((item) => item.name);
 		return (
 			<View
 				style={{
@@ -39,13 +41,14 @@ export default function OperatorPicker(): JSX.Element {
 				}}
 			>
 				<WheelPicker
-					options={operatorList?.map((item) => item.name)}
+					options={optionLabels}
 					itemTextStyle={{
 						fontSize: scale(21),
 					}}
 					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
 					selectedIndex={operatorIndex}
 					itemHeight={41}
+					key={optionLabels.join("")}
 					decelerationRate={"fast"}
 					onChange={(index) => {
 						setOperatorId(operators[index].identifier);

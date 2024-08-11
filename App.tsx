@@ -3,7 +3,7 @@ import { AppState, AppStateStatus, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { AboutScreen } from "./screens/about";
+import { SettingsScreen } from "./screens/settings";
 import { HomeScreen } from "./screens/home";
 import { colors } from "./theme";
 import { AppHeader } from "./components/header/appHeader";
@@ -120,7 +120,7 @@ function SettingsStackNavigator(): JSX.Element {
 		<EinstellungenStack.Navigator>
 			<EinstellungenStack.Screen
 				name="Einstellungen"
-				component={AboutScreen}
+				component={SettingsScreen}
 				options={modalHeader}
 			/>
 			<EinstellungenStack.Screen

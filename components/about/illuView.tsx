@@ -4,9 +4,9 @@ import { styles } from "../../theme";
 
 export function Illustration() {
 	return (
-		<View style={styles.headerView}>
+		<View>
 			<Text style={styles.headLine}>ILLUFÜCHSE</Text>
-			<Text style={styles.sponsorText}>
+			<Text style={styles.italicText}>
 				Illustriert mit ❤️ von Aga und Marcel-André
 			</Text>
 		</View>

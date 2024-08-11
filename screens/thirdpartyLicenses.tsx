@@ -38,6 +38,7 @@ export function LicenseView(): JSX.Element {
 	return (
 		<View style={styles.screen}>
 			<FlatList
+				style={styles.list}
 				data={Object.entries(licenses)}
 				keyExtractor={(item) => item[0]}
 				renderItem={renderItem}
@@ -49,8 +50,10 @@ export function LicenseView(): JSX.Element {
 
 const styles = ScaledSheet.create({
 	screen: {
-		paddingBottom: "32@s",
 		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	list: {
+		marginBottom: "32@s",
 	},
 	itemContainer: {
 		gap: 2,

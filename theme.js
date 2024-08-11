@@ -26,28 +26,25 @@ const styles = ScaledSheet.create({
 		paddingHorizontal: "20@s",
 		flex: 1,
 	},
-	headerView: {
-		paddingVertical: "12@s",
-	},
+
 	headLine: {
 		color: colors.ladefuchsOrange,
 		fontFamily: "Roboto",
 		fontSize: "18@s",
-		marginBottom: "3@s",
+		marginBottom: "10@s",
 	},
 	headerText: {
 		color: "black",
 		fontFamily: "Bitter",
 		lineHeight: "20@s",
 	},
-	sponsorText: {
+	italicText: {
 		color: "black",
 		fontFamily: "Bitter",
-		fontSize: "15@s",
+		fontSize: "14@s",
 		lineHeight: "20@s",
-		paddingBottom: "15@s",
 	},
-	sponsorTextLink: {
+	italicTextLink: {
 		color: "#f45c2d",
 		fontFamily: "Bitter",
 		fontSize: "15@s",

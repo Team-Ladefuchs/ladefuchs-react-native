@@ -67,16 +67,6 @@ export function OperatorListScreen(): JSX.Element {
 		setOperatorRemoveSet(new Set(customOperators.remove));
 	}, [customOperators]);
 
-	useEffect(() => {
-		if (isDebug) {
-			console.log(
-				"Operators",
-				Array.from(operatorAddSet),
-				Array.from(operatorRemoveSet),
-			);
-		}
-	}, [operatorAddSet, operatorRemoveSet]);
-
 	const allOperatorsQuery = useQuery({
 		queryKey: ["AllOperators"],
 		gcTime: getMinutes(30),
@@ -129,79 +119,71 @@ export function OperatorListScreen(): JSX.Element {
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 			style={styles.container}
-			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
+			keyboardVerticalOffset={scale(100)} // Adjust this value as needed
 		>
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View style={{ flex: 1 }}>
-					<ListHeaderFilter onReset={handleOperatorReset}>
-						<TabButtonGroup
-							tabs={tabs}
-							onSelected={(item) => {
-								setFilterMode(item.key);
-							}}
-						/>
-					</ListHeaderFilter>
+			<ListHeaderFilter onReset={handleOperatorReset}>
+				<TabButtonGroup
+					tabs={tabs}
+					onSelected={(item) => {
+						setFilterMode(item.key);
+					}}
+				/>
+			</ListHeaderFilter>
 
-					<View style={styles.listContainer}>
-						<SwipeList
-							itemHeight={itemHeight}
-							containerStyle={styles.listItemContainer}
-							data={filteredOperators}
-							onRemove={(operator: Operator) => {
-								if (operator.isStandard) {
-									setOperatorRemoveSet(
-										(prev) =>
-											new Set([operator.identifier, ...prev]),
-									);
-								} else {
-									setOperatorAddSet((prev) => {
-										const newSet = new Set(prev);
-										newSet.delete(operator.identifier);
-										return newSet;
-									});
-								}
-							}}
-							onAdd={(item: Operator) => {
-								if (item.isStandard) {
-									setOperatorRemoveSet((prev) => {
-										const newSet = new Set(prev);
-										newSet.delete(item.identifier);
-										return newSet;
-									});
-								} else {
-									setOperatorAddSet(
-										(prev) =>
-											new Set([item.identifier, ...prev]),
-									);
-								}
-							}}
-							renderItem={(item: Operator) => {
-								return (
-									<View style={styles.itemBody}>
-										<OperatorImage
-											operator={item}
-											height={50}
-											width={72}
-											hideFallBackText={true}
-										/>
-										<Text
-											style={styles.itemText}
-											numberOfLines={2}
-										>
-											{item.name}
-										</Text>
-									</View>
-								);
-							}}
-							exists={(item: Operator) =>
-								(operatorAddSet.has(item.identifier) ||
-									item.isStandard) &&
-								!operatorRemoveSet.has(item.identifier)
-							}
-						/>
-					</View>
-				</View>
-			</TouchableWithoutFeedback>
+			<View style={styles.listContainer}>
+				<SwipeList
+					itemHeight={itemHeight}
+					containerStyle={styles.listItemContainer}
+					data={filteredOperators}
+					onRemove={(operator: Operator) => {
+						if (operator.isStandard) {
+							setOperatorRemoveSet(
+								(prev) =>
+									new Set([operator.identifier, ...prev]),
+							);
+						} else {
+							setOperatorAddSet((prev) => {
+								const newSet = new Set(prev);
+								newSet.delete(operator.identifier);
+								return newSet;
+							});
+						}
+					}}
+					onAdd={(item: Operator) => {
+						if (item.isStandard) {
+							setOperatorRemoveSet((prev) => {
+								const newSet = new Set(prev);
+								newSet.delete(item.identifier);
+								return newSet;
+							});
+						} else {
+							setOperatorAddSet(
+								(prev) => new Set([item.identifier, ...prev]),
+							);
+						}
+					}}
+					renderItem={(item: Operator) => {
+						return (
+							<View style={styles.itemBody}>
+								<OperatorImage
+									operator={item}
+									height={50}
+									width={72}
+									hideFallBackText={true}
+								/>
+								<Text style={styles.itemText} numberOfLines={2}>
+									{item.name}
+								</Text>
+							</View>
+						);
+					}}
+					exists={(item: Operator) =>
+						(operatorAddSet.has(item.identifier) ||
+							item.isStandard) &&
+						!operatorRemoveSet.has(item.identifier)
+					}
+				/>
+			</View>
 			<SearchInput setSearch={setSearch} placeHolder="Suche" />
 		</KeyboardAvoidingView>
 	);

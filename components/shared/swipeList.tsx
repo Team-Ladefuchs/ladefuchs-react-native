@@ -7,6 +7,7 @@ import {
 	Text,
 	ViewStyle,
 	TouchableOpacity,
+	Platform,
 } from "react-native";
 import AddCircle from "@assets/addRemove/add_circle_fill.svg";
 import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
