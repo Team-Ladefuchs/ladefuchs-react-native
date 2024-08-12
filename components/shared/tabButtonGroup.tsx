@@ -76,7 +76,6 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 const styles = ScaledSheet.create({
 	container: {
 		justifyContent: "center",
-		marginHorizontal: "14@s",
 	},
 	tabContainer: {
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
@@ -84,7 +83,6 @@ const styles = ScaledSheet.create({
 		paddingVertical: "3@s",
 		paddingHorizontal: "4@s",
 		borderRadius: "12@s",
-		// opacity: 0.9,
 		position: "relative",
 	},
 	animatedBackground: {

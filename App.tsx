@@ -27,6 +27,7 @@ import { useAopMetrics } from "./hooks/useAppMetrics";
 import { ThirdPartyLicenses } from "./screens/thirdPartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffListScreen } from "./screens/tariffListScreen";
+import { appRoutes } from "./appRoutes";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
@@ -119,28 +120,28 @@ function SettingsStackNavigator(): JSX.Element {
 	return (
 		<EinstellungenStack.Navigator>
 			<EinstellungenStack.Screen
-				name="Einstellungen"
+				name={appRoutes.settings.key}
 				component={SettingsScreen}
 				options={modalHeader}
 			/>
 			<EinstellungenStack.Screen
-				name="customOperators"
+				name={appRoutes.customerOperator.key}
 				component={OperatorListScreen}
 				options={() => ({
 					...normalHeader(),
-					title: "Meine Stromanbieter",
+					title: appRoutes.customerOperator.title,
 				})}
 			/>
 			<EinstellungenStack.Screen
-				name="customTariffs"
+				name={appRoutes.customTariffs.key}
 				component={TariffListScreen}
 				options={() => ({
 					...normalHeader(),
-					title: "Meine Ladetarife",
+					title: appRoutes.customTariffs.title,
 				})}
 			/>
 			<EinstellungenStack.Screen
-				name="Drittlizenzen"
+				name={appRoutes.eula.title}
 				component={ThirdPartyLicenses}
 				options={normalHeader}
 			/>

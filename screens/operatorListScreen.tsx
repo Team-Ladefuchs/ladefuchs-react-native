@@ -21,7 +21,7 @@ import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListerFilerHeader } from "./listFilerHeader";
+import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 
 type filerType = "all" | "ownOperators";
 
@@ -29,7 +29,7 @@ const itemHeight = scale(66);
 
 const tabs = [
 	{ key: "all", label: "Alle" },
-	{ key: "ownOperators", label: "Meine Anbieter" },
+	{ key: "ownOperators", label: "Meine Auswahl" },
 ] satisfies TabItem<filerType>[];
 
 export function OperatorListScreen(): JSX.Element {
@@ -125,14 +125,14 @@ export function OperatorListScreen(): JSX.Element {
 			style={styles.container}
 			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
-			<ListerFilerHeader onReset={handleOperatorReset}>
+			<ListerFilterHeader onReset={handleOperatorReset}>
 				<TabButtonGroup
 					tabs={tabs}
 					onSelected={(item) => {
 						setFilterMode(item.key);
 					}}
 				/>
-			</ListerFilerHeader>
+			</ListerFilterHeader>
 
 			<View style={styles.listContainer}>
 				<SwipeList

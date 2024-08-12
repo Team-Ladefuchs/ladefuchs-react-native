@@ -9,6 +9,7 @@ import { AppFooter } from "../components/about/footerView";
 import { Illustration } from "../components/about/illuView";
 import { NavigationItem } from "../components/about/navigationItem";
 import { ScaledSheet, scale } from "react-native-size-matters";
+import { appRoutes } from "../appRoutes";
 
 export function SettingsScreen() {
 	return (
@@ -18,15 +19,15 @@ export function SettingsScreen() {
 		>
 			<View style={{ marginTop: scale(14) }}>
 				<NavigationItem
-					title="Meine Ladetarife"
+					title={appRoutes.customTariffs.title}
 					description="Bei welchem Anbieter von Stromtarifen (EMP) bist du Kunde?"
-					screenKey="customTariffs"
+					screenKey={appRoutes.customTariffs.key}
 				/>
 				<View style={styles.line} />
 				<NavigationItem
-					title="Meine Stromanbieter"
+					title={appRoutes.customerOperator.title}
 					description="Für welchen Ladesäulen-Anbieter (CPO) möchtest du einen Preisvergleich sehen?"
-					screenKey="customOperators"
+					screenKey={appRoutes.customerOperator.key}
 				/>
 				<View style={styles.line} />
 			</View>
@@ -37,8 +38,8 @@ export function SettingsScreen() {
 				<Illustration />
 				<Impressum />
 				<NavigationItem
-					title="Drittlizenzen"
-					screenKey="Drittlizenzen"
+					title={appRoutes.eula.title}
+					screenKey={appRoutes.eula.key}
 					description="Der Blick unter die Haube 🚗"
 				/>
 				<AppFooter />

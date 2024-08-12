@@ -22,7 +22,7 @@ import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
-import { ListerFilerHeader } from "./listFilerHeader";
+import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -32,7 +32,7 @@ type filerType = "all" | "ownTariffs";
 
 const tabs = [
 	{ key: "all", label: "Alle" },
-	{ key: "ownTariffs", label: "Meine Tarife" },
+	{ key: "ownTariffs", label: "Meine Auswahl" },
 ] satisfies TabItem<filerType>[];
 
 export function TariffListScreen(): JSX.Element {
@@ -123,14 +123,14 @@ export function TariffListScreen(): JSX.Element {
 			style={styles.container}
 			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
-			<ListerFilerHeader onReset={handleTariffReset}>
+			<ListerFilterHeader onReset={handleTariffReset}>
 				<TabButtonGroup
 					tabs={tabs}
 					onSelected={(item) => {
 						setFilterMode(item.key);
 					}}
 				/>
-			</ListerFilerHeader>
+			</ListerFilterHeader>
 			<View style={styles.listContainer}>
 				<SwipeList
 					estimatedItemSize={itemHeight}
