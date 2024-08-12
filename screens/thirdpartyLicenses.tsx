@@ -1,20 +1,31 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, Text, FlatList, Linking, TouchableOpacity } from "react-native";
 
 import licenses from "@assets/licenses.json";
 import { ScaledSheet } from "react-native-size-matters";
 import { colors } from "../theme";
 
-export function LicenseView(): JSX.Element {
-	const renderItem = ({ item }) => {
+interface LicenseInfo {
+	repository: string;
+	licenses: string;
+}
+
+export function ThirdPartyLicenses(): JSX.Element {
+	const renderItem = ({ item }: { item: [string, LicenseInfo] }) => {
 		const [packageName, licenseInfo] = item;
-		const [name, version] = packageName.split("@");
+
+		const slugName = () => {
+			const parts = packageName.split("@");
+			if (packageName.startsWith("@")) {
+				return parts[1];
+			}
+			return parts[0];
+		};
 		return (
 			<View style={styles.item}>
 				{licenseInfo.repository && (
 					<View>
-						<Text style={styles.name}>{name}</Text>
-						<Text style={styles.version}>Version: {version}</Text>
+						<Text style={styles.name}>{slugName()}</Text>
 						<Text style={styles.license}>
 							License: {licenseInfo.licenses}
 						</Text>
@@ -53,7 +64,8 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	list: {
-		marginBottom: "32@s",
+		paddingTop: "16@s",
+		marginBottom: "24@s",
 	},
 	itemContainer: {
 		gap: 2,

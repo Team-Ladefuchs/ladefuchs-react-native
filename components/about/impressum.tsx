@@ -16,7 +16,11 @@ export function Impressum() {
 					await Linking.openURL("mailto:ios@ladefuchs.app")
 				}
 			>
-				<Text style={styles.italicTextLink}>ios@ladefuchs.app</Text>
+				<Text style={[styles.italicTextLink]}>
+					{"\n"}
+					ios@ladefuchs.app
+					{"\n"}
+				</Text>
 			</TouchableWithoutFeedback>
 			<Text style={styles.italicText}>
 				Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:

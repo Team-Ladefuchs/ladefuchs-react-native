@@ -4,8 +4,6 @@ import {
 	Text,
 	KeyboardAvoidingView,
 	Platform,
-	Keyboard,
-	TouchableWithoutFeedback,
 	Alert,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
@@ -20,12 +18,14 @@ import { Operator } from "../types/operator";
 import { useFetchAppData } from "../hooks/usefetchAppData";
 import { fetchOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
-import { getMinutes, isDebug } from "../functions/util";
+import { getMinutes } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilerHeader } from "./listFilerHeader";
 
 type filerType = "all" | "ownOperators";
+
+const itemHeight = scale(66);
 
 const tabs = [
 	{ key: "all", label: "Alle" },
@@ -136,7 +136,7 @@ export function OperatorListScreen(): JSX.Element {
 
 			<View style={styles.listContainer}>
 				<SwipeList
-					estimatedItemSize={250}
+					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
 					onRemove={(operator: Operator) => {
@@ -202,7 +202,7 @@ const styles = ScaledSheet.create({
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
 		paddingRight: "36@s",
-		height: `66@s`,
+		height: itemHeight,
 		display: "flex",
 		gap: "6@s",
 	},

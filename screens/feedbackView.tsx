@@ -7,7 +7,7 @@ import {
 	KeyboardProvider,
 } from "react-native-keyboard-controller";
 
-import { colors, styles, styles as themeStyle } from "../theme";
+import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";

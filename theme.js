@@ -41,15 +41,12 @@ const styles = ScaledSheet.create({
 	italicText: {
 		color: "black",
 		fontFamily: "Bitter",
-		fontSize: "14@s",
 		lineHeight: "20@s",
 	},
 	italicTextLink: {
 		color: "#f45c2d",
 		fontFamily: "Bitter",
-		fontSize: "15@s",
 		lineHeight: "20@s",
-		paddingBottom: "15@s",
 	},
 	arrow: {
 		fontSize: "40@s",

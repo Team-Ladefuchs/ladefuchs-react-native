@@ -16,7 +16,7 @@ export function SettingsScreen() {
 			style={[styles.scrollView, settingsStyle.container]}
 			bounces
 		>
-			<View style={{ marginTop: scale(14), marginBottom: scale(2) }}>
+			<View style={{ marginTop: scale(14) }}>
 				<NavigationItem
 					title="Meine Ladetarife"
 					description="Bei welchem Anbieter von Stromtarifen (EMP) bist du Kunde?"

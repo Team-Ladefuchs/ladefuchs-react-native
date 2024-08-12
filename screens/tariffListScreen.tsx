@@ -25,7 +25,8 @@ import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilerHeader } from "./listFilerHeader";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
-// 61
+
+const itemHeight = scale(61);
 
 type filerType = "all" | "ownTariffs";
 
@@ -132,7 +133,7 @@ export function TariffListScreen(): JSX.Element {
 			</ListerFilerHeader>
 			<View style={styles.listContainer}>
 				<SwipeList
-					estimatedItemSize={300}
+					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredTariffs}
 					onRemove={(tariff: Tariff) => {
@@ -215,7 +216,7 @@ const styles = ScaledSheet.create({
 	listItemContainer: {
 		paddingLeft: "10@s",
 		paddingRight: "16@s",
-		height: `80@s`,
+		height: itemHeight,
 		gap: "7@s",
 	},
 	itemBody: {

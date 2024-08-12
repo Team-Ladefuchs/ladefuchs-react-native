@@ -24,7 +24,7 @@ import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
-import { LicenseView } from "./screens/thirdpartyLicenses";
+import { ThirdPartyLicenses } from "./screens/thirdPartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffListScreen } from "./screens/tariffListScreen";
 
@@ -141,7 +141,7 @@ function SettingsStackNavigator(): JSX.Element {
 			/>
 			<EinstellungenStack.Screen
 				name="Drittlizenzen"
-				component={LicenseView}
+				component={ThirdPartyLicenses}
 				options={normalHeader}
 			/>
 		</EinstellungenStack.Navigator>
