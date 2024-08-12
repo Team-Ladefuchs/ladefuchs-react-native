@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { scale } from "react-native-size-matters";
 import { Operator } from "../../types/operator";
 import { apiUrl, authHeader } from "../../functions/api/base";
