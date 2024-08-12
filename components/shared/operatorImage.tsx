@@ -26,25 +26,16 @@ export function OperatorImage({
 		operator.imageUrl = `${apiUrl}/images/generic/cpo_generic_fuchs.png`;
 	}
 
-	let [operatorImage, setOperatorImage] = useState(
-		operator?.imageUrl
-			? { uri: operator?.imageUrl, ...authHeader }
-			: fallBack,
-	);
-
-	useEffect(() => {
-		if (!imageError) {
-			return;
-		}
-		setOperatorImage(fallBack);
-	}, [imageError, setOperatorImage]);
-
 	const showFallBack = !operator?.imageUrl || imageError;
 
 	return (
 		<View style={{ position: "relative" }}>
 			<Image
-				source={operatorImage}
+				source={
+					operator?.imageUrl
+						? { uri: operator?.imageUrl, ...authHeader }
+						: fallBack
+				}
 				onError={() => setImageError(true)}
 				style={{
 					height: scale(height),

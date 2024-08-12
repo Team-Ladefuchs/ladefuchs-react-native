@@ -166,17 +166,17 @@ export function OperatorListScreen(): JSX.Element {
 							);
 						}
 					}}
-					renderItem={(item: Operator) => {
+					renderItem={(operator: Operator) => {
 						return (
 							<View style={styles.itemBody}>
 								<OperatorImage
-									operator={item}
+									operator={operator}
 									height={50}
 									width={72}
 									hideFallBackText={true}
 								/>
 								<Text style={styles.itemText} numberOfLines={2}>
-									{item.name}
+									{operator.name}
 								</Text>
 							</View>
 						);

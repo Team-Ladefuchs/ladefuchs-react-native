@@ -1,5 +1,12 @@
 import React, { useCallback } from "react";
-import { View, Text, FlatList, Linking, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	FlatList,
+	Linking,
+	TouchableOpacity,
+	SafeAreaView,
+} from "react-native";
 
 import licenses from "@assets/licenses.json";
 import { ScaledSheet } from "react-native-size-matters";
@@ -11,7 +18,14 @@ interface LicenseInfo {
 }
 
 export function ThirdPartyLicenses(): JSX.Element {
-	const renderItem = ({ item }: { item: [string, LicenseInfo] }) => {
+	const items = Object.entries(licenses);
+	const renderItem = ({
+		item,
+		index,
+	}: {
+		item: [string, LicenseInfo];
+		index: number;
+	}) => {
 		const [packageName, licenseInfo] = item;
 
 		const slugName = () => {
@@ -24,7 +38,9 @@ export function ThirdPartyLicenses(): JSX.Element {
 		return (
 			<View style={styles.item}>
 				{licenseInfo.repository && (
-					<View>
+					<View
+						style={[items.length - 1 === index && styles.lastItem]}
+					>
 						<Text style={styles.name}>{slugName()}</Text>
 						<Text style={styles.license}>
 							License: {licenseInfo.licenses}
@@ -47,15 +63,15 @@ export function ThirdPartyLicenses(): JSX.Element {
 	};
 
 	return (
-		<View style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			<FlatList
 				style={styles.list}
-				data={Object.entries(licenses)}
+				data={items}
 				keyExtractor={(item) => item[0]}
 				renderItem={renderItem}
 				contentContainerStyle={styles.itemContainer}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -65,7 +81,9 @@ const styles = ScaledSheet.create({
 	},
 	list: {
 		paddingTop: "16@s",
-		marginBottom: "24@s",
+	},
+	lastItem: {
+		marginBottom: "32@s",
 	},
 	itemContainer: {
 		gap: 2,

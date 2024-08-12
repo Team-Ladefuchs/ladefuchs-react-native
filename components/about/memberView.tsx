@@ -159,7 +159,7 @@ export function MemberView(): JSX.Element {
 			<MemberList items={activeMember} />
 			<View style={[appStyle.line]} />
 			<Text style={[appStyle.headLine, { marginTop: scale(6) }]}>
-				VETERANE
+				VETERANEN
 			</Text>
 			<MemberList items={veteranMember} />
 		</View>

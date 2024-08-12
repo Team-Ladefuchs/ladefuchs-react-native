@@ -2,9 +2,7 @@
 
 ```sh
 npm install
-npm i lottie-react-native
-npm install @react-native-picker/picker --save
-node generateLicenses.js
+npm run eula
 ```
 
 ## Create .env file
