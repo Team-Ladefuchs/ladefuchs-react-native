@@ -18,7 +18,7 @@ import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
 
 import { Tariff } from "../types/tariff";
-import { useFetchAppData } from "../hooks/usefetchAppData";
+import { useQueryAppData } from "../hooks/useQueryAppData";
 import { fetchTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
@@ -39,7 +39,7 @@ const tabs = [
 export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
-	const { allChargeConditionsQuery } = useFetchAppData();
+	const { allChargeConditionsQuery } = useQueryAppData();
 
 	const [tariffsAdd, setTariffsAdd] = useState<Set<string>>(new Set());
 	const [tariffsRemove, setTariffsRemove] = useState<Set<string>>(new Set());
@@ -66,7 +66,13 @@ export function TariffList(): JSX.Element {
 		});
 
 		return unsubscribe;
-	}, [navigator, tariffsAdd, tariffsRemove]);
+	}, [
+		navigator,
+		tariffsAdd,
+		tariffsRemove,
+		allChargeConditionsQuery,
+		saveCustomTariffs,
+	]);
 
 	const allTariffsQuery = useQuery({
 		queryKey: ["AllTariffs"],

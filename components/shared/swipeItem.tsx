@@ -12,7 +12,7 @@ interface Props {
 	children: React.ReactNode;
 }
 
-// Forward ref to the Swipeable component
+/* eslint-disable no-unused-expressions */
 export const SwipeItem = forwardRef<SwipeableMethods, Props>(
 	(
 		{ onDelete, children, disableSwipe }: Props,
@@ -44,7 +44,7 @@ export const SwipeItem = forwardRef<SwipeableMethods, Props>(
 		return (
 			<Swipeable
 				ref={(node) => {
-					swipeableRef.current = node;
+					// swipeableRef.current = node;
 					if (typeof ref === "function") {
 						ref(node);
 					}

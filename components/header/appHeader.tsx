@@ -14,6 +14,7 @@ import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
 import { scale } from "react-native-size-matters";
+import { appRoutes } from "../../appRoutes";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
@@ -51,8 +52,8 @@ export function AppHeader(): JSX.Element {
 				activeOpacity={0.6}
 				hitSlop={scale(10)}
 				onPress={async () => {
-					//@ts-ignore
-					await navigation.navigate("SettingsStack");
+					// @ts-ignore
+					await navigation.navigate(appRoutes.settingsStack.key);
 				}}
 				style={styles.headerSettingsIcon}
 			>

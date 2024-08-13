@@ -38,7 +38,6 @@
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
       },
-      "softwareKeyboardLayoutMode": "pan",
       "package": "app.ladefuchs.android"
     },
     "plugins": [

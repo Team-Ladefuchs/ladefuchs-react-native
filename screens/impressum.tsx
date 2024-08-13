@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback, Linking } from "react-native";
 import { colors, styles } from "../theme";
-import { ScaledSheet, scale } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 
 export function Impressum(): JSX.Element {
 	return (

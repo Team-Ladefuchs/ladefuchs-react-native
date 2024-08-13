@@ -7,6 +7,7 @@ import {
 	Platform,
 	Keyboard,
 	TouchableWithoutFeedback,
+	ScrollView,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -30,8 +31,6 @@ import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api/feedback";
 
 const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
-
-// Call the function with the route.params
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -145,12 +144,14 @@ export function FeedbackView(): JSX.Element {
 	return (
 		<KeyboardAvoidingView
 			style={feedbackStyle.keyboardView}
-			behavior={Platform.OS === "ios" ? "position" : "height"}
-			keyboardVerticalOffset={scale(-16)}
+			behavior={Platform.OS === "ios" ? "position" : "padding"}
+			keyboardVerticalOffset={scale(Platform.OS === "ios" ? -22 : 0)}
 		>
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-				<View>
-					<Text style={themeStyle.headLine}>
+				<ScrollView keyboardShouldPersistTaps="handled" bounces>
+					<Text
+						style={[themeStyle.headLine, { marginTop: scale(16) }]}
+					>
 						Hast Du Futter für den Fuchs?
 					</Text>
 					<View>
@@ -210,7 +211,7 @@ export function FeedbackView(): JSX.Element {
 						disabled={disableSendButton}
 						onPress={handleSubmit}
 					/>
-				</View>
+				</ScrollView>
 			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
 	);
@@ -220,7 +221,7 @@ const feedbackStyle = ScaledSheet.create({
 	keyboardView: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		height: "100%",
-		padding: "16@s",
+		paddingHorizontal: "16@s",
 	},
 	logosContainer: {
 		justifyContent: "center",

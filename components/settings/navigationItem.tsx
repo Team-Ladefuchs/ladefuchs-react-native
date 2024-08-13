@@ -26,12 +26,7 @@ export function NavigationItem({
 				await navigation.navigate(screenKey);
 			}}
 		>
-			<View
-				style={{
-					flexDirection: "row",
-					alignItems: "center",
-				}}
-			>
+			<View style={navigationItemStyle.container}>
 				<View style={{ flex: 1 }}>
 					<Text style={styles.headLine}>{title.toUpperCase()}</Text>
 					{description && (
@@ -47,6 +42,10 @@ export function NavigationItem({
 }
 
 const navigationItemStyle = ScaledSheet.create({
+	container: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
 	descriptionText: {
 		color: "black",
 		fontFamily: "Bitter",

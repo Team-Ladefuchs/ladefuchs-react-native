@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
-import { AppState, AppStateStatus, Platform } from "react-native";
+import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+	StackNavigationOptions,
+	createStackNavigator,
+} from "@react-navigation/stack";
 
 import { SettingsScreen } from "./screens/settings";
 import { HomeScreen } from "./screens/home";
@@ -18,7 +21,7 @@ import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
-import { useFetchAppData } from "./hooks/usefetchAppData";
+import { useQueryAppData } from "./hooks/useQueryAppData";
 import { useCustomFonts } from "./hooks/useCustomFonts";
 import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
@@ -33,7 +36,7 @@ import { Impressum } from "./screens/impressum";
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
-const EinstellungenStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
 
 // Main App component
 export default function App(): JSX.Element {
@@ -54,14 +57,14 @@ function AppWrapper(): JSX.Element {
 		return () => {
 			subscription.remove();
 		};
-	}, [onAppStateChange]);
+	}, []);
 
-	useFetchAppData();
+	useQueryAppData();
 	useAopMetrics();
 
 	const fontLoaded = useCustomFonts();
 	if (!fontLoaded) {
-		return null;
+		return <View></View>;
 	}
 
 	return (
@@ -80,11 +83,11 @@ function AppWrapper(): JSX.Element {
 				/>
 				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
-						name="detailScreen"
+						name={appRoutes.detailScreen.key}
 						component={DetailScreen}
 						options={({ navigation, route }: any) => ({
 							headerBackTitleVisible: false,
-							headerLeft: null,
+							headerLeft: undefined,
 							header: () => {
 								const tariff = route.params["tariff"] as Tariff;
 								return (
@@ -94,19 +97,24 @@ function AppWrapper(): JSX.Element {
 									/>
 								);
 							},
-							headerRight: null,
+							headerRight: undefined,
 							headerTitleStyle: {
 								display: "none",
 							},
 						})}
 					/>
 					<RootStack.Screen
-						name="Feedback"
+						name={appRoutes.feedback.key}
 						component={FeedbackView}
-						options={modalHeader}
+						options={({ navigation }) =>
+							modalHeader({
+								navigation,
+								title: appRoutes.feedback.title,
+							})
+						}
 					/>
 					<RootStack.Screen
-						name="SettingsStack"
+						name={appRoutes.settingsStack.key}
 						component={SettingsStackNavigator}
 						options={{ headerShown: false }}
 					/>
@@ -119,42 +127,41 @@ function AppWrapper(): JSX.Element {
 // Define the Einstellungen stack with nested screens
 function SettingsStackNavigator(): JSX.Element {
 	return (
-		<EinstellungenStack.Navigator>
-			<EinstellungenStack.Screen
+		<SettingsStack.Navigator>
+			<SettingsStack.Screen
 				name={appRoutes.settings.key}
 				component={SettingsScreen}
-				options={modalHeader}
+				options={({ navigation }) =>
+					modalHeader({ navigation, title: appRoutes.settings.title })
+				}
 			/>
-			<EinstellungenStack.Screen
+			<SettingsStack.Screen
 				name={appRoutes.customerOperator.key}
 				component={OperatorListScreen}
-				options={() => ({
-					...normalHeader(),
-					title: appRoutes.customerOperator.title,
-				})}
+				options={() =>
+					normalHeader({ title: appRoutes.customerOperator.title })
+				}
 			/>
-			<EinstellungenStack.Screen
+			<SettingsStack.Screen
 				name={appRoutes.customTariffs.key}
 				component={TariffList}
-				options={() => ({
-					...normalHeader(),
-					title: appRoutes.customTariffs.title,
-				})}
+				options={() =>
+					normalHeader({ title: appRoutes.customTariffs.title })
+				}
 			/>
-			<EinstellungenStack.Screen
+			<SettingsStack.Screen
 				name={appRoutes.impressum.key}
 				component={Impressum}
-				options={() => ({
-					...normalHeader(),
-					title: appRoutes.impressum.title,
-				})}
+				options={() =>
+					normalHeader({ title: appRoutes.impressum.title })
+				}
 			/>
-			<EinstellungenStack.Screen
-				name={appRoutes.eula.title}
+			<SettingsStack.Screen
+				name={appRoutes.eula.key}
 				component={ThirdPartyLicenses}
-				options={normalHeader}
+				options={() => normalHeader({ title: appRoutes.eula.title })}
 			/>
-		</EinstellungenStack.Navigator>
+		</SettingsStack.Navigator>
 	);
 }
 
@@ -164,9 +171,11 @@ function onAppStateChange(status: AppStateStatus) {
 	}
 }
 
-function normalHeader() {
+function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
 		headerBackTitle: "Zurück",
+		title,
+
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
@@ -174,10 +183,18 @@ function normalHeader() {
 	};
 }
 
-function modalHeader({ navigation }: { navigation: { goBack: () => void } }) {
+function modalHeader({
+	navigation,
+	title,
+}: {
+	navigation: { goBack: () => void };
+	title: string;
+}): StackNavigationOptions {
 	return {
 		headerBackTitleVisible: false,
+		// @ts-ignore null works
 		headerLeft: null,
+		title,
 		headerRight: () => (
 			<CloseButton
 				onPress={() => navigation.goBack()}

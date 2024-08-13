@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/state";
 import { useShallow } from "zustand/react/shallow";
@@ -16,7 +16,6 @@ export default function OperatorPicker(): JSX.Element {
 		})),
 	);
 
-	const [operatorA, setOperatorA] = useState([]);
 	const [operatorIndex, setOperatorIndex] = useState(0);
 
 	const operatorList = useMemo(() => {

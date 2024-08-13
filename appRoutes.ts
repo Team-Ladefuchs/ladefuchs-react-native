@@ -8,14 +8,21 @@ export const appRoutes = {
 		title: "Ladetarife",
 		key: "customTariffs",
 	},
+	settingsStack: {
+		key: "SettingsStack",
+	},
+	detailScreen: {
+		key: "detailScreen",
+	},
 	settings: {
 		title: "Einstellungen",
 		key: "Einstellungen",
 	},
-	feedBack: {
-		title: "customTariffs",
-		key: "customTariffs",
+	feedback: {
+		title: "Feedback",
+		key: "feedback",
 	},
+
 	eula: {
 		title: "Drittlizenzen",
 		key: "eula",

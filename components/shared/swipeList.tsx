@@ -16,6 +16,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import { SwipeItem } from "./swipeItem";
 import { colors } from "../../theme";
 import { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
+
 interface Props<T extends { identifier: string }> {
 	data: T[];
 	onRemove(item: T): void;
@@ -60,7 +61,13 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		return Object.values(sectionMap).flat();
 	}, [data]);
 
-	const renderItemCallback = ({ item, index }) => {
+	const renderItemCallback = ({
+		item,
+		index,
+	}: {
+		item: T;
+		index: number;
+	}) => {
 		if (typeof item === "string") {
 			// Rendering header
 			return <Text style={styles.separatorHeader}>{item}</Text>;
@@ -70,7 +77,11 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		return (
 			<SwipeItem
 				disableSwipe={!itemExist}
-				ref={(el) => (itemsRef.current[index] = el)}
+				ref={(el) => {
+					if (el) {
+						itemsRef.current[index] = el;
+					}
+				}}
 				onDelete={() => onRemove(item)}
 			>
 				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -110,7 +121,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 			}}
 			estimatedItemSize={estimatedItemSize}
 			ItemSeparatorComponent={SeparatorItem}
-			data={sections}
+			data={sections as T[]}
 			keyboardShouldPersistTaps={"handled"}
 			stickyHeaderHiddenOnScroll={false}
 			automaticallyAdjustKeyboardInsets

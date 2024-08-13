@@ -13,11 +13,8 @@ import NavigationList from "../components/settings/navigationList";
 
 export function SettingsScreen() {
 	return (
-		<ScrollView
-			style={[styles.scrollView, settingsStyle.container]}
-			bounces
-		>
-			<NavigationList style={{ marginTop: scale(14) }}>
+		<ScrollView style={[styles.scrollView, settingsStyle.screen]} bounces>
+			<NavigationList style={{ marginBottom: scale(12) }}>
 				<NavigationItem
 					title={appRoutes.customTariffs.title}
 					description="Bei welchem Anbieter von Stromtarifen (EMP) bist du Kunde?"
@@ -53,13 +50,14 @@ export function SettingsScreen() {
 	);
 }
 const settingsStyle = ScaledSheet.create({
-	container: {
+	screen: {
+		paddingTop: "16@s",
 		display: "flex",
 		flexDirection: "column",
 	},
 	innerContainer: {
 		marginTop: "14@s",
-		paddingBottom: "14@s",
+		paddingBottom: "18@s",
 		gap: "20@s",
 	},
 });

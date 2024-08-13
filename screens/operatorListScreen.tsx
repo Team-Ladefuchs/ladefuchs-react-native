@@ -15,13 +15,13 @@ import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
 import { Operator } from "../types/operator";
-import { useFetchAppData } from "../hooks/usefetchAppData";
 import { fetchOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
+import { useQueryAppData } from "../hooks/useQueryAppData";
 
 type filerType = "all" | "ownOperators";
 
@@ -43,7 +43,7 @@ export function OperatorListScreen(): JSX.Element {
 	);
 	const [filterMode, setFilterMode] = useState<filerType>("all");
 
-	const { allChargeConditionsQuery } = useFetchAppData();
+	const { allChargeConditionsQuery } = useQueryAppData();
 	const { customOperators, saveCustomOperators, resetCustomOperators } =
 		useCustomTariffsOperators();
 	const navigator = useNavigation();
@@ -58,7 +58,13 @@ export function OperatorListScreen(): JSX.Element {
 		});
 
 		return unsubscribe;
-	}, [navigator, operatorAddSet, operatorRemoveSet]);
+	}, [
+		navigator,
+		operatorAddSet,
+		operatorRemoveSet,
+		allChargeConditionsQuery,
+		saveCustomOperators,
+	]);
 
 	useEffect(() => {
 		setOperatorAddSet(new Set(customOperators.add));

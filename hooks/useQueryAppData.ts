@@ -6,7 +6,7 @@ import { useAppStore } from "../state/state";
 import { getBanners } from "../functions/api/banner";
 import { getAllChargeConditions } from "../functions/api/chargeCondition";
 
-export function useFetchAppData() {
+export function useQueryAppData() {
 	const [setAppData, setAppError, operators, setBanners, ladefuchsBanners] =
 		useAppStore(
 			useShallow((state) => [

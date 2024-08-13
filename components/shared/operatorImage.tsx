@@ -6,7 +6,7 @@ import { Image, View, Text } from "react-native";
 import { hyphenText } from "../../functions/util";
 
 interface Props {
-	operator: Operator | null;
+	operator: Operator;
 	height: number;
 	width: number;
 	hideFallBackText?: boolean;
@@ -23,37 +23,69 @@ export function OperatorImage({
 	const [imageError, setImageError] = useState(false);
 
 	if (hideFallBackText && !operator?.imageUrl) {
-		operator.imageUrl = `${apiUrl}/images/generic/cpo_generic_fuchs.png`;
+		operator!.imageUrl = `${apiUrl}/images/generic/cpo_generic_fuchs.png`;
 	}
-
-	const showFallBack = !operator?.imageUrl || imageError;
 
 	return (
 		<View style={{ position: "relative" }}>
+			{!operator.imageUrl || imageError ? (
+				<FallBack
+					operator={operator}
+					height={height}
+					width={width}
+					hideFallBackText={hideFallBackText}
+				/>
+			) : (
+				<Image
+					source={
+						operator?.imageUrl
+							? { uri: operator?.imageUrl, ...authHeader }
+							: fallBack
+					}
+					onError={() => setImageError(true)}
+					style={{
+						height: scale(height),
+						width: scale(width),
+						objectFit: "scale-down",
+					}}
+				/>
+			)}
+		</View>
+	);
+}
+
+function FallBack({
+	operator,
+	height,
+	width,
+	hideFallBackText,
+}: {
+	operator: Operator;
+	height: number;
+	width: number;
+	hideFallBackText: boolean;
+}): JSX.Element {
+	return (
+		<>
 			<Image
-				source={
-					operator?.imageUrl
-						? { uri: operator?.imageUrl, ...authHeader }
-						: fallBack
-				}
-				onError={() => setImageError(true)}
+				source={fallBack}
 				style={{
 					height: scale(height),
 					width: scale(width),
 					objectFit: "scale-down",
 				}}
 			/>
-			{showFallBack && !hideFallBackText && (
-				<View
-					style={{
-						position: "absolute",
-						top: "25%",
-						left: "50%",
-						width: 62,
-						transform: [{ translateX: -6 }, { translateY: -12 }],
-						paddingHorizontal: 3,
-					}}
-				>
+			<View
+				style={{
+					position: "absolute",
+					top: "25%",
+					left: "50%",
+					width: 62,
+					transform: [{ translateX: -6 }, { translateY: -12 }],
+					paddingHorizontal: 3,
+				}}
+			>
+				{!hideFallBackText && (
 					<Text
 						lineBreakMode="tail"
 						style={{
@@ -67,8 +99,8 @@ export function OperatorImage({
 					>
 						{hyphenText(operator?.name ?? "")}
 					</Text>
-				</View>
-			)}
-		</View>
+				)}
+			</View>
+		</>
 	);
 }

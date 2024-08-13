@@ -4,7 +4,7 @@ import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/plugs/ccs.svg";
 import Typ2 from "@assets/plugs/typ2.svg";
-import { useFormatNumber } from "../../hooks/numberFormat";
+import { useFormatNumber } from "../../hooks/useNumberFormat";
 import { scale } from "react-native-size-matters";
 import { PriceModifyButton } from "./feedbackView/priceModifyButton";
 

@@ -15,6 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackButton } from "../components/detail/feedbackButton";
 import { useNavigation } from "@react-navigation/native";
+import { appRoutes } from "../appRoutes";
 
 function findTariffCondition({
 	tariffConditions,
@@ -91,7 +92,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 					<FeedbackButton
 						onPress={() => {
 							// @ts-ignore
-							navigation.navigate("Feedback", {
+							navigation.navigate(appRoutes.feedback.key, {
 								tariff,
 								acTariffCondition,
 								dcTariffCondition,
