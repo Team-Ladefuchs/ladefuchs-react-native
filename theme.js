@@ -26,7 +26,6 @@ const styles = ScaledSheet.create({
 		paddingHorizontal: "20@s",
 		flex: 1,
 	},
-
 	headLine: {
 		color: colors.ladefuchsOrange,
 		fontFamily: "Roboto",
@@ -52,12 +51,6 @@ const styles = ScaledSheet.create({
 		fontSize: "40@s",
 		color: "#f45c2d",
 		paddingLeft: "10@s",
-	},
-	line: {
-		height: "1@s",
-		backgroundColor: colors.ladefuchsDarkGrayBackground,
-		marginTop: "8@s",
-		marginBottom: "12@s",
 	},
 });
 export { colors, fonts, styles };

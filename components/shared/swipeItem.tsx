@@ -1,18 +1,28 @@
-import React, { useEffect, useRef, forwardRef, Ref } from "react";
+import React, { useRef, forwardRef, Ref } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import TrashIcon from "@assets/generic/trash.svg";
-import { Swipeable } from "react-native-gesture-handler";
+import Swipeable, {
+	SwipeableMethods,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
 
 interface Props {
 	onDelete: () => void;
+	disableSwipe: boolean;
 	children: React.ReactNode;
 }
 
 // Forward ref to the Swipeable component
-export const SwipeItem = forwardRef<Swipeable, Props>(
-	({ onDelete, children }: Props, ref: Ref<Swipeable>) => {
-		const swipeableRef = useRef<Swipeable>(null);
+export const SwipeItem = forwardRef<SwipeableMethods, Props>(
+	(
+		{ onDelete, children, disableSwipe }: Props,
+		ref: Ref<SwipeableMethods>,
+	) => {
+		const swipeableRef = useRef<SwipeableMethods>(null);
+
+		if (disableSwipe) {
+			return <View>{children}</View>;
+		}
 
 		const renderRightActions = () => {
 			return (
@@ -21,7 +31,7 @@ export const SwipeItem = forwardRef<Swipeable, Props>(
 						activeOpacity={0.8}
 						onPress={() => {
 							onDelete();
-							swipeableRef.current.close();
+							swipeableRef.current?.close();
 						}}
 						style={styles.trashIcon}
 					>
@@ -40,8 +50,9 @@ export const SwipeItem = forwardRef<Swipeable, Props>(
 					}
 				}}
 				renderRightActions={renderRightActions}
-				friction={1}
-				rightThreshold={10}
+				friction={2}
+				overshootRight={false}
+				rightThreshold={30}
 			>
 				{children}
 			</Swipeable>
@@ -52,8 +63,8 @@ export const SwipeItem = forwardRef<Swipeable, Props>(
 const styles = ScaledSheet.create({
 	rightActionContainer: {
 		justifyContent: "center",
-		alignItems: "center",
 		backgroundColor: "red",
+		alignItems: "flex-end", // Align to end for right-side action
 	},
 	trashIcon: {
 		padding: "16@s",

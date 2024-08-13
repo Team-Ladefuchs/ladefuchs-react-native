@@ -15,6 +15,7 @@ export function SearchInput({ setSearch, placeHolder }: Props): JSX.Element {
 				style={styles.searchInput}
 				autoCorrect={false}
 				keyboardType="ascii-capable"
+				returnKeyType="search"
 				autoComplete="off"
 				clearButtonMode="always"
 				textContentType="none"

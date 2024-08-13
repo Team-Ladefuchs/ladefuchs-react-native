@@ -6,6 +6,7 @@ import {
 	Text,
 	ViewStyle,
 	TouchableOpacity,
+	Keyboard,
 } from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
@@ -14,8 +15,7 @@ import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SwipeItem } from "./swipeItem";
 import { colors } from "../../theme";
-import { Swipeable } from "react-native-gesture-handler";
-
+import { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 interface Props<T extends { identifier: string }> {
 	data: T[];
 	onRemove(item: T): void;
@@ -37,7 +37,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	containerStyle,
 	estimatedItemSize,
 }: Props<T>) {
-	const itemsRef = useRef<Swipeable[]>([]);
+	const itemsRef = useRef<SwipeableMethods[]>([]);
 
 	const editButtonSize = scale(22);
 	const sections = useMemo(() => {
@@ -69,10 +69,11 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		const itemExist = exists(item);
 		return (
 			<SwipeItem
+				disableSwipe={!itemExist}
 				ref={(el) => (itemsRef.current[index] = el)}
 				onDelete={() => onRemove(item)}
 			>
-				<TouchableWithoutFeedback hitSlop={scale(12)}>
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 					<View style={[styles.item, containerStyle]}>
 						<TouchableOpacity
 							activeOpacity={0.9}
@@ -103,41 +104,35 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		);
 	};
 	return (
-		<View
-			style={{
-				height: 300,
-				flex: 1,
+		<FlashList
+			getItemType={(item) => {
+				return typeof item === "string" ? "sectionHeader" : "row";
 			}}
-		>
-			<View style={styles.separatorHeaderContainer} />
-			<FlashList
-				getItemType={(item) => {
-					return typeof item === "string" ? "sectionHeader" : "row";
-				}}
-				estimatedItemSize={estimatedItemSize}
-				ItemSeparatorComponent={SeparatorItem}
-				data={sections}
-				stickyHeaderHiddenOnScroll={false}
-				stickyHeaderIndices={
-					sections
-						.map((item, index) => {
-							return typeof item === "string" ? index : null;
-						})
-						.filter((item) => item !== null) as number[]
-				}
-				ListEmptyComponent={() => (
-					<View style={styles.emptyListStyle}>
-						<Text style={styles.emptyListTextStyle}>
-							Hier gibt es nichts zu sehen,
-						</Text>
-						<Text style={styles.emptyListTextStyle}>
-							bitte laden Sie weiter. 🦊
-						</Text>
-					</View>
-				)}
-				renderItem={renderItemCallback}
-			/>
-		</View>
+			estimatedItemSize={estimatedItemSize}
+			ItemSeparatorComponent={SeparatorItem}
+			data={sections}
+			keyboardShouldPersistTaps={"handled"}
+			stickyHeaderHiddenOnScroll={false}
+			automaticallyAdjustKeyboardInsets
+			stickyHeaderIndices={
+				sections
+					.map((item, index) => {
+						return typeof item === "string" ? index : null;
+					})
+					.filter((item) => item !== null) as number[]
+			}
+			ListEmptyComponent={() => (
+				<View style={styles.emptyListStyle}>
+					<Text style={styles.emptyListTextStyle}>
+						Hier gibt es nichts zu sehen,
+					</Text>
+					<Text style={styles.emptyListTextStyle}>
+						bitte laden Sie weiter. 🦊
+					</Text>
+				</View>
+			)}
+			renderItem={renderItemCallback}
+		/>
 	);
 }
 

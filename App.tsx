@@ -26,8 +26,9 @@ import { ToastNotification } from "./components/detail/feedbackView/toastNotific
 import { useAopMetrics } from "./hooks/useAppMetrics";
 import { ThirdPartyLicenses } from "./screens/thirdPartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
-import { TariffListScreen } from "./screens/tariffListScreen";
+import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
+import { Impressum } from "./screens/impressum";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
@@ -105,7 +106,7 @@ function AppWrapper(): JSX.Element {
 						options={modalHeader}
 					/>
 					<RootStack.Screen
-						name="EinstellungenStack"
+						name="SettingsStack"
 						component={SettingsStackNavigator}
 						options={{ headerShown: false }}
 					/>
@@ -134,10 +135,18 @@ function SettingsStackNavigator(): JSX.Element {
 			/>
 			<EinstellungenStack.Screen
 				name={appRoutes.customTariffs.key}
-				component={TariffListScreen}
+				component={TariffList}
 				options={() => ({
 					...normalHeader(),
 					title: appRoutes.customTariffs.title,
+				})}
+			/>
+			<EinstellungenStack.Screen
+				name={appRoutes.impressum.key}
+				component={Impressum}
+				options={() => ({
+					...normalHeader(),
+					title: appRoutes.impressum.title,
 				})}
 			/>
 			<EinstellungenStack.Screen
@@ -157,9 +166,7 @@ function onAppStateChange(status: AppStateStatus) {
 
 function normalHeader() {
 	return {
-		// headerBackTitleVisible: false,
 		headerBackTitle: "Zurück",
-		// headerLeft: null,
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},

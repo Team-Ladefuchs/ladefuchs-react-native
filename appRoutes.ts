@@ -20,4 +20,8 @@ export const appRoutes = {
 		title: "Drittlizenzen",
 		key: "eula",
 	},
+	impressum: {
+		title: "Impressum",
+		key: "impressum",
+	},
 } as const;

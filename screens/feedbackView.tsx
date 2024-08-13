@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import {
+	View,
+	Text,
+	TextInput,
+	KeyboardAvoidingView,
+	Platform,
+	Keyboard,
+	TouchableWithoutFeedback,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-	KeyboardAwareScrollView,
-	KeyboardProvider,
-} from "react-native-keyboard-controller";
 
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import {
 	FeedbackContext,
 	FeedbackRequest,
@@ -20,7 +24,6 @@ import {
 	WrongPriceRequest,
 } from "../types/feedback";
 
-import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { useCounter } from "../hooks/useCounter";
@@ -140,12 +143,12 @@ export function FeedbackView(): JSX.Element {
 	};
 
 	return (
-		<KeyboardProvider>
-			<KeyboardAwareScrollView
-				bottomOffset={scale(14)}
-				enabled={true}
-				style={feedbackStyle.keyboardView}
-			>
+		<KeyboardAvoidingView
+			style={feedbackStyle.keyboardView}
+			behavior={Platform.OS === "ios" ? "position" : "height"}
+			keyboardVerticalOffset={scale(-16)}
+		>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<View>
 					<Text style={themeStyle.headLine}>
 						Hast Du Futter für den Fuchs?
@@ -208,8 +211,8 @@ export function FeedbackView(): JSX.Element {
 						onPress={handleSubmit}
 					/>
 				</View>
-			</KeyboardAwareScrollView>
-		</KeyboardProvider>
+			</TouchableWithoutFeedback>
+		</KeyboardAvoidingView>
 	);
 }
 
@@ -217,7 +220,7 @@ const feedbackStyle = ScaledSheet.create({
 	keyboardView: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		height: "100%",
-		padding: scale(16),
+		padding: "16@s",
 	},
 	logosContainer: {
 		justifyContent: "center",

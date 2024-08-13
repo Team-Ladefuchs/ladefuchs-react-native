@@ -1,12 +1,11 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback, Linking } from "react-native";
-import { styles } from "../../theme";
-import { scale } from "react-native-size-matters";
+import { colors, styles } from "../theme";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
-export function Impressum() {
+export function Impressum(): JSX.Element {
 	return (
-		<View>
-			<Text style={styles.headLine}>IMPRESSUM</Text>
+		<View style={settingsStyle.screen}>
 			<Text style={styles.italicText}>
 				Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45{"\n"}
 				52064 Aachen
@@ -16,7 +15,12 @@ export function Impressum() {
 					await Linking.openURL("mailto:ios@ladefuchs.app")
 				}
 			>
-				<Text style={[styles.italicTextLink]}>
+				<Text
+					style={[
+						styles.italicTextLink,
+						{ textDecorationLine: "underline" },
+					]}
+				>
 					{"\n"}
 					ios@ladefuchs.app
 					{"\n"}
@@ -27,8 +31,15 @@ export function Impressum() {
 			</Text>
 			<Text style={styles.italicText}>
 				Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45{"\n"}
-				52064 Aachen{"\n"}Quelle: Impressum-Generator von anwalt.de
+				52064 Aachen{"\n"}
 			</Text>
 		</View>
 	);
 }
+const settingsStyle = ScaledSheet.create({
+	screen: {
+		padding: "16@s",
+		height: "100%",
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+});

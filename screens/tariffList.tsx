@@ -5,6 +5,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -35,7 +36,7 @@ const tabs = [
 	{ key: "ownTariffs", label: "Meine Auswahl" },
 ] satisfies TabItem<filerType>[];
 
-export function TariffListScreen(): JSX.Element {
+export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
 	const { allChargeConditionsQuery } = useFetchAppData();
@@ -131,7 +132,10 @@ export function TariffListScreen(): JSX.Element {
 					}}
 				/>
 			</ListerFilterHeader>
-			<View style={styles.listContainer}>
+			<TouchableWithoutFeedback
+				style={styles.listContainer}
+				onPress={() => console.log("sa")}
+			>
 				<SwipeList
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
@@ -196,7 +200,7 @@ export function TariffListScreen(): JSX.Element {
 						(item.isStandard && !tariffsRemove.has(item.identifier))
 					}
 				/>
-			</View>
+			</TouchableWithoutFeedback>
 			<SearchInput setSearch={setSearch} placeHolder="Suche" />
 		</KeyboardAvoidingView>
 	);

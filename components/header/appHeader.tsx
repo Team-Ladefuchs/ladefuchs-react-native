@@ -52,7 +52,7 @@ export function AppHeader(): JSX.Element {
 				hitSlop={scale(10)}
 				onPress={async () => {
 					//@ts-ignore
-					await navigation.navigate("EinstellungenStack");
+					await navigation.navigate("SettingsStack");
 				}}
 				style={styles.headerSettingsIcon}
 			>
