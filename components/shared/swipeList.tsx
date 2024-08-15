@@ -5,17 +5,20 @@ import {
 	View,
 	Text,
 	ViewStyle,
-	TouchableOpacity,
 	Keyboard,
 } from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
-import AddCircle from "@assets/addRemove/add_circle_fill.svg";
-import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
+// import AddCircle from "@assets/addRemove/add_circle_fill.svg";
+// import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
+
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SwipeItem } from "./swipeItem";
 import { colors } from "../../theme";
 import { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
+
+import { removeItemByIndex } from "../../functions/util";
+import { Checkbox } from "./checkBox";
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -24,6 +27,7 @@ interface Props<T extends { identifier: string }> {
 	renderItem: (item: T) => JSX.Element;
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
+	disableSwipe: boolean;
 	estimatedItemSize: number;
 }
 
@@ -34,6 +38,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	onRemove,
 	onAdd,
 	exists,
+	disableSwipe,
 	renderItem,
 	containerStyle,
 	estimatedItemSize,
@@ -76,38 +81,28 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		const itemExist = exists(item);
 		return (
 			<SwipeItem
-				disableSwipe={!itemExist}
+				disableSwipe={!itemExist || disableSwipe}
 				ref={(el) => {
 					if (el) {
 						itemsRef.current[index] = el;
 					}
 				}}
-				onDelete={() => onRemove(item)}
+				onDelete={() => {
+					const ref = itemsRef.current[index];
+					removeItemByIndex(itemsRef.current, index);
+					onRemove(item);
+					ref.close();
+				}}
 			>
 				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 					<View style={[styles.item, containerStyle]}>
-						<TouchableOpacity
-							activeOpacity={0.9}
-							style={styles.buttonTouchTarget}
-							hitSlop={scale(10)}
-							onPress={() => {
-								itemExist
-									? itemsRef.current[index].openRight()
-									: onAdd(item);
+						<Checkbox
+							value={itemExist}
+							onValueChange={(value) => {
+								!value ? onRemove(item) : onAdd(item);
 							}}
-						>
-							{itemExist ? (
-								<RemoveCircle
-									height={editButtonSize}
-									width={editButtonSize}
-								/>
-							) : (
-								<AddCircle
-									height={editButtonSize}
-									width={editButtonSize}
-								/>
-							)}
-						</TouchableOpacity>
+						/>
+
 						{renderItem(item)}
 					</View>
 				</TouchableWithoutFeedback>

@@ -29,7 +29,7 @@ const itemHeight = scale(66);
 
 const tabs = [
 	{ key: "all", label: "Alle" },
-	{ key: "ownOperators", label: "Meine Auswahl" },
+	{ key: "ownOperators", label: "Akiv" },
 ] satisfies TabItem<filerType>[];
 
 export function OperatorListScreen(): JSX.Element {
@@ -84,12 +84,12 @@ export function OperatorListScreen(): JSX.Element {
 		let operators = allOperatorsQuery.data ?? [];
 
 		if (filterMode === "ownOperators") {
-			operators = operators.filter(
-				(operator) =>
-					(operator.isStandard &&
-						!operatorRemoveSet.has(operator.identifier)) ||
-					operatorAddSet.has(operator.identifier),
-			);
+			operators = operators.filter(({ isStandard, identifier }) => {
+				return (
+					(isStandard && !operatorRemoveSet.has(identifier)) ||
+					operatorAddSet.has(identifier)
+				);
+			});
 		}
 		return (
 			operators.filter((operator) =>
@@ -142,6 +142,7 @@ export function OperatorListScreen(): JSX.Element {
 
 			<View style={styles.listContainer}>
 				<SwipeList
+					disableSwipe={filterMode === "all"}
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}

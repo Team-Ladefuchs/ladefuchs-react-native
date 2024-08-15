@@ -9,7 +9,7 @@ export function getMinutes(minutes: number): number {
 }
 
 export function appVersionNumber(): number {
-	return parseInt(Constants.expoConfig.version.replaceAll(".", ""));
+	return parseInt(Constants.expoConfig?.version?.replaceAll(".", "") ?? "");
 }
 
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
@@ -83,11 +83,17 @@ export function hyphenText(input: string): string {
 	return result;
 }
 
+export function removeItemByIndex<T>(array: T[], index: number) {
+	if (index > -1 && index < array.length) {
+		array.splice(index, 1);
+	}
+}
+
 export async function fetchWithTimeout(
 	url: string,
-	options: RequestInit = null,
+	options: RequestInit = {},
 	timeout = 2700,
-) {
+): Promise<Response> {
 	const controller = new AbortController();
 	options.signal = controller.signal;
 
@@ -99,7 +105,7 @@ export async function fetchWithTimeout(
 		const response = await fetch(url, options);
 		clearTimeout(timeoutId);
 		if (response.status > 399) {
-			throw Error(
+			throw new Error(
 				`network request error with status code: ${response.status}`,
 			);
 		}

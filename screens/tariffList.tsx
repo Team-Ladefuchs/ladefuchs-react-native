@@ -33,7 +33,7 @@ type filerType = "all" | "ownTariffs";
 
 const tabs = [
 	{ key: "all", label: "Alle" },
-	{ key: "ownTariffs", label: "Meine Auswahl" },
+	{ key: "ownTariffs", label: "Aktiv" },
 ] satisfies TabItem<filerType>[];
 
 export function TariffList(): JSX.Element {
@@ -89,9 +89,12 @@ export function TariffList(): JSX.Element {
 		let tariffs = allTariffsQuery.data ?? [];
 
 		if (filterMode === "ownTariffs") {
-			tariffs = tariffs.filter((tariff) =>
-				tariffsAdd.has(tariff.identifier),
-			);
+			tariffs = tariffs.filter(({ isStandard, identifier }) => {
+				return (
+					(isStandard && !tariffsRemove.has(identifier)) ||
+					tariffsAdd.has(identifier)
+				);
+			});
 		}
 
 		return tariffs.filter((tariff) => {
@@ -138,11 +141,9 @@ export function TariffList(): JSX.Element {
 					}}
 				/>
 			</ListerFilterHeader>
-			<TouchableWithoutFeedback
-				style={styles.listContainer}
-				onPress={() => console.log("sa")}
-			>
+			<View style={styles.listContainer}>
 				<SwipeList
+					disableSwipe={filterMode === "all"}
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredTariffs}
@@ -206,7 +207,7 @@ export function TariffList(): JSX.Element {
 						(item.isStandard && !tariffsRemove.has(item.identifier))
 					}
 				/>
-			</TouchableWithoutFeedback>
+			</View>
 			<SearchInput setSearch={setSearch} placeHolder="Suche" />
 		</KeyboardAvoidingView>
 	);
