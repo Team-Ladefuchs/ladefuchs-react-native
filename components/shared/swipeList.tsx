@@ -6,6 +6,7 @@ import {
 	Text,
 	ViewStyle,
 	Keyboard,
+	LayoutAnimation,
 } from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
@@ -13,7 +14,7 @@ import { FlashList } from "@shopify/flash-list";
 // import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { SwipeItem } from "./swipeItem";
+import { ItemMethods, SwipeItem } from "./swipeItem";
 import { colors } from "../../theme";
 import { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 
@@ -43,9 +44,9 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	containerStyle,
 	estimatedItemSize,
 }: Props<T>) {
-	const itemsRef = useRef<SwipeableMethods[]>([]);
+	const list = useRef<FlashList<any>>(null);
+	const itemsRef = useRef<ItemMethods[]>([]);
 
-	const editButtonSize = scale(22);
 	const sections = useMemo(() => {
 		const sectionMap = data.reduce(
 			(acc, item) => {
@@ -74,7 +75,6 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		index: number;
 	}) => {
 		if (typeof item === "string") {
-			// Rendering header
 			return <Text style={styles.separatorHeader}>{item}</Text>;
 		}
 
@@ -88,18 +88,27 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 					}
 				}}
 				onDelete={() => {
-					const ref = itemsRef.current[index];
-					removeItemByIndex(itemsRef.current, index);
 					onRemove(item);
-					ref.close();
+					removeItemByIndex(itemsRef.current, index);
+					list.current?.prepareForLayoutAnimationRender();
+					LayoutAnimation.configureNext(
+						LayoutAnimation.Presets.easeInEaseOut,
+					);
 				}}
 			>
-				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<TouchableWithoutFeedback
+					onPress={() => {
+						itemsRef.current[index]?.cancel();
+						Keyboard.dismiss();
+					}}
+				>
 					<View style={[styles.item, containerStyle]}>
 						<Checkbox
-							value={itemExist}
+							checked={itemExist}
 							onValueChange={(value) => {
-								!value ? onRemove(item) : onAdd(item);
+								!value
+									? itemsRef.current[index]?.fadeOut()
+									: onAdd(item);
 							}}
 						/>
 
@@ -114,12 +123,18 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 			getItemType={(item) => {
 				return typeof item === "string" ? "sectionHeader" : "row";
 			}}
+			ref={list}
 			estimatedItemSize={estimatedItemSize}
 			ItemSeparatorComponent={SeparatorItem}
 			data={sections as T[]}
 			keyboardShouldPersistTaps={"handled"}
 			stickyHeaderHiddenOnScroll={false}
 			automaticallyAdjustKeyboardInsets
+			keyExtractor={(item, index) => {
+				return typeof item === "string"
+					? index.toString()
+					: item.identifier;
+			}}
 			stickyHeaderIndices={
 				sections
 					.map((item, index) => {

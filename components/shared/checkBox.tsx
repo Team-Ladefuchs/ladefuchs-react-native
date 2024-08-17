@@ -6,19 +6,17 @@ import CheckMark from "@assets/generic/checkmark.svg";
 import { colors } from "../../theme";
 
 interface Props {
-	value: boolean;
+	checked: boolean;
 	onValueChange: (value: boolean) => void;
 }
 
-export function Checkbox({ value, onValueChange }: Props): JSX.Element {
-	const [checked, setChecked] = useState(value);
+export function Checkbox({ checked, onValueChange }: Props): JSX.Element {
 	return (
 		<Pressable
 			style={[styles.checkBox, checked && styles.checked]}
 			hitSlop={scale(12)}
 			onPress={() => {
 				onValueChange(!checked);
-				setChecked(!checked);
 			}}
 		>
 			<CheckMark
@@ -30,6 +28,7 @@ export function Checkbox({ value, onValueChange }: Props): JSX.Element {
 		</Pressable>
 	);
 }
+
 const styles = ScaledSheet.create({
 	checkBox: {
 		marginHorizontal: "8@s",
