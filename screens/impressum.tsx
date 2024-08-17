@@ -1,14 +1,19 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback, Linking } from "react-native";
-import { colors, styles } from "../theme";
-import { ScaledSheet } from "react-native-size-matters";
+import { styles } from "../theme";
+import { scale } from "react-native-size-matters";
+import { Line } from "../components/settings/line";
 
 export function Impressum(): JSX.Element {
 	return (
-		<View style={settingsStyle.screen}>
+		<View>
+			<Text style={styles.headLine}>IMPRESSUM</Text>
+
 			<Text style={styles.italicText}>
-				Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45{"\n"}
-				52064 Aachen
+				Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
+			</Text>
+			<Text style={styles.italicText}>
+				Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45, 52064 Aachen
 			</Text>
 			<TouchableWithoutFeedback
 				onPress={async () =>
@@ -21,25 +26,10 @@ export function Impressum(): JSX.Element {
 						{ textDecorationLine: "underline" },
 					]}
 				>
-					{"\n"}
-					ios@ladefuchs.app
-					{"\n"}
+					malik@ladefuchs.app
 				</Text>
 			</TouchableWithoutFeedback>
-			<Text style={styles.italicText}>
-				Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
-			</Text>
-			<Text style={styles.italicText}>
-				Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45{"\n"}
-				52064 Aachen{"\n"}
-			</Text>
+			<Line style={{ marginTop: scale(16) }} />
 		</View>
 	);
 }
-const settingsStyle = ScaledSheet.create({
-	screen: {
-		padding: "16@s",
-		height: "100%",
-		backgroundColor: colors.ladefuchsLightBackground,
-	},
-});

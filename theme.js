@@ -21,16 +21,11 @@ const fonts = {
 };
 
 const styles = ScaledSheet.create({
-	scrollView: {
-		backgroundColor: colors.ladefuchsLightBackground,
-		paddingHorizontal: "20@s",
-		flex: 1,
-	},
 	headLine: {
 		color: colors.ladefuchsOrange,
 		fontFamily: "Roboto",
 		fontSize: "18@s",
-		marginBottom: "10@s",
+		marginBottom: "2@s",
 	},
 	headerText: {
 		color: "black",

@@ -10,13 +10,10 @@ import {
 } from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
-// import AddCircle from "@assets/addRemove/add_circle_fill.svg";
-// import RemoveCircle from "@assets/addRemove/remove_circle_fill.svg";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { ItemMethods, SwipeItem } from "./swipeItem";
 import { colors } from "../../theme";
-import { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 
 import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
@@ -106,6 +103,11 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 						<Checkbox
 							checked={itemExist}
 							onValueChange={(value) => {
+								if (disableSwipe) {
+									!value ? onRemove(item) : onAdd(item);
+									return;
+								}
+
 								!value
 									? itemsRef.current[index]?.fadeOut()
 									: onAdd(item);

@@ -64,7 +64,7 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 		<View style={styles.detailView}>
 			<ScrollView touchAction={"none"}>
 				<View style={styles.scrollView}>
-					<DetailLogos tariff={tariff} operator={operator} />
+					<DetailLogos tariff={tariff} operator={operator!} />
 					<View style={styles.priceBoxesContainer}>
 						<View style={{ flex: 1 }}>
 							<PriceBox

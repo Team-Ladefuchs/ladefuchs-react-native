@@ -12,6 +12,7 @@ import MailIcon from "@assets/about/icon_mail.svg";
 import MastodonIcon from "@assets/about/icon_mastodon.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SvgProps } from "react-native-svg";
+import { Line } from "./line";
 
 const activeMember = [
 	{
@@ -154,14 +155,15 @@ export function MemberView(): JSX.Element {
 		<View>
 			<Text style={appStyle.headLine}>TEAMFUCHS</Text>
 			<Text style={appStyle.headerText}>
-				Wir sind schuld. Wirklich! Trotzdem alle Angaben ohne Gewähr.
+				Wir sind schuld. Wirklich! Trotzdem alle Angaben{"\n"}ohne
+				Gewähr.
 			</Text>
 			<MemberList items={activeMember} />
-			<View style={[appStyle.line]} />
-			<Text style={[appStyle.headLine, { marginTop: scale(6) }]}>
+			<Text style={[appStyle.headLine, { marginTop: scale(32) }]}>
 				VETERANEN
 			</Text>
 			<MemberList items={veteranMember} />
+			<Line />
 		</View>
 	);
 }

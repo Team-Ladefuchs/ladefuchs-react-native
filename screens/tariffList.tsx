@@ -5,7 +5,6 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
-	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 

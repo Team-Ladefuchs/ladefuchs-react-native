@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Pressable } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 
-import CheckMark from "@assets/generic/checkmark.svg";
+import CheckMark from "@assets/generic/checkmark_bold.svg";
 import { colors } from "../../theme";
 
 interface Props {
@@ -33,19 +33,21 @@ const styles = ScaledSheet.create({
 	checkBox: {
 		marginHorizontal: "8@s",
 		borderRadius: "6@s",
-		borderWidth: "2@s",
-		padding: "1@s",
+		padding: "3@s",
 		justifyContent: "center",
 		alignContent: "center",
 		alignItems: "center",
-		borderColor: colors.ladefuchsOrange,
+		opacity: 0.75,
+		backgroundColor: colors.ladefuchsDarkGrayBackground,
+		// backgroundColor: colors.ladefuchsDunklerBalken,
 	},
 	checkMark: {
-		left: "3@s",
-		top: "3@s",
+		left: "2@s",
+		top: "2@s",
 		padding: 10,
 	},
 	checked: {
+		opacity: 1,
 		backgroundColor: colors.ladefuchsOrange,
 	},
 });

@@ -175,11 +175,10 @@ function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
 		headerBackTitle: "Zurück",
 		title,
-
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
+		headerTintColor: "#000", // Farbe für den Header-Text
 	};
 }
 
@@ -204,6 +203,6 @@ function modalHeader({
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
+		headerTintColor: "#000", // Farbe für den Header-Text
 	};
 }
