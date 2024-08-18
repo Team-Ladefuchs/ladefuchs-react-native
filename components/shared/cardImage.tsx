@@ -1,5 +1,4 @@
-import { apiUrl, authHeader } from "../../functions/api/base";
-import { Tariff } from "../../types/tariff";
+import { authHeader } from "../../functions/api/base";
 import {
 	View,
 	Image,
@@ -13,8 +12,10 @@ import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
 import { colors } from "../../theme";
 import { scale } from "react-native-size-matters";
+
 interface Props {
-	tariff: Tariff;
+	imageUrl: string | null;
+	name?: string;
 	showHighlightCorner?: boolean;
 	hideFallBackText?: boolean;
 	width: number;
@@ -22,7 +23,8 @@ interface Props {
 }
 
 export function CardImage({
-	tariff,
+	imageUrl,
+	name,
 	showHighlightCorner = false,
 	width,
 	hideFallBackText = false,
@@ -30,9 +32,6 @@ export function CardImage({
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
 
-	if (hideFallBackText && !tariff?.imageUrl) {
-		tariff.imageUrl = `${apiUrl}/images/generic/lf_user_tariff.jpg`;
-	}
 	return (
 		<View
 			style={{
@@ -42,15 +41,18 @@ export function CardImage({
 			}}
 		>
 			{showHighlightCorner && <HighlightCorner />}
-			{!tariff.imageUrl || imageError ? (
-				<FallBack tariff={tariff} hideFallBackText={hideFallBackText} />
+			{!imageUrl || imageError ? (
+				<FallBack
+					name={name ?? ""}
+					hideFallBackText={hideFallBackText}
+				/>
 			) : (
 				<Image
 					onError={() => {
 						setImageError(true);
 					}}
 					source={{
-						uri: tariff.imageUrl,
+						uri: imageUrl,
 						...authHeader,
 					}}
 					style={styles.cardImage}
@@ -61,17 +63,17 @@ export function CardImage({
 }
 
 function FallBack({
-	tariff,
+	name,
 	hideFallBackText,
 }: {
-	tariff: Tariff;
+	name: string;
 	hideFallBackText: boolean;
 }): JSX.Element {
 	return (
 		<View style={styles.fallbackContainer}>
 			{!hideFallBackText && (
 				<Text numberOfLines={3} style={styles.fallbackText}>
-					{tariff.name}
+					{name}
 				</Text>
 			)}
 			<Image

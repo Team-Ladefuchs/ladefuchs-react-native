@@ -7,13 +7,17 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 interface Props {
 	title: string;
 	screenKey: string;
+	iconPrefix?: React.ReactElement;
+	justifyContent: "space-between" | "space-evenly";
 	description?: string;
 }
 
 export function NavigationItem({
 	title,
 	screenKey,
+	justifyContent,
 	description,
+	iconPrefix,
 }: Props): JSX.Element {
 	const navigation = useNavigation();
 
@@ -27,15 +31,27 @@ export function NavigationItem({
 			}}
 		>
 			<View style={navigationItemStyle.container}>
-				<View style={{ flex: 1 }}>
-					<Text style={styles.headLine}>{title.toUpperCase()}</Text>
-					{description && (
-						<Text style={navigationItemStyle.descriptionText}>
-							{description}
+				{iconPrefix && iconPrefix}
+				<View
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						justifyContent,
+						alignItems: "center",
+					}}
+				>
+					<View style={navigationItemStyle.middleContainer}>
+						<Text style={styles.headLine}>
+							{title.toUpperCase()}
 						</Text>
-					)}
+						{description && (
+							<Text style={navigationItemStyle.descriptionText}>
+								{description}
+							</Text>
+						)}
+					</View>
+					<Text style={styles.arrow}>›</Text>
 				</View>
-				<Text style={styles.arrow}>›</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -44,7 +60,13 @@ export function NavigationItem({
 const navigationItemStyle = ScaledSheet.create({
 	container: {
 		flexDirection: "row",
+		gap: "32@s",
+		width: "100%",
 		alignItems: "center",
+	},
+	middleContainer: {
+		alignContent: "center",
+		marginRight: "16@s",
 	},
 	descriptionText: {
 		color: "black",

@@ -17,7 +17,7 @@ export function Impressum(): JSX.Element {
 			</Text>
 			<TouchableWithoutFeedback
 				onPress={async () =>
-					await Linking.openURL("mailto:ios@ladefuchs.app")
+					await Linking.openURL("mailto:malik@ladefuchs.app")
 				}
 			>
 				<Text

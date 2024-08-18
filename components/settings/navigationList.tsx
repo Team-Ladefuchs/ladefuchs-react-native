@@ -15,7 +15,7 @@ export function NavigationList({ style, children }: NavigationListProps) {
 				return (
 					<React.Fragment key={index}>
 						{item}
-						{index < children.length - 1 && <Line />}
+						{/* {index < children.length - 1 && <Line />} */}
 					</React.Fragment>
 				);
 			})}

@@ -9,14 +9,17 @@ import { Illustration } from "../components/settings/illuView";
 import { NavigationItem } from "../components/settings/navigationItem";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { appRoutes } from "../appRoutes";
-import { NavigationList } from "../components/settings/navigationList";
 import { Impressum } from "../components/settings/impressum";
+import { CardImage } from "../components/shared/cardImage";
+import { OperatorImage } from "../components/shared/operatorImage";
+import { genericOperatorImage, userTariffImage } from "../functions/shared";
+import { Line } from "../components/settings/line";
 
 export function SettingsScreen() {
 	return (
 		<ScrollView style={[settingsStyle.scrollView]} bounces>
 			<View style={settingsStyle.viewContainer}>
-				<NavigationList
+				<View
 					style={{
 						marginTop: scale(16),
 						marginBottom: scale(32),
@@ -25,15 +28,49 @@ export function SettingsScreen() {
 				>
 					<NavigationItem
 						title={appRoutes.customTariffs.title}
-						description={`Bei welchem Anbieter von Stromtarifen (EMP)\nbist du Kunde?`}
+						iconPrefix={
+							<View
+								style={{
+									left: scale(11),
+								}}
+							>
+								<CardImage
+									imageUrl={userTariffImage}
+									width={55}
+								/>
+							</View>
+						}
+						description={`Bei welchem Stromtarif-Anbieter\n(EMP) bist du Kunde?`}
 						screenKey={appRoutes.customTariffs.key}
+						justifyContent="space-evenly"
 					/>
+					<View style={{ marginTop: scale(12) }}>
+						<Line />
+					</View>
+
 					<NavigationItem
 						title={appRoutes.customerOperator.title}
-						description={`Für welchen Ladesäulen-Anbieter  (CPO)\nmöchtest du einen Preisvergleich sehen?`}
+						justifyContent="space-evenly"
+						description={`Welche Ladesäulen-Anbieter\n(CPO) möchtest du vergleichen?`}
+						iconPrefix={
+							<View
+								style={{
+									left: scale(7),
+									bottom: scale(2),
+									// paddingTop: scale(10),
+									marginRight: scale(-9),
+								}}
+							>
+								<OperatorImage
+									imageUrl={genericOperatorImage}
+									height={80}
+									width={60}
+								/>
+							</View>
+						}
 						screenKey={appRoutes.customerOperator.key}
 					/>
-				</NavigationList>
+				</View>
 				<View style={settingsStyle.separator}>
 					<Text style={settingsStyle.separatorText}>Infos</Text>
 				</View>
@@ -44,6 +81,7 @@ export function SettingsScreen() {
 					<PodcastView />
 					<Impressum />
 					<NavigationItem
+						justifyContent="space-between"
 						title={appRoutes.eula.title}
 						screenKey={appRoutes.eula.key}
 						description="Der Blick unter die Haube 🚘⚡️"

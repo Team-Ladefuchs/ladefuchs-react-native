@@ -43,7 +43,8 @@ export function ChargeConditionRow({
 			style={styles.cardAndPriceContainer}
 		>
 			<CardImage
-				tariff={tariff}
+				name={tariff.name}
+				imageUrl={tariff.imageUrl}
 				width={72}
 				showHighlightCorner={showHighlightCorner}
 			/>

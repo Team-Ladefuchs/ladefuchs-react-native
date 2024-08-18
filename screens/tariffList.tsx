@@ -23,6 +23,7 @@ import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
+import { userTariffImage } from "../functions/shared";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -209,7 +210,10 @@ export function TariffList(): JSX.Element {
 							<View style={styles.itemBody}>
 								<View>
 									<CardImage
-										tariff={tariff}
+										imageUrl={
+											tariff.imageUrl ?? userTariffImage
+										}
+										name={tariff.name}
 										width={60}
 										hideFallBackText={true}
 									/>
@@ -240,7 +244,7 @@ export function TariffList(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder="Suche" />
+			<SearchInput setSearch={setSearch} placeHolder="Tarif suchen" />
 		</KeyboardAvoidingView>
 	);
 }

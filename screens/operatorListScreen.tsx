@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useQueryAppData } from "../hooks/useQueryAppData";
+import { genericOperatorImage } from "../functions/shared";
 
 type filerType = "all" | "ownOperators";
 
@@ -190,7 +191,11 @@ export function OperatorListScreen(): JSX.Element {
 						return (
 							<View style={styles.itemBody}>
 								<OperatorImage
-									operator={operator}
+									imageUrl={
+										operator.imageUrl ??
+										genericOperatorImage
+									}
+									name={operator.name}
 									height={50}
 									width={72}
 									hideFallBackText={true}
@@ -208,7 +213,7 @@ export function OperatorListScreen(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder="Suche" />
+			<SearchInput setSearch={setSearch} placeHolder="Betreiber suchen" />
 		</KeyboardAvoidingView>
 	);
 }

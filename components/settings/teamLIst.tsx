@@ -154,8 +154,8 @@ export function MemberView(): JSX.Element {
 	return (
 		<View>
 			<Text style={appStyle.headLine}>TEAMFUCHS</Text>
-			<Text style={appStyle.headerText}>
-				Wir sind schuld. Wirklich! Trotzdem alle Angaben{"\n"}ohne
+			<Text style={[appStyle.headerText, { marginBottom: scale(12) }]}>
+				Wir sind schuld. Wirklich!{"\n"}Trotzdem alle Angaben ohne
 				Gewähr.
 			</Text>
 			<TeamList items={activeMember} />

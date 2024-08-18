@@ -49,7 +49,7 @@ export function PodcastView(): JSX.Element {
 							style={{
 								height: size,
 								width: size,
-								borderRadius: scale(3),
+								borderRadius: scale(6),
 							}}
 						/>
 					</TouchableOpacity>

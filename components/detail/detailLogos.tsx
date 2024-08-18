@@ -21,13 +21,21 @@ export function DetailLogos({ tariff, operator }: Props): JSX.Element {
 			}}
 		>
 			<CardImage
-				tariff={tariff}
+				imageUrl={tariff.imageUrl}
+				name={tariff.name}
 				width={79}
 				style={{
 					transform: [{ rotate: "-15deg" }],
 				}}
 			/>
-			<OperatorImage operator={operator} height={125} width={180} />
+			{operator && (
+				<OperatorImage
+					name={operator.name}
+					imageUrl={operator.imageUrl}
+					height={125}
+					width={180}
+				/>
+			)}
 		</View>
 	);
 }

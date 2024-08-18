@@ -29,7 +29,7 @@ export function AppFooter() {
 const footerStyle = ScaledSheet.create({
 	footerContainer: {
 		marginTop: "10@s",
-		paddingBottom: "40@s",
+		paddingBottom: "24@s",
 		paddingTop: "18@s",
 		backgroundColor: colors.ladefuchsDunklerBalken,
 	},

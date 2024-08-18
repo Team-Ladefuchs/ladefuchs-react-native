@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { scale } from "react-native-size-matters";
-import { Operator } from "../../types/operator";
-import { apiUrl, authHeader } from "../../functions/api/base";
+import { authHeader } from "../../functions/api/base";
 import { Image, View, Text } from "react-native";
 import { hyphenText } from "../../functions/util";
 
 interface Props {
-	operator: Operator;
+	imageUrl: string | null;
+	name?: string;
 	height: number;
 	width: number;
 	hideFallBackText?: boolean;
@@ -15,22 +15,19 @@ interface Props {
 const fallBack = require("@assets/generic/cpo_generic.png");
 
 export function OperatorImage({
-	operator,
+	imageUrl,
+	name,
 	height,
 	width,
 	hideFallBackText = false,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
 
-	if (hideFallBackText && !operator?.imageUrl) {
-		operator!.imageUrl = `${apiUrl}/images/generic/cpo_generic_fuchs.png`;
-	}
-
 	return (
 		<View style={{ position: "relative" }}>
-			{!operator.imageUrl || imageError ? (
+			{!imageUrl || imageError ? (
 				<FallBack
-					operator={operator}
+					name={name ?? ""}
 					height={height}
 					width={width}
 					hideFallBackText={hideFallBackText}
@@ -38,9 +35,7 @@ export function OperatorImage({
 			) : (
 				<Image
 					source={
-						operator?.imageUrl
-							? { uri: operator?.imageUrl, ...authHeader }
-							: fallBack
+						imageUrl ? { uri: imageUrl, ...authHeader } : fallBack
 					}
 					onError={() => setImageError(true)}
 					style={{
@@ -55,12 +50,12 @@ export function OperatorImage({
 }
 
 function FallBack({
-	operator,
+	name,
 	height,
 	width,
 	hideFallBackText,
 }: {
-	operator: Operator;
+	name: string;
 	height: number;
 	width: number;
 	hideFallBackText: boolean;
@@ -97,7 +92,7 @@ function FallBack({
 						}}
 						numberOfLines={3}
 					>
-						{hyphenText(operator?.name ?? "")}
+						{hyphenText(name ?? "")}
 					</Text>
 				)}
 			</View>
