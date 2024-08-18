@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { OperatorImage } from "../components/shared/operatorImage";
 
-import { SwipeList } from "../components/shared/swipeList";
+import { SectionHeaderList } from "../components/shared/sectionHeaderList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
@@ -29,7 +29,7 @@ const itemHeight = scale(66);
 
 const tabs = [
 	{ key: "all", label: "Alle" },
-	{ key: "ownOperators", label: "Akiv" },
+	{ key: "ownOperators", label: "Aktiv" },
 ] satisfies TabItem<filerType>[];
 
 export function OperatorListScreen(): JSX.Element {
@@ -141,36 +141,34 @@ export function OperatorListScreen(): JSX.Element {
 			</ListerFilterHeader>
 
 			<View style={styles.listContainer}>
-				<SwipeList
-					disableSwipe={filterMode === "all"}
+				<SectionHeaderList
+					disableAnimation={true}
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
-					onRemove={(operator: Operator) => {
-						if (operator.isStandard) {
-							setOperatorRemoveSet(
-								(prev) =>
-									new Set([operator.identifier, ...prev]),
-							);
-						} else {
+					onRemove={({ identifier }: Operator) => {
+						setOperatorRemoveSet(
+							(prev) => new Set([identifier, ...prev]),
+						);
+						if (operatorAddSet.has(identifier)) {
 							setOperatorAddSet((prev) => {
 								const newSet = new Set(prev);
-								newSet.delete(operator.identifier);
+								newSet.delete(identifier);
 								return newSet;
 							});
 						}
 					}}
-					onAdd={(item: Operator) => {
-						if (item.isStandard) {
+					onAdd={({ identifier, isStandard }: Operator) => {
+						if (!isStandard) {
+							setOperatorAddSet(
+								(prev) => new Set([identifier, ...prev]),
+							);
+						} else if (operatorRemoveSet.has(identifier)) {
 							setOperatorRemoveSet((prev) => {
 								const newSet = new Set(prev);
-								newSet.delete(item.identifier);
+								newSet.delete(identifier);
 								return newSet;
 							});
-						} else {
-							setOperatorAddSet(
-								(prev) => new Set([item.identifier, ...prev]),
-							);
 						}
 					}}
 					renderItem={(operator: Operator) => {

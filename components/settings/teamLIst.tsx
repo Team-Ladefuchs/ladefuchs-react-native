@@ -34,7 +34,7 @@ const activeMember = [
 	},
 	{
 		name: "DOMINIC",
-		role: "APIfuchs",
+		role: "Developerfuchs",
 		imageSource: require("@assets/team/team_dominic.jpg"),
 		links: [
 			{
@@ -158,17 +158,17 @@ export function MemberView(): JSX.Element {
 				Wir sind schuld. Wirklich! Trotzdem alle Angaben{"\n"}ohne
 				Gewähr.
 			</Text>
-			<MemberList items={activeMember} />
+			<TeamList items={activeMember} />
 			<Text style={[appStyle.headLine, { marginTop: scale(32) }]}>
 				VETERANEN
 			</Text>
-			<MemberList items={veteranMember} />
+			<TeamList items={veteranMember} />
 			<Line />
 		</View>
 	);
 }
 
-export function MemberList({ items }: Props): JSX.Element {
+export function TeamList({ items }: Props): JSX.Element {
 	return (
 		<View>
 			{items.map((member, index) => (
@@ -194,13 +194,15 @@ export function MemberList({ items }: Props): JSX.Element {
 											alignItems: "center",
 										}}
 									>
-										<Icon
-											width={scale(20)}
-											height={scale(20)}
-											style={{
-												marginRight: 5,
-											}}
-										/>
+										{Icon && (
+											<Icon
+												width={scale(20)}
+												height={scale(20)}
+												style={{
+													marginRight: 5,
+												}}
+											/>
+										)}
 										<Text style={styles.memberLink}>
 											{text}
 										</Text>

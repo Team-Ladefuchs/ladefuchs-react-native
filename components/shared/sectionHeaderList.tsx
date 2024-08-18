@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
 	StyleProp,
 	TouchableWithoutFeedback,
@@ -12,7 +12,7 @@ import {
 import { FlashList } from "@shopify/flash-list";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { ItemMethods, SwipeItem } from "./swipeItem";
+import { ItemMethods, SectionListItem } from "./sectionListItem";
 import { colors } from "../../theme";
 
 import { removeItemByIndex } from "../../functions/util";
@@ -25,18 +25,26 @@ interface Props<T extends { identifier: string }> {
 	renderItem: (item: T) => JSX.Element;
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
-	disableSwipe: boolean;
+	disableAnimation: boolean;
 	estimatedItemSize: number;
 }
 
 const isLetter = /[a-zA-Z]/;
 
-export function SwipeList<T extends { identifier: string; name: string }>({
+const FAKE_HEADER = "FAKE_HEADER";
+
+interface ItemType {
+	identifier: string;
+	name: string;
+	added?: boolean;
+}
+
+export function SectionHeaderList<T extends ItemType>({
 	data,
 	onRemove,
 	onAdd,
 	exists,
-	disableSwipe,
+	disableAnimation,
 	renderItem,
 	containerStyle,
 	estimatedItemSize,
@@ -45,24 +53,41 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 	const itemsRef = useRef<ItemMethods[]>([]);
 
 	const sections = useMemo(() => {
+		const myList: (ItemType | string)[] = [];
 		const sectionMap = data.reduce(
 			(acc, item) => {
-				let firstLetter = item.name.charAt(0).toUpperCase();
-				if (!isLetter.test(firstLetter)) {
-					firstLetter = "#";
+				let headerName = item.name.charAt(0).toUpperCase();
+
+				if (item.added && !disableAnimation) {
+					myList.push(item);
+					return acc;
 				}
-				if (!acc[firstLetter]) {
-					acc[firstLetter] = [];
-					acc[firstLetter].push(firstLetter);
+				if (!isLetter.test(headerName)) {
+					headerName = "#";
 				}
-				acc[firstLetter].push(item);
+				if (!acc[headerName]) {
+					acc[headerName] = [];
+					acc[headerName].push(headerName);
+				}
+				acc[headerName].push(item);
 				return acc;
 			},
 			{} as Record<string, (string | T)[]>,
 		);
 
-		return Object.values(sectionMap).flat();
+		const items = Object.values(sectionMap).flat();
+
+		if (myList.length) {
+			return [FAKE_HEADER, "MEINE TARIFE", ...myList, ...items];
+		}
+		return [FAKE_HEADER, ...items];
 	}, [data]);
+
+	const stickyIndices = useMemo(() => {
+		return sections
+			.map((item, index) => (typeof item === "string" ? index : null))
+			.filter((index) => index !== null) as number[];
+	}, [sections]);
 
 	const renderItemCallback = ({
 		item,
@@ -71,14 +96,15 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 		item: T;
 		index: number;
 	}) => {
+		if (typeof item === "string" && item === FAKE_HEADER) return null;
 		if (typeof item === "string") {
 			return <Text style={styles.separatorHeader}>{item}</Text>;
 		}
 
 		const itemExist = exists(item);
 		return (
-			<SwipeItem
-				disableSwipe={!itemExist || disableSwipe}
+			<SectionListItem
+				disableAnimation={!itemExist || disableAnimation}
 				ref={(el) => {
 					if (el) {
 						itemsRef.current[index] = el;
@@ -93,17 +119,12 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 					);
 				}}
 			>
-				<TouchableWithoutFeedback
-					onPress={() => {
-						itemsRef.current[index]?.cancel();
-						Keyboard.dismiss();
-					}}
-				>
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 					<View style={[styles.item, containerStyle]}>
 						<Checkbox
 							checked={itemExist}
 							onValueChange={(value) => {
-								if (disableSwipe) {
+								if (disableAnimation) {
 									!value ? onRemove(item) : onAdd(item);
 									return;
 								}
@@ -117,7 +138,7 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 						{renderItem(item)}
 					</View>
 				</TouchableWithoutFeedback>
-			</SwipeItem>
+			</SectionListItem>
 		);
 	};
 	return (
@@ -131,19 +152,14 @@ export function SwipeList<T extends { identifier: string; name: string }>({
 			data={sections as T[]}
 			keyboardShouldPersistTaps={"handled"}
 			stickyHeaderHiddenOnScroll={false}
+			// invertStickyHeaders={true}
 			automaticallyAdjustKeyboardInsets
 			keyExtractor={(item, index) => {
 				return typeof item === "string"
-					? index.toString()
+					? index.toString() + index
 					: item.identifier;
 			}}
-			stickyHeaderIndices={
-				sections
-					.map((item, index) => {
-						return typeof item === "string" ? index : null;
-					})
-					.filter((item) => item !== null) as number[]
-			}
+			stickyHeaderIndices={stickyIndices}
 			ListEmptyComponent={() => (
 				<View style={styles.emptyListStyle}>
 					<Text style={styles.emptyListTextStyle}>

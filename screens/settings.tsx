@@ -3,7 +3,7 @@ import { ScrollView, View, Text, Platform } from "react-native";
 import { colors } from "../theme";
 import { DatenView } from "../components/settings/dataView";
 import { PodcastView } from "../components/settings/podcastView";
-import { MemberView } from "../components/settings/memberView";
+import { MemberView } from "../components/settings/teamLIst";
 import { AppFooter } from "../components/settings/footerView";
 import { Illustration } from "../components/settings/illuView";
 import { NavigationItem } from "../components/settings/navigationItem";

@@ -7,11 +7,10 @@ import Animated, {
 	withDelay,
 	withTiming,
 } from "react-native-reanimated";
-import { useShakeDetector } from "../../hooks/useShakeDetector";
 
 interface Props {
 	onDelete: () => void;
-	disableSwipe: boolean;
+	disableAnimation: boolean;
 	children: React.ReactNode;
 }
 
@@ -20,11 +19,9 @@ export interface ItemMethods {
 	cancel: () => void;
 }
 
-export const SwipeItem = forwardRef<ItemMethods, Props>(
-	({ onDelete, children, disableSwipe }: Props, ref: Ref<any>) => {
+export const SectionListItem = forwardRef<ItemMethods, Props>(
+	({ onDelete, children, disableAnimation }: Props, ref: Ref<any>) => {
 		const opacity = useSharedValue(1);
-
-		useShakeDetector(cancelAnimation);
 
 		function cancelAnimation() {
 			opacity.value = withTiming(1, { duration: 0 });
@@ -34,7 +31,7 @@ export const SwipeItem = forwardRef<ItemMethods, Props>(
 			fadeOut: () => {
 				opacity.value = withTiming(
 					0,
-					{ duration: 2000 },
+					{ duration: 1500 },
 					(isFinished) => {
 						if (isFinished) {
 							opacity.value = withDelay(
@@ -57,7 +54,7 @@ export const SwipeItem = forwardRef<ItemMethods, Props>(
 			};
 		});
 
-		if (disableSwipe) {
+		if (disableAnimation) {
 			return <View>{children}</View>;
 		}
 

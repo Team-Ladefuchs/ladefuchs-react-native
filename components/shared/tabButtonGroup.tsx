@@ -16,7 +16,7 @@ interface Props<T> {
 export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 	const [activeTab, setActiveTab] = useState(0);
 	const translateX = useRef(new Animated.Value(0)).current;
-	const tabWidths = useRef([]);
+	const tabWidths = useRef<number[]>([]);
 
 	const handleTabPress = (item: TabItem<T>, tabIndex: number) => {
 		setActiveTab(tabIndex);
@@ -29,9 +29,9 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 		}).start();
 	};
 
-	const setTabWidth = (event, tabIndex) => {
+	const setTabWidth = (event: any, tabIndex: number) => {
 		const { width } = event.nativeEvent.layout;
-		tabWidths.current[tabIndex] = width;
+		tabWidths.current[tabIndex] = (width as number) - scale(3.5);
 	};
 
 	return (
@@ -50,10 +50,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 					<TouchableOpacity
 						activeOpacity={0.9}
 						hitSlop={scale(10)}
-						style={[
-							styles.tab,
-							activeTab === index && styles.activeTab,
-						]}
+						style={[styles.tab]}
 						onPress={() => handleTabPress(tabItem, index)}
 						onLayout={(event) => setTabWidth(event, index)}
 						key={index}
@@ -81,7 +78,6 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
 		flexDirection: "row",
 		paddingVertical: "3@s",
-		paddingHorizontal: "4@s",
 		borderRadius: "12@s",
 		position: "relative",
 	},
@@ -110,16 +106,12 @@ const styles = ScaledSheet.create({
 		flex: 1,
 		paddingVertical: "6@s",
 	},
-	activeTab: {
-		// backgroundColor: "blue",
-	},
 	tabText: {
 		fontSize: 16,
 		opacity: 1,
 	},
 	activeTabText: {
 		fontWeight: "bold",
-		// color: colors.ladefuchsOrange,
 	},
 	content: {
 		flex: 1,

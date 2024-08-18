@@ -12,4 +12,6 @@ export interface Tariff {
 	monthlyFee: number;
 	note?: string;
 	affiliateLinkUrl?: string;
+	// only for view
+	added?: boolean;
 }
