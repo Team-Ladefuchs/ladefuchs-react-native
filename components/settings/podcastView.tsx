@@ -1,23 +1,27 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
-// dont use svg use png, or jpg
-import Audiodump from "@assets/podcast/podcast_audiodump.svg";
-import MalikFM from "@assets/podcast/podcast_malik-fm.svg";
-import BitsundSo from "@assets/podcast/podcast_bitsundso.svg";
-import FreakShow from "@assets/podcast/podcast_freak-show.svg";
+import { View, Text, TouchableOpacity, Linking, Image } from "react-native";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import { Line } from "./line";
 
 const podcasts = [
-	{ link: "https://audiodump.de", icon: Audiodump },
-	{ link: "https://malik.fm", icon: MalikFM },
-	{ link: "https://bitsundso.de", icon: BitsundSo },
+	{
+		link: "https://audiodump.de",
+		image: require("@assets/podcast/audiodump.jpg"),
+	},
+	{
+		link: "https://malik.fm",
+		image: require("@assets/podcast/malik-fm.jpg"),
+	},
+	{
+		link: "https://bitsundso.de",
+		image: require("@assets/podcast/bitsundso.png"),
+	},
 	{
 		link: "https://freakshow.fm/",
-		icon: FreakShow,
+		image: require("@assets/podcast/freak-show.jpg"),
 	},
-];
+] as const;
 
 export function PodcastView(): JSX.Element {
 	const size = scale(70);
@@ -34,13 +38,20 @@ export function PodcastView(): JSX.Element {
 					marginTop: scale(12),
 				}}
 			>
-				{podcasts.map(({ link, icon: Icon }) => (
+				{podcasts.map(({ link, image }) => (
 					<TouchableOpacity
 						key={link}
 						activeOpacity={0.9}
 						onPress={async () => await Linking.openURL(link)}
 					>
-						<Icon width={size} height={size} />
+						<Image
+							source={image}
+							style={{
+								height: size,
+								width: size,
+								borderRadius: scale(3),
+							}}
+						/>
 					</TouchableOpacity>
 				))}
 			</View>
