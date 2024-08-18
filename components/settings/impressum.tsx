@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback, Linking } from "react-native";
-import { styles } from "../theme";
+import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
-import { Line } from "../components/settings/line";
+import { Line } from "./line";
 
 export function Impressum(): JSX.Element {
 	return (

@@ -14,7 +14,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "38",
+      "buildNumber": "39",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
@@ -55,8 +55,7 @@
             "deploymentTarget": "16.0"
           }
         }
-      ],
-      "expo-router"
+      ]
     ]
   }
 }

@@ -21,7 +21,7 @@ export function ChargeConditionTable() {
 			setTariffConditions: state.setTariffConditions,
 			operatorId: state.operatorId,
 			chargingConditionsMap: state.chargingConditions,
-		}))
+		})),
 	);
 
 	useEffect(() => {
@@ -37,7 +37,7 @@ export function ChargeConditionTable() {
 	const currentTariffConditions = useMemo(() => {
 		const [acTariffCondition, dcTariffCondition] = fill(
 			tariffConditions.filter((item) => item.chargingMode === "ac"),
-			tariffConditions.filter((item) => item.chargingMode === "dc")
+			tariffConditions.filter((item) => item.chargingMode === "dc"),
 		);
 		return zip(acTariffCondition, dcTariffCondition);
 	}, [tariffConditions]);
@@ -84,7 +84,7 @@ export function ChargeConditionTable() {
 				</View>
 			);
 		},
-		[tariffs]
+		[tariffs],
 	);
 
 	return (
@@ -117,7 +117,7 @@ function conditionKey(condition: TariffCondition | null): string {
 
 const styles = StyleSheet.create({
 	chargingTableContainer: {
-		flex: 89,
+		flex: 92,
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	scrollContainer: {
@@ -125,12 +125,12 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 	},
 	priceLineContainer: {
-		flexDirection: "row", // Horizontal layout
-		justifyContent: "space-between", // Distribute space between items
-		paddingVertical: 0, // Adjust as needed
+		flexDirection: "row",
+		justifyContent: "space-between",
+		paddingVertical: 0,
 	},
 	space: {
-		width: 1, // Adjust space width as needed
-		backgroundColor: "white", // Set space background color
+		width: 1,
+		backgroundColor: "white",
 	},
 });

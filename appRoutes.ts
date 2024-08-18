@@ -12,7 +12,7 @@ export const appRoutes = {
 		key: "SettingsStack",
 	},
 	detailScreen: {
-		key: "detailScreen",
+		key: "tariffDetailView",
 	},
 	settings: {
 		title: "Einstellungen",
@@ -26,9 +26,5 @@ export const appRoutes = {
 	eula: {
 		title: "Drittlizenzen",
 		key: "eula",
-	},
-	impressum: {
-		title: "Impressum",
-		key: "impressum",
 	},
 } as const;

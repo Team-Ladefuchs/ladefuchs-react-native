@@ -16,7 +16,7 @@ import {
 	focusManager,
 } from "@tanstack/react-query";
 
-import { DetailScreen } from "./screens/detailView";
+import { TariffDetailView } from "./screens/tariffDetailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
@@ -31,7 +31,6 @@ import { ThirdPartyLicenses } from "./screens/thirdPartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
-import { Impressum } from "./screens/impressum";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
@@ -84,7 +83,7 @@ function AppWrapper(): JSX.Element {
 				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}
-						component={DetailScreen}
+						component={TariffDetailView}
 						options={({ navigation, route }: any) => ({
 							headerBackTitleVisible: false,
 							headerLeft: undefined,
@@ -147,13 +146,6 @@ function SettingsStackNavigator(): JSX.Element {
 				component={TariffList}
 				options={() =>
 					normalHeader({ title: appRoutes.customTariffs.title })
-				}
-			/>
-			<SettingsStack.Screen
-				name={appRoutes.impressum.key}
-				component={Impressum}
-				options={() =>
-					normalHeader({ title: appRoutes.impressum.title })
 				}
 			/>
 			<SettingsStack.Screen

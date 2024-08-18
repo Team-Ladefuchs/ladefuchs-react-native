@@ -10,7 +10,7 @@ import { NavigationItem } from "../components/settings/navigationItem";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { appRoutes } from "../appRoutes";
 import { NavigationList } from "../components/settings/navigationList";
-import { Impressum } from "./impressum";
+import { Impressum } from "../components/settings/impressum";
 
 export function SettingsScreen() {
 	return (

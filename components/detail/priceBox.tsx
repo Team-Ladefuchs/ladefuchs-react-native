@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/plugs/ccs.svg";
