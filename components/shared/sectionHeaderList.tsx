@@ -17,6 +17,7 @@ import { colors } from "../../theme";
 
 import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
+import { useShakeDetector } from "../../hooks/useShakeDetector";
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -26,6 +27,7 @@ interface Props<T extends { identifier: string }> {
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
 	disableAnimation: boolean;
+	onUndo: (item: T) => void;
 	estimatedItemSize: number;
 }
 
@@ -47,10 +49,24 @@ export function SectionHeaderList<T extends ItemType>({
 	disableAnimation,
 	renderItem,
 	containerStyle,
+	onUndo,
 	estimatedItemSize,
 }: Props<T>) {
 	const list = useRef<FlashList<any>>(null);
 	const itemsRef = useRef<ItemMethods[]>([]);
+
+	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
+
+	useShakeDetector(() => {
+		if (lastRemovedItem) {
+			onUndo(lastRemovedItem);
+			setLastRemovedItem(null);
+		}
+	});
+
+	useEffect(() => {
+		setLastRemovedItem(null);
+	}, [disableAnimation]);
 
 	const sections = useMemo(() => {
 		const myList: (ItemType | string)[] = [];
@@ -81,13 +97,19 @@ export function SectionHeaderList<T extends ItemType>({
 			return [FAKE_HEADER, "MEINE TARIFE", ...myList, ...items];
 		}
 		return [FAKE_HEADER, ...items];
-	}, [data]);
+	}, [data, disableAnimation]);
 
 	const stickyIndices = useMemo(() => {
 		return sections
 			.map((item, index) => (typeof item === "string" ? index : null))
 			.filter((index) => index !== null) as number[];
 	}, [sections]);
+
+	const removeItem = (item: T, index: number) => {
+		setLastRemovedItem(item);
+		removeItemByIndex(itemsRef.current, index);
+		onRemove(item);
+	};
 
 	const renderItemCallback = ({
 		item,
@@ -111,25 +133,29 @@ export function SectionHeaderList<T extends ItemType>({
 					}
 				}}
 				onDelete={() => {
-					onRemove(item);
-					removeItemByIndex(itemsRef.current, index);
+					removeItem(item, index);
 					list.current?.prepareForLayoutAnimationRender();
 					LayoutAnimation.configureNext(
 						LayoutAnimation.Presets.easeInEaseOut,
 					);
 				}}
 			>
-				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<TouchableWithoutFeedback
+					onPress={() => {
+						itemsRef.current[index]?.cancel();
+						Keyboard.dismiss();
+					}}
+				>
 					<View style={[styles.item, containerStyle]}>
 						<Checkbox
 							checked={itemExist}
 							onValueChange={(value) => {
 								if (disableAnimation) {
-									!value ? onRemove(item) : onAdd(item);
-									return;
+									return !value
+										? removeItem(item, index)
+										: onAdd(item);
 								}
-
-								!value
+								return !value
 									? itemsRef.current[index]?.fadeOut()
 									: onAdd(item);
 							}}
@@ -152,7 +178,6 @@ export function SectionHeaderList<T extends ItemType>({
 			data={sections as T[]}
 			keyboardShouldPersistTaps={"handled"}
 			stickyHeaderHiddenOnScroll={false}
-			// invertStickyHeaders={true}
 			automaticallyAdjustKeyboardInsets
 			keyExtractor={(item, index) => {
 				return typeof item === "string"

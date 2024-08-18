@@ -77,7 +77,7 @@ export function PriceBox({
 				) : (
 					<View style={styles.priceContainer}>
 						<Text
-							style={{ ...styles.priceText, fontSize: scale(36) }}
+							style={[styles.priceText, { fontSize: scale(36) }]}
 						>
 							{formatNumber(price) ?? "—"}
 						</Text>

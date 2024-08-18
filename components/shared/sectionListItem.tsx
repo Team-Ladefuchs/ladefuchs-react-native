@@ -34,10 +34,6 @@ export const SectionListItem = forwardRef<ItemMethods, Props>(
 					{ duration: 1500 },
 					(isFinished) => {
 						if (isFinished) {
-							opacity.value = withDelay(
-								110,
-								withTiming(1, { duration: 0 }),
-							);
 							if (onDelete) {
 								runOnJS(onDelete)();
 							}

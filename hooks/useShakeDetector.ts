@@ -21,7 +21,7 @@ export function useShakeDetector(onShake: () => void) {
 				onShake();
 			}
 		},
-		[lastShake, SHAKE_THRESHOLD, SHAKE_TIME_THRESHOLD, onShake],
+		[lastShake, onShake],
 	);
 
 	useEffect(() => {

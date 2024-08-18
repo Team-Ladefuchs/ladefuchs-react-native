@@ -146,14 +146,29 @@ export function OperatorListScreen(): JSX.Element {
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
-					onRemove={({ identifier }: Operator) => {
+					onUndo={({ identifier, isStandard }: Operator) => {
+						if (isStandard) {
+							setOperatorRemoveSet((prevSet) => {
+								const newSet = new Set(prevSet);
+								newSet.delete(identifier);
+								return newSet;
+							});
+						} else {
+							setOperatorAddSet((prevSet) => {
+								const newSet = new Set(prevSet);
+								newSet.add(identifier);
+								return newSet;
+							});
+						}
+					}}
+					onRemove={(operator: Operator) => {
 						setOperatorRemoveSet(
-							(prev) => new Set([identifier, ...prev]),
+							(prev) => new Set([operator.identifier, ...prev]),
 						);
-						if (operatorAddSet.has(identifier)) {
+						if (operatorAddSet.has(operator.identifier)) {
 							setOperatorAddSet((prev) => {
 								const newSet = new Set(prev);
-								newSet.delete(identifier);
+								newSet.delete(operator.identifier);
 								return newSet;
 							});
 						}

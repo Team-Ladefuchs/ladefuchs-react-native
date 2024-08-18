@@ -1,6 +1,5 @@
 import React from "react";
 import { View, ViewStyle } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
 import { NavigationItem } from "./navigationItem";
 import { Line } from "./line";
 
@@ -23,5 +22,3 @@ export function NavigationList({ style, children }: NavigationListProps) {
 		</View>
 	);
 }
-
-const navigationStyle = ScaledSheet.create({});
