@@ -27,7 +27,7 @@ import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
-import { ThirdPartyLicenses } from "./screens/thirdPartyLicenses";
+import { LicenseView } from "./screens/licenseView";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
@@ -150,9 +150,9 @@ function SettingsStackNavigator(): JSX.Element {
 				}
 			/>
 			<SettingsStack.Screen
-				name={appRoutes.eula.key}
-				component={ThirdPartyLicenses}
-				options={() => normalHeader({ title: appRoutes.eula.title })}
+				name={appRoutes.license.key}
+				component={LicenseView}
+				options={() => normalHeader({ title: appRoutes.license.title })}
 			/>
 		</SettingsStack.Navigator>
 	);

@@ -23,9 +23,8 @@ export const appRoutes = {
 		title: "Feedback",
 		key: "feedback",
 	},
-
-	eula: {
-		title: i18n.t('lizenzen'),
-		key: "eula",
+	license: {
+		title: "Drittlizenzen",
+		key: "license",
 	},
 } as const;
