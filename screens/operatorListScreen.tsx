@@ -17,7 +17,7 @@ import { SearchInput } from "../components/shared/searchInput";
 import { Operator } from "../types/operator";
 import { fetchOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
-import { getMinutes } from "../functions/util";
+import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
@@ -126,6 +126,13 @@ export function OperatorListScreen(): JSX.Element {
 		);
 	};
 
+	useEffect(() => {
+		if (isDebug) {
+			console.log("[debug] operatorAddSet", operatorAddSet);
+			console.log("[debug] operatorRemoveSet", operatorRemoveSet);
+		}
+	}, [operatorAddSet, operatorRemoveSet]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "height" : undefined}
@@ -147,7 +154,8 @@ export function OperatorListScreen(): JSX.Element {
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
-					onUndo={({ identifier, isStandard }: Operator) => {
+					onUndo={({ identifier, isStandard, name }: Operator) => {
+						console.log(isStandard, identifier, name);
 						if (isStandard) {
 							setOperatorRemoveSet((prevSet) => {
 								const newSet = new Set(prevSet);
@@ -162,14 +170,17 @@ export function OperatorListScreen(): JSX.Element {
 							});
 						}
 					}}
-					onRemove={(operator: Operator) => {
-						setOperatorRemoveSet(
-							(prev) => new Set([operator.identifier, ...prev]),
-						);
-						if (operatorAddSet.has(operator.identifier)) {
+					onRemove={({ isStandard, identifier }: Operator) => {
+						if (isStandard) {
+							setOperatorRemoveSet(
+								(prev) => new Set([identifier, ...prev]),
+							);
+						}
+
+						if (operatorAddSet.has(identifier)) {
 							setOperatorAddSet((prev) => {
 								const newSet = new Set(prev);
-								newSet.delete(operator.identifier);
+								newSet.delete(identifier);
 								return newSet;
 							});
 						}
@@ -179,7 +190,8 @@ export function OperatorListScreen(): JSX.Element {
 							setOperatorAddSet(
 								(prev) => new Set([identifier, ...prev]),
 							);
-						} else if (operatorRemoveSet.has(identifier)) {
+						}
+						if (operatorRemoveSet.has(identifier)) {
 							setOperatorRemoveSet((prev) => {
 								const newSet = new Set(prev);
 								newSet.delete(identifier);

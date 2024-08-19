@@ -179,14 +179,17 @@ export function TariffList(): JSX.Element {
 							});
 						}
 					}}
-					onRemove={(tariff: Tariff) => {
-						setTariffsRemoveSet(
-							(prev) => new Set([tariff.identifier, ...prev]),
-						);
-						if (tariffsAddSet.has(tariff.identifier)) {
+					onRemove={({ isStandard, identifier }: Tariff) => {
+						if (isStandard) {
+							setTariffsRemoveSet(
+								(prev) => new Set([identifier, ...prev]),
+							);
+						}
+
+						if (tariffsAddSet.has(identifier)) {
 							setTariffsAddSet((prevSet) => {
 								const newSet = new Set(prevSet);
-								newSet.delete(tariff.identifier);
+								newSet.delete(identifier);
 								return newSet;
 							});
 						}
