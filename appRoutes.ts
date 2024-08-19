@@ -22,9 +22,8 @@ export const appRoutes = {
 		title: "Feedback",
 		key: "feedback",
 	},
-
-	eula: {
+	license: {
 		title: "Drittlizenzen",
-		key: "eula",
+		key: "license",
 	},
 } as const;

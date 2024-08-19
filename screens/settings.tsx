@@ -82,8 +82,8 @@ export function SettingsScreen() {
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"
-						title={appRoutes.eula.title}
-						screenKey={appRoutes.eula.key}
+						title={appRoutes.license.title}
+						screenKey={appRoutes.license.key}
 						description="Der Blick unter die Haube 🚘⚡️"
 					/>
 				</View>

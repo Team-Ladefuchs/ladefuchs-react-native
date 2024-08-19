@@ -19,6 +19,13 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-navigation/stack",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-navigation/stack/LICENSE"
   },
+  "@shopify/flash-list@1.7.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Shopify/flash-list",
+    "publisher": "shopify",
+    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@shopify/flash-list",
+    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@shopify/flash-list/LICENSE.md"
+  },
   "@tanstack/react-query@5.51.23": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
@@ -32,12 +39,19 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@types/react",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@types/react/LICENSE"
   },
-  "expo@51.0.26": {
+  "expo@51.0.28": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "Expo",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo/README.md"
+  },
+  "expo-checkbox@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-checkbox",
+    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-checkbox/README.md"
   },
   "expo-constants@16.0.2": {
     "licenses": "MIT",
@@ -53,12 +67,12 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-localization",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-localization/README.md"
   },
-  "expo-router@3.5.21": {
+  "expo-sensors@13.0.9": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
-    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-router",
-    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-router/README.md"
+    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-sensors",
+    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-sensors/README.md"
   },
   "expo-status-bar@1.12.1": {
     "licenses": "MIT",
@@ -109,16 +123,7 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-gesture-handler",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-gesture-handler/LICENSE"
   },
-  "react-native-keyboard-controller@1.12.7": {
-    "licenses": "MIT",
-    "repository": "https://github.com/kirillzyusko/react-native-keyboard-controller",
-    "publisher": "Kiryl Ziusko",
-    "email": "zyusko.kirik@gmail.com",
-    "url": "https://github.com/kirillzyusko",
-    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-keyboard-controller",
-    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-keyboard-controller/LICENSE"
-  },
-  "react-native-reanimated@3.15.0": {
+  "react-native-reanimated@3.10.1": {
     "licenses": "MIT",
     "repository": "https://github.com/software-mansion/react-native-reanimated",
     "publisher": "Krzysztof Magiera",
@@ -184,12 +189,5 @@
     "publisher": "Paul Henschel",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/zustand",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/zustand/LICENSE"
-  },
-  "@shopify/flash-list@1.6.4": {
-    "licenses": "MIT",
-    "repository": "https://github.com/Shopify/flash-list",
-    "publisher": "shopify",
-    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@shopify/flash-list",
-    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@shopify/flash-list/LICENSE.md"
   }
 }

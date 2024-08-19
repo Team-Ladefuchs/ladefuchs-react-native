@@ -17,7 +17,7 @@ interface LicenseInfo {
 	licenses: string;
 }
 
-export function ThirdPartyLicenses(): JSX.Element {
+export function LicenseView(): JSX.Element {
 	const items = Object.entries(licenses);
 	const renderItem = ({
 		item,
