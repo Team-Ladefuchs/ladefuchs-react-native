@@ -1,0 +1,39 @@
+HOW MUCH IS THE ELECTRICITY FOR YOUR EV CAR?
+Find the cheapest charging plan fast as lightning.
+
+With just one finger swipe, Ladefuchs shows you the cheapest charging plan at the charging point.
+
+Not more, not less.
+
+Thanks to chargeprice.app, the data is always up to date.
+
+The app is free. However, the little Ladefuchs (Chargefox) is always happy like a young badger about food donations.
+
+He always cheeps a bit then.
+
+The app is targeted to the German EV charging market and in German language only currently.
+
+Who is actually to blame?
+-------------------------
+* Malik & Flowinho of audiodump.de
+* Bastian ’Schlingel‘ Wölfle of bitsundso.de
+* Dominic Wrege
+* Thorsten Roesler
+* Illu: Aga und Marcel-André
+
+Ideas? Bugs?
+------------
+Plese send to android@ladefuchs.app
+
+If you have suggestions for foot note texts, let us know at https://ladefuchs.app/fussnote
+
+Anti-Features
+-------------
+
+* Non-Free Network Services - The app accesses an own API server, which in turn retrieves data from chargeprice.app.
+
+Permissions
+-----------
+
+* INTERNET - Acces to own API server
+* ACCESS_NETWORK_STATE - Check whether internet connectivity is available before trying to access the API server

@@ -1,0 +1,1 @@
+* fix(wrong operator prices): Take the first CPO from the list on app start
