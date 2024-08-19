@@ -13,6 +13,7 @@ import MastodonIcon from "@assets/about/icon_mastodon.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SvgProps } from "react-native-svg";
 import { Line } from "./line";
+import i18n from "../../localization";
 
 const activeMember = [
 	{
@@ -155,8 +156,7 @@ export function MemberView(): JSX.Element {
 		<View>
 			<Text style={appStyle.headLine}>TEAMFUCHS</Text>
 			<Text style={[appStyle.headerText, { marginBottom: scale(12) }]}>
-				Wir sind schuld. Wirklich!{"\n"}Trotzdem alle Angaben ohne
-				Gewähr.
+			{i18n.t('teamfuchs')}
 			</Text>
 			<TeamList items={activeMember} />
 			<Text style={[appStyle.headLine, { marginTop: scale(32) }]}>
