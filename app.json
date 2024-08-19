@@ -14,7 +14,6 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "46",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
