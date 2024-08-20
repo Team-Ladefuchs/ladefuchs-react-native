@@ -14,6 +14,7 @@ import { CardImage } from "../components/shared/cardImage";
 import { OperatorImage } from "../components/shared/operatorImage";
 import { genericOperatorImage, userTariffImage } from "../functions/shared";
 import { Line } from "../components/settings/line";
+import i18n from "../localization";
 
 export function SettingsScreen() {
 	return (
@@ -40,7 +41,7 @@ export function SettingsScreen() {
 								/>
 							</View>
 						}
-						description={`Bei welchem Stromtarif-Anbieter\n(EMP) bist du Kunde?`}
+						description={i18n.t('ladetarife')}
 						screenKey={appRoutes.customTariffs.key}
 						justifyContent="space-evenly"
 					/>
@@ -51,7 +52,7 @@ export function SettingsScreen() {
 					<NavigationItem
 						title={appRoutes.customerOperator.title}
 						justifyContent="space-evenly"
-						description={`Welche Ladesäulen-Anbieter\n(CPO) möchtest du vergleichen?`}
+						description={i18n.t('ladesaeulen')}
 						iconPrefix={
 							<View
 								style={{
