@@ -1,7 +1,6 @@
 import React from "react";
 import { View, ViewStyle } from "react-native";
 import { NavigationItem } from "./navigationItem";
-import { Line } from "./line";
 
 interface NavigationListProps {
 	style?: ViewStyle;

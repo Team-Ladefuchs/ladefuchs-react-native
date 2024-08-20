@@ -155,6 +155,10 @@ export function SectionHeaderList<T extends ItemType>({
 										? removeItem(item, index)
 										: onAdd(item);
 								}
+								const currenRef = itemsRef.current[index];
+								if (currenRef.opacity() < 1) {
+									return currenRef.cancel();
+								}
 								return !value
 									? itemsRef.current[index]?.fadeOut()
 									: onAdd(item);

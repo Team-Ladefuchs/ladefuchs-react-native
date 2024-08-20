@@ -155,8 +155,7 @@ export function OperatorListScreen(): JSX.Element {
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
 					data={filteredOperators}
-					onUndo={({ identifier, isStandard, name }: Operator) => {
-						console.log(isStandard, identifier, name);
+					onUndo={({ identifier, isStandard }: Operator) => {
 						if (isStandard) {
 							setOperatorRemoveSet((prevSet) => {
 								const newSet = new Set(prevSet);
