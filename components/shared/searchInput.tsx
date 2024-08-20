@@ -6,11 +6,11 @@ import { colors } from "../../theme";
 import MagnifyingGlass from "@assets/generic/magnifyingglass.svg";
 
 interface Props {
-	setSearch: (value: string) => void;
+	onChange: (value: string) => void;
 	placeHolder: string;
 }
 
-export function SearchInput({ setSearch, placeHolder }: Props): JSX.Element {
+export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
 	return (
 		<SafeAreaView style={styles.searchContainer}>
 			<View style={styles.iconContainer}>
@@ -26,7 +26,7 @@ export function SearchInput({ setSearch, placeHolder }: Props): JSX.Element {
 				textContentType="none"
 				placeholderTextColor={"rgba(113, 107, 97, 0.65)"}
 				placeholder={placeHolder}
-				onChangeText={setSearch}
+				onChangeText={(text) => onChange(text.trim())}
 			/>
 		</SafeAreaView>
 	);

@@ -247,7 +247,7 @@ export function TariffList(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder="Tarif suchen" />
+			<SearchInput onChange={setSearch} placeHolder="Tarif suchen" />
 		</KeyboardAvoidingView>
 	);
 }

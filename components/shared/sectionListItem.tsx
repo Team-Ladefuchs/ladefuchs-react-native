@@ -16,6 +16,7 @@ interface Props {
 export interface ItemMethods {
 	fadeOut: () => void;
 	cancel: () => void;
+	opacity: () => number;
 }
 
 export const SectionListItem = forwardRef<ItemMethods, Props>(
@@ -26,22 +27,27 @@ export const SectionListItem = forwardRef<ItemMethods, Props>(
 			opacity.value = withTiming(1, { duration: 0 });
 		}
 
-		useImperativeHandle(ref, () => ({
-			fadeOut: () => {
-				opacity.value = withTiming(
-					0,
-					{ duration: 1500 },
-					(isFinished) => {
-						if (isFinished) {
-							if (onDelete) {
-								runOnJS(onDelete)();
-							}
-						}
+		useImperativeHandle(
+			ref,
+			() =>
+				({
+					fadeOut: () => {
+						opacity.value = withTiming(
+							0,
+							{ duration: 1500 },
+							(isFinished) => {
+								if (isFinished) {
+									if (onDelete) {
+										runOnJS(onDelete)();
+									}
+								}
+							},
+						);
 					},
-				);
-			},
-			cancel: cancelAnimation,
-		}));
+					opacity: () => opacity.value,
+					cancel: cancelAnimation,
+				}) satisfies ItemMethods,
+		);
 
 		const animatedStyle = useAnimatedStyle(() => {
 			return {
