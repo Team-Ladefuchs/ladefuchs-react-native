@@ -1,11 +1,12 @@
 const en = {
+	einstellungen:"Settings",
 	teamfuchs: "TEAMFOX",
 	teamfuchstext:
 		"It's our fault. Really!\nHowever, all information is provided without guarantee.",
-	//ladetarife: "CHARGING TARIFFS",
+	ladetarife: "CHARGING TARIFFS",
 	ladetarifetext:
 		"Which electricity tariff provider\n(EMP) are you a customer of?",
-	//ladesaeulen: "CHARGING STATIONS",
+	ladesaeulen: "CHARGING STATIONS",
 	ladesaeulentext:
 		"Which charging station providers\n(CPO) do you want to compare?",
 		veteranen:"VETERANS",
@@ -18,9 +19,9 @@ const en = {
 	impressum:"LEGAL DISCLOSURE",
 	impressumtext1:"Responsible for the content according to § 55. 2 RStV:",
 	impressumtext2:"Dipl.-Designer Malik Aziz\nStephanstraße 43-45, 52064 Aachen",
-	//lizenzen:"",
+	lizenzen:"Third-party licenses",
 	lizenztext:"A look under the hood 🚘⚡️",
-	footer:"Handmade from ❤️ for electromobility in\n 👑 Aachen, ⚒️ Ahlen and 🦅 Brandenburg",
+	footer:"Handmade from ❤️ for electromobility in\n 👑 Aachen, ⚒️ Ahlen and 🏇 Hoppegarten",
 };
 
 export default en;

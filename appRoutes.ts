@@ -1,11 +1,12 @@
 // todo add the rest
+import i18n from "./localization";
 export const appRoutes = {
 	customerOperator: {
-		title: "Ladesäulen",
+		title: i18n.t('ladesaeulen'),
 		key: "customerOperator",
 	},
 	customTariffs: {
-		title: "Ladetarife",
+		title: i18n.t('ladetarife'),
 		key: "customTariffs",
 	},
 	settingsStack: {
@@ -15,7 +16,7 @@ export const appRoutes = {
 		key: "tariffDetailView",
 	},
 	settings: {
-		title: "Einstellungen",
+		title: i18n.t('einstellungen'),
 		key: "Einstellungen",
 	},
 	feedback: {
@@ -24,7 +25,7 @@ export const appRoutes = {
 	},
 
 	eula: {
-		title: "Drittlizenzen",
+		title: i18n.t('lizenzen'),
 		key: "eula",
 	},
 } as const;
