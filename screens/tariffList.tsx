@@ -29,13 +29,13 @@ const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
 const itemHeight = scale(61);
 
-type filerType = "all" | "active" | "own";
+type filterType = "all" | "active" | "own";
 
 const tabs = [
 	{ key: "all", label: "Alle" },
 	{ key: "active", label: "Aktiv" },
 	{ key: "own", label: "Eigene" },
-] satisfies TabItem<filerType>[];
+] satisfies TabItem<filterType>[];
 
 export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -47,7 +47,7 @@ export function TariffList(): JSX.Element {
 		new Set(),
 	);
 
-	const [filterMode, setFilterMode] = useState<filerType>("all");
+	const [filterMode, setFilterMode] = useState<filterType>("all");
 
 	const { customTariffs, saveCustomTariffs, resetCustomTariffs } =
 		useCustomTariffsOperators();
@@ -107,22 +107,13 @@ export function TariffList(): JSX.Element {
 			});
 		}
 
-		return tariffs
-			.filter((tariff) => {
-				const term = search.toLowerCase();
-				return (
-					tariff.name.toLowerCase().includes(term) ||
-					tariff.providerName.toLowerCase().includes(term)
-				);
-			})
-			.map((tariff) => {
-				return {
-					...tariff,
-					added:
-						!tariff.isStandard &&
-						tariffsAddSet.has(tariff.identifier),
-				};
-			});
+		return tariffs.filter((tariff) => {
+			const term = search.toLowerCase();
+			return (
+				tariff.name.toLowerCase().includes(term) ||
+				tariff.providerName.toLowerCase().includes(term)
+			);
+		});
 	}, [
 		search,
 		allTariffsQuery.data,
