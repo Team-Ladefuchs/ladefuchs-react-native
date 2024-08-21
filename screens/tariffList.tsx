@@ -29,11 +29,12 @@ const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
 const itemHeight = scale(61);
 
-type filerType = "all" | "active";
+type filerType = "all" | "active" | "own";
 
 const tabs = [
 	{ key: "all", label: "Alle" },
 	{ key: "active", label: "Aktiv" },
+	{ key: "own", label: "Eigene" },
 ] satisfies TabItem<filerType>[];
 
 export function TariffList(): JSX.Element {
@@ -80,7 +81,7 @@ export function TariffList(): JSX.Element {
 		queryKey: ["AllTariffs"],
 		retry: 3,
 		retryDelay: 100,
-		gcTime: getMinutes(30),
+		gcTime: getMinutes(20),
 		queryFn: async () => {
 			const tariffs = await fetchTariffs({ standard: false });
 			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));
@@ -90,7 +91,14 @@ export function TariffList(): JSX.Element {
 	const filteredTariffs = useMemo(() => {
 		let tariffs = allTariffsQuery.data ?? [];
 
-		if (filterMode === "active") {
+		if (filterMode === "own") {
+			tariffs = tariffs.filter(({ identifier }) => {
+				return (
+					!tariffsRemoveSet.has(identifier) &&
+					tariffsAddSet.has(identifier)
+				);
+			});
+		} else if (filterMode === "active") {
 			tariffs = tariffs.filter(({ isStandard, identifier }) => {
 				return (
 					(isStandard && !tariffsRemoveSet.has(identifier)) ||
@@ -144,6 +152,13 @@ export function TariffList(): JSX.Element {
 		);
 	};
 
+	const emptyText = useMemo(() => {
+		if (filterMode === "own") {
+			return "Hier findest du deine eigene Tarife.\nNeue hinzufügen: ✅";
+		}
+		return null;
+	}, [filterMode]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "height" : undefined}
@@ -163,6 +178,7 @@ export function TariffList(): JSX.Element {
 					disableAnimation={filterMode === "all"}
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
+					emptyText={emptyText}
 					data={filteredTariffs}
 					onUndo={({ identifier, isStandard }: Tariff) => {
 						if (isStandard) {

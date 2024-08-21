@@ -7,6 +7,7 @@ import {
 	ViewStyle,
 	Keyboard,
 	LayoutAnimation,
+	Dimensions,
 } from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
@@ -28,12 +29,11 @@ interface Props<T extends { identifier: string }> {
 	exists: (item: T) => boolean;
 	disableAnimation: boolean;
 	onUndo: (item: T) => void;
+	emptyText?: string | null;
 	estimatedItemSize: number;
 }
 
 const isLetter = /[a-zA-Z]/;
-
-const FAKE_HEADER = "FAKE_HEADER";
 
 interface ItemType {
 	identifier: string;
@@ -50,6 +50,7 @@ export function SectionHeaderList<T extends ItemType>({
 	renderItem,
 	containerStyle,
 	onUndo,
+	emptyText,
 	estimatedItemSize,
 }: Props<T>) {
 	const list = useRef<FlashList<any>>(null);
@@ -69,15 +70,10 @@ export function SectionHeaderList<T extends ItemType>({
 	}, [disableAnimation]);
 
 	const sections = useMemo(() => {
-		const myList: (ItemType | string)[] = [];
 		const sectionMap = data.reduce(
 			(acc, item) => {
 				let headerName = item.name.charAt(0).toUpperCase();
 
-				if (item.added && !disableAnimation) {
-					myList.push(item);
-					return acc;
-				}
 				if (!isLetter.test(headerName)) {
 					headerName = "#";
 				}
@@ -91,12 +87,7 @@ export function SectionHeaderList<T extends ItemType>({
 			{} as Record<string, (string | T)[]>,
 		);
 
-		const items = Object.values(sectionMap).flat();
-
-		if (myList.length) {
-			return [FAKE_HEADER, "MEINE TARIFE", ...myList, ...items];
-		}
-		return [FAKE_HEADER, ...items];
+		return Object.values(sectionMap).flat();
 	}, [data, disableAnimation]);
 
 	const stickyIndices = useMemo(() => {
@@ -118,7 +109,6 @@ export function SectionHeaderList<T extends ItemType>({
 		item: T;
 		index: number;
 	}) => {
-		if (typeof item === "string" && item === FAKE_HEADER) return null;
 		if (typeof item === "string") {
 			return <Text style={styles.separatorHeader}>{item}</Text>;
 		}
@@ -192,10 +182,9 @@ export function SectionHeaderList<T extends ItemType>({
 			ListEmptyComponent={() => (
 				<View style={styles.emptyListStyle}>
 					<Text style={styles.emptyListTextStyle}>
-						Hier gibt es nichts zu sehen,
-					</Text>
-					<Text style={styles.emptyListTextStyle}>
-						bitte laden Sie weiter. 🦊
+						{emptyText
+							? emptyText
+							: `Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊`}
 					</Text>
 				</View>
 			)}
@@ -231,11 +220,15 @@ const styles = ScaledSheet.create({
 	},
 	emptyListStyle: {
 		color: colors.ladefuchsGrayTextColor,
-		marginHorizontal: "16@s",
-		marginTop: "38@s",
+		marginHorizontal: "32@s",
+		flex: 1,
+		height: scale(Dimensions.get("window").height / 2),
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	emptyListTextStyle: {
 		fontStyle: "italic",
+		lineHeight: "22@s",
 		textAlign: "center",
 		fontSize: "15@s",
 		fontWeight: "bold",
