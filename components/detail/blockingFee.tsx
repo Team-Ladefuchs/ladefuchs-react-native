@@ -6,6 +6,7 @@ import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
 import { useFormatNumber } from "../../hooks/useNumberFormat";
 import { ScaledSheet } from "react-native-size-matters";
+import i18n from "../../localization";
 
 export function BlockingFee({
 	feeStart,
@@ -33,7 +34,7 @@ export function BlockingFee({
 	return (
 		<View style={styles.container}>
 			{showHighlightCorner && <HighlightCorner />}
-			<CardHeader text={"Blockier\u00ADgebühr"} />
+			<CardHeader text={i18n.t('blockingfee')} />
 			{textBlock}
 		</View>
 	);

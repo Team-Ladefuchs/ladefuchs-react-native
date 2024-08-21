@@ -1,5 +1,10 @@
 const de = {
 	pickerheader: "AN WELCHER SÄULE STEHST DU?",
+	blockingfee:"Blockier\u00ADgebühr",
+	monthlyfee:"Monatliche Gebühr",
+	notizen:"Notizen",
+	preisfalsch:"Preise/Infos falsch?",
+	karte:"Hol dir die Karte!",
 	einstellungen: "Einstellungen",
 	teamfuchs: "TEAMFUCHS",
 	teamfuchstext:

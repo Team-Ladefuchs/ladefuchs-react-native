@@ -1,5 +1,10 @@
 const en = {
 	pickerheader:"WHICH PILLAR ARE YOU STANDING ON?",
+	blockingfee:"Blocking \u00ADfee",
+	monthlyfee:"Monthly fee",
+	notizen:"Notes",
+	preisfalsch:"Prices/info wrong?",
+	karte:"Get the card!",
 	einstellungen:"Settings",
 	teamfuchs: "TEAMFOX",
 	teamfuchstext:
