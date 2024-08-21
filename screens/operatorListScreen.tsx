@@ -75,7 +75,7 @@ export function OperatorListScreen(): JSX.Element {
 
 	const allOperatorsQuery = useQuery({
 		queryKey: ["AllOperators"],
-		gcTime: getMinutes(30),
+		gcTime: getMinutes(20),
 		retry: 3,
 		queryFn: async () => {
 			return await fetchOperators({ standard: false });

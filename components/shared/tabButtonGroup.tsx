@@ -1,5 +1,12 @@
-import React, { useState, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, Platform } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	Animated,
+	Platform,
+	Dimensions,
+} from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "../../theme";
 
@@ -14,34 +21,39 @@ interface Props<T> {
 }
 
 export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
+	const [ready, setReady] = useState(false);
 	const [activeTab, setActiveTab] = useState(0);
 	const translateX = useRef(new Animated.Value(0)).current;
-	const tabWidths = useRef<number[]>([]);
+	const containerWidth = useRef<number>(
+		Dimensions.get("window").width - scale(4),
+	);
+	const tabWidth = containerWidth.current / tabs.length;
 
 	const handleTabPress = (item: TabItem<T>, tabIndex: number) => {
 		setActiveTab(tabIndex);
 		onSelected(item, tabIndex);
 		Animated.timing(translateX, {
-			toValue: tabWidths.current[tabIndex] * tabIndex,
+			toValue: tabWidth * tabIndex,
 			useNativeDriver: true,
 			delay: 0,
 			duration: 210,
 		}).start();
 	};
 
-	const setTabWidth = (event: any, tabIndex: number) => {
-		const { width } = event.nativeEvent.layout;
-		tabWidths.current[tabIndex] = (width as number) - scale(3.5);
-	};
-
 	return (
 		<View style={styles.container}>
-			<View style={styles.tabContainer}>
+			<View
+				style={styles.tabContainer}
+				onLayout={(event) => {
+					containerWidth.current =
+						event.nativeEvent.layout.width - scale(6);
+				}}
+			>
 				<Animated.View
 					style={[
 						styles.animatedBackground,
 						{
-							width: tabWidths.current[activeTab] || "50%",
+							width: tabWidth,
 							transform: [{ translateX }],
 						},
 					]}
@@ -50,9 +62,8 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 					<TouchableOpacity
 						activeOpacity={0.9}
 						hitSlop={scale(10)}
-						style={[styles.tab]}
+						style={[styles.tab, { width: tabWidth }]} // Apply equal width
 						onPress={() => handleTabPress(tabItem, index)}
-						onLayout={(event) => setTabWidth(event, index)}
 						key={index}
 					>
 						<Text
@@ -78,17 +89,19 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
 		flexDirection: "row",
 		paddingVertical: "3@s",
+		paddingLeft: "2@s",
 		borderRadius: "12@s",
+		paddingRight: "2@s",
+		justifyContent: "center",
 		position: "relative",
 	},
 	animatedBackground: {
 		position: "absolute",
 		height: "100%",
 		backgroundColor: colors.ladefuchsLightBackground,
-		flex: 1,
 		borderRadius: "10@s",
 		top: "3@s",
-		left: "4@s",
+		left: "3@s",
 		...Platform.select({
 			ios: {
 				shadowColor: "#000",
@@ -112,13 +125,5 @@ const styles = ScaledSheet.create({
 	},
 	activeTabText: {
 		fontWeight: "bold",
-	},
-	content: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	text: {
-		fontSize: 24,
 	},
 });
