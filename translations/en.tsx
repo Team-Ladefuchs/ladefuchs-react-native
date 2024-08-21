@@ -1,4 +1,5 @@
 const en = {
+	pickerheader:"WHICH PILLAR ARE YOU STANDING ON?",
 	einstellungen:"Settings",
 	teamfuchs: "TEAMFOX",
 	teamfuchstext:
@@ -22,6 +23,7 @@ const en = {
 	lizenzen:"Third-party licenses",
 	lizenztext:"A look under the hood 🚘⚡️",
 	footer:"Handmade from ❤️ for electromobility in\n 👑 Aachen, ⚒️ Ahlen and 🏇 Hoppegarten",
+	zurueck: "back",
 };
 
 export default en;

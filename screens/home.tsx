@@ -9,6 +9,7 @@ import { ChargingTableHeader } from "../components/home/chargeCondtitonTable/cha
 import { useAppStore } from "../state/state";
 import { OfflineView } from "../components/home/offline";
 import { ScaledSheet } from "react-native-size-matters";
+import i18n from "../localization";
 
 export function HomeScreen(): JSX.Element {
 	const { appError } = useAppStore(
@@ -27,7 +28,7 @@ export function HomeScreen(): JSX.Element {
 			<ChargeConditionTable />
 			<View style={styles.pickerBanner}>
 				<Text style={styles.pickerBannerText} allowFontScaling={false}>
-					AN WELCHER SÄULE STEHST DU?
+				{i18n.t('pickerheader')}
 				</Text>
 			</View>
 			<OperatorPicker />

@@ -31,6 +31,7 @@ import { ThirdPartyLicenses } from "./screens/thirdPartyLicenses";
 import { OperatorListScreen } from "./screens/operatorListScreen";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
+import i18n from "./localization";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
@@ -165,7 +166,7 @@ function onAppStateChange(status: AppStateStatus) {
 
 function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
-		headerBackTitle: "Zurück",
+		headerBackTitle: i18n.t('zurueck'),
 		title,
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
