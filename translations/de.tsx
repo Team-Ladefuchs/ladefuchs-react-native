@@ -27,7 +27,7 @@ const de = {
 		"Dipl.-Designer Malik Aziz\nStephanstraße 43-45, 52064 Aachen",
 	lizenzen: "Drittlizenzen",
 	lizenztext: "Der Blick unter die Haube 🚘⚡️",
-	footer: "Handgefertigt aus ❤️ zur Elektromobilität in\n 👑 Aachen, ⚒️ Ahlen und 🏇 Hoppegarten",
+	footer: "Handgefertigt aus ❤️ zur Elektromobilität in\n 👑 Aachen, ⚒️ Ahlen und 🧲 Hoppegarten",
 	zurueck: "Zurück",
 };
 

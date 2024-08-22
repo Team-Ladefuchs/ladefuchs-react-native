@@ -27,7 +27,7 @@ const en = {
 	impressumtext2:"Dipl.-Designer Malik Aziz\nStephanstraße 43-45, 52064 Aachen",
 	lizenzen:"Third-party licenses",
 	lizenztext:"A look under the hood 🚘⚡️",
-	footer:"Handmade from ❤️ for electromobility in\n 👑 Aachen, ⚒️ Ahlen and 🏇 Hoppegarten",
+	footer:"Handmade from ❤️ for electromobility in\n 👑 Aachen, ⚒️ Ahlen and 🧲 Hoppegarten",
 	zurueck: "back",
 };
 
