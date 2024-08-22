@@ -11,7 +11,7 @@ export function AppFooter() {
 		<View style={footerStyle.footerContainer}>
 			<Text style={[styles.italicText, footerStyle.text]}>
 				Handgefertigt aus ❤️ zur Elektromobilität in{"\n"} 👑 Aachen, ⚒️
-				Ahlen und 🦅 Brandenburg
+				Ahlen und 🧲 Hoppegarten
 			</Text>
 			<Text
 				style={[
