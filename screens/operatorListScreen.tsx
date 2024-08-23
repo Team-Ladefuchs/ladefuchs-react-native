@@ -23,14 +23,15 @@ import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useQueryAppData } from "../hooks/useQueryAppData";
 import { genericOperatorImage } from "../functions/shared";
+import i18n from "../localization";
 
 type filerType = "all" | "ownOperators";
 
 const itemHeight = scale(66);
 
 const tabs = [
-	{ key: "all", label: "Alle" },
-	{ key: "ownOperators", label: "Aktiv" },
+	{ key: "all", label: i18n.t('alle') },
+	{ key: "ownOperators", label: i18n.t('aktiv') },
 ] satisfies TabItem<filerType>[];
 
 export function OperatorListScreen(): JSX.Element {
@@ -213,7 +214,7 @@ export function OperatorListScreen(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder="Betreiber suchen" />
+			<SearchInput setSearch={setSearch} placeHolder={i18n.t('betreibersuche')} />
 		</KeyboardAvoidingView>
 	);
 }

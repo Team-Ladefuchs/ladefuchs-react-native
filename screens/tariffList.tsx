@@ -24,6 +24,7 @@ import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { userTariffImage } from "../functions/shared";
+import i18n from "../localization";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -32,8 +33,8 @@ const itemHeight = scale(61);
 type filerType = "all" | "active";
 
 const tabs = [
-	{ key: "all", label: "Alle" },
-	{ key: "active", label: "Aktiv" },
+	{ key: "all", label: i18n.t('alle') },
+	{ key: "active", label: i18n.t('aktiv') },
 ] satisfies TabItem<filerType>[];
 
 export function TariffList(): JSX.Element {
@@ -244,7 +245,7 @@ export function TariffList(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder="Tarif suchen" />
+			<SearchInput setSearch={setSearch} placeHolder={i18n.t('tarifsuche')} />
 		</KeyboardAvoidingView>
 	);
 }
