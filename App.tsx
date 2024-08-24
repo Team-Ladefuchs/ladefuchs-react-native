@@ -28,7 +28,7 @@ import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
 import { LicenseView } from "./screens/licenseView";
-import { OperatorListScreen } from "./screens/operatorListScreen";
+import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 
@@ -136,7 +136,7 @@ function SettingsStackNavigator(): JSX.Element {
 			/>
 			<SettingsStack.Screen
 				name={appRoutes.customerOperator.key}
-				component={OperatorListScreen}
+				component={OperatorList}
 				options={() =>
 					normalHeader({ title: appRoutes.customerOperator.title })
 				}

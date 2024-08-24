@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
 	View,
 	Text,
@@ -21,13 +21,13 @@ interface Props<T> {
 }
 
 export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
-	const [ready, setReady] = useState(false);
 	const [activeTab, setActiveTab] = useState(0);
-	const translateX = useRef(new Animated.Value(0)).current;
 	const containerWidth = useRef<number>(
 		Dimensions.get("window").width - scale(4),
 	);
 	const tabWidth = containerWidth.current / tabs.length;
+	console.log(tabWidth);
+	const translateX = useRef(new Animated.Value(0)).current;
 
 	const handleTabPress = (item: TabItem<T>, tabIndex: number) => {
 		setActiveTab(tabIndex);

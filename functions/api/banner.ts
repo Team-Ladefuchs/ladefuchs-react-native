@@ -6,18 +6,23 @@ import { BannerData, getBannerType } from "../../state/state";
 import { storageSet } from "../storage/chargeConditionStorage";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
+const timeOut = 3200;
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
-		const response = await fetchWithTimeout(`${apiUrl}/v3/banners`, {
-			headers: {
-				...authHeader.headers,
-				Accept: "application/json",
+		const response = await fetchWithTimeout(
+			`${apiUrl}/v3/banners`,
+			{
+				headers: {
+					...authHeader.headers,
+					Accept: "application/json",
+				},
 			},
-		});
+			timeOut,
+		);
 
 		return response.json();
 	} catch (error) {
-		console.error("fetchAllLadefuchsBanners", error);
+		console.warn("fetchAllLadefuchsBanners", error);
 		return [];
 	}
 }
@@ -32,6 +37,7 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 					Accept: "application/json",
 				},
 			},
+			timeOut,
 		);
 		return response.json();
 	} catch {

@@ -91,6 +91,10 @@ export function SectionHeaderList<T extends ItemType>({
 
 		const items = Object.values(sectionMap).flat();
 
+		if (!items.length) {
+			return [];
+		}
+
 		return [FAKE_HEADER, ...items];
 	}, [data, disableAnimation]);
 
@@ -228,9 +232,9 @@ const styles = ScaledSheet.create({
 	},
 	emptyListStyle: {
 		color: colors.ladefuchsGrayTextColor,
-		marginHorizontal: "32@s",
+		marginVertical: "auto",
+		height: "250@s",
 		flex: 1,
-		height: scale(Dimensions.get("window").height / 2),
 		justifyContent: "center",
 		alignItems: "center",
 	},

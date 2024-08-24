@@ -5,6 +5,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
+	ActivityIndicator,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -15,7 +16,7 @@ import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
 import { Operator } from "../types/operator";
-import { fetchOperators } from "../functions/api/operator";
+import { fetchAllOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
@@ -33,7 +34,7 @@ const tabs = [
 	{ key: "ownOperators", label: "Aktiv" },
 ] satisfies TabItem<filerType>[];
 
-export function OperatorListScreen(): JSX.Element {
+export function OperatorList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
 	const [operatorAddSet, setOperatorAddSet] = useState<Set<string>>(
@@ -77,7 +78,9 @@ export function OperatorListScreen(): JSX.Element {
 		gcTime: getMinutes(20),
 		retry: 3,
 		queryFn: async () => {
-			return await fetchOperators({ standard: false });
+			return await fetchAllOperators({
+				writeCache: !allChargeConditionsQuery.data,
+			});
 		},
 	});
 
@@ -149,80 +152,92 @@ export function OperatorListScreen(): JSX.Element {
 			</ListerFilterHeader>
 
 			<View style={styles.listContainer}>
-				<SectionHeaderList
-					disableAnimation={true}
-					estimatedItemSize={itemHeight}
-					containerStyle={styles.listItemContainer}
-					data={filteredOperators}
-					onUndo={({ identifier, isStandard }: Operator) => {
-						if (isStandard) {
-							setOperatorRemoveSet((prevSet) => {
-								const newSet = new Set(prevSet);
-								newSet.delete(identifier);
-								return newSet;
-							});
-						} else {
-							setOperatorAddSet((prevSet) => {
-								const newSet = new Set(prevSet);
-								newSet.add(identifier);
-								return newSet;
-							});
-						}
-					}}
-					onRemove={({ isStandard, identifier }: Operator) => {
-						if (isStandard) {
-							setOperatorRemoveSet(
-								(prev) => new Set([identifier, ...prev]),
-							);
-						}
+				{allOperatorsQuery.isLoading ? (
+					<View style={{ margin: "auto" }}>
+						<ActivityIndicator
+							size="large"
+							color={colors.ladefuchsOrange}
+						/>
+					</View>
+				) : (
+					<SectionHeaderList
+						disableAnimation={true}
+						estimatedItemSize={itemHeight}
+						containerStyle={styles.listItemContainer}
+						data={filteredOperators}
+						onUndo={({ identifier, isStandard }: Operator) => {
+							if (isStandard) {
+								setOperatorRemoveSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.delete(identifier);
+									return newSet;
+								});
+							} else {
+								setOperatorAddSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.add(identifier);
+									return newSet;
+								});
+							}
+						}}
+						onRemove={({ isStandard, identifier }: Operator) => {
+							if (isStandard) {
+								setOperatorRemoveSet(
+									(prev) => new Set([identifier, ...prev]),
+								);
+							}
 
-						if (operatorAddSet.has(identifier)) {
-							setOperatorAddSet((prev) => {
-								const newSet = new Set(prev);
-								newSet.delete(identifier);
-								return newSet;
-							});
-						}
-					}}
-					onAdd={({ identifier, isStandard }: Operator) => {
-						if (!isStandard) {
-							setOperatorAddSet(
-								(prev) => new Set([identifier, ...prev]),
+							if (operatorAddSet.has(identifier)) {
+								setOperatorAddSet((prev) => {
+									const newSet = new Set(prev);
+									newSet.delete(identifier);
+									return newSet;
+								});
+							}
+						}}
+						onAdd={({ identifier, isStandard }: Operator) => {
+							if (!isStandard) {
+								setOperatorAddSet(
+									(prev) => new Set([identifier, ...prev]),
+								);
+							}
+							if (operatorRemoveSet.has(identifier)) {
+								setOperatorRemoveSet((prev) => {
+									const newSet = new Set(prev);
+									newSet.delete(identifier);
+									return newSet;
+								});
+							}
+						}}
+						renderItem={(operator: Operator) => {
+							return (
+								<View style={styles.itemBody}>
+									<OperatorImage
+										imageUrl={
+											operator.imageUrl ??
+											genericOperatorImage
+										}
+										name={operator.name}
+										height={50}
+										width={72}
+										hideFallBackText={true}
+									/>
+									<Text
+										style={styles.itemText}
+										numberOfLines={2}
+									>
+										{operator.name}
+									</Text>
+								</View>
 							);
+						}}
+						exists={(item: Operator) =>
+							(operatorAddSet.has(item.identifier) ||
+								item.isStandard) &&
+							!operatorRemoveSet.has(item.identifier)
 						}
-						if (operatorRemoveSet.has(identifier)) {
-							setOperatorRemoveSet((prev) => {
-								const newSet = new Set(prev);
-								newSet.delete(identifier);
-								return newSet;
-							});
-						}
-					}}
-					renderItem={(operator: Operator) => {
-						return (
-							<View style={styles.itemBody}>
-								<OperatorImage
-									imageUrl={
-										operator.imageUrl ??
-										genericOperatorImage
-									}
-									name={operator.name}
-									height={50}
-									width={72}
-									hideFallBackText={true}
-								/>
-								<Text style={styles.itemText} numberOfLines={2}>
-									{operator.name}
-								</Text>
-							</View>
-						);
-					}}
-					exists={(item: Operator) =>
-						(operatorAddSet.has(item.identifier) ||
-							item.isStandard) &&
-						!operatorRemoveSet.has(item.identifier)
-					}
-				/>
+					/>
+				)}
 			</View>
 			<SearchInput onChange={setSearch} placeHolder="Betreiber suchen" />
 		</KeyboardAvoidingView>

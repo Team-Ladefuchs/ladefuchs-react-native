@@ -1,8 +1,35 @@
 import { Operator, OperatorsResponse } from "../../types/operator";
 import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout } from "../util";
+import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
-export async function fetchOperators({ standard = true }): Promise<Operator[]> {
+export async function fetchAllOperators({
+	writeCache,
+}: {
+	writeCache: boolean;
+}): Promise<Operator[]> {
+	const storageKey = "allOperatorsCache";
+
+	const operators = await fetchOperators({ standard: false, timeout: 3500 });
+
+	if (!operators.length) {
+		return (await retrieveFromStorage<Operator[] | null>(storageKey)) ?? [];
+	}
+
+	if (writeCache) {
+		await saveToStorage(storageKey, operators);
+	}
+
+	return operators;
+}
+
+export async function fetchOperators({
+	standard = true,
+	timeout,
+}: {
+	standard: boolean;
+	timeout?: number;
+}): Promise<Operator[]> {
 	try {
 		const response = await fetchWithTimeout(
 			`${apiUrl}/v3/operators?standard=${standard}`,
@@ -12,6 +39,7 @@ export async function fetchOperators({ standard = true }): Promise<Operator[]> {
 					Accept: "application/json",
 				},
 			},
+			timeout,
 		);
 		const data = (await response.json()) as OperatorsResponse;
 		return data.operators;
@@ -42,7 +70,7 @@ export async function fetchOperatorCustom(
 		const { operators } = (await response.json()) as OperatorsResponse;
 		return operators;
 	} catch (error) {
-		console.error("fetchOperatorCustom", error);
+		console.warn("fetchOperatorCustom", error);
 		return [];
 	}
 }

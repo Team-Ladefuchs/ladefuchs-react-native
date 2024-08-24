@@ -14,13 +14,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "46",
+      "buildNumber": "48",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",
         "CFBundleLocalizations": ["de"],
+        "AsyncStorage_db_size_in_MB": 8,
+        "RCTAsyncStorageExcludeFromBackup": false,
         "TARGETED_DEVICE_FAMILY": [1]
       },
       "entitlements": {
@@ -33,11 +35,12 @@
         "resizeMode": "contain",
         "backgroundColor": "#F3EEE2"
       },
-      "versionCode": 254,
+      "versionCode": 255,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
       },
+
       "package": "app.ladefuchs.android"
     },
     "plugins": [
@@ -47,6 +50,8 @@
           "android": {
             "extraProguardRules": "-keep class com.ladefuchs.** { *; }\n-dontwarn com.ladefuchs.**",
             "minSdkVersion": 26,
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
             "compileSdkVersion": 34,
             "targetSdkVersion": 34,
             "buildToolsVersion": "34.0.0"

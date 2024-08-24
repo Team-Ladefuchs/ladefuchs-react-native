@@ -5,6 +5,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
+	ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,7 +19,7 @@ import { SearchInput } from "../components/shared/searchInput";
 
 import { Tariff } from "../types/tariff";
 import { useQueryAppData } from "../hooks/useQueryAppData";
-import { fetchTariffs } from "../functions/api/tariff";
+import { fetchAllTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
@@ -83,7 +84,9 @@ export function TariffList(): JSX.Element {
 		retryDelay: 100,
 		gcTime: getMinutes(20),
 		queryFn: async () => {
-			const tariffs = await fetchTariffs({ standard: false });
+			const tariffs = await fetchAllTariffs({
+				writeCache: !allChargeConditionsQuery.data,
+			});
 			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));
 		},
 	});
@@ -165,94 +168,104 @@ export function TariffList(): JSX.Element {
 				/>
 			</ListerFilterHeader>
 			<View style={styles.listContainer}>
-				<SectionHeaderList
-					disableAnimation={filterMode === "all"}
-					estimatedItemSize={itemHeight}
-					containerStyle={styles.listItemContainer}
-					emptyText={emptyText}
-					data={filteredTariffs}
-					onUndo={({ identifier, isStandard }: Tariff) => {
-						if (isStandard) {
-							setTariffsRemoveSet((prevSet) => {
-								const newSet = new Set(prevSet);
-								newSet.delete(identifier);
-								return newSet;
-							});
-						} else {
-							setTariffsAddSet((prevSet) => {
-								const newSet = new Set(prevSet);
-								newSet.add(identifier);
-								return newSet;
-							});
-						}
-					}}
-					onRemove={({ isStandard, identifier }: Tariff) => {
-						if (isStandard) {
-							setTariffsRemoveSet(
-								(prev) => new Set([identifier, ...prev]),
-							);
-						}
+				{allTariffsQuery.isLoading ? (
+					<View style={{ margin: "auto" }}>
+						<ActivityIndicator
+							size="large"
+							color={colors.ladefuchsOrange}
+						/>
+					</View>
+				) : (
+					<SectionHeaderList
+						disableAnimation={filterMode === "all"}
+						estimatedItemSize={itemHeight}
+						containerStyle={styles.listItemContainer}
+						emptyText={emptyText}
+						data={filteredTariffs}
+						onUndo={({ identifier, isStandard }: Tariff) => {
+							if (isStandard) {
+								setTariffsRemoveSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.delete(identifier);
+									return newSet;
+								});
+							} else {
+								setTariffsAddSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.add(identifier);
+									return newSet;
+								});
+							}
+						}}
+						onRemove={({ isStandard, identifier }: Tariff) => {
+							if (isStandard) {
+								setTariffsRemoveSet(
+									(prev) => new Set([identifier, ...prev]),
+								);
+							}
 
-						if (tariffsAddSet.has(identifier)) {
-							setTariffsAddSet((prevSet) => {
-								const newSet = new Set(prevSet);
-								newSet.delete(identifier);
-								return newSet;
-							});
-						}
-					}}
-					onAdd={({ identifier, isStandard }: Tariff) => {
-						if (!isStandard) {
-							setTariffsAddSet(
-								(prev) => new Set([identifier, ...prev]),
+							if (tariffsAddSet.has(identifier)) {
+								setTariffsAddSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.delete(identifier);
+									return newSet;
+								});
+							}
+						}}
+						onAdd={({ identifier, isStandard }: Tariff) => {
+							if (!isStandard) {
+								setTariffsAddSet(
+									(prev) => new Set([identifier, ...prev]),
+								);
+							}
+							if (tariffsRemoveSet.has(identifier)) {
+								setTariffsRemoveSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.delete(identifier);
+									return newSet;
+								});
+							}
+						}}
+						renderItem={(tariff: Tariff) => {
+							return (
+								<View style={styles.itemBody}>
+									<View>
+										<CardImage
+											imageUrl={
+												tariff.imageUrl ??
+												userTariffImage
+											}
+											name={tariff.name}
+											width={60}
+											hideFallBackText={true}
+										/>
+									</View>
+									<View>
+										<Text
+											style={styles.tariffText}
+											ellipsizeMode="tail"
+											numberOfLines={2}
+										>
+											{tariff.name}
+										</Text>
+										<Text
+											style={styles.providerText}
+											ellipsizeMode="tail"
+											numberOfLines={1}
+										>
+											{tariff.providerName}
+										</Text>
+									</View>
+								</View>
 							);
+						}}
+						exists={(item: Tariff) =>
+							tariffsAddSet.has(item.identifier) ||
+							(item.isStandard &&
+								!tariffsRemoveSet.has(item.identifier))
 						}
-						if (tariffsRemoveSet.has(identifier)) {
-							setTariffsRemoveSet((prevSet) => {
-								const newSet = new Set(prevSet);
-								newSet.delete(identifier);
-								return newSet;
-							});
-						}
-					}}
-					renderItem={(tariff: Tariff) => {
-						return (
-							<View style={styles.itemBody}>
-								<View>
-									<CardImage
-										imageUrl={
-											tariff.imageUrl ?? userTariffImage
-										}
-										name={tariff.name}
-										width={60}
-										hideFallBackText={true}
-									/>
-								</View>
-								<View>
-									<Text
-										style={styles.tariffText}
-										ellipsizeMode="tail"
-										numberOfLines={2}
-									>
-										{tariff.name}
-									</Text>
-									<Text
-										style={styles.providerText}
-										ellipsizeMode="tail"
-										numberOfLines={1}
-									>
-										{tariff.providerName}
-									</Text>
-								</View>
-							</View>
-						);
-					}}
-					exists={(item: Tariff) =>
-						tariffsAddSet.has(item.identifier) ||
-						(item.isStandard &&
-							!tariffsRemoveSet.has(item.identifier))
-					}
-				/>
+					/>
+				)}
 			</View>
 			<SearchInput onChange={setSearch} placeHolder="Tarif suchen" />
 		</KeyboardAvoidingView>
