@@ -41,7 +41,7 @@ export function SettingsScreen() {
 								/>
 							</View>
 						}
-						description={i18n.t('ladetarifetext')}
+						description={i18n.t("ladetarifetext")}
 						screenKey={appRoutes.customTariffs.key}
 						justifyContent="space-evenly"
 					/>
@@ -52,7 +52,7 @@ export function SettingsScreen() {
 					<NavigationItem
 						title={appRoutes.customerOperator.title}
 						justifyContent="space-evenly"
-						description={i18n.t('ladesaeulentext')}
+						description={i18n.t("ladesaeulentext")}
 						iconPrefix={
 							<View
 								style={{
@@ -83,9 +83,9 @@ export function SettingsScreen() {
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"
-						title={appRoutes.eula.title}
-						screenKey={appRoutes.eula.key}
-						description={i18n.t('lizenztext')}
+						title={appRoutes.license.title}
+						screenKey={appRoutes.license.key}
+						description={i18n.t("lizenztext")}
 					/>
 				</View>
 				<AppFooter />
