@@ -30,12 +30,13 @@ const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
 const itemHeight = scale(61);
 
-type filerType = "all" | "active";
+type filterType = "all" | "active" | "own";
 
 const tabs = [
 	{ key: "all", label: i18n.t('alle') },
 	{ key: "active", label: i18n.t('aktiv') },
-] satisfies TabItem<filerType>[];
+	{ key: "own", label: i18n.t('eigene') },
+] satisfies TabItem<filterType>[];
 
 export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -47,7 +48,7 @@ export function TariffList(): JSX.Element {
 		new Set(),
 	);
 
-	const [filterMode, setFilterMode] = useState<filerType>("all");
+	const [filterMode, setFilterMode] = useState<filterType>("all");
 
 	const { customTariffs, saveCustomTariffs, resetCustomTariffs } =
 		useCustomTariffsOperators();
@@ -81,7 +82,7 @@ export function TariffList(): JSX.Element {
 		queryKey: ["AllTariffs"],
 		retry: 3,
 		retryDelay: 100,
-		gcTime: getMinutes(30),
+		gcTime: getMinutes(20),
 		queryFn: async () => {
 			const tariffs = await fetchTariffs({ standard: false });
 			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));
@@ -91,7 +92,14 @@ export function TariffList(): JSX.Element {
 	const filteredTariffs = useMemo(() => {
 		let tariffs = allTariffsQuery.data ?? [];
 
-		if (filterMode === "active") {
+		if (filterMode === "own") {
+			tariffs = tariffs.filter(({ identifier }) => {
+				return (
+					!tariffsRemoveSet.has(identifier) &&
+					tariffsAddSet.has(identifier)
+				);
+			});
+		} else if (filterMode === "active") {
 			tariffs = tariffs.filter(({ isStandard, identifier }) => {
 				return (
 					(isStandard && !tariffsRemoveSet.has(identifier)) ||
@@ -100,22 +108,13 @@ export function TariffList(): JSX.Element {
 			});
 		}
 
-		return tariffs
-			.filter((tariff) => {
-				const term = search.toLowerCase();
-				return (
-					tariff.name.toLowerCase().includes(term) ||
-					tariff.providerName.toLowerCase().includes(term)
-				);
-			})
-			.map((tariff) => {
-				return {
-					...tariff,
-					added:
-						!tariff.isStandard &&
-						tariffsAddSet.has(tariff.identifier),
-				};
-			});
+		return tariffs.filter((tariff) => {
+			const term = search.toLowerCase();
+			return (
+				tariff.name.toLowerCase().includes(term) ||
+				tariff.providerName.toLowerCase().includes(term)
+			);
+		});
 	}, [
 		search,
 		allTariffsQuery.data,
@@ -145,6 +144,13 @@ export function TariffList(): JSX.Element {
 		);
 	};
 
+	const emptyText = useMemo(() => {
+		if (filterMode === "own") {
+			return "Hier findest du deine eigene Tarife.\nNeue hinzufügen: ✅";
+		}
+		return null;
+	}, [filterMode]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "height" : undefined}
@@ -164,6 +170,7 @@ export function TariffList(): JSX.Element {
 					disableAnimation={filterMode === "all"}
 					estimatedItemSize={itemHeight}
 					containerStyle={styles.listItemContainer}
+					emptyText={emptyText}
 					data={filteredTariffs}
 					onUndo={({ identifier, isStandard }: Tariff) => {
 						if (isStandard) {
@@ -180,14 +187,17 @@ export function TariffList(): JSX.Element {
 							});
 						}
 					}}
-					onRemove={(tariff: Tariff) => {
-						setTariffsRemoveSet(
-							(prev) => new Set([tariff.identifier, ...prev]),
-						);
-						if (tariffsAddSet.has(tariff.identifier)) {
+					onRemove={({ isStandard, identifier }: Tariff) => {
+						if (isStandard) {
+							setTariffsRemoveSet(
+								(prev) => new Set([identifier, ...prev]),
+							);
+						}
+
+						if (tariffsAddSet.has(identifier)) {
 							setTariffsAddSet((prevSet) => {
 								const newSet = new Set(prevSet);
-								newSet.delete(tariff.identifier);
+								newSet.delete(identifier);
 								return newSet;
 							});
 						}
@@ -245,7 +255,7 @@ export function TariffList(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder={i18n.t('tarifsuche')} />
+			<SearchInput onChange={setSearch} placeHolder={i18n.t('tarifsuche')} />
 		</KeyboardAvoidingView>
 	);
 }
