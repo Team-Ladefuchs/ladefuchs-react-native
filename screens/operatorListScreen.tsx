@@ -225,7 +225,7 @@ export function OperatorListScreen(): JSX.Element {
 					}
 				/>
 			</View>
-			<SearchInput setSearch={setSearch} placeHolder={i18n.t('betreibersuche')} />
+			<SearchInput onChange={setSearch} placeHolder={i18n.t('betreibersuche')}/>
 		</KeyboardAvoidingView>
 	);
 }
