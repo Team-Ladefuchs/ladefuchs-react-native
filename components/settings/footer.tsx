@@ -6,7 +6,7 @@ import { ScaledSheet } from "react-native-size-matters";
 
 const expoVersion = Constants.expoConfig?.version ?? "";
 
-export function AppFooter() {
+export function Footer(): JSX.Element {
 	return (
 		<View style={footerStyle.footerContainer}>
 			<Text style={[styles.italicText, footerStyle.text]}>

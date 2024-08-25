@@ -4,7 +4,7 @@ import { colors } from "../theme";
 import { DatenView } from "../components/settings/dataView";
 import { PodcastView } from "../components/settings/podcastView";
 import { MemberView } from "../components/settings/teamLIst";
-import { AppFooter } from "../components/settings/footerView";
+import { Footer } from "../components/settings/footer";
 import { Illustration } from "../components/settings/illuView";
 import { NavigationItem } from "../components/settings/navigationItem";
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -57,7 +57,6 @@ export function SettingsScreen() {
 								style={{
 									left: scale(7),
 									bottom: scale(2),
-									// paddingTop: scale(10),
 									marginRight: scale(-9),
 								}}
 							>
@@ -87,7 +86,7 @@ export function SettingsScreen() {
 						description="Der Blick unter die Haube 🚘⚡️"
 					/>
 				</View>
-				<AppFooter />
+				<Footer />
 			</View>
 		</ScrollView>
 	);
