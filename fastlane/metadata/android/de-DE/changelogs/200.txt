@@ -1,0 +1,12 @@
+* use CPO id for filename instead of displayName
+* use semaphore for reading prices
+* on wheel picker changed, copy selected CPO instead of passing it via ref
+* allow only one concurrent popUp
+* use only one http client
+* ChargeType enum instead of string
+* upgrade gradle 8?!
+
+features:
+
+* on card detail display notes using now de/cards endpoint
+* on first start download all card and store them on local storage

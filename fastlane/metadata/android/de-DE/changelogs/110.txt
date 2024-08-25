@@ -1,0 +1,5 @@
+* Fix typo
+* Fix adac in combination with chargecard filtering ALso unite Enbw mobility plus and mobility+ Standard
+* Fixed wrong handling - fixed API baseurl - added correct filehandling for downloaded files
+* Fix compare operator
+* CPO names are properly sanitized.
