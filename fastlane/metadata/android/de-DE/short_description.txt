@@ -1,0 +1,1 @@
+Zeigt mit einem Fingerwischen an der Ladesäule die günstigste Ladekarte.

@@ -1,0 +1,1 @@
+* fix app crash when open settings

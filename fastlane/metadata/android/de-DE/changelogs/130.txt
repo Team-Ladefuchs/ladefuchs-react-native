@@ -1,0 +1,4 @@
+* Maingaupreise angepasst
+* Beta API can be temporarily enabled by tapping the Fox 10 times
+* Add Dominic to the team
+* Add Roddi to team

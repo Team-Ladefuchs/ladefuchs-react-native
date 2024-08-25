@@ -1,0 +1,5 @@
+* 3rd Party Lib für Teamgrafiken mit runder Maske weil das nativ nicht geht. WTF Google (de.hdodenhof.circleimageview.CircleImageView)
+* Neue Bilder im About Screen und Flow is back!
+* NullPointerException crash beim Grafiken Laden gefixt
+* set API Key for fetching images and check the response code - rename Berlin-Reinickendorf to Berlin - use potential memory leak while using the HTTP client
+* Filename Sanitiation beim Ladekartegrafiken Laden

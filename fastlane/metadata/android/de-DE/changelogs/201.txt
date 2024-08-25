@@ -1,0 +1,4 @@
+* upgrade klaxon, okhttp and more
+* set kotlin 1.8.22
+* set jvm target to 17
+* try read operator list if device is offline or server down
