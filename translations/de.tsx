@@ -12,7 +12,7 @@ const de = {
 	alle: "Alle",
 	aktiv: "Aktiv",
 	eigene: "Eigene",
-	ladetarife: "Ladetarfife",
+	ladetarife: "Ladetarife",
 	ladetarifetext: "Bei welchem Stromtarif-Anbieter\n(EMP) bist du Kunde?",
 	tarifsuche: "Tarif suchen",
 	ladesaeulen: "LADESÄULEN",
