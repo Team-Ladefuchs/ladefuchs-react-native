@@ -243,7 +243,7 @@ const styles = ScaledSheet.create({
 		lineHeight: "22@s",
 		textAlign: "center",
 		fontSize: "15@s",
-		fontWeight: "bold",
+		fontFamily: "Bitter",
 	},
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,
