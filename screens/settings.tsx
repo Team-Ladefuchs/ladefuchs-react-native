@@ -4,7 +4,7 @@ import { colors } from "../theme";
 import { DatenView } from "../components/settings/dataView";
 import { PodcastView } from "../components/settings/podcastView";
 import { MemberView } from "../components/settings/teamLIst";
-import { AppFooter } from "../components/settings/footerView";
+import { Footer } from "../components/settings/footer";
 import { Illustration } from "../components/settings/illuView";
 import { NavigationItem } from "../components/settings/navigationItem";
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -88,7 +88,7 @@ export function SettingsScreen() {
 						description={i18n.t("lizenztext")}
 					/>
 				</View>
-				<AppFooter />
+				<Footer />
 			</View>
 		</ScrollView>
 	);

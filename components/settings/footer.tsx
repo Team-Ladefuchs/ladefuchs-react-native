@@ -7,7 +7,7 @@ import i18n from "../../localization";
 
 const expoVersion = Constants.expoConfig?.version ?? "";
 
-export function AppFooter() {
+export function Footer() {
 	return (
 		<View style={footerStyle.footerContainer}>
 			<Text style={[styles.italicText, footerStyle.text]}>

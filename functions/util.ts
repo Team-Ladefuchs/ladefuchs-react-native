@@ -93,7 +93,7 @@ export function removeItemByIndex<T>(array: T[], index: number): T[] {
 export async function fetchWithTimeout(
 	url: string,
 	options: RequestInit = {},
-	timeout = 2700,
+	timeout = 2400,
 ): Promise<Response> {
 	const controller = new AbortController();
 	options.signal = controller.signal;

@@ -5,7 +5,7 @@ import { Tariff } from "../../types/tariff";
 import { chargeConditionToHashMap, tariffsToHashMap } from "../util";
 
 export const storageSet = {
-	banners: "ladefuchsOfflineCache",
+	banners: "ladefuchsBannerCache",
 	chargeConditionData: "chargeConditionData",
 };
 
