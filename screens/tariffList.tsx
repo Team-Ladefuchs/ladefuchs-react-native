@@ -148,7 +148,7 @@ export function TariffList(): JSX.Element {
 
 	const emptyText = useMemo(() => {
 		if (filterMode === "own") {
-			return "Hier findest du deine eigene Tarife.\nNeue hinzufügen: ✅";
+			return "Wenn du unter „Alle“ ein weiteres Häkchen\nvor einem Tarif setzt, findest du ihn hier. ";
 		}
 		return null;
 	}, [filterMode]);
