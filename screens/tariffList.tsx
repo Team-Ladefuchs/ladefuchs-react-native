@@ -128,15 +128,15 @@ export function TariffList(): JSX.Element {
 
 	const handleTariffReset = () => {
 		Alert.alert(
-			"Tarife zurücksetzen",
-			"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
+			i18n.t('tarifAlert'),
+			i18n.t('tarifAlertText'),
 			[
 				{
-					text: "Abbrechen",
+					text: i18n.t('cancel'),
 					style: "cancel",
 				},
 				{
-					text: "Ja bin ich",
+					text: i18n.t('yes'),
 					onPress: async () => {
 						setTariffsAddSet(new Set([]));
 						setTariffsRemoveSet(new Set([]));
@@ -149,7 +149,7 @@ export function TariffList(): JSX.Element {
 
 	const emptyText = useMemo(() => {
 		if (filterMode === "own") {
-			return "Hier findest du deine eigene Tarife.\nNeue hinzufügen: ✅";
+			return i18n.t('ladetarifeInfo2');
 		}
 		return null;
 	}, [filterMode]);

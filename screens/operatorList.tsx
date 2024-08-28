@@ -111,15 +111,15 @@ export function OperatorList(): JSX.Element {
 
 	const handleOperatorReset = () => {
 		Alert.alert(
-			"Anbieter zurücksetzen",
-			"Deine Anbieter werden zurückgesetzt. Bist du dir ganz sicher?",
+			i18n.t('operatorAlert'),
+			i18n.t('operatorAlertText'),
 			[
 				{
-					text: "Abbrechen",
+					text: i18n.t('cancel'),
 					style: "cancel",
 				},
 				{
-					text: "Ja bin ich",
+					text: i18n.t('yes'),
 					onPress: async () => {
 						setOperatorAddSet(new Set([]));
 						setOperatorRemoveSet(new Set([]));

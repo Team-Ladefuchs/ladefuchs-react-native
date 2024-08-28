@@ -19,6 +19,7 @@ import { colors } from "../../theme";
 import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
+import i18n from "../../localization";
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -196,7 +197,7 @@ export function SectionHeaderList<T extends ItemType>({
 					<Text style={styles.emptyListTextStyle}>
 						{emptyText
 							? emptyText
-							: `Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊`}
+							: i18n.t('ladetarifeInfo1')}
 					</Text>
 				</View>
 			)}
