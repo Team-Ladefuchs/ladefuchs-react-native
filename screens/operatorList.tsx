@@ -240,7 +240,7 @@ export function OperatorList(): JSX.Element {
 					/>
 				)}
 			</View>
-			<SearchInput onChange={setSearch} placeHolder="Betreiber suchen" />
+			<SearchInput onChange={setSearch} placeHolder={i18n.t('betreibersuche')} />
 		</KeyboardAvoidingView>
 	);
 }
