@@ -25,6 +25,8 @@ import { getMinutes } from "../functions/util";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { userTariffImage } from "../functions/shared";
+import { useAppStore } from "../state/state";
+import { useShallow } from "zustand/react/shallow";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -42,6 +44,12 @@ export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
 	const { allChargeConditionsQuery } = useQueryAppData();
+
+	const { operators } = useAppStore(
+		useShallow((state) => ({
+			operators: state.operators,
+		})),
+	);
 
 	const [tariffsAddSet, setTariffsAddSet] = useState<Set<string>>(new Set());
 	const [tariffsRemoveSet, setTariffsRemoveSet] = useState<Set<string>>(
@@ -86,6 +94,7 @@ export function TariffList(): JSX.Element {
 		queryFn: async () => {
 			const tariffs = await fetchAllTariffs({
 				writeCache: !allChargeConditionsQuery.data,
+				operators,
 			});
 			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));
 		},

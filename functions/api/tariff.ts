@@ -2,15 +2,27 @@ import { Tariff, TariffResponse } from "../../types/tariff";
 import { apiUrl, authHeader } from "./base";
 import { fetchWithTimeout } from "../util";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
+import { Operator } from "../../types/operator";
 
 export async function fetchAllTariffs({
 	writeCache,
+	operators,
 }: {
+	operators: Operator[];
 	writeCache: boolean;
 }): Promise<Tariff[]> {
 	const storageKey = "allTariffsCache";
 
-	const tariffs = await fetchTariffs({ standard: false, timeout: 3500 });
+	const operatorIds = operators.map(({ identifier }) => identifier);
+	const tariffs = await fetchTariffsCustom(
+		{
+			standard: false,
+			operatorIds,
+			add: [],
+			remove: [],
+		},
+		3500,
+	);
 
 	if (!tariffs.length) {
 		return (await retrieveFromStorage<Tariff[] | null>(storageKey)) ?? [];
@@ -52,10 +64,13 @@ export async function fetchTariffs({
 interface TariffCustomRequest {
 	add: string[];
 	remove: string[];
+	operatorIds: string[];
+	standard: boolean;
 }
 
 export async function fetchTariffsCustom(
 	request: TariffCustomRequest,
+	timeout = 2500,
 ): Promise<Tariff[]> {
 	try {
 		const response = await fetchWithTimeout(`${apiUrl}/v3/tariffs`, {

@@ -53,14 +53,17 @@ export async function getAllChargeConditions({
 	const { tariffs: customTariffs, operators: customOperators } =
 		await getCustomTariffsOperators();
 
-	const [operators, tariffs] = await Promise.all([
-		fetchOperatorCustom(customOperators),
-		fetchTariffsCustom(customTariffs),
-	]);
+	const operators = await fetchOperatorCustom(customOperators);
+	const operatorIds = operators.map((item) => item.identifier);
+	const tariffs = await fetchTariffsCustom({
+		...customTariffs,
+		operatorIds,
+		standard: true,
+	});
 
 	const chargingConditions = await fetchChargingConditions({
 		tariffIds: tariffs.map((item) => item.identifier),
-		operatorIds: operators.map((item) => item.identifier),
+		operatorIds: operatorIds,
 		chargingModes: ["ac", "dc"],
 	});
 
