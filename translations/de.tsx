@@ -5,6 +5,13 @@ const de = {
 	notizen: "Notizen",
 	preisfalsch: "Preise/Infos falsch?",
 	karte: "Hol dir die Karte!",
+	futter: "Hast Du Futter für den Fuchs?",
+	futter1:"Sag uns was nicht stimmt!",
+	futter2:"Willst Du dem Fuchs noch etwas flüstern?",
+	senden: "Senden",
+	momentchen:"Momentchen …",
+	thxfeedback:"⚡️ Vielen Dank für dein Feedback!",
+	ups: "🚧 Ups, ein Fehler ist aufgetreten",
 	einstellungen: "Einstellungen",
 	teamfuchs: "TEAMFUCHS",
 	teamfuchstext:

@@ -29,8 +29,9 @@ import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api/feedback";
+import i18n from "../localization";
 
-const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
+const notePlaceholderText = i18n.t('futter2');
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute();
@@ -48,7 +49,7 @@ export function FeedbackView(): JSX.Element {
 		useState<string>(notePlaceholderText);
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
-	const [sendButtonText, setSendButtonText] = useState("Senden");
+	const [sendButtonText, setSendButtonText] = useState(i18n.t('senden'));
 
 	const acPriceCounter = useCounter({
 		initialValue: acTariffCondition?.pricePerKwh ?? 0,
@@ -115,7 +116,7 @@ export function FeedbackView(): JSX.Element {
 	const handleSubmit = async () => {
 		try {
 			setDisableSendButton(true);
-			setSendButtonText("Momentchen …");
+			setSendButtonText(i18n.t('momentchen'));
 
 			for (const request of createRequestPayload()) {
 				await sendFeedback(request);
@@ -125,7 +126,7 @@ export function FeedbackView(): JSX.Element {
 			setTimeout(() => {
 				Toast.show({
 					type: "success",
-					text1: "⚡️ Vielen Dank für dein Feedback!",
+					text1: i18n.t('thxfeedback'),
 					visibilityTime: 2000,
 				});
 			}, 500);
@@ -135,7 +136,7 @@ export function FeedbackView(): JSX.Element {
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
-				text1: "🚧 Ups, ein Fehler ist aufgetreten",
+				text1: i18n.t('ups'),
 				visibilityTime: 2400,
 			});
 		}
@@ -152,11 +153,11 @@ export function FeedbackView(): JSX.Element {
 					<Text
 						style={[themeStyle.headLine, { marginTop: scale(16) }]}
 					>
-						Hast Du Futter für den Fuchs?
+						{i18n.t('futter')}
 					</Text>
 					<View>
 						<Text style={themeStyle.headerText}>
-							Sag uns was nicht stimmt!
+						{i18n.t('futter1')}
 						</Text>
 						<View style={feedbackStyle.logosContainer}>
 							<DetailLogos tariff={tariff} operator={operator} />
