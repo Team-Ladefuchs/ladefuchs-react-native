@@ -7,9 +7,9 @@ import {
 	ViewStyle,
 	Keyboard,
 	LayoutAnimation,
-	Dimensions,
 } from "react-native";
 
+import * as Haptics from "expo-haptics";
 import { FlashList } from "@shopify/flash-list";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -71,12 +71,13 @@ export function SectionHeaderList<T extends ItemType>({
 	}, [disableAnimation]);
 
 	const sections = useMemo(() => {
+		const specialList: (string | T)[] = ["#"];
 		const sectionMap = data.reduce(
 			(acc, item) => {
 				let headerName = item.name.charAt(0).toUpperCase();
 
 				if (!isLetter.test(headerName)) {
-					headerName = "#";
+					specialList.push(item);
 				}
 
 				if (!acc[headerName]) {
@@ -95,6 +96,9 @@ export function SectionHeaderList<T extends ItemType>({
 			return [];
 		}
 
+		if (specialList.length > 1) {
+			return [FAKE_HEADER, ...items, ...specialList];
+		}
 		return [FAKE_HEADER, ...items];
 	}, [data, disableAnimation]);
 
@@ -153,14 +157,22 @@ export function SectionHeaderList<T extends ItemType>({
 							checked={itemExist}
 							onValueChange={(value) => {
 								if (disableAnimation) {
+									Haptics.notificationAsync(
+										Haptics.NotificationFeedbackType
+											.Success,
+									);
 									return !value
 										? removeItem(item, index)
 										: onAdd(item);
 								}
+
 								const currenRef = itemsRef.current[index];
 								if (currenRef.opacity() < 1) {
 									return currenRef.cancel();
 								}
+								Haptics.notificationAsync(
+									Haptics.NotificationFeedbackType.Success,
+								);
 								return !value
 									? itemsRef.current[index]?.fadeOut()
 									: onAdd(item);

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "../../theme";
+import * as Haptics from "expo-haptics";
 
 export interface TabItem<T> {
 	key: T;
@@ -26,7 +27,6 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 		Dimensions.get("window").width - scale(4),
 	);
 	const tabWidth = containerWidth.current / tabs.length;
-	console.log(tabWidth);
 	const translateX = useRef(new Animated.Value(0)).current;
 
 	const handleTabPress = (item: TabItem<T>, tabIndex: number) => {
@@ -38,6 +38,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 			delay: 0,
 			duration: 210,
 		}).start();
+		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 	};
 
 	return (

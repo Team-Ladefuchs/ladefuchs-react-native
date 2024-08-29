@@ -3,6 +3,7 @@ import { TouchableOpacity, View } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import ArrowLeftBack from "@assets/generic/arrow_back-left.svg";
 import { colors } from "../../theme";
+import * as Haptics from "expo-haptics";
 
 interface ListHeaderProps {
 	children: React.ReactNode;
@@ -17,7 +18,12 @@ export function ListerFilterHeader({
 		<View style={styles.container}>
 			<View style={{ flex: 2 }}>{children}</View>
 			<TouchableOpacity
-				onPress={onReset}
+				onPress={() => {
+					Haptics.notificationAsync(
+						Haptics.NotificationFeedbackType.Warning,
+					);
+					onReset();
+				}}
 				hitSlop={scale(8)}
 				activeOpacity={0.8}
 				style={styles.arrowLeftContainer}

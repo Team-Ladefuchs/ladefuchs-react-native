@@ -9,6 +9,7 @@ import {
 	TouchableWithoutFeedback,
 	ScrollView,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -130,6 +131,9 @@ export function FeedbackView(): JSX.Element {
 				});
 			}, 500);
 		} catch (error) {
+			await Haptics.notificationAsync(
+				Haptics.NotificationFeedbackType.Error,
+			);
 			setSendButtonText("Senden");
 			console.log("sending feedback", error);
 			setDisableSendButton(false);
