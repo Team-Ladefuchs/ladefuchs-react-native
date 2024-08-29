@@ -15,7 +15,7 @@ const de = {
 	ladetarife: "Ladetarife",
 	ladetarifetext: "Bei welchem Stromtarif-Anbieter\n(EMP) bist du Kunde?",
 	tarifsuche: "Tarif suchen",
-	ladesaeulen: "LADESÄULEN",
+	ladesaeulen: "Ladesäulen",
 	ladesaeulentext:
 		"Welche Ladesäulen-Anbieter\n(CPO) möchtest du vergleichen?",
 	betreibersuche: "Betreiber suchen",
