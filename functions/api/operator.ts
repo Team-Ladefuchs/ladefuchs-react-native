@@ -1,6 +1,6 @@
 import { Operator, OperatorsResponse } from "../../types/operator";
 import { apiUrl, authHeader } from "./base";
-import { fetchWithTimeout } from "../util";
+import { defaultTimeout, fetchWithTimeout } from "../util";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
 export async function fetchAllOperators({
@@ -10,7 +10,10 @@ export async function fetchAllOperators({
 }): Promise<Operator[]> {
 	const storageKey = "allOperatorsCache";
 
-	const operators = await fetchOperators({ standard: false, timeout: 4200 });
+	const operators = await fetchOperators({
+		standard: false,
+		timeout: defaultTimeout + 500,
+	});
 
 	if (!operators.length) {
 		return (await retrieveFromStorage<Operator[] | null>(storageKey)) ?? [];

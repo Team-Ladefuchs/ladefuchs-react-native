@@ -1,24 +1,19 @@
 import { Platform } from "react-native";
 import { LadefuchsBanner, Banner, ImpressionRequest } from "../../types/banner";
 import { apiUrl, authHeader } from "./base";
-import { fetchWithTimeout, isDebug } from "../util";
+import { defaultTimeout, fetchWithTimeout, isDebug } from "../util";
 import { BannerData, getBannerType } from "../../state/state";
 import { storageSet } from "../storage/chargeConditionStorage";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
-const timeOut = 3200;
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
-		const response = await fetchWithTimeout(
-			`${apiUrl}/v3/banners`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
+		const response = await fetchWithTimeout(`${apiUrl}/v3/banners`, {
+			headers: {
+				...authHeader.headers,
+				Accept: "application/json",
 			},
-			timeOut,
-		);
+		});
 
 		return response.json();
 	} catch (error) {
@@ -37,7 +32,6 @@ export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
 					Accept: "application/json",
 				},
 			},
-			timeOut,
 		);
 		return response.json();
 	} catch {

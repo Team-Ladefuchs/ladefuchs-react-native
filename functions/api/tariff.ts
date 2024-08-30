@@ -21,7 +21,7 @@ export async function fetchAllTariffs({
 			add: [],
 			remove: [],
 		},
-		4200,
+		defaultTimeout + 500,
 	);
 
 	if (!tariffs.length) {
