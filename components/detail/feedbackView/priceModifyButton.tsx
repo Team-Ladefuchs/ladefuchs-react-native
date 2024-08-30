@@ -19,7 +19,7 @@ export function PriceModifyButton({
 }: Props): JSX.Element {
 	const editButtonSize = scale(size);
 
-	const [intervalId, setIntervalId] = useState(null);
+	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	const delayMs = Platform.OS === "ios" ? 170 : 250;
 
@@ -40,7 +40,10 @@ export function PriceModifyButton({
 	};
 
 	const handlePressOut = () => {
-		clearInterval(intervalId);
+		if (intervalId) {
+			clearInterval(intervalId);
+		}
+
 		setIntervalId(null);
 	};
 
