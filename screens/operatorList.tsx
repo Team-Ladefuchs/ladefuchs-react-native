@@ -5,7 +5,6 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
-	ActivityIndicator,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -24,6 +23,7 @@ import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useQueryAppData } from "../hooks/useQueryAppData";
 import { genericOperatorImage } from "../functions/shared";
+import { LoadingSpinner } from "../components/shared/loadingSpinner";
 
 type filerType = "all" | "ownOperators";
 
@@ -153,12 +153,7 @@ export function OperatorList(): JSX.Element {
 
 			<View style={styles.listContainer}>
 				{allOperatorsQuery.isLoading ? (
-					<View style={{ margin: "auto" }}>
-						<ActivityIndicator
-							size="large"
-							color={colors.ladefuchsOrange}
-						/>
-					</View>
+					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
 						disableAnimation={true}

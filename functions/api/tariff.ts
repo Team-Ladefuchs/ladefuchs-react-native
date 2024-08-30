@@ -1,6 +1,6 @@
 import { Tariff, TariffResponse } from "../../types/tariff";
 import { apiUrl, authHeader } from "./base";
-import { fetchWithTimeout } from "../util";
+import { defaultTimeout, fetchWithTimeout } from "../util";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 import { Operator } from "../../types/operator";
 
@@ -21,7 +21,7 @@ export async function fetchAllTariffs({
 			add: [],
 			remove: [],
 		},
-		3500,
+		4200,
 	);
 
 	if (!tariffs.length) {
@@ -35,32 +35,6 @@ export async function fetchAllTariffs({
 	return tariffs;
 }
 
-export async function fetchTariffs({
-	standard = true,
-	timeout,
-}: {
-	standard: boolean;
-	timeout?: number;
-}): Promise<Tariff[]> {
-	try {
-		const response = await fetchWithTimeout(
-			`${apiUrl}/v3/tariffs?standard=${standard}`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
-			},
-			timeout,
-		);
-		const { tariffs } = (await response.json()) as TariffResponse;
-		return tariffs;
-	} catch (error) {
-		console.warn("fetchTariffs", error);
-		return [];
-	}
-}
-
 interface TariffCustomRequest {
 	add: string[];
 	remove: string[];
@@ -70,18 +44,22 @@ interface TariffCustomRequest {
 
 export async function fetchTariffsCustom(
 	request: TariffCustomRequest,
-	timeout = 2500,
+	timeout = defaultTimeout,
 ): Promise<Tariff[]> {
 	try {
-		const response = await fetchWithTimeout(`${apiUrl}/v3/tariffs`, {
-			method: "POST",
-			headers: {
-				...authHeader.headers,
-				Accept: "application/json",
-				"Content-Type": "application/json",
+		const response = await fetchWithTimeout(
+			`${apiUrl}/v3/tariffs`,
+			{
+				method: "POST",
+				headers: {
+					...authHeader.headers,
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(request),
 			},
-			body: JSON.stringify(request),
-		});
+			timeout,
+		);
 
 		const { tariffs } = (await response.json()) as TariffResponse;
 

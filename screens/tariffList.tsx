@@ -5,7 +5,6 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
-	ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -27,6 +26,7 @@ import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { userTariffImage } from "../functions/shared";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
+import { LoadingSpinner } from "../components/shared/loadingSpinner";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -178,12 +178,7 @@ export function TariffList(): JSX.Element {
 			</ListerFilterHeader>
 			<View style={styles.listContainer}>
 				{allTariffsQuery.isLoading ? (
-					<View style={{ margin: "auto" }}>
-						<ActivityIndicator
-							size="large"
-							color={colors.ladefuchsOrange}
-						/>
-					</View>
+					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
 						disableAnimation={filterMode === "all"}

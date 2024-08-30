@@ -90,10 +90,12 @@ export function removeItemByIndex<T>(array: T[], index: number): T[] {
 	return array;
 }
 
+export const defaultTimeout = 3400;
+
 export async function fetchWithTimeout(
 	url: string,
 	options: RequestInit = {},
-	timeout = 2400,
+	timeout = defaultTimeout,
 ): Promise<Response> {
 	const controller = new AbortController();
 	options.signal = controller.signal;

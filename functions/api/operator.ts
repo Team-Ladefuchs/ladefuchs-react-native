@@ -10,7 +10,7 @@ export async function fetchAllOperators({
 }): Promise<Operator[]> {
 	const storageKey = "allOperatorsCache";
 
-	const operators = await fetchOperators({ standard: false, timeout: 3500 });
+	const operators = await fetchOperators({ standard: false, timeout: 4200 });
 
 	if (!operators.length) {
 		return (await retrieveFromStorage<Operator[] | null>(storageKey)) ?? [];

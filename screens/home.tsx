@@ -24,6 +24,7 @@ export function HomeScreen(): JSX.Element {
 	return (
 		<View style={{ flex: 1 }}>
 			<ChargingTableHeader />
+			
 			<ChargeConditionTable />
 			<View style={styles.pickerBanner}>
 				<Text style={styles.pickerBannerText} allowFontScaling={false}>
