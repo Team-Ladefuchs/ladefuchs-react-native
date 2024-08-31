@@ -41,7 +41,7 @@ export function useAopMetrics() {
 			setTimeout(async () => {
 				await sendAppMetric.mutateAsync();
 				sendAppMetric.reset();
-			}, 1000);
+			}, 1300);
 		};
 		const subscription = AppState.addEventListener(
 			"change",

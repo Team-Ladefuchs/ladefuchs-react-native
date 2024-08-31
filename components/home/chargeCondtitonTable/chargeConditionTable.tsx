@@ -10,7 +10,7 @@ import { useQueryAppData } from "../../../hooks/useQueryAppData";
 import { LoadingSpinner } from "../../shared/loadingSpinner";
 
 export function ChargeConditionTable() {
-	const { allChargeConditionsQuery } = useQueryAppData();
+	const [allChargeConditionsQuery] = useQueryAppData();
 
 	const {
 		tariffs,

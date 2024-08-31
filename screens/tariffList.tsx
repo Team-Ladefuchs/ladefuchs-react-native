@@ -17,7 +17,6 @@ import { colors } from "../theme";
 import { SearchInput } from "../components/shared/searchInput";
 
 import { Tariff } from "../types/tariff";
-import { useQueryAppData } from "../hooks/useQueryAppData";
 import { fetchAllTariffs } from "../functions/api/tariff";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
 import { getMinutes } from "../functions/util";
@@ -27,6 +26,7 @@ import { userTariffImage } from "../functions/shared";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
+import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
@@ -43,7 +43,7 @@ const tabs = [
 export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 
-	const { allChargeConditionsQuery } = useQueryAppData();
+	const [manuelQueryChargeConditions] = useQueryChargeConditions();
 
 	const { operators } = useAppStore(
 		useShallow((state) => ({
@@ -74,7 +74,7 @@ export function TariffList(): JSX.Element {
 				add: Array.from(tariffsAddSet),
 				remove: Array.from(tariffsRemoveSet),
 			});
-			await allChargeConditionsQuery.refetch();
+			await manuelQueryChargeConditions.refetch();
 		});
 
 		return unsubscribe;
@@ -82,7 +82,7 @@ export function TariffList(): JSX.Element {
 		navigator,
 		tariffsAddSet,
 		tariffsRemoveSet,
-		allChargeConditionsQuery,
+		manuelQueryChargeConditions,
 		saveCustomTariffs,
 	]);
 
@@ -93,7 +93,7 @@ export function TariffList(): JSX.Element {
 		gcTime: getMinutes(20),
 		queryFn: async () => {
 			const tariffs = await fetchAllTariffs({
-				writeCache: !allChargeConditionsQuery.data,
+				writeCache: !allTariffsQuery.data,
 				operators,
 			});
 			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));

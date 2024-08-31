@@ -21,9 +21,9 @@ import { getMinutes, isDebug } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
-import { useQueryAppData } from "../hooks/useQueryAppData";
 import { genericOperatorImage } from "../functions/shared";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
+import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
 
 type filerType = "all" | "ownOperators";
 
@@ -45,7 +45,7 @@ export function OperatorList(): JSX.Element {
 	);
 	const [filterMode, setFilterMode] = useState<filerType>("all");
 
-	const { allChargeConditionsQuery } = useQueryAppData();
+	const [manuelQueryChargeConditions] = useQueryChargeConditions();
 	const { customOperators, saveCustomOperators, resetCustomOperators } =
 		useCustomTariffsOperators();
 	const navigator = useNavigation();
@@ -56,7 +56,7 @@ export function OperatorList(): JSX.Element {
 				add: Array.from(operatorAddSet),
 				remove: Array.from(operatorRemoveSet),
 			});
-			await allChargeConditionsQuery.refetch();
+			await manuelQueryChargeConditions.refetch();
 		});
 
 		return unsubscribe;
@@ -64,7 +64,7 @@ export function OperatorList(): JSX.Element {
 		navigator,
 		operatorAddSet,
 		operatorRemoveSet,
-		allChargeConditionsQuery,
+		manuelQueryChargeConditions,
 		saveCustomOperators,
 	]);
 
@@ -79,7 +79,7 @@ export function OperatorList(): JSX.Element {
 		retry: 3,
 		queryFn: async () => {
 			return await fetchAllOperators({
-				writeCache: !allChargeConditionsQuery.data,
+				writeCache: !manuelQueryChargeConditions.data,
 			});
 		},
 	});

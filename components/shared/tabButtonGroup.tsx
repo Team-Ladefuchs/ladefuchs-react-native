@@ -1,12 +1,5 @@
-import React, { useState, useRef } from "react";
-import {
-	View,
-	Text,
-	TouchableOpacity,
-	Animated,
-	Platform,
-	Dimensions,
-} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { View, Text, TouchableOpacity, Animated, Platform } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "../../theme";
 import * as Haptics from "expo-haptics";
@@ -23,11 +16,17 @@ interface Props<T> {
 
 export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 	const [activeTab, setActiveTab] = useState(0);
-	const containerWidth = useRef<number>(
-		Dimensions.get("window").width - scale(4),
-	);
-	const tabWidth = containerWidth.current / tabs.length;
+
 	const translateX = useRef(new Animated.Value(0)).current;
+	const containerWidth = useRef<number>(0);
+
+	const [tabWidth, setTabWith] = useState(0);
+
+	useEffect(() => {
+		if (containerWidth.current) {
+			setTabWith(containerWidth.current / tabs.length);
+		}
+	}, [containerWidth.current]);
 
 	const handleTabPress = (item: TabItem<T>, tabIndex: number) => {
 		setActiveTab(tabIndex);
@@ -42,23 +41,28 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 	};
 
 	return (
-		<View style={styles.container}>
-			<View
-				style={styles.tabContainer}
-				onLayout={(event) => {
+		<View
+			style={styles.container}
+			onLayout={(event) => {
+				if (!containerWidth.current) {
 					containerWidth.current =
-						event.nativeEvent.layout.width - scale(6);
-				}}
-			>
-				<Animated.View
-					style={[
-						styles.animatedBackground,
-						{
-							width: tabWidth,
-							transform: [{ translateX }],
-						},
-					]}
-				/>
+						event.nativeEvent.layout.width - scale(4);
+				}
+			}}
+		>
+			<View style={styles.tabContainer}>
+				{containerWidth?.current > 0 && (
+					<Animated.View
+						style={[
+							styles.animatedBackground,
+							{
+								width: tabWidth ?? 0,
+								transform: [{ translateX }],
+							},
+						]}
+					/>
+				)}
+
 				{tabs.map((tabItem, index) => (
 					<TouchableOpacity
 						activeOpacity={0.9}

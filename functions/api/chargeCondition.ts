@@ -40,7 +40,7 @@ export async function fetchChargingConditions(requestBody: {
 		const data = json as ConditionsResponse;
 		return data?.chargingConditions;
 	} catch (error) {
-		console.log("fetchConditions", error);
+		console.warn("fetchConditions", error);
 		return [];
 	}
 }

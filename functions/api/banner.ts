@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 import { LadefuchsBanner, Banner, ImpressionRequest } from "../../types/banner";
 import { apiUrl, authHeader } from "./base";
-import { defaultTimeout, fetchWithTimeout, isDebug } from "../util";
+import { fetchWithTimeout, isDebug } from "../util";
 import { BannerData, getBannerType } from "../../state/state";
 import { storageSet } from "../storage/chargeConditionStorage";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
