@@ -58,7 +58,6 @@ export function SettingsScreen() {
 								style={{
 									left: scale(7),
 									bottom: scale(2),
-									// paddingTop: scale(10),
 									marginRight: scale(-9),
 								}}
 							>

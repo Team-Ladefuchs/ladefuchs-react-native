@@ -16,6 +16,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackButton } from "../components/detail/feedbackButton";
 import { useNavigation } from "@react-navigation/native";
 import { appRoutes } from "../appRoutes";
+import * as Haptics from "expo-haptics";
 
 function findTariffCondition({
 	tariffConditions,
@@ -102,6 +103,9 @@ export function TariffDetailView({ route }: { route: any }): JSX.Element {
 					<Notes notes={tariff.note} />
 					<FeedbackButton
 						onPress={() => {
+							Haptics.notificationAsync(
+								Haptics.NotificationFeedbackType.Success,
+							);
 							// @ts-ignore
 							navigation.navigate(appRoutes.feedback.key, {
 								tariff,

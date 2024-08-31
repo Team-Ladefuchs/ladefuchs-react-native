@@ -6,8 +6,12 @@ import { colors } from "../../../theme";
 import { useAppStore } from "../../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { ChargeConditionRow } from "./chargeConditionRow";
+import { useQueryAppData } from "../../../hooks/useQueryAppData";
+import { LoadingSpinner } from "../../shared/loadingSpinner";
 
 export function ChargeConditionTable() {
+	const [allChargeConditionsQuery] = useQueryAppData();
+
 	const {
 		tariffs,
 		tariffConditions,
@@ -89,15 +93,19 @@ export function ChargeConditionTable() {
 
 	return (
 		<View style={styles.chargingTableContainer}>
-			<FlatList
-				ref={flatListRef as any}
-				data={currentTariffConditions}
-				renderItem={renderItem}
-				scrollsToTop={true}
-				keyExtractor={([left, right], _index) =>
-					conditionKey(left) + conditionKey(right)
-				}
-			/>
+			{allChargeConditionsQuery.isLoading ? (
+				<LoadingSpinner />
+			) : (
+				<FlatList
+					ref={flatListRef as any}
+					data={currentTariffConditions}
+					renderItem={renderItem}
+					scrollsToTop={true}
+					keyExtractor={([left, right], _index) =>
+						conditionKey(left) + conditionKey(right)
+					}
+				/>
+			)}
 		</View>
 	);
 }

@@ -5,7 +5,6 @@ import {
 	Linking,
 	SafeAreaView,
 	StatusBar,
-	Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";

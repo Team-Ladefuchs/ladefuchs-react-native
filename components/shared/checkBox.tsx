@@ -1,7 +1,6 @@
 import React from "react";
 import { Pressable } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
-
 import CheckMark from "@assets/generic/checkmark_bold.svg";
 import { colors } from "../../theme";
 

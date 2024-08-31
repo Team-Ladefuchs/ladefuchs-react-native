@@ -93,7 +93,11 @@ export const useAppStore = create<AppState>((set, get) => {
 					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
 				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
 			} while (newBanner.imageUrl === banner?.imageUrl);
-			set(() => ({ banner: { ...newBanner, bannerType: "ladefuchs" } }));
+			const appBanner = {
+				...newBanner,
+				bannerType: "ladefuchs",
+			} satisfies Banner;
+			set(() => ({ banner: appBanner }));
 		},
 	};
 });

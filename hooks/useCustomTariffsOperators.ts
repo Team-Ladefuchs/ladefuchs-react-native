@@ -41,7 +41,8 @@ export async function getCustomTariffsOperators(): Promise<CustomTariffsOperator
 }
 
 export function useCustomTariffsOperators() {
-	const [current, setCurrent] = useState<CustomTariffsOperators>(emptyCustomSettings);
+	const [current, setCurrent] =
+		useState<CustomTariffsOperators>(emptyCustomSettings);
 
 	useFocusEffect(
 		useCallback(() => {
