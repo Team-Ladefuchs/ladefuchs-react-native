@@ -1,4 +1,4 @@
-import { Platform, PlatformOSType } from "react-native";
+import { PlatformOSType } from "react-native";
 
 export interface LadefuchsBanner extends Banner {
 	identifier: string;

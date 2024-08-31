@@ -13,7 +13,7 @@ export default function OperatorPicker(): JSX.Element {
 			operators: state.operators,
 			operatorId: state.operatorId,
 			setOperatorId: state.setOperatorId,
-		}))
+		})),
 	);
 
 	const [operatorIndex, setOperatorIndex] = useState(0);
@@ -30,6 +30,7 @@ export default function OperatorPicker(): JSX.Element {
 	}
 
 	if (Platform.OS === "android") {
+		const optionLabels = operatorList?.map((item) => item.name);
 		return (
 			<View
 				style={{
@@ -39,13 +40,14 @@ export default function OperatorPicker(): JSX.Element {
 				}}
 			>
 				<WheelPicker
-					options={operatorList?.map((item) => item.name)}
+					options={optionLabels}
 					itemTextStyle={{
 						fontSize: scale(21),
 					}}
 					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
 					selectedIndex={operatorIndex}
 					itemHeight={41}
+					key={optionLabels.join("")}
 					decelerationRate={"fast"}
 					onChange={(index) => {
 						setOperatorId(operators[index].identifier);

@@ -1,5 +1,4 @@
-import { authHeader } from "../../functions/api";
-import { Tariff } from "../../types/tariff";
+import { authHeader } from "../../functions/api/base";
 import {
 	View,
 	Image,
@@ -13,60 +12,26 @@ import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
 import { colors } from "../../theme";
 import { scale } from "react-native-size-matters";
+
 interface Props {
-	tariff: Tariff;
+	imageUrl: string | null;
+	name?: string;
 	showHighlightCorner?: boolean;
+	hideFallBackText?: boolean;
 	width: number;
 	style?: ImageStyle;
 }
 
-function FallBack({ tariff }: { tariff: Tariff }): JSX.Element {
-	return (
-		<View
-			style={{
-				backgroundColor: colors.ladefuchsOrange,
-				height: "100%",
-				overflow: "hidden",
-				alignContent: "center",
-				borderRadius: 4,
-			}}
-		>
-			<Text
-				numberOfLines={3}
-				style={{
-					marginHorizontal: 6,
-					marginVertical: 4,
-					fontFamily: "RobotoCondensed",
-					color: "#fff",
-					fontSize: 12,
-				}}
-			>
-				{tariff.name}
-			</Text>
-			<Image
-				source={require("@assets/blitz.png")}
-				resizeMethod={"scale"}
-				fadeDuration={0}
-				style={{
-					position: "absolute",
-					right: -2,
-					bottom: -2,
-					height: 23,
-					objectFit: "scale-down",
-					width: 23,
-				}}
-			/>
-		</View>
-	);
-}
-
 export function CardImage({
-	tariff,
+	imageUrl,
+	name,
 	showHighlightCorner = false,
 	width,
+	hideFallBackText = false,
 	style: styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
+
 	return (
 		<View
 			style={{
@@ -76,18 +41,47 @@ export function CardImage({
 			}}
 		>
 			{showHighlightCorner && <HighlightCorner />}
-			{!tariff.imageUrl || imageError ? (
-				<FallBack tariff={tariff} />
+			{!imageUrl || imageError ? (
+				<FallBack
+					name={name ?? ""}
+					hideFallBackText={hideFallBackText}
+				/>
 			) : (
 				<Image
-					onError={() => setImageError(true)}
+					onError={() => {
+						setImageError(true);
+					}}
 					source={{
-						uri: tariff.imageUrl,
+						uri: imageUrl,
 						...authHeader,
 					}}
-					style={{ ...styles.cardImage }}
+					style={styles.cardImage}
 				/>
 			)}
+		</View>
+	);
+}
+
+function FallBack({
+	name,
+	hideFallBackText,
+}: {
+	name: string;
+	hideFallBackText: boolean;
+}): JSX.Element {
+	return (
+		<View style={styles.fallbackContainer}>
+			{!hideFallBackText && (
+				<Text numberOfLines={3} style={styles.fallbackText}>
+					{name}
+				</Text>
+			)}
+			<Image
+				source={require("@assets/generic/blitz.png")}
+				resizeMethod={"scale"}
+				fadeDuration={0}
+				style={styles.fallbackImage}
+			/>
 		</View>
 	);
 }
@@ -118,9 +112,32 @@ const styles = StyleSheet.create({
 	cardImage: {
 		...card,
 		width: "100%",
+		height: "100%",
 	},
 	priceText: {
 		fontSize: 25,
 		fontWeight: "400",
+	},
+	fallbackContainer: {
+		backgroundColor: colors.ladefuchsOrange,
+		height: "100%",
+		overflow: "hidden",
+		alignContent: "center",
+		borderRadius: 4,
+	},
+	fallbackText: {
+		marginHorizontal: 6,
+		marginVertical: 4,
+		fontFamily: "RobotoCondensed",
+		color: "#fff",
+		fontSize: scale(10.5),
+	},
+	fallbackImage: {
+		position: "absolute",
+		right: -2,
+		bottom: -2,
+		height: scale(20),
+		objectFit: "scale-down",
+		width: scale(20),
 	},
 });

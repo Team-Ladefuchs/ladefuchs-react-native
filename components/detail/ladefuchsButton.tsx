@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, TouchableOpacity, Platform } from "react-native";
 import { colors } from "../../theme";
-import { ScaledSheet } from "react-native-size-matters";
-
+import { ScaledSheet, scale } from "react-native-size-matters";
+import * as Haptics from "expo-haptics";
 export function LadefuchsButton({
 	onPress,
 	text,
@@ -15,9 +15,15 @@ export function LadefuchsButton({
 	return (
 		<TouchableOpacity
 			activeOpacity={0.8}
+			hitSlop={scale(8)}
 			disabled={disabled}
 			style={[styles.button, disabled && styles.disabledButton]}
-			onPress={onPress}
+			onPress={() => {
+				Haptics.notificationAsync(
+					Haptics.NotificationFeedbackType.Success,
+				);
+				onPress();
+			}}
 		>
 			<Text style={styles.buttonText}>{text.toLocaleUpperCase()}</Text>
 		</TouchableOpacity>

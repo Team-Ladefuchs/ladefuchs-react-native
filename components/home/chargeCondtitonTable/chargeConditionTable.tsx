@@ -6,8 +6,12 @@ import { colors } from "../../../theme";
 import { useAppStore } from "../../../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { ChargeConditionRow } from "./chargeConditionRow";
+import { useQueryAppData } from "../../../hooks/useQueryAppData";
+import { LoadingSpinner } from "../../shared/loadingSpinner";
 
 export function ChargeConditionTable() {
+	const [allChargeConditionsQuery] = useQueryAppData();
+
 	const {
 		tariffs,
 		tariffConditions,
@@ -21,7 +25,7 @@ export function ChargeConditionTable() {
 			setTariffConditions: state.setTariffConditions,
 			operatorId: state.operatorId,
 			chargingConditionsMap: state.chargingConditions,
-		}))
+		})),
 	);
 
 	useEffect(() => {
@@ -37,7 +41,7 @@ export function ChargeConditionTable() {
 	const currentTariffConditions = useMemo(() => {
 		const [acTariffCondition, dcTariffCondition] = fill(
 			tariffConditions.filter((item) => item.chargingMode === "ac"),
-			tariffConditions.filter((item) => item.chargingMode === "dc")
+			tariffConditions.filter((item) => item.chargingMode === "dc"),
 		);
 		return zip(acTariffCondition, dcTariffCondition);
 	}, [tariffConditions]);
@@ -84,20 +88,24 @@ export function ChargeConditionTable() {
 				</View>
 			);
 		},
-		[tariffs]
+		[tariffs],
 	);
 
 	return (
 		<View style={styles.chargingTableContainer}>
-			<FlatList
-				ref={flatListRef as any}
-				data={currentTariffConditions}
-				renderItem={renderItem}
-				scrollsToTop={true}
-				keyExtractor={([left, right], _index) =>
-					conditionKey(left) + conditionKey(right)
-				}
-			/>
+			{allChargeConditionsQuery.isLoading ? (
+				<LoadingSpinner />
+			) : (
+				<FlatList
+					ref={flatListRef as any}
+					data={currentTariffConditions}
+					renderItem={renderItem}
+					scrollsToTop={true}
+					keyExtractor={([left, right], _index) =>
+						conditionKey(left) + conditionKey(right)
+					}
+				/>
+			)}
 		</View>
 	);
 }
@@ -117,7 +125,7 @@ function conditionKey(condition: TariffCondition | null): string {
 
 const styles = StyleSheet.create({
 	chargingTableContainer: {
-		flex: 89,
+		flex: 92,
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	scrollContainer: {
@@ -125,12 +133,12 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 	},
 	priceLineContainer: {
-		flexDirection: "row", // Horizontal layout
-		justifyContent: "space-between", // Distribute space between items
-		paddingVertical: 0, // Adjust as needed
+		flexDirection: "row",
+		justifyContent: "space-between",
+		paddingVertical: 0,
 	},
 	space: {
-		width: 1, // Adjust space width as needed
-		backgroundColor: "white", // Set space background color
+		width: 1,
+		backgroundColor: "white",
 	},
 });

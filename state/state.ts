@@ -4,6 +4,7 @@ import { TariffCondition } from "../types/conditions";
 import { Operator } from "../types/operator";
 import { Tariff } from "../types/tariff";
 import { shuffleAndPickOne } from "../functions/util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type AppData = ChargeConditionData & BannerData;
 
@@ -41,9 +42,11 @@ export const useAppStore = create<AppState>((set, get) => {
 			if (!operatorId) {
 				operatorId = operators[0]?.identifier ?? "";
 			}
+
 			if (operators) {
 				set(() => ({
 					...appData,
+					operators: [...operators],
 					operatorId,
 				}));
 			}
@@ -90,10 +93,35 @@ export const useAppStore = create<AppState>((set, get) => {
 					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
 				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
 			} while (newBanner.imageUrl === banner?.imageUrl);
-			set(() => ({ banner: { ...newBanner, bannerType: "ladefuchs" } }));
+			const appBanner = {
+				...newBanner,
+				bannerType: "ladefuchs",
+			} satisfies Banner;
+			set(() => ({ banner: appBanner }));
 		},
 	};
 });
+
+export async function getBannerType(): Promise<BannerType> {
+	const key = "bannerType";
+	const ladefuchsValue = "ladefuchs";
+	const chargePriceValue = "chargePrice";
+
+	try {
+		const storedValue = (await AsyncStorage.getItem(key)) ?? ladefuchsValue;
+		const showChargePriceBanner = storedValue === chargePriceValue;
+		if (showChargePriceBanner) {
+			await AsyncStorage.setItem(key, ladefuchsValue);
+			return chargePriceValue;
+		} else {
+			await AsyncStorage.setItem(key, chargePriceValue);
+			return ladefuchsValue;
+		}
+	} catch {
+		console.log("Could not get banner type from storage");
+	}
+	return ladefuchsValue;
+}
 
 function selectLadefuchsBanner({
 	ladefuchsBanners,

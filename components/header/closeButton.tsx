@@ -13,16 +13,17 @@ interface Props {
 export function CloseButton({
 	onPress,
 	style,
-	backgroundColor = colors.ladefuchsDarkGrayBackground,
+	backgroundColor = colors.ladefuchsDarkBackground,
 }: Props): JSX.Element {
 	const size = scale(19);
 	return (
 		<TouchableOpacity
 			activeOpacity={0.6}
 			onPress={onPress}
+			hitSlop={scale(10)}
 			style={{
 				...style,
-				padding: 4,
+				// padding: 4,
 			}}
 		>
 			<View
