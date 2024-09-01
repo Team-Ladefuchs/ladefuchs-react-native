@@ -1,11 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
 	View,
 	Text,
 	TouchableOpacity,
 	Animated,
 	Platform,
-	Dimensions,
 } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "../../theme";

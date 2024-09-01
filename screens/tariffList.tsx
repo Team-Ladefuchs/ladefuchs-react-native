@@ -4,8 +4,7 @@ import {
 	Text,
 	KeyboardAvoidingView,
 	Platform,
-	Alert,
-	ActivityIndicator,
+	Alert
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -28,6 +27,7 @@ import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
 import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
+import i18n from "../localization";
 
 const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
