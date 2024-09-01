@@ -8,17 +8,12 @@ import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
 export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	try {
-		const response = await fetchWithTimeout(
-			`${apiUrl}/v3/banners`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
+		const response = await fetchWithTimeout(`${apiUrl}/v3/banners`, {
+			headers: {
+				...authHeader.headers,
 				Accept: "application/json",
 			},
-			timeOut,
-		);
+		});
 
 		return response.json();
 	} catch (error) {
