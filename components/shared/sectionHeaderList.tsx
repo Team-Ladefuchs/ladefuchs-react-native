@@ -207,9 +207,7 @@ export function SectionHeaderList<T extends ItemType>({
 			ListEmptyComponent={() => (
 				<View style={styles.emptyListStyle}>
 					<Text style={styles.emptyListTextStyle}>
-						{emptyText
-							? emptyText
-							: i18n.t('ladetarifeInfo1')}
+						{emptyText ? emptyText : i18n.t("ladetarifeInfo1")}
 					</Text>
 				</View>
 			)}
