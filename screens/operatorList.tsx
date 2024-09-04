@@ -5,7 +5,6 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
-	ActivityIndicator,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
@@ -111,24 +110,20 @@ export function OperatorList(): JSX.Element {
 	]);
 
 	const handleOperatorReset = () => {
-		Alert.alert(
-			i18n.t('operatorAlert'),
-			i18n.t('operatorAlertText'),
-			[
-				{
-					text: i18n.t('cancel'),
-					style: "cancel",
+		Alert.alert(i18n.t("operatorAlert"), i18n.t("operatorAlertText"), [
+			{
+				text: i18n.t("cancel"),
+				style: "cancel",
+			},
+			{
+				text: i18n.t("yes"),
+				onPress: async () => {
+					setOperatorAddSet(new Set([]));
+					setOperatorRemoveSet(new Set([]));
+					await resetCustomOperators();
 				},
-				{
-					text: i18n.t('yes'),
-					onPress: async () => {
-						setOperatorAddSet(new Set([]));
-						setOperatorRemoveSet(new Set([]));
-						await resetCustomOperators();
-					},
-				},
-			],
-		);
+			},
+		]);
 	};
 
 	useEffect(() => {
@@ -236,7 +231,10 @@ export function OperatorList(): JSX.Element {
 					/>
 				)}
 			</View>
-			<SearchInput onChange={setSearch} placeHolder={i18n.t('betreibersuche')} />
+			<SearchInput
+				onChange={setSearch}
+				placeHolder={i18n.t("betreibersuche")}
+			/>
 		</KeyboardAvoidingView>
 	);
 }
