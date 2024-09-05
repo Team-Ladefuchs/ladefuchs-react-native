@@ -15,6 +15,7 @@ import { OperatorImage } from "../components/shared/operatorImage";
 import { genericOperatorImage, userTariffImage } from "../functions/shared";
 import { Line } from "../components/settings/line";
 import i18n from "../localization";
+import { Support } from "../components/settings/support";
 
 export function SettingsScreen() {
 	return (
@@ -79,6 +80,7 @@ export function SettingsScreen() {
 					<DatenView />
 					<Illustration />
 					<PodcastView />
+					<Support />
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"

@@ -24,7 +24,7 @@ export const appRoutes = {
 		key: "feedback",
 	},
 	license: {
-		title: "Drittlizenzen",
+		title: i18n.t('lizenzen'),
 		key: "license",
 	},
 } as const;

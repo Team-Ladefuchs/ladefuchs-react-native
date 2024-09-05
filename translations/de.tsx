@@ -6,11 +6,11 @@ const de = {
 	preisfalsch: "Preise/Infos falsch?",
 	karte: "Hol dir die Karte!",
 	futter: "Hast Du Futter für den Fuchs?",
-	futter1:"Sag uns was nicht stimmt!",
-	futter2:"Willst Du dem Fuchs noch etwas flüstern?",
+	futter1: "Sag uns was nicht stimmt!",
+	futter2: "Willst Du dem Fuchs noch etwas flüstern?",
 	senden: "Senden",
-	momentchen:"Momentchen …",
-	thxfeedback:"⚡️ Vielen Dank für dein Feedback!",
+	momentchen: "Momentchen …",
+	thxfeedback: "⚡️ Vielen Dank für dein Feedback!",
 	ups: "🚧 Ups, ein Fehler ist aufgetreten",
 	einstellungen: "Einstellungen",
 	teamfuchs: "TEAMFUCHS",
@@ -26,14 +26,18 @@ const de = {
 	ladesaeulentext:
 		"Welche Ladesäulen-Anbieter\n(CPO) möchtest du vergleichen?",
 	betreibersuche: "Betreiber suchen",
-	ladetarifeInfo1:"Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊",
-	ladetarifeInfo2:"Wenn du unter „Alle“ ein weiteres Häkchen\nvor einen Tarif setzt, findest du ihn hier.",
-	tarifAlert:"Tarife zurücksetzen",
-	tarifAlertText:"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
-	operatorAlert:"Anbieter zurücksetzen",
-	operatorAlertText:"Deine Anbieter werden zurückgesetzt. Bist du dir ganz sicher?",
-	cancel:"Abbrechen",
-	yes:"Ja bin ich",
+	ladetarifeInfo1:
+		"Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊",
+	ladetarifeInfo2:
+		"Wenn du unter „Alle“ ein weiteres Häkchen\nvor einen Tarif setzt, findest du ihn hier.",
+	tarifAlert: "Tarife zurücksetzen",
+	tarifAlertText:
+		"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
+	operatorAlert: "Anbieter zurücksetzen",
+	operatorAlertText:
+		"Deine Anbieter werden zurückgesetzt. Bist du dir ganz sicher?",
+	cancel: "Abbrechen",
+	yes: "Ja bin ich",
 	veteranen: "VETERANEN",
 	datenfuchs: "Datenfuchs",
 	datenfuchstext: "Beste schlaue Daten kommen direkt von",
@@ -49,6 +53,9 @@ const de = {
 	lizenztext: "Der Blick unter die Haube 🚘⚡️",
 	footer: "Handgefertigt aus ❤️ zur Elektromobilität in\n 👑 Aachen, ⚒️ Ahlen und 🧲 Hoppegarten",
 	zurueck: "Zurück",
+	supportfuchs: "Kann man euch Unterstützen?",
+	supportfuchstext:
+		"Na klar kannst du uns unterstützen, es gibt viele Wege über die Du uns unter die Arme greifen kannst:\n\n❤️Hol dir die THQ Quote für dein E-Auto über unsere Referrallink bei geld-fuer-eauto.de\n❤️Wirf eine Münze in unseren PayPal Brunnen\n❤️Trage den Fuchs aus unserem Merch\n❤️Schicke einen Finanzboten zu unserem Unterstützungskonto:\n	Kontoinhaber: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
 };
 
 export default de;
