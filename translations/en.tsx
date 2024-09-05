@@ -53,8 +53,11 @@ const en = {
 	footer: "Handmade from ❤️ for electromobility in\n 👑 Aachen, ⚒️ Ahlen and 🧲 Hoppegarten",
 	zurueck: "back",
 	supportfuchs: "Can you support us?",
+	supportfuchs2: "Support",
 	supportfuchstext:
-		"Of course you can support us, there are many ways you can help us:\n\n\❤️Get the THQ quote for your electric car via our referral link at geld-fuer-eauto.de\n❤️Throw a coin into our PayPal fountain\n❤️Wear the fox from our merch\n❤️Send a financial messenger to our support account:\n	Account holder: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
+		"Of course you can support us, there are many ways you can help us:\n\n❤️Get the THQ quote for your electric car via our referral link at geld-fuer-eauto.de\n❤️Throw a coin into our PayPal fountain\n❤️Wear the fox from our merch\n❤️Send a financial messenger to our support account:\n	Account holder: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
+	supportfuchstext2: "How can I feed the fox?",
+	supportlink: "❤️ Check it out here ›",
 };
 
 export default en;
