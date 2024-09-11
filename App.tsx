@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -32,11 +32,14 @@ import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 import i18n from "./localization";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { OnboardingScreen } from "./screens/onboardingScreen";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
+const MainStack = createStackNavigator();
 
 // Main App component
 export default function App(): JSX.Element {
@@ -49,6 +52,12 @@ export default function App(): JSX.Element {
 }
 
 function AppWrapper(): JSX.Element {
+	const [isOnboardingComplete, setIsOnboardingComplete] = useState<
+		boolean | null
+	>(null);
+
+	const fontLoaded = useCustomFonts();
+
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
@@ -59,28 +68,53 @@ function AppWrapper(): JSX.Element {
 		};
 	}, []);
 
+	useEffect(() => {
+		const checkOnboarding = async () => {
+			const onboardingComplete =
+				await AsyncStorage.getItem("onboardingComplete");
+			setIsOnboardingComplete(onboardingComplete !== null);
+		};
+
+		checkOnboarding();
+	}, []);
+
+	// Die Hooks werden hier aufgerufen, unabhängig von der Onboarding-Logik
 	useQueryAppData();
 	useAopMetrics();
 
-	const fontLoaded = useCustomFonts();
+	// Sicherstellen, dass die Schriftarten geladen sind
 	if (!fontLoaded) {
-		return <View></View>;
+		return <View />; // Ladebildschirm oder Placeholder während der Schriftarten geladen werden
+	}
+
+	// Warten auf den Status des Onboardings
+	if (isOnboardingComplete === null) {
+		return <View />; // Ladebildschirm oder leeres View während des Ladens des Onboarding-Status
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				<RootStack.Screen
-					name="Home"
-					component={HomeScreen}
-					options={() => ({
-						header: () => <AppHeader />,
-						headerStyle: {
-							backgroundColor: colors.ladefuchsDarkBackground,
-						},
-						headerTintColor: colors.ladefuchsOrange,
-					})}
-				/>
+				{!isOnboardingComplete ? (
+					<RootStack.Screen
+						name="Onboarding"
+						component={OnboardingScreen}
+						options={{ headerShown: false }}
+					/>
+				) : (
+					<RootStack.Screen
+						name="Home"
+						//name={appRoutes.home.key}
+						component={HomeScreen}
+						options={() => ({
+							header: () => <AppHeader />,
+							headerStyle: {
+								backgroundColor: colors.ladefuchsDarkBackground,
+							},
+							headerTintColor: colors.ladefuchsOrange,
+						})}
+					/>
+				)}
 				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}
@@ -119,6 +153,20 @@ function AppWrapper(): JSX.Element {
 						options={{ headerShown: false }}
 					/>
 				</RootStack.Group>
+				<MainStack.Group screenOptions={{ presentation: "fullscreen" }}>
+					<RootStack.Screen
+						//name="Home"
+						name={appRoutes.home.key}
+						component={HomeScreen}
+						options={() => ({
+							header: () => <AppHeader />,
+							headerStyle: {
+								backgroundColor: colors.ladefuchsDarkBackground,
+							},
+							headerTintColor: colors.ladefuchsOrange,
+						})}
+					/>
+				</MainStack.Group>
 			</RootStack.Navigator>
 		</NavigationContainer>
 	);
@@ -166,7 +214,7 @@ function onAppStateChange(status: AppStateStatus) {
 
 function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
-		headerBackTitle: i18n.t('zurueck'),
+		headerBackTitle: i18n.t("zurueck"),
 		title,
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
