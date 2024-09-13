@@ -1,44 +1,20 @@
 import React, { useState } from "react";
-import {
-	View,
-	Text,
-	Button,
-	FlatList,
-	SafeAreaView,
-	Image,
-	StyleSheet,
-	Touchable,
-} from "react-native";
+import { Image, Text, Button, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { appRoutes } from "../appRoutes";
 import { colors } from "../theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import Onboarding from "react-native-onboarding-swiper";
 
-const onboardingData = [
-	{
-		id: "1",
-		backgroundColor: "#000",
-
-		title: "Wirf einen Blick in die Settings!",
-		description:
-			"Du findest dort die Möglichkeit Ladesäulen und Tarife hinzuzufügen.",
-		image: require("@assets/generic/settings.png"), // Local image
-	},
-	{
-		id: "2",
-		title: "Such dir den passenden Anbieter",
-		description:
-			"Du findest alle relevanten Anbieter und Tarife in den entsprechenden Reitern.",
-		image: require("@assets/generic/tariffs.png"), // Local image
-	},
-	{
-		id: "3",
-		title: "Ein paar Kleinigkeiten gibt es bestimmt noch zu erledigen…",
-		description: "Malik darf gern kreativ werden 🤘",
-		image: require("@assets/generic/blitz.png"), // Local image
-	},
-];
+// Funktion, um das Onboarding zu wiederholen
+const resetOnboarding = async () => {
+	try {
+		await AsyncStorage.removeItem("alreadyLaunched"); // Löscht die Markierung
+		alert("Onboarding wird beim nächsten Start wieder angezeigt.");
+	} catch (error) {
+		console.error("Fehler beim Zurücksetzen des Onboardings", error);
+	}
+};
 
 export function OnboardingScreen({ navigation }: any): JSX.Element {
 	const [currentStep, setCurrentStep] = useState(0);
@@ -103,7 +79,17 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 						<Image source={require("@assets/generic/onboard4.png")} />
 					),
 					title: "Und deinen eigenen Tarif.",
-					subtitle: "Du bist jetzt ein Fuchs …es kann losgehen…",
+					subtitle: (
+						<View>
+							<Text>Du bist jetzt ein Fuchs …es kann losgehen…</Text>
+							{/* Button zum Zurücksetzen des Onboardings */}
+							<Button
+								title="Onboarding wiederholen"
+								onPress={resetOnboarding}
+								color={colors.ladefuchsOrange} // Farbe für den Button
+							/>
+						</View>
+					),
 				},
 			]}
 		/>
