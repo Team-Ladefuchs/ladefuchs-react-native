@@ -43,16 +43,16 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					),
 					title: "Wähle den Anbieter der Ladesäule, an der Du stehst.",
 					subtitle:
-						"Der kleine Fuchs läuft durch den Wald läuft und sammelt Nüsse, ich meine Daten, für dich ein…",
+						"Der kleine Fuchs läuft durch den Wald läuft und sammelt Nüsse, ich meine Daten, für dich ein …Klick mal auf eine Karte!",
 				},
 				{
 					backgroundColor: colors.ladefuchsLightBackground,
 					image: (
 						<Image source={require("@assets/generic/onboard2.png")} />
 					),
-					title: "Die günstigsten Ladekarten findest Du oben in der Liste.",
+					title: "Nun holen wir die Preisinformationen…",
 					subtitle:
-						"Nu holen wir die Preisinformationen für den passenden Ladesäulenbetreiber…",
+						"Jetzt siehst du Preisinformationen für die gewählte Ladekarte.",
 				},
 				{
 					backgroundColor: "#a6e4d0",
