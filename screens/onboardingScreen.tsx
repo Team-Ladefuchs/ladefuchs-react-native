@@ -62,31 +62,48 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					backgroundColor: "#a6e4d0",
 					image: (
 						<Image
-							source={require("@assets/generic/blitz.png")}
+							source={require("@assets/generic/onboard1.png")}
 						/>
 					),
-					title: "Wirf einen Blick in die Settings!",
-					subtitle: "Du findest dort die Möglichkeit Ladesäulen und Tarife hinzuzufügen.",
+					title: "Wähle den Anbieter der Ladesäule, an der Du stehst.",
+					subtitle:
+						"Der kleine Fuchs läuft durch den Wald läuft und sammelt Nüsse, ich meine Daten, für dich ein…",
 				},
 				{
 					backgroundColor: colors.ladefuchsLightBackground,
 					image: (
-						<Image
-							source={require("@assets/generic/blitz.png")}
-						/>
+						<Image source={require("@assets/generic/onboard2.png")} />
+					),
+					title: "Die günstigsten Ladekarten findest Du oben in der Liste.",
+					subtitle:
+						"Nu holen wir die Preisinformationen für den passenden Ladesäulenbetreiber…",
+				},
+				{
+					backgroundColor: "#a6e4d0",
+					image: (
+						<Image source={require("@assets/generic/onboard3.png")} />
+					),
+
+					title: "Wirf einen Blick in die Settings!",
+					subtitle:
+						"Hier kannst Du Deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
+				},
+				{
+					backgroundColor: colors.ladefuchsLightBackground,
+					image: (
+						<Image source={require("@assets/generic/onboard5.png")} />
 					),
 					title: "Such dir den passenden Anbieter",
-					subtitle: "Du findest alle relevanten Anbieter und Tarife in den entsprechenden Reitern.",
+					subtitle:
+						"Du findest alle relevanten Anbieter und Tarife in den entsprechenden Reitern.",
 				},
 				{
 					backgroundColor: "#fff",
 					image: (
-						<Image
-							source={require("@assets/generic/blitz.png")}
-						/>
+						<Image source={require("@assets/generic/onboard4.png")} />
 					),
-					title: "Onboarding",
-					subtitle: "Done with React Native Onboarding Swiper",
+					title: "Und deinen eigenen Tarif.",
+					subtitle: "Du bist jetzt ein Fuchs …es kann losgehen…",
 				},
 			]}
 		/>
