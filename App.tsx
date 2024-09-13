@@ -52,9 +52,18 @@ export default function App(): JSX.Element {
 }
 
 function AppWrapper(): JSX.Element {
-	const [isOnboardingComplete, setIsOnboardingComplete] = useState<
-		boolean | null
-	>(null);
+	const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
+
+	useEffect(() => {
+		AsyncStorage.getItem("alreadyLaunched").then((value) => {
+			if (value === null) {
+				AsyncStorage.setItem("alreadyLaunched", "true");
+				setIsFirstLaunch(true);
+			} else {
+				setIsFirstLaunch(false);
+			}
+		});
+	}, []);
 
 	const fontLoaded = useCustomFonts();
 
@@ -68,34 +77,20 @@ function AppWrapper(): JSX.Element {
 		};
 	}, []);
 
-	useEffect(() => {
-		const checkOnboarding = async () => {
-			const onboardingComplete =
-				await AsyncStorage.getItem("onboardingComplete");
-			setIsOnboardingComplete(onboardingComplete !== null);
-		};
-
-		checkOnboarding();
-	}, []);
-
 	// Die Hooks werden hier aufgerufen, unabhängig von der Onboarding-Logik
 	useQueryAppData();
 	useAopMetrics();
 
 	// Sicherstellen, dass die Schriftarten geladen sind
-	if (!fontLoaded) {
+	if (!fontLoaded || isFirstLaunch === null) {
 		return <View />; // Ladebildschirm oder Placeholder während der Schriftarten geladen werden
-	}
-
-	// Warten auf den Status des Onboardings
-	if (isOnboardingComplete === null) {
-		return <View />; // Ladebildschirm oder leeres View während des Ladens des Onboarding-Status
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				{!isOnboardingComplete ? (
+				{/* Wenn erster Start, dann Onboarding anzeigen */}
+				{isFirstLaunch ? (
 					<RootStack.Screen
 						name="Onboarding"
 						component={OnboardingScreen}
@@ -103,8 +98,8 @@ function AppWrapper(): JSX.Element {
 					/>
 				) : (
 					<RootStack.Screen
-						name="Home"
-						//name={appRoutes.home.key}
+					name="Home"
+						//name={appRoutes.home.key} --no multiple allowd
 						component={HomeScreen}
 						options={() => ({
 							header: () => <AppHeader />,
@@ -115,7 +110,8 @@ function AppWrapper(): JSX.Element {
 						})}
 					/>
 				)}
-				<RootStack.Group screenOptions={{ presentation: "modal" }}>
+
+<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}
 						component={TariffDetailView}
@@ -171,6 +167,7 @@ function AppWrapper(): JSX.Element {
 		</NavigationContainer>
 	);
 }
+
 
 // Define the Einstellungen stack with nested screens
 function SettingsStackNavigator(): JSX.Element {

@@ -7,11 +7,13 @@ import {
 	SafeAreaView,
 	Image,
 	StyleSheet,
+	Touchable,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { appRoutes } from "../appRoutes";
 import { colors } from "../theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
+import Onboarding from "react-native-onboarding-swiper";
 
 const onboardingData = [
 	{
@@ -47,27 +49,47 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 		} else {
 			// Onboarding abgeschlossen, flag in AsyncStorage setzen
 			await AsyncStorage.setItem("onboardingComplete", "true");
-			navigation.navigate(appRoutes.home.key); // Zur HomeScreen navigieren
+			navigation.navigate("appRoutes.home.key"); // Zur HomeScreen navigieren
 		}
 	};
 
 	return (
-		<SafeAreaView style={styles.viewContainer}>
-<Text style={styles.title}>
-				{onboardingData[currentStep].title}
-			</Text>
-			{/* Display the image */}
-			<Image
-				source={onboardingData[currentStep].image}
-				style={styles.image}
-				resizeMode="contain" // Adjust the image aspect ratio to fit the container
-			/>
-
-			<Text style={styles.description}>
-				{onboardingData[currentStep].description}
-			</Text>
-			<Button title="Weiter" onPress={handleNext} />
-		</SafeAreaView>
+		<Onboarding
+			onDone={() => navigation.navigate(appRoutes.home.key)}
+			onSkip={() => navigation.navigate(appRoutes.home.key)}
+			pages={[
+				{
+					backgroundColor: "#a6e4d0",
+					image: (
+						<Image
+							source={require("@assets/generic/blitz.png")}
+						/>
+					),
+					title: "Wirf einen Blick in die Settings!",
+					subtitle: "Du findest dort die Möglichkeit Ladesäulen und Tarife hinzuzufügen.",
+				},
+				{
+					backgroundColor: colors.ladefuchsLightBackground,
+					image: (
+						<Image
+							source={require("@assets/generic/blitz.png")}
+						/>
+					),
+					title: "Such dir den passenden Anbieter",
+					subtitle: "Du findest alle relevanten Anbieter und Tarife in den entsprechenden Reitern.",
+				},
+				{
+					backgroundColor: "#fff",
+					image: (
+						<Image
+							source={require("@assets/generic/blitz.png")}
+						/>
+					),
+					title: "Onboarding",
+					subtitle: "Done with React Native Onboarding Swiper",
+				},
+			]}
+		/>
 	);
 }
 
