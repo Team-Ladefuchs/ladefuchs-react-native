@@ -88,38 +88,6 @@ const veteranMember = [
 		],
 	},
 	{
-<<<<<<< HEAD
-		name: "RODDI",
-		role: "iOSfuchs",
-		imageSource: require("@assets/team/team_roddi.jpg"),
-		links: [
-			{
-				text: "@roddi",
-				url: "https://mastodon.social/@roddi",
-				icon: MastodonIcon,
-			},
-			{
-				text: "",
-				url: "",
-				icon: MailIcon,
-			},
-		],
-	},
-	{
-		name: "THORSTEN",
-		role: "Androidfuchs",
-		imageSource: require("@assets/team/team_thorsten.jpg"),
-		links: [
-			{
-				text: "",
-				url: "",
-				icon: MastodonIcon,
-			},
-		],
-	},
-	{
-=======
->>>>>>> 6e843c89b9c7359f9c4c69a03e79ca5075da7ef8
 		name: "FLOWINHO",
 		role: "APFELfuchs",
 		imageSource: require("@assets/team/team_flow.jpg"),
