@@ -1,5 +1,5 @@
 import React, { forwardRef, Ref, useImperativeHandle } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import Animated, {
 	runOnJS,
 	useAnimatedStyle,
@@ -34,7 +34,9 @@ export const SectionListItem = forwardRef<ItemMethods, Props>(
 					fadeOut: () => {
 						opacity.value = withTiming(
 							0,
-							{ duration: 1500 },
+							{
+								duration: 1500,
+							},
 							(isFinished) => {
 								if (isFinished) {
 									if (onDelete) {

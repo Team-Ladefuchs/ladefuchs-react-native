@@ -4,7 +4,7 @@ import {
 	Text,
 	KeyboardAvoidingView,
 	Platform,
-	Alert
+	Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -36,9 +36,9 @@ const itemHeight = scale(61);
 type filterType = "all" | "active" | "own";
 
 const tabs = [
-	{ key: "all", label: i18n.t('alle') },
-	{ key: "active", label: i18n.t('aktiv') },
-	{ key: "own", label: i18n.t('eigene') },
+	{ key: "all", label: i18n.t("alle") },
+	{ key: "active", label: i18n.t("aktiv") },
+	{ key: "own", label: i18n.t("eigene") },
 ] satisfies TabItem<filterType>[];
 
 export function TariffList(): JSX.Element {
@@ -136,29 +136,25 @@ export function TariffList(): JSX.Element {
 	]);
 
 	const handleTariffReset = () => {
-		Alert.alert(
-			i18n.t('tarifAlert'),
-			i18n.t('tarifAlertText'),
-			[
-				{
-					text: i18n.t('cancel'),
-					style: "cancel",
+		Alert.alert(i18n.t("tarifAlert"), i18n.t("tarifAlertText"), [
+			{
+				text: i18n.t("cancel"),
+				style: "cancel",
+			},
+			{
+				text: i18n.t("yes"),
+				onPress: async () => {
+					setTariffsAddSet(new Set([]));
+					setTariffsRemoveSet(new Set([]));
+					await resetCustomTariffs();
 				},
-				{
-					text: i18n.t('yes'),
-					onPress: async () => {
-						setTariffsAddSet(new Set([]));
-						setTariffsRemoveSet(new Set([]));
-						await resetCustomTariffs();
-					},
-				},
-			],
-		);
+			},
+		]);
 	};
 
 	const emptyText = useMemo(() => {
 		if (filterMode === "own") {
-			return i18n.t('ladetarifeInfo2');
+			return i18n.t("ladetarifeInfo2");
 		}
 		return null;
 	}, [filterMode]);
@@ -240,6 +236,7 @@ export function TariffList(): JSX.Element {
 												tariff.imageUrl ??
 												userTariffImage
 											}
+											elevation={0}
 											name={tariff.name}
 											width={60}
 											hideFallBackText={true}
@@ -272,43 +269,45 @@ export function TariffList(): JSX.Element {
 					/>
 				)}
 			</View>
-			<SearchInput onChange={setSearch} placeHolder={i18n.t("tarifsuche")} />
+			<SearchInput
+				onChange={setSearch}
+				placeHolder={i18n.t("tarifsuche")}
+			/>
 		</KeyboardAvoidingView>
 	);
 }
 
 const styles = ScaledSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.ladefuchsLightBackground,
-    },
-    mainContainer: {
-        flexDirection: "row",
-    },
-    listContainer: {
-        flex: 2,
-    },
-    listItemContainer: {
-        paddingLeft: "10@s",
-        paddingRight: "16@s",
-        height: itemHeight,
-        gap: "7@s",
-    },
-    itemBody: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: "10@s",
-        height: "100%",
-        width: "90%",
-        paddingRight: "90@s",
-    },
-    tariffText: {
-        fontSize: "14@s",
-        fontWeight: "bold",
-    },
-    providerText: {
-        color: "#605C54",
-        fontSize: "14@s",
-    },
+	container: {
+		flex: 1,
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	mainContainer: {
+		flexDirection: "row",
+	},
+	listContainer: {
+		flex: 2,
+	},
+	listItemContainer: {
+		paddingLeft: "10@s",
+		paddingRight: "16@s",
+		height: itemHeight,
+		gap: "7@s",
+	},
+	itemBody: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: "10@s",
+		height: "100%",
+		width: "90%",
+		paddingRight: "90@s",
+	},
+	tariffText: {
+		fontSize: "14@s",
+		fontWeight: "bold",
+	},
+	providerText: {
+		color: "#605C54",
+		fontSize: "14@s",
+	},
 });
-

@@ -7,6 +7,7 @@ import {
 	StyleProp,
 	ViewStyle,
 	ImageStyle,
+	Platform,
 } from "react-native";
 import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
@@ -19,6 +20,7 @@ interface Props {
 	showHighlightCorner?: boolean;
 	hideFallBackText?: boolean;
 	width: number;
+	elevation?: number;
 	style?: ImageStyle;
 }
 
@@ -27,6 +29,7 @@ export function CardImage({
 	name,
 	showHighlightCorner = false,
 	width,
+	elevation = 4,
 	hideFallBackText = false,
 	style: styleProp,
 }: Props): JSX.Element {
@@ -34,11 +37,13 @@ export function CardImage({
 
 	return (
 		<View
-			style={{
-				...styles.cardImageContainer,
-				...styleProp,
-				width: scale(width),
-			}}
+			style={[
+				{
+					...styles.cardImageContainer,
+					...styleProp,
+				},
+				{ width: scale(width), elevation },
+			]}
 		>
 			{showHighlightCorner && <HighlightCorner />}
 			{!imageUrl || imageError ? (
@@ -87,15 +92,18 @@ function FallBack({
 }
 
 export const dropShadow = {
-	shadowColor: "#000",
-	shadowOffset: {
-		width: 0,
-		height: 1,
-	},
-	shadowOpacity: 0.25,
-	shadowRadius: 4,
-	elevation: 4,
-} satisfies StyleProp<ViewStyle>;
+	...Platform.select({
+		default: {
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 1,
+			},
+			shadowOpacity: 0.25,
+			shadowRadius: 4,
+		},
+	}),
+} as StyleProp<ViewStyle>;
 
 const card = {
 	backgroundColor: "#fff",
@@ -106,7 +114,6 @@ const card = {
 const styles = StyleSheet.create({
 	cardImageContainer: {
 		...card,
-		...dropShadow,
 		position: "relative",
 	},
 	cardImage: {
