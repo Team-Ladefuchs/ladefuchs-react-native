@@ -71,35 +71,6 @@ const activeMember = [
 
 const veteranMember = [
 	{
-		name: "RODDI",
-		role: "iOSfuchs",
-		imageSource: require("@assets/team/team_roddi.jpg"),
-		links: [
-			{
-				text: "@roddi",
-				url: "https://mastodon.social/@roddi",
-				icon: MastodonIcon,
-			},
-			{
-				text: "",
-				url: "",
-				icon: MailIcon,
-			},
-		],
-	},
-	{
-		name: "THORSTEN",
-		role: "Androidfuchs",
-		imageSource: require("@assets/team/team_thorsten.jpg"),
-		links: [
-			{
-				text: "",
-				url: "",
-				icon: MastodonIcon,
-			},
-		],
-	},
-	{
 		name: "BASTI SCHLINGEL",
 		role: "Androidfuchs",
 		imageSource: require("@assets/team/team_basti.jpg"),
@@ -132,6 +103,35 @@ const veteranMember = [
 			},
 		],
 	},
+	{
+		name: "RODDI",
+		role: "iOSfuchs",
+		imageSource: require("@assets/team/team_roddi.jpg"),
+		links: [
+			{
+				text: "@roddi",
+				url: "https://mastodon.social/@roddi",
+				icon: MastodonIcon,
+			},
+			{
+				text: "",
+				url: "",
+				icon: MailIcon,
+			},
+		],
+	},
+	{
+		name: "THORSTEN",
+		role: "Androidfuchs",
+		imageSource: require("@assets/team/team_thorsten.jpg"),
+		links: [
+			{
+				text: "",
+				url: "",
+				icon: MastodonIcon,
+			},
+		],
+	},
 ];
 
 interface Link {
@@ -154,13 +154,13 @@ interface Props {
 export function MemberView(): JSX.Element {
 	return (
 		<View>
-			<Text style={appStyle.headLine}>{i18n.t('teamfuchs')}</Text>
+			<Text style={appStyle.headLine}>{i18n.t("teamfuchs")}</Text>
 			<Text style={[appStyle.headerText, { marginBottom: scale(12) }]}>
-			{i18n.t('teamfuchstext')}
+				{i18n.t("teamfuchstext")}
 			</Text>
 			<TeamList items={activeMember} />
 			<Text style={[appStyle.headLine, { marginTop: scale(32) }]}>
-			{i18n.t('veteranen')}
+				{i18n.t("veteranen")}
 			</Text>
 			<TeamList items={veteranMember} />
 			<Line />
