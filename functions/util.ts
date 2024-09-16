@@ -1,4 +1,7 @@
 import Constants from "expo-constants";
+import { Tariff } from "../types/tariff";
+import type { ChargingCondition, TariffCondition } from "../types/conditions";
+import { Platform } from "react-native";
 
 export const isDebug = __DEV__;
 
@@ -7,7 +10,7 @@ export function getMinutes(minutes: number): number {
 }
 
 export function appVersionNumber(): number {
-	return parseInt(Constants.expoConfig.version.replaceAll(".", ""));
+	return parseInt(Constants.expoConfig?.version?.replaceAll(".", "") ?? "");
 }
 
 export function fill<T>(list1: T[], list2: T[]): [T[], T[]] {
@@ -81,23 +84,68 @@ export function hyphenText(input: string): string {
 	return result;
 }
 
+export function removeItemByIndex<T>(array: T[], index: number): T[] {
+	if (index > -1 && index < array.length) {
+		array.splice(index, 1);
+	}
+	return array;
+}
+
+export const defaultTimeout = Platform.OS === "android" ? 4500 : 3500;
+
 export async function fetchWithTimeout(
 	url: string,
-	options: RequestInit = null,
-	timeout = 2700,
-) {
+	options: RequestInit = {},
+	timeout = defaultTimeout,
+): Promise<Response> {
 	const controller = new AbortController();
 	options.signal = controller.signal;
 
 	const timeoutId = setTimeout(() => {
+		if (controller.signal.aborted) return; // If already aborted, do nothing
+		console.warn("abort", url);
 		controller.abort();
 	}, timeout);
 
 	try {
 		const response = await fetch(url, options);
 		clearTimeout(timeoutId);
+		if (response.status > 399) {
+			throw new Error(
+				`network request error with status code: ${response.status}`,
+			);
+		}
 		return response;
+	} catch (error) {
+		if (controller.signal.aborted) {
+			throw new Error(
+				`Request aborted due to timeout after ${timeout} ms`,
+			);
+		} else {
+			throw error;
+		}
 	} finally {
 		clearTimeout(timeoutId);
 	}
+}
+
+export function tariffsToHashMap(data: Tariff[]): Map<string, Tariff> {
+	const map = new Map();
+
+	for (const tariff of data) {
+		map.set(tariff.identifier, tariff);
+	}
+	return map;
+}
+
+export function chargeConditionToHashMap(
+	data: ChargingCondition[],
+): Map<string, TariffCondition[]> {
+	const map = new Map();
+
+	for (const conditions of data) {
+		map.set(conditions.operatorId, conditions.tariffConditions);
+	}
+
+	return map;
 }

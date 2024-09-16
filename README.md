@@ -2,8 +2,7 @@
 
 ```sh
 npm install
-npm i lottie-react-native
-npm install @react-native-picker/picker --save
+npm run eula
 ```
 
 ## Create .env file

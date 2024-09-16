@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { AppStateStatus, AppState } from "react-native";
-import { postAppMetric, postBannerImpression } from "../functions/api";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/state";
+import { postBannerImpression } from "../functions/api/banner";
+import { postAppMetric } from "../functions/api/appMetrics";
 
 export function useAopMetrics() {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
@@ -40,7 +41,7 @@ export function useAopMetrics() {
 			setTimeout(async () => {
 				await sendAppMetric.mutateAsync();
 				sendAppMetric.reset();
-			}, 1000);
+			}, 1300);
 		};
 		const subscription = AppState.addEventListener(
 			"change",

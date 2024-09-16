@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { colors } from "../../theme";
 import { ChargeMode } from "../../types/conditions";
 import CCS from "@assets/plugs/ccs.svg";
 import Typ2 from "@assets/plugs/typ2.svg";
-import { useFormatNumber } from "../../hooks/numberFormat";
-import { scale } from "react-native-size-matters";
+import { useFormatNumber } from "../../hooks/useNumberFormat";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import { PriceModifyButton } from "./feedbackView/priceModifyButton";
 
 interface Props {
@@ -77,7 +77,7 @@ export function PriceBox({
 				) : (
 					<View style={styles.priceContainer}>
 						<Text
-							style={{ ...styles.priceText, fontSize: scale(36) }}
+							style={[styles.priceText, { fontSize: scale(36) }]}
 						>
 							{formatNumber(price) ?? "—"}
 						</Text>
@@ -88,7 +88,7 @@ export function PriceBox({
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	bodyContainer: {
 		backgroundColor: colors.ladefuchsLightGrayBackground,
 	},
@@ -97,23 +97,23 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 	},
 	priceContainer: {
-		paddingHorizontal: scale(11),
-		paddingVertical: scale(11),
+		paddingHorizontal: "11@s",
+		paddingVertical: "11@s",
 		justifyContent: "center",
 		display: "flex",
 		flexDirection: "row",
-		fontSize: scale(40),
+		fontSize: "40@s",
 	},
 	editPriceContainer: {
 		justifyContent: "space-between",
 		alignItems: "center",
 		alignContent: "center",
-		paddingHorizontal: scale(9),
-		paddingVertical: scale(14),
+		paddingHorizontal: "9@s",
+		paddingVertical: "14@s",
 		width: "100%",
 		display: "flex",
 		flexDirection: "row",
-		rowGap: scale(1),
+		rowGap: "1@s",
 	},
 	headerText: {
 		fontSize: scale(24),
@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		paddingHorizontal: scale(12),
 		paddingVertical: scale(11),
-		backgroundColor: colors.ladefuchsDarkGrayBackground,
+		backgroundColor: colors.ladefuchsDarkBackground,
 	},
 });

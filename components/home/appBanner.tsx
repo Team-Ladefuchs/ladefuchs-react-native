@@ -10,7 +10,7 @@ import {
 	Platform,
 } from "react-native";
 import { colors } from "../../theme";
-import { authHeader } from "../../functions/api";
+import { authHeader } from "../../functions/api/base";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../state/state";
 import { scale } from "react-native-size-matters";

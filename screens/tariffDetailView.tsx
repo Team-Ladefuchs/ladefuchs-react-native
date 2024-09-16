@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { View } from "react-native";
 import { colors } from "../theme";
 import { Tariff } from "../types/tariff";
@@ -15,6 +15,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackButton } from "../components/detail/feedbackButton";
 import { useNavigation } from "@react-navigation/native";
+import { appRoutes } from "../appRoutes";
+import * as Haptics from "expo-haptics";
 
 function findTariffCondition({
 	tariffConditions,
@@ -26,11 +28,12 @@ function findTariffCondition({
 	chargeMode: ChargeMode;
 }): TariffCondition | null | undefined {
 	return tariffConditions.find(
-		(item) => item.tariffId === tariffId && item.chargingMode === chargeMode
+		(item) =>
+			item.tariffId === tariffId && item.chargingMode === chargeMode,
 	);
 }
 
-export function DetailScreen({ route }: { route: any }): JSX.Element {
+export function TariffDetailView({ route }: { route: any }): JSX.Element {
 	const navigation = useNavigation();
 
 	const [operators, operatorId, tariffConditions] = useAppStore(
@@ -38,35 +41,42 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 			state.operators,
 			state.operatorId,
 			state.tariffConditions,
-		])
+		]),
 	);
 
-	const operator = operators.find((item) => item.identifier === operatorId);
+	const operator = useMemo(() => {
+		return operators.find((item) => item.identifier === operatorId);
+	}, [operators, operatorId]);
+
 	const { tariff } = route.params as {
 		tariff: Tariff;
 	};
 
-	const acTariffCondition = findTariffCondition({
-		tariffConditions,
-		chargeMode: "ac",
-		tariffId: tariff.identifier,
-	});
+	const getTariffCondition = useCallback(
+		(chargeMode: ChargeMode) => {
+			return findTariffCondition({
+				tariffConditions,
+				chargeMode,
+				tariffId: tariff?.identifier,
+			});
+		},
+		[tariff?.identifier, tariffConditions],
+	);
 
-	const dcTariffCondition = findTariffCondition({
-		tariffConditions,
-		chargeMode: "dc",
-		tariffId: tariff.identifier,
-	});
+	const acTariffCondition = useMemo(
+		() => getTariffCondition("ac"),
+		[getTariffCondition],
+	);
+	const dcTariffCondition = useMemo(
+		() => getTariffCondition("dc"),
+		[getTariffCondition],
+	);
 
 	return (
 		<View style={styles.detailView}>
 			<ScrollView touchAction={"none"}>
 				<View style={styles.scrollView}>
-					<DetailLogos
-						tariff={tariff}
-						operatorImageUrl={operator!.imageUrl}
-						operatorName={operator!.name}
-					/>
+					<DetailLogos tariff={tariff} operator={operator!} />
 					<View style={styles.priceBoxesContainer}>
 						<View style={{ flex: 1 }}>
 							<PriceBox
@@ -93,8 +103,11 @@ export function DetailScreen({ route }: { route: any }): JSX.Element {
 					<Notes notes={tariff.note} />
 					<FeedbackButton
 						onPress={() => {
+							Haptics.notificationAsync(
+								Haptics.NotificationFeedbackType.Success,
+							);
 							// @ts-ignore
-							navigation.navigate("Feedback", {
+							navigation.navigate(appRoutes.feedback.key, {
 								tariff,
 								acTariffCondition,
 								dcTariffCondition,

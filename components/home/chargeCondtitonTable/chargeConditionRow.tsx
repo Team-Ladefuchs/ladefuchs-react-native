@@ -4,8 +4,9 @@ import { Tariff } from "../../../types/tariff";
 import { TariffCondition } from "../../../types/conditions";
 import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../../shared/cardImage";
-import { useFormatNumber } from "../../../hooks/numberFormat";
+import { useFormatNumber } from "../../../hooks/useNumberFormat";
 import { scale } from "react-native-size-matters";
+import { appRoutes } from "../../../appRoutes";
 
 interface ChargeCardModel {
 	tariff: Tariff | null | undefined;
@@ -30,7 +31,10 @@ export function ChargeConditionRow({
 
 	const onPress = () => {
 		//@ts-ignore
-		navigator.navigate("detailScreen", { tariff, tariffCondition });
+		navigator.navigate(appRoutes.detailScreen.key, {
+			tariff,
+			tariffCondition,
+		});
 	};
 	return (
 		<TouchableOpacity
@@ -39,7 +43,8 @@ export function ChargeConditionRow({
 			style={styles.cardAndPriceContainer}
 		>
 			<CardImage
-				tariff={tariff}
+				name={tariff.name}
+				imageUrl={tariff.imageUrl}
 				width={72}
 				showHighlightCorner={showHighlightCorner}
 			/>

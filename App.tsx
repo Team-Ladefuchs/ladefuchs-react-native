@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
-import { AppState, AppStateStatus, Platform } from "react-native";
+import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+	StackNavigationOptions,
+	createStackNavigator,
+} from "@react-navigation/stack";
 
-import { AboutScreen } from "./screens/about";
+import { SettingsScreen } from "./screens/settings";
 import { HomeScreen } from "./screens/home";
 import { colors } from "./theme";
 import { AppHeader } from "./components/header/appHeader";
@@ -13,27 +16,28 @@ import {
 	focusManager,
 } from "@tanstack/react-query";
 
-import { DetailScreen } from "./screens/detailView";
+import { TariffDetailView } from "./screens/tariffDetailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
 import { DetailHeader } from "./components/detail/detailHeader";
 
-import { useFetchAppData } from "./hooks/usefetchAppData";
-import { useCustomFonts } from "./hooks/customFont";
+import { useQueryAppData } from "./hooks/useQueryAppData";
+import { useCustomFonts } from "./hooks/useCustomFonts";
 import { scale } from "react-native-size-matters";
 import { FeedbackView } from "./screens/feedbackView";
 import { ToastNotification } from "./components/detail/feedbackView/toastNotification";
 import { useAopMetrics } from "./hooks/useAppMetrics";
+import { LicenseView } from "./screens/licenseView";
+import { OperatorList } from "./screens/operatorList";
+import { TariffList } from "./screens/tariffList";
+import { appRoutes } from "./appRoutes";
 
+// Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
 
-function onAppStateChange(status: AppStateStatus) {
-	if (Platform.OS !== "web") {
-		focusManager.setFocused(status === "active");
-	}
-}
-
+// Main App component
 export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -49,48 +53,40 @@ function AppWrapper(): JSX.Element {
 			"change",
 			onAppStateChange,
 		);
-
 		return () => {
 			subscription.remove();
 		};
-	}, [onAppStateChange]);
+	}, []);
 
-	useFetchAppData();
+	useQueryAppData();
 	useAopMetrics();
 
 	const fontLoaded = useCustomFonts();
 	if (!fontLoaded) {
-		return null;
+		return <View></View>;
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				<RootStack.Group>
+				<RootStack.Screen
+					name="Home"
+					component={HomeScreen}
+					options={() => ({
+						header: () => <AppHeader />,
+						headerStyle: {
+							backgroundColor: colors.ladefuchsDarkBackground,
+						},
+						headerTintColor: colors.ladefuchsOrange,
+					})}
+				/>
+				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
-						name="Home"
-						component={HomeScreen}
-						options={() => ({
-							header: () => {
-								return <AppHeader />;
-							},
-							headerStyle: {
-								backgroundColor: colors.ladefuchsDarkBackground,
-							},
-							headerTintColor: colors.ladefuchsOrange,
-						})}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
-						component={DetailScreen}
-						options={({ navigation, route }: any): object => ({
+						name={appRoutes.detailScreen.key}
+						component={TariffDetailView}
+						options={({ navigation, route }: any) => ({
 							headerBackTitleVisible: false,
-							headerLeft: null,
+							headerLeft: undefined,
 							header: () => {
 								const tariff = route.params["tariff"] as Tariff;
 								return (
@@ -100,34 +96,26 @@ function AppWrapper(): JSX.Element {
 									/>
 								);
 							},
-							headerRight: null,
+							headerRight: undefined,
 							headerTitleStyle: {
 								display: "none",
 							},
 						})}
-						name="detailScreen"
 					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
 					<RootStack.Screen
-						name="Einstellungen"
-						options={modalHeader}
-						component={AboutScreen}
-					/>
-				</RootStack.Group>
-				<RootStack.Group
-					screenOptions={{
-						presentation: "modal",
-					}}
-				>
-					<RootStack.Screen
-						name="Feedback"
-						options={modalHeader}
+						name={appRoutes.feedback.key}
 						component={FeedbackView}
+						options={({ navigation }) =>
+							modalHeader({
+								navigation,
+								title: appRoutes.feedback.title,
+							})
+						}
+					/>
+					<RootStack.Screen
+						name={appRoutes.settingsStack.key}
+						component={SettingsStackNavigator}
+						options={{ headerShown: false }}
 					/>
 				</RootStack.Group>
 			</RootStack.Navigator>
@@ -135,25 +123,78 @@ function AppWrapper(): JSX.Element {
 	);
 }
 
+// Define the Einstellungen stack with nested screens
+function SettingsStackNavigator(): JSX.Element {
+	return (
+		<SettingsStack.Navigator>
+			<SettingsStack.Screen
+				name={appRoutes.settings.key}
+				component={SettingsScreen}
+				options={({ navigation }) =>
+					modalHeader({ navigation, title: appRoutes.settings.title })
+				}
+			/>
+			<SettingsStack.Screen
+				name={appRoutes.customerOperator.key}
+				component={OperatorList}
+				options={() =>
+					normalHeader({ title: appRoutes.customerOperator.title })
+				}
+			/>
+			<SettingsStack.Screen
+				name={appRoutes.customTariffs.key}
+				component={TariffList}
+				options={() =>
+					normalHeader({ title: appRoutes.customTariffs.title })
+				}
+			/>
+			<SettingsStack.Screen
+				name={appRoutes.license.key}
+				component={LicenseView}
+				options={() => normalHeader({ title: appRoutes.license.title })}
+			/>
+		</SettingsStack.Navigator>
+	);
+}
+
+function onAppStateChange(status: AppStateStatus) {
+	if (Platform.OS !== "web") {
+		focusManager.setFocused(status === "active");
+	}
+}
+
+function normalHeader({ title }: { title: string }): StackNavigationOptions {
+	return {
+		headerBackTitle: "Zurück",
+		title,
+		headerStyle: {
+			backgroundColor: colors.ladefuchsDunklerBalken,
+		},
+		headerTintColor: "#000", // Farbe für den Header-Text
+	};
+}
+
 function modalHeader({
 	navigation,
+	title,
 }: {
 	navigation: { goBack: () => void };
-}): object {
+	title: string;
+}): StackNavigationOptions {
 	return {
 		headerBackTitleVisible: false,
+		// @ts-ignore null works
 		headerLeft: null,
-		headerRight: () => {
-			return (
-				<CloseButton
-					onPress={() => navigation.goBack()}
-					style={{ marginRight: scale(16) }}
-				/>
-			);
-		},
+		title,
+		headerRight: () => (
+			<CloseButton
+				onPress={() => navigation.goBack()}
+				style={{ marginRight: scale(16) }}
+			/>
+		),
 		headerStyle: {
-			backgroundColor: colors.ladefuchsLightBackground,
+			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: colors.ladefuchsOrange, // Farbe für den Header-Text
+		headerTintColor: "#000", // Farbe für den Header-Text
 	};
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	StyleSheet,
 	View,
 	TouchableOpacity,
 	Linking,
@@ -13,7 +12,8 @@ import { colors } from "../../theme";
 import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
-import { scale } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
+import { appRoutes } from "../../appRoutes";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
@@ -30,39 +30,38 @@ export function AppHeader(): JSX.Element {
 					await Linking.openURL("https://chargeprice.app")
 				}
 				activeOpacity={0.6}
-				style={styles.headerWrapperChargepriceIcon}
+				hitSlop={scale(5)}
+				style={[styles.headerWrapperChargepriceIcon]}
 			>
-				<ChargepriceButton
-					width={scale(95)}
-					height={scale(50)}
-					style={styles.chargepriceIcon}
-				/>
+				<View style={styles.chargepriceIcon}>
+					<ChargepriceButton width={scale(95)} height={scale(50)} />
+				</View>
 			</TouchableOpacity>
 			<View style={{ marginBottom: -scale(10) }}>
 				<TouchableOpacity
 					activeOpacity={1}
 					onLongPress={() => reloadBanner()}
 				>
-					<AppLogo size={85} />
+					<AppLogo size={81} />
 				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
 				activeOpacity={0.6}
-				onPress={() => {
-					//@ts-ignore
-					navigation.navigate("Einstellungen");
+				hitSlop={scale(12)}
+				onPress={async () => {
+					// @ts-ignore
+					await navigation.navigate(appRoutes.settingsStack.key);
 				}}
 				style={styles.headerSettingsIcon}
 			>
-				<View style={{ padding: 3 }}>
-					<Zahnrad width={scale(30)} height={scale(30)} />
-				</View>
+				<Zahnrad width={scale(30)} height={scale(30)} />
 			</TouchableOpacity>
 		</SafeAreaView>
 	);
 }
 
 const dropShadow = {
+	elevation: 4,
 	shadowColor: "rgb(70, 130, 180)",
 	shadowOffset: {
 		width: 0,
@@ -70,10 +69,9 @@ const dropShadow = {
 	},
 	shadowOpacity: 0.3,
 	shadowRadius: 2,
-	elevation: 4,
 };
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	headerContainer: {
 		display: "flex",
 		flexDirection: "row",
@@ -84,19 +82,19 @@ const styles = StyleSheet.create({
 	},
 	headerSettingsIcon: {
 		position: "absolute",
-		right: scale(15),
-		bottom: scale(15),
+		right: "15@s",
+		bottom: "15@s",
 	},
 	headerWrapperChargepriceIcon: {
 		position: "absolute",
-		left: scale(15),
-		bottom: scale(8),
+		left: "15@s",
+		bottom: "8@s",
 	},
 	chargepriceIcon: {
 		...dropShadow,
 	},
 	headerTitle: {
 		color: colors.ladefuchsOrange,
-		fontSize: scale(18),
+		fontSize: "18@s",
 	},
 });

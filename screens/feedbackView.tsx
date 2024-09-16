@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import {
+	View,
+	Text,
+	TextInput,
+	KeyboardAvoidingView,
+	Platform,
+	Keyboard,
+	TouchableWithoutFeedback,
+	ScrollView,
+} from "react-native";
+import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-	KeyboardAwareScrollView,
-	KeyboardProvider,
-} from "react-native-keyboard-controller";
 
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import {
 	FeedbackContext,
 	FeedbackRequest,
 	OtherFeedbackRequest,
-	WrongPriceFeedbackAttributes,
 	WrongPriceRequest,
 } from "../types/feedback";
 
-import { scale } from "react-native-size-matters";
 import { PriceBox } from "../components/detail/priceBox";
 import { Operator } from "../types/operator";
 import { useCounter } from "../hooks/useCounter";
-import { sendFeedback } from "../functions/api";
+import { sendFeedback } from "../functions/api/feedback";
 
 const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
 
@@ -41,7 +45,8 @@ export function FeedbackView(): JSX.Element {
 			operator: Operator;
 		};
 
-	const [notePlaceholder, setNotePlaceholder] = useState(notePlaceholderText);
+	const [notePlaceholder, setNotePlaceholder] =
+		useState<string>(notePlaceholderText);
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState("Senden");
@@ -71,10 +76,10 @@ export function FeedbackView(): JSX.Element {
 			operatorId: operator.identifier,
 		};
 
-		const requests = [];
+		const requests: FeedbackRequest[] = [];
 
 		const acWrongPrice = buildWrongPriceRequest({
-			displayedPrice: acTariffCondition.pricePerKwh,
+			displayedPrice: acTariffCondition?.pricePerKwh,
 			actualPrice: acPriceCounter.value,
 			context,
 			noteText,
@@ -86,7 +91,7 @@ export function FeedbackView(): JSX.Element {
 		}
 
 		const dcWrongPrice = buildWrongPriceRequest({
-			displayedPrice: dcTariffCondition.pricePerKwh,
+			displayedPrice: dcTariffCondition?.pricePerKwh,
 			actualPrice: dcPriceCounter.value,
 			context,
 			noteText,
@@ -126,103 +131,102 @@ export function FeedbackView(): JSX.Element {
 				});
 			}, 500);
 		} catch (error) {
+			await Haptics.notificationAsync(
+				Haptics.NotificationFeedbackType.Error,
+			);
 			setSendButtonText("Senden");
 			console.log("sending feedback", error);
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
-				text1: "🚧 Ups, ein Fehler ist aufgetreten.",
+				text1: "🚧 Ups, ein Fehler ist aufgetreten",
 				visibilityTime: 2400,
 			});
 		}
 	};
 
 	return (
-		<KeyboardProvider>
-			<KeyboardAwareScrollView
-				bottomOffset={scale(14)}
-				enabled={true}
-				style={{
-					backgroundColor: colors.ladefuchsLightBackground,
-					height: "100%",
-				}}
-			>
-				<View>
-					<View style={themeStyle.headerView}>
-						<Text style={themeStyle.headLine}>
-							Hast Du Futter für den Fuchs?
+		<KeyboardAvoidingView
+			style={feedbackStyle.keyboardView}
+			behavior={Platform.OS === "ios" ? "position" : "padding"}
+			keyboardVerticalOffset={scale(Platform.OS === "ios" ? -22 : 0)}
+		>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<ScrollView keyboardShouldPersistTaps="handled" bounces>
+					<Text
+						style={[themeStyle.headLine, { marginTop: scale(16) }]}
+					>
+						Hast Du Futter für den Fuchs?
+					</Text>
+					<View>
+						<Text style={themeStyle.headerText}>
+							Sag uns was nicht stimmt!
 						</Text>
-						<View>
-							<Text style={themeStyle.headerText}>
-								Sag uns was nicht stimmt!
-							</Text>
-							<View style={feedbackthemeStyle.logosContainer}>
-								<DetailLogos
-									tariff={tariff}
-									operatorName={operator.name}
-									operatorImageUrl={operator?.imageUrl}
-								/>
-							</View>
+						<View style={feedbackStyle.logosContainer}>
+							<DetailLogos tariff={tariff} operator={operator} />
 						</View>
-						<View style={feedbackthemeStyle.priceBoxesContainer}>
-							<View style={feedbackthemeStyle.priceContainer}>
-								<PriceBox
-									editMode={true}
-									chargeMode={"ac"}
-									onIncrement={acPriceCounter.increment}
-									onDecrement={acPriceCounter.decrement}
-									price={acPriceCounter.value}
-									rounded={true}
-								/>
-							</View>
-							<View style={feedbackthemeStyle.priceContainer}>
-								<PriceBox
-									editMode={true}
-									onIncrement={dcPriceCounter.increment}
-									onDecrement={dcPriceCounter.decrement}
-									chargeMode={"dc"}
-									price={dcPriceCounter.value}
-									rounded={true}
-								/>
-							</View>
-						</View>
-						<View style={feedbackthemeStyle.noteContainer}>
-							<TextInput
-								style={feedbackthemeStyle.noteInput}
-								placeholder={notePlaceholder}
-								onFocus={() => setNotePlaceholder(null)}
-								maxLength={maxNoteTextLength}
-								value={noteText}
-								placeholderTextColor={
-									colors.ladefuchsGrayTextColor
-								}
-								onBlur={() => {
-									if (!noteText) {
-										setNotePlaceholder(notePlaceholderText);
-									}
-								}}
-								onChangeText={setNoteText}
-								multiline
-								numberOfLines={6}
-							/>
-							<Text style={feedbackthemeStyle.charCount}>
-								{remainingCharacters} / {maxNoteTextLength}
-							</Text>
-						</View>
-
-						<LadefuchsButton
-							text={sendButtonText}
-							disabled={disableSendButton}
-							onPress={handleSubmit}
-						/>
 					</View>
-				</View>
-			</KeyboardAwareScrollView>
-		</KeyboardProvider>
+					<View style={feedbackStyle.priceBoxesContainer}>
+						<View style={feedbackStyle.priceContainer}>
+							<PriceBox
+								editMode={true}
+								chargeMode={"ac"}
+								onIncrement={acPriceCounter.increment}
+								onDecrement={acPriceCounter.decrement}
+								price={acPriceCounter.value}
+								rounded={true}
+							/>
+						</View>
+						<View style={feedbackStyle.priceContainer}>
+							<PriceBox
+								editMode={true}
+								onIncrement={dcPriceCounter.increment}
+								onDecrement={dcPriceCounter.decrement}
+								chargeMode={"dc"}
+								price={dcPriceCounter.value}
+								rounded={true}
+							/>
+						</View>
+					</View>
+					<View style={feedbackStyle.noteContainer}>
+						<TextInput
+							style={feedbackStyle.noteInput}
+							placeholder={notePlaceholder}
+							onFocus={() => setNotePlaceholder("")}
+							maxLength={maxNoteTextLength}
+							value={noteText}
+							placeholderTextColor={colors.ladefuchsGrayTextColor}
+							onBlur={() => {
+								if (!noteText) {
+									setNotePlaceholder(notePlaceholderText);
+								}
+							}}
+							onChangeText={setNoteText}
+							multiline
+							numberOfLines={6}
+						/>
+						<Text style={feedbackStyle.charCount}>
+							{remainingCharacters} / {maxNoteTextLength}
+						</Text>
+					</View>
+
+					<LadefuchsButton
+						text={sendButtonText}
+						disabled={disableSendButton}
+						onPress={handleSubmit}
+					/>
+				</ScrollView>
+			</TouchableWithoutFeedback>
+		</KeyboardAvoidingView>
 	);
 }
 
-const feedbackthemeStyle = ScaledSheet.create({
+const feedbackStyle = ScaledSheet.create({
+	keyboardView: {
+		backgroundColor: colors.ladefuchsLightBackground,
+		height: "100%",
+		paddingHorizontal: "16@s",
+	},
 	logosContainer: {
 		justifyContent: "center",
 		alignItems: "center",
@@ -270,7 +274,7 @@ function buildWrongPriceRequest({
 	noteText,
 	chargeType,
 }: {
-	displayedPrice: number | null;
+	displayedPrice?: number | null;
 	actualPrice: number;
 	context: FeedbackContext;
 	noteText: string;

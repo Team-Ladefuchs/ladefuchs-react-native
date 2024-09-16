@@ -30,6 +30,8 @@ export function ChargingTableHeader(): JSX.Element {
 	);
 }
 
+
+
 const styles = ScaledSheet.create({
 	headerContainer: {
 		flexDirection: "row",

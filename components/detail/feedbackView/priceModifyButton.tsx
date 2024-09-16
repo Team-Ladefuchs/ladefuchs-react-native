@@ -4,6 +4,7 @@ import { Platform, TouchableOpacity } from "react-native";
 import PlusCircle from "@assets/plusMinus/plus_circle_fill.svg";
 import MinusIcon from "@assets/plusMinus/minus_circle_fill.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
+import * as Haptics from "expo-haptics";
 
 interface Props {
 	buttonType: "plus" | "minus";
@@ -18,7 +19,7 @@ export function PriceModifyButton({
 }: Props): JSX.Element {
 	const editButtonSize = scale(size);
 
-	const [intervalId, setIntervalId] = useState(null);
+	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	const delayMs = Platform.OS === "ios" ? 170 : 250;
 
@@ -34,20 +35,29 @@ export function PriceModifyButton({
 		setIntervalId(
 			setInterval(() => {
 				onPress();
-			}, delayMs)
+			}, delayMs),
 		);
 	};
 
 	const handlePressOut = () => {
-		clearInterval(intervalId);
+		if (intervalId) {
+			clearInterval(intervalId);
+		}
+
 		setIntervalId(null);
 	};
 
 	return (
 		<TouchableOpacity
 			activeOpacity={0.8}
+			hitSlop={scale(8)}
 			style={style.button}
-			onPress={onPress}
+			onPress={() => {
+				Haptics.notificationAsync(
+					Haptics.NotificationFeedbackType.Success,
+				);
+				onPress();
+			}}
 			onPressIn={handlePressIn}
 			onPressOut={handlePressOut}
 		>

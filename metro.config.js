@@ -1,7 +1,6 @@
 const { getDefaultConfig } = require("expo/metro-config");
-
 module.exports = (() => {
-	//@ts-ignore
+	/* eslint-disable no-undef */
 	const config = getDefaultConfig(__dirname);
 
 	const { transformer, resolver } = config;
