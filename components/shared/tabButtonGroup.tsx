@@ -46,7 +46,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 			onLayout={(event) => {
 				if (!containerWidth.current) {
 					containerWidth.current =
-						event.nativeEvent.layout.width - scale(4);
+						event.nativeEvent.layout.width - scale(6);
 				}
 			}}
 		>
