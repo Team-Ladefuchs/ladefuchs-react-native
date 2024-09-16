@@ -5,6 +5,7 @@ import { appRoutes } from "../appRoutes";
 import { colors } from "../theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import Onboarding from "react-native-onboarding-swiper";
+import i18n from "../localization";
 
 // Funktion, um das Onboarding zu wiederholen
 const resetOnboarding = async () => {
@@ -35,53 +36,105 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 			onSkip={() => navigation.navigate(appRoutes.home.key)}
 			pages={[
 				{
-					backgroundColor: "#a6e4d0",
+					backgroundColor: "rgba(0, 0, 0, 0.8)",
+					image: (
+						<View>
+							<Image
+								source={require("@assets/generic/onboardingStep0.png")}
+								style={{
+									width: scale(280),
+									height: scale(560),
+									marginBottom: -80,
+								}}
+							/>
+							{/* Subtitle als Overlay auf dem Bild */}
+
+							<Text style={styles.overlaySubtitle}>
+								{i18n.t("onboardingStep0Description")}
+							</Text>
+						</View>
+					),
+					title: "",
+					subtitle: "",
+				},
+				{
+					backgroundColor: "rgba(0, 0, 0, 0.8)",
+					image: (
+						<View>
+							<Image
+								source={require("@assets/generic/onboardingStep1.png")}
+								style={{
+									width: scale(280),
+									height: scale(560),
+									marginBottom: -80,
+								}}
+							/>
+							{/* Subtitle als Overlay auf dem Bild */}
+
+							<Text style={styles.overlaySubtitle1}>
+								{i18n.t("onboardingStep1Description")}
+							</Text>
+						</View>
+					),
+					title: "",
+					subtitle: "",
+				},
+				{
+					backgroundColor: "rgba(0, 0, 0, 0.8)",
+					image: (
+						<View>
+							<Image
+								source={require("@assets/generic/onboardingStep2.png")}
+								style={{
+									width: scale(280),
+									height: scale(560),
+									marginBottom: -80,
+								}}
+							/>
+							{/* Subtitle als Overlay auf dem Bild */}
+
+							<Text style={styles.overlaySubtitle2}>
+								{i18n.t("onboardingStep2Description")}
+							</Text>
+						</View>
+					),
+					title: "",
+					subtitle: "",
+				},
+				{
+					backgroundColor: "rgba(0, 0, 0, 0.8)",
+					image: (
+						<View>
+							<Image
+								source={require("@assets/generic/onboardingStep3.png")}
+								style={{
+									width: scale(280),
+									height: scale(560),
+									marginBottom: -80,
+								}}
+							/>
+							{/* Subtitle als Overlay auf dem Bild */}
+
+							<Text style={styles.overlaySubtitle3}>
+								{i18n.t("onboardingStep3Description")}
+							</Text>
+						</View>
+					),
+					title: "",
+					subtitle: "",
+				},
+				{
+					backgroundColor: colors.ladefuchsLightBackground,
 					image: (
 						<Image
-							source={require("@assets/generic/onboard1.png")}
+							source={require("@assets/fuchs/ladefuchs.png")}
+							style={{ width: scale(250), height: scale(300) }}
 						/>
 					),
-					title: "Wähle den Anbieter der Ladesäule, an der Du stehst.",
-					subtitle:
-						"Der kleine Fuchs läuft durch den Wald läuft und sammelt Nüsse, ich meine Daten, für dich ein …Klick mal auf eine Karte!",
-				},
-				{
-					backgroundColor: colors.ladefuchsLightBackground,
-					image: (
-						<Image source={require("@assets/generic/onboard2.png")} />
-					),
-					title: "Nun holen wir die Preisinformationen…",
-					subtitle:
-						"Jetzt siehst du Preisinformationen für die gewählte Ladekarte.",
-				},
-				{
-					backgroundColor: "#a6e4d0",
-					image: (
-						<Image source={require("@assets/generic/onboard3.png")} />
-					),
-
-					title: "Wirf einen Blick in die Settings!",
-					subtitle:
-						"Hier kannst Du Deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
-				},
-				{
-					backgroundColor: colors.ladefuchsLightBackground,
-					image: (
-						<Image source={require("@assets/generic/onboard5.png")} />
-					),
-					title: "Such dir den passenden Anbieter",
-					subtitle:
-						"Du findest alle relevanten Anbieter und Tarife in den entsprechenden Reitern.",
-				},
-				{
-					backgroundColor: "#fff",
-					image: (
-						<Image source={require("@assets/generic/onboard4.png")} />
-					),
-					title: "Und deinen eigenen Tarif.",
+					title: "Du bist jetzt ein 🦊",
 					subtitle: (
 						<View>
-							<Text>Du bist jetzt ein Fuchs …es kann losgehen…</Text>
+							<Text>…es kann losgehen…</Text>
 							{/* Button zum Zurücksetzen des Onboardings */}
 							<Button
 								title="Onboarding wiederholen"
@@ -105,7 +158,7 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	image: {
-		width: "80%",
+		width: "30%",
 		height: "70%", // Adjust the height as needed
 		marginBottom: 20,
 		marginHorizontal: "auto",
@@ -117,10 +170,48 @@ const styles = ScaledSheet.create({
 		textAlign: "center",
 		marginBottom: 20,
 	},
-	description: {
-		color: "black",
+	subtitle: {
+		color: "white",
 		fontFamily: "Bitter",
 		fontSize: "13@s",
 		lineHeight: "20@s",
+		marginBottom: 120,
+		position: "static",
+	},
+	overlaySubtitle: {
+		position: "absolute",
+		bottom: scale(120),
+		left: scale(80),
+		right: scale(10),
+		color: "#fff",
+		fontFamily: "Bitter",
+		fontSize: "12@s",
+	},
+	overlaySubtitle1: {
+		position: "absolute",
+		bottom: scale(235),
+		left: scale(90),
+		right: scale(10),
+		color: "#fff",
+		fontFamily: "Bitter",
+		fontSize: "12@s",
+	},
+	overlaySubtitle2: {
+		position: "absolute",
+		bottom: scale(330),
+		left: scale(95),
+		right: scale(10),
+		color: "#fff",
+		fontFamily: "Bitter",
+		fontSize: "12@s",
+	},
+	overlaySubtitle3: {
+		position: "absolute",
+		bottom: scale(230),
+		left: scale(95),
+		right: scale(10),
+		color: "#fff",
+		fontFamily: "Bitter",
+		fontSize: "12@s",
 	},
 });
