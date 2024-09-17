@@ -11,7 +11,7 @@ import i18n from "../localization";
 const resetOnboarding = async () => {
 	try {
 		await AsyncStorage.removeItem("alreadyLaunched"); // Löscht die Markierung
-		alert("Onboarding wird beim nächsten Start wieder angezeigt.");
+		alert(i18n.t("onboardingAlert"));
 	} catch (error) {
 		console.error("Fehler beim Zurücksetzen des Onboardings", error);
 	}
@@ -131,13 +131,13 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 							style={{ width: scale(250), height: scale(300) }}
 						/>
 					),
-					title: "Du bist jetzt ein 🦊",
+					title: i18n.t("onboardingStep6Description"),
 					subtitle: (
 						<View>
-							<Text>…es kann losgehen…</Text>
+							<Text>{i18n.t("onboardingStep4Description")}</Text>
 							{/* Button zum Zurücksetzen des Onboardings */}
 							<Button
-								title="Onboarding wiederholen"
+								title={i18n.t("onboardingStep5Description")}
 								onPress={resetOnboarding}
 								color={colors.ladefuchsOrange} // Farbe für den Button
 							/>

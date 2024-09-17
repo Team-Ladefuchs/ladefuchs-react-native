@@ -62,7 +62,11 @@ const de = {
 	onboardingStep0Description : "Wähle den Anbieter der Ladesäule, an der Du stehst.",
 	onboardingStep1Description : "Die günstigsten Ladekarten findest Du oben in der Liste.",
 	onboardingStep2Description : "Wirf einen Blick in die Settings!",
-	onboardingStep3Description : "Hier kannst Du Deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen."
+	onboardingStep3Description : "Hier kannst Du Deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
+	onboardingStep4Description : "…es kann losgehen…",
+	onboardingStep5Description : "Onboarding wiederholen",
+	onboardingStep6Description : "Du bist jetzt ein 🦊",
+	onboardingAlert : "Onboarding wird beim nächsten Start wieder angezeigt.",
 };
 
 export default de;

@@ -61,7 +61,11 @@ const en = {
 	onboardingStep0Description : "Select the provider of the charging station where you are standing.",
 	onboardingStep1Description : "You can find the cheapest charging cards in the list above.",
 	onboardingStep2Description : "Take a look at the settings!",
-	onboardingStep3Description : "Here you can add your personal charging tariffs and other charging station operators."
+	onboardingStep3Description : "Here you can add your personal charging tariffs and other charging station operators.",
+	onboardingStep4Description : "…let's get started…",
+	onboardingStep5Description : "Repeat onboarding",
+	onboardingStep6Description : "You are now a 🦊",
+	onboardingAlert : "Onboarding will be displayed again the next time you start.",
 };
 
 export default en;
