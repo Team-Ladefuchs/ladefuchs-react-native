@@ -1,0 +1,2 @@
+* use device scale
+* replace android operator picker

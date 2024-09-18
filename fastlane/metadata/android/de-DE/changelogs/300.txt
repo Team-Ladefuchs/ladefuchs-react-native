@@ -1,0 +1,6 @@
+
+* Own Tariffs (add/remove)
+* Own Charge point Operators (add/remove)
+* Settings Redesign
+* performance fixes
+* Loading spinner

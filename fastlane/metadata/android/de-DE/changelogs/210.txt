@@ -1,0 +1,7 @@
+* Full rebuild in React Native to unify iOS and Android versions
+* fix appBannerLink
+* Android: fix operator picker change event
+* Track banner loading state
+* CP button fix touch area
+* Fallback image behaviour
+* Add fetch and small changes
