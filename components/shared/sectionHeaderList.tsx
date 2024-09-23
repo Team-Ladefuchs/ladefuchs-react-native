@@ -7,7 +7,7 @@ import {
 	ViewStyle,
 	Keyboard,
 	LayoutAnimation,
-	Dimensions,
+	TouchableOpacity,
 } from "react-native";
 
 import * as Haptics from "expo-haptics";
@@ -21,6 +21,11 @@ import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "../../localization";
+
+const alphabet = [
+	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
+	"#",
+];
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -116,6 +121,15 @@ export function SectionHeaderList<T extends ItemType>({
 		onRemove(item);
 	};
 
+	const scrollToLetter = (letter: string) => {
+		const index = sections
+			.map((item) => item as unknown as string)
+			.findIndex((itemLetter) => itemLetter === letter);
+		if (index >= 0 && list.current) {
+			list.current.scrollToIndex({ animated: true, index: index });
+		}
+	};
+
 	const renderItemCallback = ({
 		item,
 		index,
@@ -187,32 +201,45 @@ export function SectionHeaderList<T extends ItemType>({
 		);
 	};
 	return (
-		<FlashList
-			getItemType={(item) => {
-				return typeof item === "string" ? "sectionHeader" : "row";
-			}}
-			ref={list}
-			estimatedItemSize={estimatedItemSize}
-			ItemSeparatorComponent={SeparatorItem}
-			data={sections as T[]}
-			keyboardShouldPersistTaps={"handled"}
-			stickyHeaderHiddenOnScroll={false}
-			automaticallyAdjustKeyboardInsets
-			keyExtractor={(item, index) => {
-				return typeof item === "string"
-					? index.toString() + index
-					: item.identifier;
-			}}
-			stickyHeaderIndices={stickyIndices}
-			ListEmptyComponent={() => (
-				<View style={styles.emptyListStyle}>
-					<Text style={styles.emptyListTextStyle}>
-						{emptyText ? emptyText : i18n.t("ladetarifeInfo1")}
-					</Text>
-				</View>
-			)}
-			renderItem={renderItemCallback}
-		/>
+		<View style={styles.listContainer}>
+			<View style={styles.alphabetScroll}>
+				{alphabet.map((letter) => (
+					<TouchableOpacity
+						key={letter}
+						onPress={() => scrollToLetter(letter)}
+					>
+						<Text style={styles.letter}>{letter}</Text>
+					</TouchableOpacity>
+				))}
+			</View>
+
+			<FlashList
+				getItemType={(item) => {
+					return typeof item === "string" ? "sectionHeader" : "row";
+				}}
+				ref={list}
+				estimatedItemSize={estimatedItemSize}
+				ItemSeparatorComponent={SeparatorItem}
+				data={sections as T[]}
+				keyboardShouldPersistTaps={"handled"}
+				stickyHeaderHiddenOnScroll={false}
+				automaticallyAdjustKeyboardInsets
+				keyExtractor={(item, index) => {
+					return typeof item === "string"
+						? index.toString() + index
+						: item.identifier;
+				}}
+				stickyHeaderIndices={stickyIndices}
+				ListEmptyComponent={() => (
+					<View style={styles.emptyListStyle}>
+						<Text style={styles.emptyListTextStyle}>
+							{emptyText ? emptyText : i18n.t("ladetarifeInfo1")}
+						</Text>
+					</View>
+				)}
+				renderItem={renderItemCallback}
+			/>
+		</View>
 	);
 }
 
@@ -262,8 +289,21 @@ const styles = ScaledSheet.create({
 		flex: 2,
 		alignItems: "center",
 	},
-	// todo use it
-	lastItem: {
-		marginBottom: "22@s",
+	listContainer: { display: "flex", flex: 1, position: "relative" },
+	alphabetScroll: {
+		position: "absolute",
+		zIndex: 2,
+		right: 0,
+		top: "50@s",
+		bottom: 0,
+		width: "20@s",
+	},
+	letter: {
+		fontSize: "10@s",
+		textAlign: "center",
+		paddingVertical: "2@s",
+		fontFamily: "Bitter",
+		fontStyle: "italic",
+		color: "black", // todo mk,
 	},
 });

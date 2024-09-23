@@ -38,7 +38,7 @@ type filterType = "all" | "active" | "own";
 const tabs = [
 	{ key: "all", label: i18n.t("alle") },
 	{ key: "active", label: i18n.t("aktiv") },
-	{ key: "own", label: i18n.t("eigene") },
+	// { key: "own", label: i18n.t("eigene") },
 ] satisfies TabItem<filterType>[];
 
 export function TariffList(): JSX.Element {
@@ -104,14 +104,16 @@ export function TariffList(): JSX.Element {
 	const filteredTariffs = useMemo(() => {
 		let tariffs = allTariffsQuery.data ?? [];
 
-		if (filterMode === "own") {
-			tariffs = tariffs.filter(({ identifier }) => {
-				return (
-					!tariffsRemoveSet.has(identifier) &&
-					tariffsAddSet.has(identifier)
-				);
-			});
-		} else if (filterMode === "active") {
+		// if (filterMode === "own") {
+		// 	tariffs = tariffs.filter(({ identifier }) => {
+		// 		return (
+		// 			!tariffsRemoveSet.has(identifier) &&
+		// 			tariffsAddSet.has(identifier)
+		// 		);
+		// 	});
+		// } else
+
+		if (filterMode === "active") {
 			tariffs = tariffs.filter(({ isStandard, identifier }) => {
 				return (
 					(isStandard && !tariffsRemoveSet.has(identifier)) ||
