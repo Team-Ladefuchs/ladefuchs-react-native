@@ -206,6 +206,7 @@ export function SectionHeaderList<T extends ItemType>({
 				{alphabet.map((letter) => (
 					<TouchableOpacity
 						key={letter}
+						activeOpacity={0.75}
 						onPress={() => scrollToLetter(letter)}
 					>
 						<Text style={styles.letter}>{letter}</Text>
