@@ -62,6 +62,7 @@ const en = {
 	onboardingStep1Description : "You can find the cheapest charging cards in the list above.",
 	onboardingStep2Description : "Take a look at the settings!",
 	onboardingStep3Description : "Here you can add your personal charging tariffs and other charging station operators.",
+	onboardingStep7Description : "When it comes to charging tariffs or charging stations, you can see all existing tariffs and providers and have the option to configure them according to your wishes.",
 	onboardingStep4Description : "…let's get started…",
 	onboardingStep5Description : "Repeat onboarding",
 	onboardingStep6Description : "You are now a 🦊",
