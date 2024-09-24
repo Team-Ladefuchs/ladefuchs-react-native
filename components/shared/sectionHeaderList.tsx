@@ -136,17 +136,31 @@ export function SectionHeaderList<T extends ItemType>({
 			nativeEvent.state === State.ACTIVE ||
 			nativeEvent.state === State.END
 		) {
-			const alphabetHeight = alphabet.length * scale(16); // Anpassen: Höhe jedes Buchstabens
+			const alphabetHeight = alphabet.length * scale(16);
 			const letterHeight = alphabetHeight / alphabet.length;
 			const swipePosition = nativeEvent.y;
 			const letterIndex = Math.floor(swipePosition / letterHeight);
 
 			if (letterIndex >= 0 && letterIndex < alphabet.length) {
 				const letter = alphabet[letterIndex];
-				scrollToLetter(letter);
+
+				if (letter !== lastScrolledLetter) {
+					setLastScrolledLetter(letter);
+					scrollToLetter(letter);
+
+					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+				}
 			}
 		}
+
+		if (nativeEvent.state === State.END) {
+			setLastScrolledLetter(null);
+		}
 	};
+
+	const [lastScrolledLetter, setLastScrolledLetter] = useState<string | null>(
+		null,
+	);
 
 	const renderItemCallback = ({
 		item,
