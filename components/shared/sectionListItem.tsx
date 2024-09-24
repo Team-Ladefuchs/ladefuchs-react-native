@@ -1,5 +1,5 @@
 import React, { forwardRef, Ref, useImperativeHandle } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import Animated, {
 	runOnJS,
 	useAnimatedStyle,

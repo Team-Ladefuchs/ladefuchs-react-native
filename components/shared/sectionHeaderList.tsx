@@ -21,7 +21,11 @@ import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "../../localization";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
+import {
+	GestureEvent,
+	PanGestureHandler,
+	State,
+} from "react-native-gesture-handler";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -127,12 +131,12 @@ export function SectionHeaderList<T extends ItemType>({
 			.map((item) => item as unknown as string)
 			.findIndex((itemLetter) => itemLetter === letter);
 		if (index >= 0 && list.current) {
-			list.current.scrollToIndex({ animated: true, index: index });
-			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+			list.current.scrollToIndex({ animated: false, index: index });
+			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 		}
 	};
 
-	const onSwipeGesture = ({ nativeEvent }) => {
+	const onSwipeGesture = ({ nativeEvent }: GestureEvent<any>) => {
 		if (
 			nativeEvent.state === State.ACTIVE ||
 			nativeEvent.state === State.END
@@ -235,22 +239,24 @@ export function SectionHeaderList<T extends ItemType>({
 	};
 	return (
 		<View style={styles.listContainer}>
-			<PanGestureHandler onGestureEvent={onSwipeGesture}>
-				<View style={styles.alphabetScroll}>
-					{alphabet.map((letter) => (
-						<TouchableOpacity
-							key={letter}
-							activeOpacity={0.75}
-							onPress={() => scrollToLetter(letter)}
-						>
-							<Text style={styles.letter}>{letter}</Text>
-						</TouchableOpacity>
-					))}
-				</View>
-			</PanGestureHandler>
+			{sections.length > 0 && (
+				<PanGestureHandler onGestureEvent={onSwipeGesture}>
+					<View style={styles.alphabetScroll}>
+						{alphabet.map((letter) => (
+							<TouchableOpacity
+								key={letter}
+								activeOpacity={0.75}
+								onPress={() => scrollToLetter(letter)}
+							>
+								<Text style={styles.letter}>{letter}</Text>
+							</TouchableOpacity>
+						))}
+					</View>
+				</PanGestureHandler>
+			)}
 
 			<FlashList
-				getItemType={(item) => {
+				getItemType={(item: T) => {
 					return typeof item === "string" ? "sectionHeader" : "row";
 				}}
 				ref={list}
@@ -260,7 +266,7 @@ export function SectionHeaderList<T extends ItemType>({
 				keyboardShouldPersistTaps={"handled"}
 				stickyHeaderHiddenOnScroll={false}
 				automaticallyAdjustKeyboardInsets
-				keyExtractor={(item, index) => {
+				keyExtractor={(item: T, index: number) => {
 					return typeof item === "string"
 						? index.toString() + index
 						: item.identifier;
@@ -323,22 +329,29 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 		flexDirection: "row",
 		flex: 2,
+		marginRight: "13@s",
 		alignItems: "center",
 	},
-	listContainer: { display: "flex", flex: 1, position: "relative", marginRight: "2@s" },
+	listContainer: {
+		display: "flex",
+		flex: 1,
+		position: "relative",
+		marginRight: "2@s",
+	},
 	alphabetScroll: {
 		position: "absolute",
 		zIndex: 2,
-		right: 0,
-		top: "50@s",
+		right: "-2@s",
+		top: "116@s",
 		bottom: 0,
+		opacity: 0.8,
 		width: "20@s",
 	},
 	letter: {
 		fontSize: "10@s",
 		textAlign: "center",
-		paddingVertical: "2@s",
+		lineHeight: "11@s",
 		fontFamily: "Roboto",
-		color: "grey", // todo mk,
+		color: "black", // todo mk,
 	},
 });

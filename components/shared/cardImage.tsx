@@ -21,7 +21,7 @@ interface Props {
 	hideFallBackText?: boolean;
 	width: number;
 	elevation?: number;
-	style?: ImageStyle;
+	styleProp?: ImageStyle;
 }
 
 export function CardImage({
@@ -31,13 +31,14 @@ export function CardImage({
 	width,
 	elevation = 4,
 	hideFallBackText = false,
-	style: styleProp,
+	styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
 
 	return (
 		<View
 			style={[
+				dropShadow,
 				{
 					...styles.cardImageContainer,
 					...styleProp,
@@ -93,7 +94,7 @@ function FallBack({
 
 export const dropShadow = {
 	...Platform.select({
-		default: {
+		ios: {
 			shadowColor: "#000",
 			shadowOffset: {
 				width: 0,
