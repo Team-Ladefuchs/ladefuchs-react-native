@@ -124,6 +124,28 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					subtitle: "",
 				},
 				{
+					backgroundColor: "rgba(0, 0, 0, 0.8)",
+					image: (
+						<View>
+							<Image
+								source={require("@assets/generic/onboardingStep4.png")}
+								style={{
+									width: scale(280),
+									height: scale(560),
+									marginBottom: -80,
+								}}
+							/>
+							{/* Subtitle als Overlay auf dem Bild */}
+
+							<Text style={styles.overlaySubtitle4}>
+								{i18n.t("onboardingStep7Description")}
+							</Text>
+						</View>
+					),
+					title: "",
+					subtitle: "",
+				},
+				{
 					backgroundColor: colors.ladefuchsLightBackground,
 					image: (
 						<Image
@@ -208,6 +230,15 @@ const styles = ScaledSheet.create({
 	overlaySubtitle3: {
 		position: "absolute",
 		bottom: scale(230),
+		left: scale(95),
+		right: scale(10),
+		color: "#fff",
+		fontFamily: "Bitter",
+		fontSize: "12@s",
+	},
+	overlaySubtitle4: {
+		position: "absolute",
+		bottom: scale(130),
 		left: scale(95),
 		right: scale(10),
 		color: "#fff",
