@@ -128,6 +128,7 @@ export function SectionHeaderList<T extends ItemType>({
 			.findIndex((itemLetter) => itemLetter === letter);
 		if (index >= 0 && list.current) {
 			list.current.scrollToIndex({ animated: true, index: index });
+			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 		}
 	};
 
@@ -324,7 +325,7 @@ const styles = ScaledSheet.create({
 		flex: 2,
 		alignItems: "center",
 	},
-	listContainer: { display: "flex", flex: 1, position: "relative" },
+	listContainer: { display: "flex", flex: 1, position: "relative", marginRight: "2@s" },
 	alphabetScroll: {
 		position: "absolute",
 		zIndex: 2,
@@ -337,8 +338,7 @@ const styles = ScaledSheet.create({
 		fontSize: "10@s",
 		textAlign: "center",
 		paddingVertical: "2@s",
-		fontFamily: "Bitter",
-		fontStyle: "italic",
-		color: "black", // todo mk,
+		fontFamily: "Roboto",
+		color: "grey", // todo mk,
 	},
 });
