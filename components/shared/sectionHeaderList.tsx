@@ -21,6 +21,7 @@ import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "../../localization";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -107,7 +108,7 @@ export function SectionHeaderList<T extends ItemType>({
 			return [FAKE_HEADER, ...items, ...specialList];
 		}
 		return [FAKE_HEADER, ...items];
-	}, [data, disableAnimation]);
+	}, [data]);
 
 	const stickyIndices = useMemo(() => {
 		return sections
@@ -127,6 +128,23 @@ export function SectionHeaderList<T extends ItemType>({
 			.findIndex((itemLetter) => itemLetter === letter);
 		if (index >= 0 && list.current) {
 			list.current.scrollToIndex({ animated: true, index: index });
+		}
+	};
+
+	const onSwipeGesture = ({ nativeEvent }) => {
+		if (
+			nativeEvent.state === State.ACTIVE ||
+			nativeEvent.state === State.END
+		) {
+			const alphabetHeight = alphabet.length * scale(16); // Anpassen: Höhe jedes Buchstabens
+			const letterHeight = alphabetHeight / alphabet.length;
+			const swipePosition = nativeEvent.y;
+			const letterIndex = Math.floor(swipePosition / letterHeight);
+
+			if (letterIndex >= 0 && letterIndex < alphabet.length) {
+				const letter = alphabet[letterIndex];
+				scrollToLetter(letter);
+			}
 		}
 	};
 
@@ -202,17 +220,19 @@ export function SectionHeaderList<T extends ItemType>({
 	};
 	return (
 		<View style={styles.listContainer}>
-			<View style={styles.alphabetScroll}>
-				{alphabet.map((letter) => (
-					<TouchableOpacity
-						key={letter}
-						activeOpacity={0.75}
-						onPress={() => scrollToLetter(letter)}
-					>
-						<Text style={styles.letter}>{letter}</Text>
-					</TouchableOpacity>
-				))}
-			</View>
+			<PanGestureHandler onGestureEvent={onSwipeGesture}>
+				<View style={styles.alphabetScroll}>
+					{alphabet.map((letter) => (
+						<TouchableOpacity
+							key={letter}
+							activeOpacity={0.75}
+							onPress={() => scrollToLetter(letter)}
+						>
+							<Text style={styles.letter}>{letter}</Text>
+						</TouchableOpacity>
+					))}
+				</View>
+			</PanGestureHandler>
 
 			<FlashList
 				getItemType={(item) => {
