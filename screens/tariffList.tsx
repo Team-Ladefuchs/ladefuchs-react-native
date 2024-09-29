@@ -57,6 +57,8 @@ export function TariffList(): JSX.Element {
 		new Set(),
 	);
 
+	const [favoriteSet, setFavoiteSet] = useState<Set<string>>(new Set());
+
 	const [filterMode, setFilterMode] = useState<filterType>("all");
 
 	const { customTariffs, saveCustomTariffs, resetCustomTariffs } =
@@ -133,6 +135,7 @@ export function TariffList(): JSX.Element {
 		search,
 		allTariffsQuery.data,
 		filterMode,
+		favoriteSet,
 		tariffsAddSet,
 		tariffsRemoveSet,
 	]);
@@ -184,6 +187,24 @@ export function TariffList(): JSX.Element {
 						estimatedItemSize={itemHeight}
 						containerStyle={styles.listItemContainer}
 						emptyText={emptyText}
+						isFavorite={(item: Tariff) =>
+							favoriteSet.has(item.identifier)
+						}
+						onFavoiteChange={({ value, add }) => {
+							if (add) {
+								setFavoiteSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.add(value.identifier);
+									return newSet;
+								});
+							} else {
+								setFavoiteSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.delete(value.identifier);
+									return newSet;
+								});
+							}
+						}}
 						data={filteredTariffs}
 						onUndo={({ identifier, isStandard }: Tariff) => {
 							if (isStandard) {
@@ -292,7 +313,7 @@ const styles = ScaledSheet.create({
 	},
 	listItemContainer: {
 		paddingLeft: "10@s",
-		paddingRight: "16@s",
+		paddingRight: "32@s",
 		height: itemHeight,
 		gap: "7@s",
 	},

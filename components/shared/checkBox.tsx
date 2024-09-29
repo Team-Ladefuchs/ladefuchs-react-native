@@ -38,12 +38,10 @@ const styles = ScaledSheet.create({
 		alignItems: "center",
 		opacity: 0.75,
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
-		// backgroundColor: colors.ladefuchsDunklerBalken,
 	},
 	checkMark: {
 		left: "2@s",
 		top: "2@s",
-		padding: 10,
 	},
 	checked: {
 		opacity: 1,

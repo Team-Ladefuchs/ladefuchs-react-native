@@ -26,6 +26,7 @@ import {
 	PanGestureHandler,
 	State,
 } from "react-native-gesture-handler";
+import { FavoriteCheckbox } from "./favoriteCheckbox";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -39,6 +40,8 @@ interface Props<T extends { identifier: string }> {
 	renderItem: (item: T) => JSX.Element;
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
+	isFavorite?: (item: T) => boolean;
+	onFavoiteChange?: ({ value, add }: { value: T; add: boolean }) => void;
 	disableAnimation: boolean;
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
@@ -65,6 +68,8 @@ export function SectionHeaderList<T extends ItemType>({
 	onUndo,
 	emptyText,
 	estimatedItemSize,
+	onFavoiteChange,
+	isFavorite,
 }: Props<T>) {
 	const list = useRef<FlashList<any>>(null);
 	const itemsRef = useRef<ItemMethods[]>([]);
@@ -230,7 +235,16 @@ export function SectionHeaderList<T extends ItemType>({
 									: onAdd(item);
 							}}
 						/>
-
+						{onFavoiteChange && isFavorite && (
+							<View style={{ marginEnd: scale(5) }}>
+								<FavoriteCheckbox
+									checked={isFavorite(item)}
+									onValueChange={(add) =>
+										onFavoiteChange({ value: item, add })
+									}
+								/>
+							</View>
+						)}
 						{renderItem(item)}
 					</View>
 				</TouchableWithoutFeedback>
