@@ -231,7 +231,12 @@ export function SectionHeaderList<T extends ItemType>({
 							}}
 						/>
 						{onFavoiteChange && isFavorite && (
-							<View style={{ marginEnd: scale(5) }}>
+							<View
+								style={{
+									marginRight: scale(5),
+									marginStart: scale(3),
+								}}
+							>
 								<FavoriteCheckbox
 									checked={isFavorite(item)}
 									onValueChange={(add) => {
@@ -278,6 +283,7 @@ export function SectionHeaderList<T extends ItemType>({
 				data={sections as T[]}
 				keyboardShouldPersistTaps={"handled"}
 				stickyHeaderHiddenOnScroll={false}
+				showsVerticalScrollIndicator={false}
 				automaticallyAdjustKeyboardInsets
 				keyExtractor={(item: T, index: number) => {
 					return typeof item === "string"
