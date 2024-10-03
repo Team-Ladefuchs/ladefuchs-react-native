@@ -8,6 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 export interface CustomTariff {
 	add: string[];
 	remove: string[];
+	favorite?: string[]; // this was addded later
 }
 export interface CustomOperators {
 	add: string[];
@@ -24,6 +25,7 @@ const emptyCustomSettings = {
 	tariffs: {
 		add: [],
 		remove: [],
+		favorite: [],
 	},
 	operators: {
 		add: [],
@@ -34,10 +36,14 @@ const emptyCustomSettings = {
 const key = "customTariffsOperators";
 
 export async function getCustomTariffsOperators(): Promise<CustomTariffsOperators> {
-	return (
+	const values =
 		(await retrieveFromStorage<CustomTariffsOperators>(key)) ??
-		emptyCustomSettings
-	);
+		emptyCustomSettings;
+
+	if (!values.tariffs.favorite) {
+		values.tariffs.favorite = [];
+	}
+	return values;
 }
 
 export function useCustomTariffsOperators() {

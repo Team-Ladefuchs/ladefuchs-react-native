@@ -18,17 +18,17 @@ const resetOnboarding = async () => {
 };
 
 export function OnboardingScreen({ navigation }: any): JSX.Element {
-	const [currentStep, setCurrentStep] = useState(0);
+	// const [currentStep, setCurrentStep] = useState(0);
 
-	const handleNext = async () => {
-		if (currentStep < onboardingData.length - 1) {
-			setCurrentStep(currentStep + 1);
-		} else {
-			// Onboarding abgeschlossen, flag in AsyncStorage setzen
-			await AsyncStorage.setItem("onboardingComplete", "true");
-			navigation.navigate("appRoutes.home.key"); // Zur HomeScreen navigieren
-		}
-	};
+	// const handleNext = async () => {
+	// 	if (currentStep < onboardingData.length - 1) {
+	// 		setCurrentStep(currentStep + 1);
+	// 	} else {
+	// 		// Onboarding abgeschlossen, flag in AsyncStorage setzen
+	// 		await AsyncStorage.setItem("onboardingComplete", "true");
+	// 		navigation.navigate("appRoutes.home.key"); // Zur HomeScreen navigieren
+	// 	}
+	// };
 
 	return (
 		<Onboarding

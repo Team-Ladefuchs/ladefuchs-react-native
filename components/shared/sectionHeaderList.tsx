@@ -27,6 +27,7 @@ import {
 	State,
 } from "react-native-gesture-handler";
 import { FavoriteCheckbox } from "./favoriteCheckbox";
+import { useKeyBoard } from "../../hooks/useKeyboard";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -75,6 +76,8 @@ export function SectionHeaderList<T extends ItemType>({
 	const itemsRef = useRef<ItemMethods[]>([]);
 
 	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
+
+	const keyboardIsVisble = useKeyBoard();
 
 	useShakeDetector(() => {
 		if (lastRemovedItem) {
@@ -157,7 +160,6 @@ export function SectionHeaderList<T extends ItemType>({
 				if (letter !== lastScrolledLetter) {
 					setLastScrolledLetter(letter);
 					scrollToLetter(letter);
-
 					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 				}
 			}
@@ -215,10 +217,6 @@ export function SectionHeaderList<T extends ItemType>({
 							checked={itemExist}
 							onValueChange={(value) => {
 								if (disableAnimation) {
-									Haptics.notificationAsync(
-										Haptics.NotificationFeedbackType
-											.Success,
-									);
 									return !value
 										? removeItem(item, index)
 										: onAdd(item);
@@ -227,9 +225,6 @@ export function SectionHeaderList<T extends ItemType>({
 								if (currenRef.opacity() < 1) {
 									return currenRef.cancel();
 								}
-								Haptics.notificationAsync(
-									Haptics.NotificationFeedbackType.Success,
-								);
 								return !value
 									? itemsRef.current[index]?.fadeOut()
 									: onAdd(item);
@@ -239,9 +234,13 @@ export function SectionHeaderList<T extends ItemType>({
 							<View style={{ marginEnd: scale(5) }}>
 								<FavoriteCheckbox
 									checked={isFavorite(item)}
-									onValueChange={(add) =>
-										onFavoiteChange({ value: item, add })
-									}
+									onValueChange={(add) => {
+										onAdd(item);
+										onFavoiteChange({
+											value: item,
+											add,
+										});
+									}}
 								/>
 							</View>
 						)}
@@ -253,7 +252,7 @@ export function SectionHeaderList<T extends ItemType>({
 	};
 	return (
 		<View style={styles.listContainer}>
-			{sections.length > 0 && (
+			{sections.length > 0 && !keyboardIsVisble && (
 				<PanGestureHandler onGestureEvent={onSwipeGesture}>
 					<View style={styles.alphabetScroll}>
 						{alphabet.map((letter) => (
@@ -342,7 +341,7 @@ const styles = ScaledSheet.create({
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		flexDirection: "row",
-		flex: 2,
+		display: "flex",
 		marginRight: "13@s",
 		alignItems: "center",
 	},

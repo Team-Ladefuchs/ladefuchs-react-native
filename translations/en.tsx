@@ -58,15 +58,22 @@ const en = {
 		"Of course you can support us, there are many ways you can help us:\n\n❤️Get the THQ quote for your electric car via our referral link at geld-fuer-eauto.de\n❤️Throw a coin into our PayPal fountain\n❤️Wear the fox from our merch\n❤️Send a financial messenger to our support account:\n	Account holder: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
 	supportfuchstext2: "How can I feed the fox?",
 	supportlink: "❤️ Check it out here ›",
-	onboardingStep0Description : "Select the provider of the charging station where you are standing.",
-	onboardingStep1Description : "You can find the cheapest charging cards in the list above.",
-	onboardingStep2Description : "Take a look at the settings!",
-	onboardingStep3Description : "Here you can add your personal charging tariffs and other charging station operators.",
-	onboardingStep7Description : "When it comes to charging tariffs or charging stations, you can see all existing tariffs and providers and have the option to configure them according to your wishes.",
-	onboardingStep4Description : "…I would be happy about a nice review…",
-	onboardingStep5Description : "Repeat onboarding",
-	onboardingStep6Description : "You are now a 🦊",
-	onboardingAlert : "Onboarding will be displayed again the next time you start.",
+	onboardingStep0Description:
+		"Select the provider of the charging station where you are standing.",
+	onboardingStep1Description:
+		"You can find the cheapest charging cards in the list above.",
+	onboardingStep2Description: "Take a look at the settings!",
+	onboardingStep3Description:
+		"Here you can add your personal charging tariffs and other charging station operators.",
+	onboardingStep7Description:
+		"When it comes to charging tariffs or charging stations, you can see all existing tariffs and providers and have the option to configure them according to your wishes.",
+	onboardingStep4Description: "…I would be happy about a nice review…",
+	onboardingStep5Description: "Repeat onboarding",
+	onboardingStep6Description: "You are now a 🦊",
+	onboardingAlert:
+		"Onboarding will be displayed again the next time you start.",
+	favoriten: "Favorites",
+	aktiveTarife: "Active Tariffs",
 };
 
 export default en;
