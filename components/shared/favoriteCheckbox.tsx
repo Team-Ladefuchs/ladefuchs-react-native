@@ -1,22 +1,26 @@
 import React from "react";
 
-import Star from "@assets/favorite/star.svg";
+import FavStar from "@assets/favorite/favstern.svg";
+import FavStarEmpty from "@assets/favorite/favstern_empty.svg";
 
-import { Pressable, Text } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
+import { Pressable } from "react-native";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 
 interface Props {
 	checked: boolean;
 	onValueChange: (value: boolean) => void;
+	size?: number;
 }
 
 export function FavoriteCheckbox({
 	checked,
 	onValueChange,
+	size = scale(24),
 }: Props): JSX.Element {
 	return (
 		<Pressable
+			hitSlop={scale(12)}
 			onPress={() => {
 				if (!checked) {
 					Haptics.notificationAsync(
@@ -26,7 +30,15 @@ export function FavoriteCheckbox({
 				onValueChange(!checked);
 			}}
 		>
-			{checked ? <Text style={styles.starText}>⭐️</Text> : <Star />}
+			{checked ? (
+				<FavStar height={size} width={size} />
+			) : (
+				<FavStarEmpty
+					height={size}
+					width={size}
+					style={{ opacity: 0.75 }}
+				/>
+			)}
 		</Pressable>
 	);
 }

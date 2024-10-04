@@ -234,10 +234,12 @@ export function SectionHeaderList<T extends ItemType>({
 							<View
 								style={{
 									marginRight: scale(5),
-									marginStart: scale(3),
+									marginLeft: scale(3),
+									marginBottom: scale(2),
 								}}
 							>
 								<FavoriteCheckbox
+									size={30}
 									checked={isFavorite(item)}
 									onValueChange={(add) => {
 										onAdd(item);
