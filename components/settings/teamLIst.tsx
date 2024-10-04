@@ -93,13 +93,13 @@ const veteranMember = [
 		imageSource: require("@assets/team/team_roddi.jpg"),
 		links: [
 			{
-				text: "@schlingel",
-				url: "https://mastodon.social/@schlingel",
+				text: "@roddi",
+				url: "https://mastodon.social/@roddi",
 				icon: MastodonIcon,
 			},
 			{
-				text: "android@ladefuchs.app",
-				url: "mailto:android@ladefuchs.app",
+				text: "",
+				url: "",
 				icon: MailIcon,
 			},
 		],
