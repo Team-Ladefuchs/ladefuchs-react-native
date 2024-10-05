@@ -65,8 +65,10 @@ const en = {
 	onboardingStep2Description: "Take a look at the settings!",
 	onboardingStep3Description:
 		"Here you can add your personal charging tariffs and other charging station operators.",
-	onboardingStep7Description:
-		"When it comes to charging tariffs or charging stations, you can see all existing tariffs and providers and have the option to configure them according to your wishes.",
+		onboardingStep7Description:
+		"At the charging stations you can see all providers and have the option to configure them according to your wishes.",
+	onboardingStep8Description:
+		"You choose the tariff that suits you best and mark your favorites.",
 	onboardingStep4Description: "…I would be happy about a nice review…",
 	onboardingStep5Description: "Repeat onboarding",
 	onboardingStep6Description: "You are now a 🦊",

@@ -1,14 +1,14 @@
 const de = {
 	pickerheader: "AN WELCHER SÄULE STEHST DU?",
-	chargeTablePlaceholder:"Du hast noch keine Favoriten markiert⭐️\n Mach das unter Einstellungen ⚙️ Ladetarife.\nDer 🦊 zeigt Dir dann nur deine Auswahl an.",
+	chargeTablePlaceholder:"Du hast noch keine Favoriten markiert⭐️\n Mach das unter Einstellungen ⚙️ Ladetarife.\nDer 🦊 zeigt dir dann nur deine Auswahl an.",
 	blockingfee: "Blockier\u00ADgebühr",
 	monthlyfee: "Monatliche Gebühr",
 	notizen: "Notizen",
 	preisfalsch: "Preise/Infos falsch?",
 	karte: "Hol dir die Karte!",
-	futter: "Hast Du Futter für den Fuchs?",
+	futter: "Hast du Futter für den Fuchs?",
 	futter1: "Sag uns was nicht stimmt!",
-	futter2: "Willst Du dem Fuchs noch etwas flüstern?",
+	futter2: "Willst du dem Fuchs noch etwas flüstern?",
 	senden: "Senden",
 	momentchen: "Momentchen …",
 	thxfeedback: "⚡️ Vielen Dank für dein Feedback!",
@@ -29,7 +29,7 @@ const de = {
 	ladetarifeInfo1:
 		"Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊",
 	ladetarifeInfo2:
-		"Du hast noch keine Favoriten markiert ⭐️\nDer 🦊 zeigt Dir hier gern deine Auswahl an.",
+		"Du hast noch keine Favoriten markiert ⭐️\nDer 🦊 zeigt dir sonst hier gern deine Auswahl an.",
 	tarifAlert: "Tarife zurücksetzen",
 	tarifAlertText:
 		"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
@@ -56,20 +56,22 @@ const de = {
 	supportfuchs: "Kann man euch Unterstützen?",
 	supportfuchs2: "Unterstützung",
 	supportfuchstext:
-		"Na klar kannst du uns unterstützen, es gibt viele Wege über die Du uns unter die Arme greifen kannst:\n\n❤️Hol dir die THQ Quote für dein E-Auto über unsere Referrallink bei geld-fuer-eauto.de\n❤️Wirf eine Münze in unseren PayPal Brunnen\n❤️Trage den Fuchs aus unserem Merch\n❤️Schicke einen Finanzboten zu unserem Unterstützungskonto:\n	Kontoinhaber: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
+		"Na klar kannst du uns unterstützen, es gibt viele Wege über die du uns unter die Arme greifen kannst:\n\n❤️Hol dir die THQ Quote für dein E-Auto über unsere Referrallink bei geld-fuer-eauto.de\n❤️Wirf eine Münze in unseren PayPal Brunnen\n❤️Trage den Fuchs aus unserem Merch\n❤️Schicke einen Finanzboten zu unserem Unterstützungskonto:\n	Kontoinhaber: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
 	supportfuchstext2: "Wie kann ich den Fuchs füttern?",
 	supportlink: "❤️ Schau mal hier vorbei ›",
 	onboardingStep0Description:
-		"Wähle den Anbieter der Ladesäule, an der Du stehst.",
+		"Wähle den Anbieter der Ladesäule, an der du stehst.",
 	onboardingStep1Description:
-		"Die günstigsten Ladekarten findest Du oben in der Liste.",
+		"Die günstigsten Ladekarten findest du oben in der Liste.",
 	onboardingStep2Description: "Wirf einen Blick in die Settings!",
 	onboardingStep3Description:
-		"Hier kannst Du Deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
+		"Hier kannst du deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
 	onboardingStep7Description:
-		"Bei den Ladetarifen oder Ladesäulen siehst Du alle vorhandenen Tarife und Anbieter und hast die Möglichkeit diese nach deinen Wünschen zu konfigurieren.",
-	onboardingStep4Description: "…ich freue mich über eine nette Bewertung…",
-	onboardingStep5Description: "Onboarding später wiederholen",
+		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit diese nach deinen Wünschen zu konfigurieren.",
+	onboardingStep8Description:
+		"Du suchst dir deinen passenden Tarif heraus und markierst deine Favoriten.",
+	onboardingStep4Description: "…vielleicht schenkst du mir eine nette Bewertung…",
+	onboardingStep5Description: "Onboarding später nochmal wiederholen",
 	onboardingStep6Description: "Du bist jetzt ein 🦊",
 	onboardingAlert: "Onboarding wird beim nächsten Start wieder angezeigt.",
 	favoriten: "Favoriten",

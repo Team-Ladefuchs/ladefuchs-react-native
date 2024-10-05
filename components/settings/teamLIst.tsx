@@ -36,7 +36,7 @@ const activeMember = [
 	{
 		name: "DOMINIC",
 		role: "Developerfuchs",
-		imageSource: require("@assets/team/team_dominic.jpg"),
+		imageSource: require("@assets/team/dominic.png"),
 		links: [
 			{
 				text: "@dominic",

@@ -41,7 +41,7 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					image: (
 						<View>
 							<Image
-								source={require("@assets/generic/onboardingStep0.png")}
+								source={require("@assets/onBoarding/onboardingStep0.png")}
 								style={{
 									width: scale(280),
 									height: scale(560),
@@ -63,7 +63,7 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					image: (
 						<View>
 							<Image
-								source={require("@assets/generic/onboardingStep1.png")}
+								source={require("@assets/onBoarding/onboardingStep1.png")}
 								style={{
 									width: scale(280),
 									height: scale(560),
@@ -85,7 +85,7 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					image: (
 						<View>
 							<Image
-								source={require("@assets/generic/onboardingStep2.png")}
+								source={require("@assets/onBoarding/onboardingStep2.png")}
 								style={{
 									width: scale(280),
 									height: scale(560),
@@ -107,7 +107,7 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					image: (
 						<View>
 							<Image
-								source={require("@assets/generic/onboardingStep3.png")}
+								source={require("@assets/onBoarding/onboardingStep3.png")}
 								style={{
 									width: scale(280),
 									height: scale(560),
@@ -129,7 +129,7 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					image: (
 						<View>
 							<Image
-								source={require("@assets/generic/onboardingStep4.png")}
+								source={require("@assets/onBoarding/onboardingStep4.png")}
 								style={{
 									width: scale(280),
 									height: scale(560),
@@ -140,6 +140,28 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 
 							<Text style={styles.overlaySubtitle4}>
 								{i18n.t("onboardingStep7Description")}
+							</Text>
+						</View>
+					),
+					title: "",
+					subtitle: "",
+				},
+				{
+					backgroundColor: "rgba(0, 0, 0, 0.8)",
+					image: (
+						<View>
+							<Image
+								source={require("@assets/onBoarding/onboardingStep5.png")}
+								style={{
+									width: scale(280),
+									height: scale(560),
+									marginBottom: -80,
+								}}
+							/>
+							{/* Subtitle als Overlay auf dem Bild */}
+
+							<Text style={styles.overlaySubtitle5}>
+								{i18n.t("onboardingStep8Description")}
 							</Text>
 						</View>
 					),
@@ -239,7 +261,16 @@ const styles = ScaledSheet.create({
 	},
 	overlaySubtitle4: {
 		position: "absolute",
-		bottom: scale(130),
+		bottom: scale(95),
+		left: scale(95),
+		right: scale(10),
+		color: "#fff",
+		fontFamily: "Bitter",
+		fontSize: "12@s",
+	},
+	overlaySubtitle5: {
+		position: "absolute",
+		bottom: scale(65),
 		left: scale(95),
 		right: scale(10),
 		color: "#fff",
