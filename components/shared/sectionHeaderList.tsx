@@ -28,6 +28,7 @@ import {
 } from "react-native-gesture-handler";
 import { FavoriteCheckbox } from "./favoriteCheckbox";
 import { useKeyBoard } from "../../hooks/useKeyboard";
+import { EmptyListText } from "./emptyListText";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -295,9 +296,13 @@ export function SectionHeaderList<T extends ItemType>({
 				stickyHeaderIndices={stickyIndices}
 				ListEmptyComponent={() => (
 					<View style={styles.emptyListStyle}>
-						<Text style={styles.emptyListTextStyle}>
-							{emptyText ? emptyText : i18n.t("ladetarifeInfo1")}
-						</Text>
+						<EmptyListText
+							text={
+								emptyText
+									? emptyText
+									: i18n.t("ladetarifeInfo1")
+							}
+						/>
 					</View>
 				)}
 				renderItem={renderItemCallback}
@@ -334,7 +339,7 @@ const styles = ScaledSheet.create({
 	emptyListStyle: {
 		color: colors.ladefuchsGrayTextColor,
 		marginVertical: "auto",
-		height: "250@s",
+		height: "240@s",
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",

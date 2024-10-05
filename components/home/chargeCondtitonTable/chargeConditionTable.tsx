@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import { TariffCondition } from "../../../types/conditions";
 import { fill, zip } from "../../../functions/util";
 import { colors } from "../../../theme";
@@ -8,6 +8,8 @@ import { useShallow } from "zustand/react/shallow";
 import { ChargeConditionRow } from "./chargeConditionRow";
 import { useQueryAppData } from "../../../hooks/useQueryAppData";
 import { LoadingSpinner } from "../../shared/loadingSpinner";
+import { EmptyListText } from "../../shared/emptyListText";
+import { ScaledSheet } from "react-native-size-matters";
 
 export function ChargeConditionTable() {
 	const [allChargeConditionsQuery] = useQueryAppData();
@@ -18,6 +20,8 @@ export function ChargeConditionTable() {
 		setTariffConditions,
 		operatorId,
 		chargingConditionsMap,
+		isFavoriteTariffOnly,
+		favoriteTariffIds,
 	} = useAppStore(
 		useShallow((state) => ({
 			tariffs: state.tariffs,
@@ -25,18 +29,35 @@ export function ChargeConditionTable() {
 			setTariffConditions: state.setTariffConditions,
 			operatorId: state.operatorId,
 			chargingConditionsMap: state.chargingConditions,
+			isFavoriteTariffOnly: state.isFavoriteTariffOnly,
+			favoriteTariffIds: state.favoriteTariffIds,
 		})),
 	);
 
 	useEffect(() => {
-		if (!operatorId) {
-			return;
-		}
+		// Early return if operatorId is not defined
+		if (!operatorId) return;
+
 		const tariffConditions = chargingConditionsMap.get(operatorId);
-		if (tariffConditions) {
-			setTariffConditions(tariffConditions);
-		}
-	}, [operatorId, setTariffConditions, chargingConditionsMap]);
+
+		// Early return if no tariff conditions are found
+		if (!tariffConditions) return;
+
+		// Set filtered or all tariff conditions based on the isFavoriteTariffOnly flag
+		const updatedTariffConditions = isFavoriteTariffOnly
+			? tariffConditions.filter((item) =>
+					favoriteTariffIds.has(item.tariffId),
+				)
+			: tariffConditions;
+
+		setTariffConditions(updatedTariffConditions);
+	}, [
+		operatorId,
+		setTariffConditions,
+		chargingConditionsMap,
+		isFavoriteTariffOnly,
+		favoriteTariffIds, // added missing dependency for consistency
+	]);
 
 	const currentTariffConditions = useMemo(() => {
 		const [acTariffCondition, dcTariffCondition] = fill(
@@ -100,6 +121,14 @@ export function ChargeConditionTable() {
 					ref={flatListRef as any}
 					data={currentTariffConditions}
 					renderItem={renderItem}
+					ListEmptyComponent={() => (
+						// TODO center me vertical :)
+						<View style={styles.emptyContainer}>
+							<EmptyListText
+								text={"hier könnte ein Text stehen 🦊⭐️"}
+							/>
+						</View>
+					)}
 					scrollsToTop={true}
 					keyExtractor={([left, right], _index) =>
 						conditionKey(left) + conditionKey(right)
@@ -123,7 +152,7 @@ function conditionKey(condition: TariffCondition | null): string {
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	chargingTableContainer: {
 		flex: 92,
 		backgroundColor: colors.ladefuchsLightBackground,
@@ -140,5 +169,9 @@ const styles = StyleSheet.create({
 	space: {
 		width: 1,
 		backgroundColor: "white",
+	},
+	emptyContainer: {
+		height: "100%",
+		marginTop: "130@s",
 	},
 });

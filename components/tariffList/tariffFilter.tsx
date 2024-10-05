@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 import { colors } from "../../theme";
@@ -28,6 +28,20 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 		}
 	}, [activeFilterCheckd, favoriteChecked]);
 
+	const handleActiveChanged = (value: boolean): void => {
+		if (!value) {
+			serFavoriteChecked(value);
+		}
+		setActiveFilterCheckd(value);
+	};
+
+	const handleFaoriteChanged = (value: boolean): void => {
+		if (value) {
+			setActiveFilterCheckd(value);
+		}
+		serFavoriteChecked(value);
+	};
+
 	return (
 		<View style={style.container}>
 			<View style={style.innerContainer}>
@@ -35,31 +49,33 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 					<Checkbox
 						size={scale(22)}
 						checked={activeFilterCheckd}
-						onValueChange={(value) => {
-							if (!value) {
-								serFavoriteChecked(value);
-							}
-							setActiveFilterCheckd(value);
-						}}
+						onValueChange={handleActiveChanged}
 					/>
 				</View>
-				<Text style={style.filterText}>
-					{i18n.translate("aktiveTarife")}
-				</Text>
+				<Pressable
+					onPress={() => {
+						handleActiveChanged(!activeFilterCheckd);
+					}}
+				>
+					<Text style={style.filterText}>
+						{i18n.translate("aktiveTarife")}
+					</Text>
+				</Pressable>
 			</View>
 			<View style={style.innerContainer}>
 				<FavoriteCheckbox
 					checked={favoriteChecked}
-					onValueChange={(value) => {
-						if (value) {
-							setActiveFilterCheckd(value);
-						}
-						serFavoriteChecked(value);
-					}}
+					onValueChange={handleFaoriteChanged}
 				/>
-				<Text style={style.filterText}>
-					{i18n.translate("favoriten")}
-				</Text>
+				<Pressable
+					onPress={() => {
+						handleFaoriteChanged(!favoriteChecked);
+					}}
+				>
+					<Text style={style.filterText}>
+						{i18n.translate("favoriten")}
+					</Text>
+				</Pressable>
 			</View>
 		</View>
 	);

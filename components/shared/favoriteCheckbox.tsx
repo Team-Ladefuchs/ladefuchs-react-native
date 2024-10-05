@@ -4,7 +4,7 @@ import FavStar from "@assets/favorite/favstern.svg";
 import FavStarEmpty from "@assets/favorite/favstern_empty.svg";
 
 import { Pressable } from "react-native";
-import { ScaledSheet, scale } from "react-native-size-matters";
+import { scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 
 interface Props {
@@ -31,7 +31,7 @@ export function FavoriteCheckbox({
 			}}
 		>
 			{checked ? (
-				<FavStar height={size} width={size} />
+				<FavStar height={size} width={size} style={{ ...dropShadow }} />
 			) : (
 				<FavStarEmpty
 					height={size}
@@ -43,8 +43,19 @@ export function FavoriteCheckbox({
 	);
 }
 
-const styles = ScaledSheet.create({
-	starText: {
-		fontSize: "21@s",
+const dropShadow = {
+	elevation: 4,
+	shadowColor: "rgb(70, 130, 180)",
+	shadowOffset: {
+		width: 0,
+		height: 2,
 	},
-});
+	shadowOpacity: 0.3,
+	shadowRadius: 2,
+};
+
+// const styles = ScaledSheet.create({
+// 	starText: {
+// 		fontSize: "21@s",
+// 	},
+// });

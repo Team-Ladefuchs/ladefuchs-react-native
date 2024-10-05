@@ -11,6 +11,7 @@ export type AppData = ChargeConditionData & BannerData;
 export interface ChargeConditionData {
 	operators: Operator[];
 	tariffs: Map<string, Tariff>;
+	favoriteTariffIds: Set<string>;
 	chargingConditions: Map<string, TariffCondition[]>;
 }
 
@@ -31,6 +32,10 @@ export interface AppState extends AppData {
 	appError: Error | null;
 	setAppError: (value: Error | null) => void;
 	reloadBanner: () => void;
+	isFavoriteTariffOnly: boolean;
+	setisFavoriteTariffOnly: (value: boolean) => void;
+	favoriteTariffIds: Set<string>;
+	setFavoriteTariffIds: (ids: Set<string> | string[]) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -46,6 +51,7 @@ export const useAppStore = create<AppState>((set, get) => {
 			if (operators) {
 				set(() => ({
 					...appData,
+					favoriteTariffIds: appData.favoriteTariffIds ?? new Set(),
 					operators: [...operators],
 					operatorId,
 				}));
@@ -98,6 +104,18 @@ export const useAppStore = create<AppState>((set, get) => {
 				bannerType: "ladefuchs",
 			} satisfies Banner;
 			set(() => ({ banner: appBanner }));
+		},
+		isFavoriteTariffOnly: false,
+		setisFavoriteTariffOnly: (value: boolean) => {
+			set(() => ({ isFavoriteTariffOnly: value }));
+		},
+		favoriteTariffIds: new Set<string>(),
+		setFavoriteTariffIds: (ids: Set<string> | string[]) => {
+			if (Array.isArray(ids)) {
+				set(() => ({ favoriteTariffIds: new Set(ids) }));
+			} else if (ids instanceof Set) {
+				set(() => ({ favoriteTariffIds: ids }));
+			}
 		},
 	};
 });

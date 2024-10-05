@@ -14,10 +14,16 @@ import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { appRoutes } from "../../appRoutes";
+import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation();
-	const reloadBanner = useAppStore((state) => state.reloadBanner);
+	const [reloadBanner, isFavoriteTariffOnly, setisFavoriteTariffOnly] =
+		useAppStore((state) => [
+			state.reloadBanner,
+			state.isFavoriteTariffOnly,
+			state.setisFavoriteTariffOnly,
+		]);
 
 	return (
 		<SafeAreaView style={styles.headerContainer}>
@@ -45,17 +51,23 @@ export function AppHeader(): JSX.Element {
 					<AppLogo size={81} />
 				</TouchableOpacity>
 			</View>
-			<TouchableOpacity
-				activeOpacity={0.6}
-				hitSlop={scale(12)}
-				onPress={async () => {
-					// @ts-ignore
-					await navigation.navigate(appRoutes.settingsStack.key);
-				}}
-				style={styles.headerSettingsIcon}
-			>
-				<Zahnrad width={scale(30)} height={scale(30)} />
-			</TouchableOpacity>
+			<View style={styles.headerSettingsIcon}>
+				<FavoriteCheckbox
+					size={34}
+					checked={isFavoriteTariffOnly}
+					onValueChange={setisFavoriteTariffOnly}
+				/>
+				<TouchableOpacity
+					activeOpacity={0.6}
+					hitSlop={scale(12)}
+					onPress={async () => {
+						// @ts-ignore
+						await navigation.navigate(appRoutes.settingsStack.key);
+					}}
+				>
+					<Zahnrad width={scale(30)} height={scale(30)} />
+				</TouchableOpacity>
+			</View>
 		</SafeAreaView>
 	);
 }
@@ -80,7 +92,11 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
 	},
+	headerFavoiteIocn: {},
 	headerSettingsIcon: {
+		display: "flex",
+		flexDirection: "row",
+		gap: "12@s",
 		position: "absolute",
 		right: "15@s",
 		bottom: "15@s",

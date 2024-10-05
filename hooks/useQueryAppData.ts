@@ -59,7 +59,6 @@ export function useQueryAppData() {
 		allChargeConditionsQuery.error,
 		setAppError,
 		setChargeConditions,
-		,
 	]);
 
 	useEffect(() => {

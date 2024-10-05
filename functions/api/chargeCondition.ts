@@ -67,8 +67,13 @@ export async function getAllChargeConditions({
 		chargingModes: ["ac", "dc"],
 	});
 
+	const favoriteTariffIds = new Set(customTariffs.favorite ?? []);
+
 	if (!chargingConditions[0]?.tariffConditions?.length) {
-		return await getOfflineChargeConditionData();
+		return {
+			favoriteTariffIds,
+			...(await getOfflineChargeConditionData()),
+		};
 	}
 	if (writeToCache) {
 		await saveToStorage<OfflineChargeConditionData>(
@@ -83,6 +88,7 @@ export async function getAllChargeConditions({
 
 	return {
 		operators,
+		favoriteTariffIds,
 		tariffs: tariffsToHashMap(tariffs),
 		chargingConditions: chargeConditionToHashMap(chargingConditions),
 	};

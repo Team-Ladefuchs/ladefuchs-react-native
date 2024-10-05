@@ -26,7 +26,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 		if (containerWidth.current) {
 			setTabWith(containerWidth.current / tabs.length);
 		}
-	}, [containerWidth.current]);
+	}, [containerWidth.current, tabs.length]);
 
 	const handleTabPress = (item: TabItem<T>, tabIndex: number) => {
 		setActiveTab(tabIndex);

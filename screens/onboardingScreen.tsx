@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, Text, Button, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { appRoutes } from "../appRoutes";
@@ -18,6 +18,7 @@ const resetOnboarding = async () => {
 };
 
 export function OnboardingScreen({ navigation }: any): JSX.Element {
+	// todo sven ??
 	// const [currentStep, setCurrentStep] = useState(0);
 
 	// const handleNext = async () => {
