@@ -1,5 +1,6 @@
 const de = {
 	pickerheader: "AN WELCHER SÄULE STEHST DU?",
+	chargeTablePlaceholder:"Du hast noch keine Favoriten markiert⭐️\n Mach das unter Einstellungen ⚙️ Ladetarife.\nDer 🦊 zeigt Dir dann nur deine Auswahl an.",
 	blockingfee: "Blockier\u00ADgebühr",
 	monthlyfee: "Monatliche Gebühr",
 	notizen: "Notizen",
@@ -18,7 +19,6 @@ const de = {
 		"Wir sind schuld. Wirklich!\nTrotzdem alle Angaben ohne Gewähr.",
 	alle: "Alle",
 	aktiv: "Aktiv",
-	eigene: "Eigene",
 	ladetarife: "Ladetarife",
 	ladetarifetext: "Bei welchem Stromtarif-Anbieter\n(EMP) bist du Kunde?",
 	tarifsuche: "Tarif suchen",
@@ -29,7 +29,7 @@ const de = {
 	ladetarifeInfo1:
 		"Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊",
 	ladetarifeInfo2:
-		"Wenn du unter „Alle“ ein weiteres Häkchen\nvor einen Tarif setzt, findest du ihn hier.",
+		"Du hast noch keine Favoriten markiert ⭐️\nDer 🦊 zeigt Dir hier gern deine Auswahl an.",
 	tarifAlert: "Tarife zurücksetzen",
 	tarifAlertText:
 		"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",

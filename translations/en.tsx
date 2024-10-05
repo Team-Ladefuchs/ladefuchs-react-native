@@ -1,5 +1,6 @@
 const en = {
 	pickerheader: "WHICH PILLAR ARE YOU STANDING ON?",
+	chargeTablePlaceholder:"You haven't marked any favorites yet⭐️\n Do that under Settings ⚙️ Charging tariffs.\nThe 🦊 will then only show you your selection.",
 	blockingfee: "Blocking \u00ADfee",
 	monthlyfee: "Monthly fee",
 	notizen: "Notes",
@@ -18,7 +19,6 @@ const en = {
 		"It's our fault. Really!\nHowever, all information is provided without guarantee.",
 	alle: "All",
 	aktiv: "Active",
-	eigene: "Own",
 	ladetarife: "CHARGING TARIFFS",
 	ladetarifetext:
 		"Which electricity tariff provider\n(EMP) are you a customer of?",
@@ -30,7 +30,7 @@ const en = {
 	ladetarifeInfo1:
 		"There is nothing to see here,\nplease continue loading. 🦊",
 	ladetarifeInfo2:
-		"If you put another check mark in front\nof a tariff under „All“, you will find it here.",
+		"You haven't marked any favorites yet ⭐️\nThe 🦊 will be happy to show you your selection here.",
 	tarifAlert: "Reset tariffs",
 	tarifAlertText: "Your rates will be reset. Are you sure?",
 	operatorAlert: "Reset provider",

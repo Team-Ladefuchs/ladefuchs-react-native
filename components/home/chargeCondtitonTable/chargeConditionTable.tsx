@@ -10,6 +10,7 @@ import { useQueryAppData } from "../../../hooks/useQueryAppData";
 import { LoadingSpinner } from "../../shared/loadingSpinner";
 import { EmptyListText } from "../../shared/emptyListText";
 import { ScaledSheet } from "react-native-size-matters";
+import i18n from "../../../localization";
 
 export function ChargeConditionTable() {
 	const [allChargeConditionsQuery] = useQueryAppData();
@@ -124,9 +125,7 @@ export function ChargeConditionTable() {
 					ListEmptyComponent={() => (
 						// TODO center me vertical :)
 						<View style={styles.emptyContainer}>
-							<EmptyListText
-								text={"hier könnte ein Text stehen 🦊⭐️"}
-							/>
+							<EmptyListText text={i18n.t("chargeTablePlaceholder")} />
 						</View>
 					)}
 					scrollsToTop={true}
