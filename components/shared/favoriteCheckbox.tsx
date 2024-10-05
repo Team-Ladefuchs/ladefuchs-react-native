@@ -16,7 +16,7 @@ interface Props {
 export function FavoriteCheckbox({
 	checked,
 	onValueChange,
-	size = scale(24),
+	size = scale(26),
 }: Props): JSX.Element {
 	return (
 		<Pressable
