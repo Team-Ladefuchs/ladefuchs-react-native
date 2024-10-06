@@ -1,6 +1,8 @@
 const de = {
 	pickerheader: "AN WELCHER SÄULE STEHST DU?",
-	chargeTablePlaceholder:"Du hast noch keine Favoriten markiert⭐️\n Mach das unter Einstellungen ⚙️ Ladetarife.\nDer 🦊 zeigt dir dann nur deine Auswahl an.",
+	chargeTableFavoritePlaceholder:
+		"Du hast für diesen Anbieter noch keine\n ⭐️ Favoriten markiert. Mach das unter\n ⚙️ Einstellungen → Ladetarife.\n \nDer Ladefuchs zeigt dir dann nur deine Auswahl an.",
+	chargeTablePlaceholder: "Bekackt! 💩\nDa ist was schief gelaufen …",
 	blockingfee: "Blockier\u00ADgebühr",
 	monthlyfee: "Monatliche Gebühr",
 	notizen: "Notizen",
@@ -70,11 +72,12 @@ const de = {
 		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit diese nach deinen Wünschen zu konfigurieren.",
 	onboardingStep8Description:
 		"Du suchst dir deinen passenden Tarif heraus und markierst deine Favoriten.",
-	onboardingStep4Description: "…vielleicht schenkst du mir eine nette Bewertung…",
+	onboardingStep4Description:
+		"…vielleicht schenkst du mir eine nette Bewertung…",
 	onboardingStep5Description: "Onboarding später nochmal wiederholen",
 	onboardingStep6Description: "Du bist jetzt ein 🦊",
 	onboardingAlert: "Onboarding wird beim nächsten Start wieder angezeigt.",
-	filter: "Tarif-Filter:",
+	tariffFilter: "Filter",
 	favoriten: "Favoriten",
 	aktiveTarife: "Aktive",
 };

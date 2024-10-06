@@ -3,7 +3,7 @@ import React from "react";
 import FavStar from "@assets/favorite/favstern.svg";
 import FavStarEmpty from "@assets/favorite/favstern_empty.svg";
 
-import { Pressable } from "react-native";
+import { Pressable, ViewStyle } from "react-native";
 import { scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 
@@ -11,16 +11,20 @@ interface Props {
 	checked: boolean;
 	onValueChange: (value: boolean) => void;
 	size?: number;
+	style?: ViewStyle;
 }
 
 export function FavoriteCheckbox({
 	checked,
 	onValueChange,
-	size = scale(26),
+	style,
+	size = 26,
 }: Props): JSX.Element {
+	const mySize = scale(size);
 	return (
 		<Pressable
 			hitSlop={scale(12)}
+			style={style}
 			onPress={() => {
 				if (!checked) {
 					Haptics.notificationAsync(
@@ -31,12 +35,16 @@ export function FavoriteCheckbox({
 			}}
 		>
 			{checked ? (
-				<FavStar height={size} width={size} style={{ ...dropShadow }} />
+				<FavStar
+					height={mySize}
+					width={mySize}
+					style={{ ...dropShadow }}
+				/>
 			) : (
 				<FavStarEmpty
-					height={size}
-					width={size}
-					style={{ opacity: 0.75 }}
+					height={mySize}
+					width={mySize}
+					style={{ opacity: 0.65 }}
 				/>
 			)}
 		</Pressable>
@@ -53,9 +61,3 @@ const dropShadow = {
 	//shadowOpacity: 0.3,
 	shadowRadius: 2,
 };
-
-// const styles = ScaledSheet.create({
-// 	starText: {
-// 		fontSize: "21@s",
-// 	},
-// });

@@ -1,7 +1,8 @@
 const en = {
 	pickerheader: "WHICH PILLAR ARE YOU STANDING ON?",
-	chargeTablePlaceholder:
-		"You haven't marked any favorites yet⭐️\n Do that under Settings ⚙️ Charging tariffs.\nThe 🦊 will then only show you your selection.",
+	chargeTableFavoritePlaceholder:
+		"You have not yet marked any\n ⭐️ favorites for this provider. Do this at\n ⚙️ Settings → Charging tariffs.\n \nThe charging fox will then only show you your selection.",
+	chargeTablePlaceholder: "Fucked up! 💩\nSomething went wrong …",
 	blockingfee: "Blocking \u00ADfee",
 	monthlyfee: "Monthly fee",
 	notizen: "Notes",
@@ -75,7 +76,7 @@ const en = {
 	onboardingStep6Description: "You are now a 🦊",
 	onboardingAlert:
 		"Onboarding will be displayed again the next time you start.",
-	filter: "Tariff-Filter:",
+	tariffFilter: "Filter",
 	favoriten: "Favorites",
 	aktiveTarife: "Active",
 };

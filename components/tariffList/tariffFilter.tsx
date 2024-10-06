@@ -12,8 +12,6 @@ interface Props {
 	onFilterChanged: (value: FilterType) => void;
 }
 
-// idea: maybe allow click via label?
-
 export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 	const [activeFilterCheckd, setActiveFilterCheckd] = useState(false);
 	const [favoriteChecked, serFavoriteChecked] = useState(false);
@@ -45,9 +43,9 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 	return (
 		<View style={style.container}>
 			<View style={style.innerContainer}>
-			<Text style={style.tariffilterText}>
-						{i18n.translate("filter")}
-					</Text>
+				<Text style={[style.tariffilterText]} allowFontScaling={false}>
+					{i18n.translate("tariffFilter")}
+				</Text>
 				<View style={{ marginTop: scale(1) }}>
 					<Checkbox
 						size={scale(22)}
@@ -60,13 +58,15 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 						handleActiveChanged(!activeFilterCheckd);
 					}}
 				>
-					<Text style={style.filterText}>
+					<Text style={style.filterText} allowFontScaling={false}>
 						{i18n.translate("aktiveTarife")}
 					</Text>
 				</Pressable>
 			</View>
 			<View style={style.innerContainer}>
 				<FavoriteCheckbox
+					size={29}
+					style={{ marginBottom: scale(2) }}
 					checked={favoriteChecked}
 					onValueChange={handleFaoriteChanged}
 				/>
@@ -75,7 +75,7 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 						handleFaoriteChanged(!favoriteChecked);
 					}}
 				>
-					<Text style={style.filterText}>
+					<Text style={style.filterText} allowFontScaling={false}>
 						{i18n.translate("favoriten")}
 					</Text>
 				</Pressable>
@@ -89,7 +89,7 @@ const style = ScaledSheet.create({
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		gap: "10@s",
+		gap: "12@s",
 	},
 	innerContainer: {
 		display: "flex",
@@ -99,15 +99,15 @@ const style = ScaledSheet.create({
 	},
 	filterText: {
 		textTransform: "uppercase",
-		//fontWeight: "bold",
 		color: colors.ladefuchsGrayTextColor,
-		fontSize: scale(13),
+		fontSize: "13@s",
 		fontFamily: "RobotoCondensed",
 	},
 	tariffilterText: {
 		textTransform: "uppercase",
 		color: "black",
-		fontSize: scale(13),
+		fontSize: "13@s",
+		marginRight: "8@s",
 		fontFamily: "RobotoCondensed",
 	},
 });

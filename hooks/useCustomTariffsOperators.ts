@@ -42,7 +42,10 @@ export async function getCustomTariffsOperators(): Promise<CustomTariffsOperator
 		(await retrieveFromStorage<CustomTariffsOperators>(key)) ??
 		emptyCustomSettings;
 
-	if (!values.tariffs.favorite) {
+	if (
+		values.tariffs.favorite === undefined ||
+		values.tariffs.favorite === null
+	) {
 		values.tariffs.favorite = [];
 	}
 	return values;

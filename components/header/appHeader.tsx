@@ -54,6 +54,7 @@ export function AppHeader(): JSX.Element {
 			<View style={styles.headerSettingsIcon}>
 				<FavoriteCheckbox
 					size={34}
+					style={{ bottom: scale(0.5) }}
 					checked={isFavoriteTariffOnly}
 					onValueChange={setisFavoriteTariffOnly}
 				/>
@@ -92,10 +93,10 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
 	},
-	headerFavoiteIocn: {},
 	headerSettingsIcon: {
 		display: "flex",
 		flexDirection: "row",
+		alignItems: "center",
 		gap: "12@s",
 		position: "absolute",
 		right: "15@s",

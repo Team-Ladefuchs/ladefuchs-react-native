@@ -2,9 +2,9 @@ import { authHeader } from "../../functions/api/base";
 import {
 	View,
 	Image,
-	StyleSheet,
 	Text,
 	StyleProp,
+	StyleSheet,
 	ViewStyle,
 	ImageStyle,
 	Platform,
@@ -12,13 +12,16 @@ import {
 import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
 import { colors } from "../../theme";
-import { scale } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
+
+import FavStar from "@assets/favorite/favstern.svg";
 
 interface Props {
 	imageUrl: string | null;
 	name?: string;
 	showHighlightCorner?: boolean;
 	hideFallBackText?: boolean;
+	isFavorite?: boolean;
 	width: number;
 	elevation?: number;
 	styleProp?: ImageStyle;
@@ -30,22 +33,31 @@ export function CardImage({
 	showHighlightCorner = false,
 	width,
 	elevation = 4,
+	isFavorite = false,
 	hideFallBackText = false,
 	styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
-
+	const favoriteStarSize = 20;
 	return (
 		<View
 			style={[
 				dropShadow,
 				{
-					...styles.cardImageContainer,
+					...cardStyle.cardImageContainer,
 					...styleProp,
 				},
 				{ width: scale(width), elevation },
 			]}
 		>
+			{isFavorite && (
+				<FavStar
+					height={scale(favoriteStarSize)}
+					width={scale(favoriteStarSize)}
+					style={styles.favoriteStar}
+				/>
+			)}
+
 			{showHighlightCorner && <HighlightCorner />}
 			{!imageUrl || imageError ? (
 				<FallBack
@@ -112,11 +124,13 @@ const card = {
 	aspectRatio: 1.6,
 } satisfies StyleProp<ViewStyle>;
 
-const styles = StyleSheet.create({
+const cardStyle = StyleSheet.create({
 	cardImageContainer: {
 		...card,
 		position: "relative",
 	},
+});
+const styles = ScaledSheet.create({
 	cardImage: {
 		...card,
 		width: "100%",
@@ -138,14 +152,25 @@ const styles = StyleSheet.create({
 		marginVertical: 4,
 		fontFamily: "RobotoCondensed",
 		color: "#fff",
-		fontSize: scale(10.5),
+		fontSize: "10.5@s",
 	},
 	fallbackImage: {
 		position: "absolute",
 		right: -2,
 		bottom: -2,
-		height: scale(20),
+		height: "20@s",
 		objectFit: "scale-down",
-		width: scale(20),
+		width: "20@s",
+	},
+	favoriteStar: {
+		position: "absolute",
+		zIndex: 3,
+		top: "-5@s",
+		left: "-11.0@s",
+		shadowColor: "#000",
+		shadowOffset: { width: -0.1, height: 1.5 },
+		shadowOpacity: 0.4,
+		shadowRadius: 0.5,
+		elevation: 5,
 	},
 });

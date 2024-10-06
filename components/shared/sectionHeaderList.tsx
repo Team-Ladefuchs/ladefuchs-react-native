@@ -232,15 +232,9 @@ export function SectionHeaderList<T extends ItemType>({
 							}}
 						/>
 						{onFavoiteChange && isFavorite && (
-							<View
-								style={{
-									marginRight: scale(5),
-									marginLeft: scale(3),
-									marginBottom: scale(2),
-								}}
-							>
+							<View style={styles.favoiteCheckbox}>
 								<FavoriteCheckbox
-									size={30}
+									size={34}
 									checked={isFavorite(item)}
 									onValueChange={(add) => {
 										onAdd(item);
@@ -344,13 +338,6 @@ const styles = ScaledSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	emptyListTextStyle: {
-		fontStyle: "italic",
-		lineHeight: "22@s",
-		textAlign: "center",
-		fontSize: "15@s",
-		fontFamily: "Bitter",
-	},
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		flexDirection: "row",
@@ -373,11 +360,16 @@ const styles = ScaledSheet.create({
 		opacity: 0.8,
 		width: "20@s",
 	},
+	favoiteCheckbox: {
+		marginRight: "3@s",
+		marginLeft: "3@s",
+		marginBottom: "2@s",
+	},
 	letter: {
 		fontSize: "10@s",
 		textAlign: "center",
 		lineHeight: "11@s",
 		fontFamily: "Roboto",
-		color: "black", // todo mk,
+		color: "black",
 	},
 });

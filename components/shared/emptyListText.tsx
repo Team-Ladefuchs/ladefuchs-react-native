@@ -23,8 +23,11 @@ const styles = ScaledSheet.create({
 	emptyListTextStyle: {
 		fontStyle: "italic",
 		lineHeight: "22@s",
+		paddingHorizontal: "30@s",
 		textAlign: "center",
-		fontSize: "15@s",
+		bottom: "30@s",
+		marginBottom: "114@s",
+		fontSize: "14@s",
 		fontFamily: "Bitter",
 	},
 });

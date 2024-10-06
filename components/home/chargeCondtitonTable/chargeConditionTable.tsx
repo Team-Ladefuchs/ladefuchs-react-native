@@ -99,6 +99,7 @@ export function ChargeConditionTable() {
 					]}
 				>
 					<ChargeConditionRow
+						
 						tariffCondition={left}
 						tariff={tariffs.get(left?.tariffId)}
 					/>
@@ -125,7 +126,13 @@ export function ChargeConditionTable() {
 					ListEmptyComponent={() => (
 						// TODO center me vertical :)
 						<View style={styles.emptyContainer}>
-							<EmptyListText text={i18n.t("chargeTablePlaceholder")} />
+							<EmptyListText
+								text={i18n.t(
+									isFavoriteTariffOnly
+										? "chargeTableFavoritePlaceholder"
+										: "chargeTableFavoritePlaceholder",
+								)}
+							/>
 						</View>
 					)}
 					scrollsToTop={true}
