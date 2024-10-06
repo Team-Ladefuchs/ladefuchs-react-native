@@ -43,7 +43,13 @@ interface Props<T extends { identifier: string }> {
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
 	isFavorite?: (item: T) => boolean;
-	onFavoiteChange?: ({ value, add }: { value: T; add: boolean }) => void;
+	onFavoiteChange?: ({
+		value,
+		action,
+	}: {
+		value: T;
+		action: "add" | "remove";
+	}) => void;
 	disableAnimation: boolean;
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
@@ -217,18 +223,38 @@ export function SectionHeaderList<T extends ItemType>({
 						<Checkbox
 							checked={itemExist}
 							onValueChange={(value) => {
-								if (disableAnimation) {
+								// Helper function for when animations are disabled
+								const handleWithoutAnimation = () => {
+									if (!value && onFavoiteChange) {
+										onFavoiteChange({
+											value: item,
+											action: "remove",
+										});
+									}
+
 									return !value
 										? removeItem(item, index)
 										: onAdd(item);
+								};
+
+								// Helper function for handling animations
+								const handleWithAnimation = () => {
+									const currentRef = itemsRef.current[index];
+
+									if (currentRef.opacity() < 1) {
+										return currentRef.cancel();
+									}
+
+									return !value
+										? itemsRef.current[index]?.fadeOut()
+										: onAdd(item);
+								};
+
+								if (disableAnimation) {
+									return handleWithoutAnimation();
 								}
-								const currenRef = itemsRef.current[index];
-								if (currenRef.opacity() < 1) {
-									return currenRef.cancel();
-								}
-								return !value
-									? itemsRef.current[index]?.fadeOut()
-									: onAdd(item);
+
+								return handleWithAnimation();
 							}}
 						/>
 						{onFavoiteChange && isFavorite && (
@@ -236,12 +262,16 @@ export function SectionHeaderList<T extends ItemType>({
 								<FavoriteCheckbox
 									size={34}
 									checked={isFavorite(item)}
-									onValueChange={(add) => {
-										onAdd(item);
+									onValueChange={(value) => {
+										const action = value ? "add" : "remove";
 										onFavoiteChange({
 											value: item,
-											add,
+											action,
 										});
+
+										if (value) {
+											onAdd(item);
+										}
 									}}
 								/>
 							</View>

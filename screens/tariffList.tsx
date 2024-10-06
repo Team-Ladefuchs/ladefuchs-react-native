@@ -188,8 +188,8 @@ export function TariffList(): JSX.Element {
 						isFavorite={(item: Tariff) =>
 							favoriteSet.has(item.identifier)
 						}
-						onFavoiteChange={({ value, add }) => {
-							if (add) {
+						onFavoiteChange={({ value, action }) => {
+							if (action === "add") {
 								setFavoiteSet((prevSet) => {
 									const newSet = new Set(prevSet);
 									newSet.add(value.identifier);
