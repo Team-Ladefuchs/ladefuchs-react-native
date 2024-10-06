@@ -252,7 +252,7 @@ const styles = ScaledSheet.create({
 	},
 	overlaySubtitle3: {
 		position: "absolute",
-		bottom: scale(230),
+		top: scale(200),
 		left: scale(95),
 		right: scale(10),
 		color: "#fff",
@@ -261,7 +261,7 @@ const styles = ScaledSheet.create({
 	},
 	overlaySubtitle4: {
 		position: "absolute",
-		bottom: scale(95),
+		top: scale(340),
 		left: scale(95),
 		right: scale(10),
 		color: "#fff",

@@ -74,8 +74,9 @@ const de = {
 	onboardingStep5Description: "Onboarding später nochmal wiederholen",
 	onboardingStep6Description: "Du bist jetzt ein 🦊",
 	onboardingAlert: "Onboarding wird beim nächsten Start wieder angezeigt.",
+	filter: "Tarif-Filter:",
 	favoriten: "Favoriten",
-	aktiveTarife: "Aktive Tarife",
+	aktiveTarife: "Aktive",
 };
 
 export default de;

@@ -45,6 +45,9 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 	return (
 		<View style={style.container}>
 			<View style={style.innerContainer}>
+			<Text style={style.tariffilterText}>
+						{i18n.translate("filter")}
+					</Text>
 				<View style={{ marginTop: scale(1) }}>
 					<Checkbox
 						size={scale(22)}
@@ -96,8 +99,15 @@ const style = ScaledSheet.create({
 	},
 	filterText: {
 		textTransform: "uppercase",
-		fontWeight: "bold",
+		//fontWeight: "bold",
 		color: colors.ladefuchsGrayTextColor,
-		fontSize: scale(12),
+		fontSize: scale(13),
+		fontFamily: "RobotoCondensed",
+	},
+	tariffilterText: {
+		textTransform: "uppercase",
+		color: "black",
+		fontSize: scale(13),
+		fontFamily: "RobotoCondensed",
 	},
 });

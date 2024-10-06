@@ -1,6 +1,7 @@
 const en = {
 	pickerheader: "WHICH PILLAR ARE YOU STANDING ON?",
-	chargeTablePlaceholder:"You haven't marked any favorites yet⭐️\n Do that under Settings ⚙️ Charging tariffs.\nThe 🦊 will then only show you your selection.",
+	chargeTablePlaceholder:
+		"You haven't marked any favorites yet⭐️\n Do that under Settings ⚙️ Charging tariffs.\nThe 🦊 will then only show you your selection.",
 	blockingfee: "Blocking \u00ADfee",
 	monthlyfee: "Monthly fee",
 	notizen: "Notes",
@@ -65,7 +66,7 @@ const en = {
 	onboardingStep2Description: "Take a look at the settings!",
 	onboardingStep3Description:
 		"Here you can add your personal charging tariffs and other charging station operators.",
-		onboardingStep7Description:
+	onboardingStep7Description:
 		"At the charging stations you can see all providers and have the option to configure them according to your wishes.",
 	onboardingStep8Description:
 		"You choose the tariff that suits you best and mark your favorites.",
@@ -74,8 +75,9 @@ const en = {
 	onboardingStep6Description: "You are now a 🦊",
 	onboardingAlert:
 		"Onboarding will be displayed again the next time you start.",
+	filter: "Tariff-Filter:",
 	favoriten: "Favorites",
-	aktiveTarife: "Active Tariffs",
+	aktiveTarife: "Active",
 };
 
 export default en;
