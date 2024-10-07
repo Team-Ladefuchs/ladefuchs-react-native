@@ -105,6 +105,7 @@ export function SectionHeaderList<T extends ItemType>({
 
 				if (!isLetter.test(headerName)) {
 					specialList.push(item);
+					return acc;
 				}
 
 				if (!acc[headerName]) {

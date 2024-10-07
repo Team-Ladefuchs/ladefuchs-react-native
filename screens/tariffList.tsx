@@ -22,7 +22,7 @@ import {
 	CustomTariff,
 	useCustomTariffsOperators,
 } from "../hooks/useCustomTariffsOperators";
-import { getMinutes } from "../functions/util";
+import { formatTariffName, getMinutes } from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
@@ -34,8 +34,6 @@ import {
 	FilterType,
 	TariffFilter,
 } from "../components/tariffList/tariffFilter";
-
-const adHocRegex = /^(ad-hoc|adhoc)$/i;
 
 const itemHeight = scale(61);
 
@@ -100,7 +98,14 @@ export function TariffList(): JSX.Element {
 				writeCache: !allTariffsQuery.data,
 				operators,
 			});
-			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));
+			return tariffs
+				.map((item) => {
+					return {
+						...item,
+						name: formatTariffName(item),
+					};
+				})
+				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 	});
 

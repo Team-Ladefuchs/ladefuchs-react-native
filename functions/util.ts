@@ -149,3 +149,12 @@ export function chargeConditionToHashMap(
 
 	return map;
 }
+
+const adHocRegex = /^(ad-hoc|adhoc)$/i;
+
+export function formatTariffName({ name, providerName }: Tariff): string {
+	if (adHocRegex.test(name)) {
+		return `${providerName} ad-hoc`;
+	}
+	return name;
+}
