@@ -63,7 +63,7 @@ const en = {
 	onboardingStep0Description:
 		"Select the provider of the charging station where you are standing.",
 	onboardingStep1Description:
-		"You can find the cheapest charging cards in the list above.",
+		"You can find the cheapest charging cards in the list above. You can filter your favorites here.",
 	onboardingStep2Description: "Take a look at the settings!",
 	onboardingStep3Description:
 		"Here you can add your personal charging tariffs and other charging station operators.",

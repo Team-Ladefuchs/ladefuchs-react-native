@@ -64,7 +64,7 @@ const de = {
 	onboardingStep0Description:
 		"Wähle den Anbieter der Ladesäule, an der du stehst.",
 	onboardingStep1Description:
-		"Die günstigsten Ladekarten findest du oben in der Liste.",
+		"Die günstigsten Ladekarten findest du oben in der Liste. Deine Favoriten kannst du dir hier filtern.",
 	onboardingStep2Description: "Wirf einen Blick in die Settings!",
 	onboardingStep3Description:
 		"Hier kannst du deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
