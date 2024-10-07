@@ -225,13 +225,6 @@ export function SectionHeaderList<T extends ItemType>({
 							onValueChange={(value) => {
 								// Helper function for when animations are disabled
 								const handleWithoutAnimation = () => {
-									if (!value && onFavoiteChange) {
-										onFavoiteChange({
-											value: item,
-											action: "remove",
-										});
-									}
-
 									return !value
 										? removeItem(item, index)
 										: onAdd(item);
@@ -263,15 +256,10 @@ export function SectionHeaderList<T extends ItemType>({
 									size={34}
 									checked={isFavorite(item)}
 									onValueChange={(value) => {
-										const action = value ? "add" : "remove";
 										onFavoiteChange({
 											value: item,
-											action,
+											action: value ? "add" : "remove",
 										});
-
-										if (value) {
-											onAdd(item);
-										}
 									}}
 								/>
 							</View>

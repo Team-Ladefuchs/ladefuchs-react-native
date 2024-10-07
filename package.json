@@ -51,7 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "eslint": "^8.57.0",
     "eslint-config-expo": "^7.1.2",
-    "expo-atlas": "^0.3.0",
+    "expo-atlas": "^0.3.23",
     "expo-build-properties": "~0.12.5",
     "license-checker": "^25.0.1",
     "prettier": "^3.3.3",

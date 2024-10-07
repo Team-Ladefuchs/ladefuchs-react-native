@@ -66,7 +66,7 @@ export function AppHeader(): JSX.Element {
 						await navigation.navigate(appRoutes.settingsStack.key);
 					}}
 				>
-					<Zahnrad width={scale(30)} height={scale(30)} />
+					<Zahnrad width={scale(29)} height={scale(29)} />
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
@@ -97,7 +97,7 @@ const styles = ScaledSheet.create({
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		gap: "12@s",
+		gap: "14@s",
 		position: "absolute",
 		right: "15@s",
 		bottom: "15@s",

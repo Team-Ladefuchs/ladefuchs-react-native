@@ -23,7 +23,7 @@ export function FavoriteCheckbox({
 	const mySize = scale(size);
 	return (
 		<Pressable
-			hitSlop={scale(12)}
+			hitSlop={scale(14)}
 			style={style}
 			onPress={() => {
 				if (!checked) {
@@ -35,11 +35,7 @@ export function FavoriteCheckbox({
 			}}
 		>
 			{checked ? (
-				<FavStar
-					height={mySize}
-					width={mySize}
-					style={{ ...dropShadow }}
-				/>
+				<FavStar height={mySize} width={mySize} />
 			) : (
 				<FavStarEmpty
 					height={mySize}
@@ -50,14 +46,3 @@ export function FavoriteCheckbox({
 		</Pressable>
 	);
 }
-
-const dropShadow = {
-	elevation: 4,
-	shadowColor: "rgb(70, 130, 180)",
-	shadowOffset: {
-		width: 0,
-		height: 2,
-	},
-	//shadowOpacity: 0.3,
-	shadowRadius: 2,
-};
