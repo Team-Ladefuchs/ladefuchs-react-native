@@ -22,7 +22,11 @@ import {
 	CustomTariff,
 	useCustomTariffsOperators,
 } from "../hooks/useCustomTariffsOperators";
-import { formatTariffName, getMinutes } from "../functions/util";
+import {
+	adHocTariffRegex,
+	formatTariffName,
+	getMinutes,
+} from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
@@ -132,7 +136,8 @@ export function TariffList(): JSX.Element {
 			const term = search.toLowerCase();
 			return (
 				tariff.name.toLowerCase().includes(term) ||
-				tariff.providerName.toLowerCase().includes(term)
+				tariff.providerName.toLowerCase().includes(term) ||
+				adHocTariffRegex.test(tariff.name)
 			);
 		});
 	}, [

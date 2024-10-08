@@ -375,9 +375,9 @@ const styles = ScaledSheet.create({
 		zIndex: 2,
 		right: "-2@s",
 		top: "116@s",
-		bottom: 0,
 		opacity: 0.8,
 		width: "20@s",
+		flex: 2,
 	},
 	favoiteCheckbox: {
 		marginRight: "3@s",
