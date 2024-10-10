@@ -272,10 +272,8 @@ export function TariffList(): JSX.Element {
 								<View style={styles.itemBody}>
 									<CardImage
 										imageUrl={tariff.imageUrl}
-										elevation={0}
 										name={tariff.name}
 										width={72}
-										// hideFallBackText={true}
 									/>
 									<View>
 										<Text

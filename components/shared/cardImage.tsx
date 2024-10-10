@@ -23,7 +23,6 @@ interface Props {
 	hideFallBackText?: boolean;
 	isFavorite?: boolean;
 	width: number;
-	elevation?: number;
 	styleProp?: ImageStyle;
 }
 
@@ -32,7 +31,6 @@ export function CardImage({
 	name,
 	showHighlightCorner = false,
 	width,
-	elevation = 4,
 	isFavorite = false,
 	hideFallBackText = false,
 	styleProp,
@@ -47,7 +45,7 @@ export function CardImage({
 					...cardStyle.cardImageContainer,
 					...styleProp,
 				},
-				{ width: scale(width), elevation },
+				{ width: scale(width) },
 			]}
 		>
 			{isFavorite && (
@@ -114,6 +112,9 @@ export const dropShadow = {
 			},
 			shadowOpacity: 0.25,
 			shadowRadius: 4,
+		},
+		android: {
+			elevation: 4,
 		},
 	}),
 } as StyleProp<ViewStyle>;
