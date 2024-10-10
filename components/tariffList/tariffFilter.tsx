@@ -6,7 +6,7 @@ import { colors } from "../../theme";
 import { Checkbox } from "../shared/checkBox";
 import i18n from "../../localization";
 
-export type FilterType = "all" | "active" | "onlyFavorite";
+export type FilterType = "all" | "active" | "favorite" | "activeOrFavorite";
 
 interface Props {
 	onFilterChanged: (value: FilterType) => void;
@@ -18,25 +18,21 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 
 	useEffect(() => {
 		if (activeFilterCheckd && favoriteChecked) {
-			onFilterChanged("onlyFavorite");
+			onFilterChanged("activeOrFavorite");
 		} else if (activeFilterCheckd) {
 			onFilterChanged("active");
+		} else if (favoriteChecked) {
+			onFilterChanged("favorite");
 		} else {
 			onFilterChanged("all");
 		}
 	}, [activeFilterCheckd, favoriteChecked]);
 
 	const handleActiveChanged = (value: boolean): void => {
-		if (!value) {
-			serFavoriteChecked(value);
-		}
 		setActiveFilterCheckd(value);
 	};
 
 	const handleFaoriteChanged = (value: boolean): void => {
-		if (value) {
-			setActiveFilterCheckd(value);
-		}
 		serFavoriteChecked(value);
 	};
 

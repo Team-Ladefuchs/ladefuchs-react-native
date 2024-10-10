@@ -116,7 +116,15 @@ export function TariffList(): JSX.Element {
 	const filteredTariffs = useMemo(() => {
 		let tariffs = allTariffsQuery.data ?? [];
 
-		if (filterMode === "onlyFavorite") {
+		if (filterMode === "activeOrFavorite") {
+			tariffs = tariffs.filter(({ identifier, isStandard }) => {
+				return (
+					!tariffsRemoveSet.has(identifier) &&
+					favoriteSet.has(identifier) &&
+					(isStandard || tariffsAddSet.has(identifier))
+				);
+			});
+		} else if (filterMode === "favorite") {
 			tariffs = tariffs.filter(({ identifier }) => {
 				return (
 					!tariffsRemoveSet.has(identifier) &&
@@ -134,10 +142,12 @@ export function TariffList(): JSX.Element {
 
 		return tariffs.filter((tariff) => {
 			const term = search.toLowerCase();
+			if (term.startsWith("adhoc")) {
+				return adHocTariffRegex.test(tariff.name);
+			}
 			return (
 				tariff.name.toLowerCase().includes(term) ||
-				tariff.providerName.toLowerCase().includes(term) ||
-				adHocTariffRegex.test(tariff.name)
+				tariff.providerName.toLowerCase().includes(term)
 			);
 		});
 	}, [
@@ -167,7 +177,7 @@ export function TariffList(): JSX.Element {
 	};
 
 	const emptyText = useMemo(() => {
-		if (filterMode === "onlyFavorite") {
+		if (filterMode === "favorite") {
 			return i18n.t("ladetarifeInfo2");
 		}
 		return null;
@@ -191,7 +201,6 @@ export function TariffList(): JSX.Element {
 					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
-						disableAnimation={filterMode === "all"}
 						estimatedItemSize={itemHeight}
 						containerStyle={styles.listItemContainer}
 						emptyText={emptyText}

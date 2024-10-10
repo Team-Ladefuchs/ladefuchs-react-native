@@ -14,10 +14,8 @@ import * as Haptics from "expo-haptics";
 import { FlashList } from "@shopify/flash-list";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { ItemMethods, SectionListItem } from "./sectionListItem";
 import { colors } from "../../theme";
 
-import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "../../localization";
@@ -50,7 +48,6 @@ interface Props<T extends { identifier: string }> {
 		value: T;
 		action: "add" | "remove";
 	}) => void;
-	disableAnimation: boolean;
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
 	estimatedItemSize: number;
@@ -70,7 +67,6 @@ export function SectionHeaderList<T extends ItemType>({
 	onRemove,
 	onAdd,
 	exists,
-	disableAnimation,
 	renderItem,
 	containerStyle,
 	onUndo,
@@ -80,7 +76,6 @@ export function SectionHeaderList<T extends ItemType>({
 	isFavorite,
 }: Props<T>) {
 	const list = useRef<FlashList<any>>(null);
-	const itemsRef = useRef<ItemMethods[]>([]);
 
 	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
 
@@ -92,10 +87,6 @@ export function SectionHeaderList<T extends ItemType>({
 			setLastRemovedItem(null);
 		}
 	});
-
-	useEffect(() => {
-		setLastRemovedItem(null);
-	}, [disableAnimation]);
 
 	const sections = useMemo(() => {
 		const specialList: (string | T)[] = ["#"];
@@ -136,9 +127,8 @@ export function SectionHeaderList<T extends ItemType>({
 			.filter((index) => index !== null) as number[];
 	}, [sections]);
 
-	const removeItem = (item: T, index: number) => {
+	const removeItem = (item: T) => {
 		setLastRemovedItem(item);
-		removeItemByIndex(itemsRef.current, index);
 		onRemove(item);
 	};
 
@@ -182,13 +172,7 @@ export function SectionHeaderList<T extends ItemType>({
 		null,
 	);
 
-	const renderItemCallback = ({
-		item,
-		index,
-	}: {
-		item: T;
-		index: number;
-	}) => {
+	const renderItemCallback = ({ item }: { item: T }) => {
 		if (typeof item === "string" && item === FAKE_HEADER) {
 			return null;
 		}
@@ -199,24 +183,9 @@ export function SectionHeaderList<T extends ItemType>({
 
 		const itemExist = exists(item);
 		return (
-			<SectionListItem
-				disableAnimation={!itemExist || disableAnimation}
-				ref={(el) => {
-					if (el) {
-						itemsRef.current[index] = el;
-					}
-				}}
-				onDelete={() => {
-					removeItem(item, index);
-					list.current?.prepareForLayoutAnimationRender();
-					LayoutAnimation.configureNext(
-						LayoutAnimation.Presets.easeInEaseOut,
-					);
-				}}
-			>
+			<View>
 				<TouchableWithoutFeedback
 					onPress={() => {
-						itemsRef.current[index]?.cancel();
 						Keyboard.dismiss();
 					}}
 				>
@@ -224,31 +193,15 @@ export function SectionHeaderList<T extends ItemType>({
 						<Checkbox
 							checked={itemExist}
 							onValueChange={(value) => {
-								// Helper function for when animations are disabled
-								const handleWithoutAnimation = () => {
-									return !value
-										? removeItem(item, index)
-										: onAdd(item);
-								};
-
-								// Helper function for handling animations
-								const handleWithAnimation = () => {
-									const currentRef = itemsRef.current[index];
-
-									if (currentRef.opacity() < 1) {
-										return currentRef.cancel();
-									}
-
-									return !value
-										? itemsRef.current[index]?.fadeOut()
-										: onAdd(item);
-								};
-
-								if (disableAnimation) {
-									return handleWithoutAnimation();
+								if (!value) {
+									removeItem(item);
+									list.current?.prepareForLayoutAnimationRender();
+									LayoutAnimation.configureNext(
+										LayoutAnimation.Presets.easeInEaseOut,
+									);
+								} else {
+									onAdd(item);
 								}
-
-								return handleWithAnimation();
 							}}
 						/>
 						{onFavoiteChange && isFavorite && (
@@ -268,7 +221,7 @@ export function SectionHeaderList<T extends ItemType>({
 						{renderItem(item)}
 					</View>
 				</TouchableWithoutFeedback>
-			</SectionListItem>
+			</View>
 		);
 	};
 	return (

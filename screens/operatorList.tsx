@@ -154,7 +154,6 @@ export function OperatorList(): JSX.Element {
 					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
-						disableAnimation={true}
 						estimatedItemSize={itemHeight}
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}

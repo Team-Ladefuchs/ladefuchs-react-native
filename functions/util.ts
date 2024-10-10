@@ -84,13 +84,6 @@ export function hyphenText(input: string): string {
 	return result;
 }
 
-export function removeItemByIndex<T>(array: T[], index: number): T[] {
-	if (index > -1 && index < array.length) {
-		array.splice(index, 1);
-	}
-	return array;
-}
-
 export const defaultTimeout = Platform.OS === "android" ? 5000 : 4500;
 
 export async function fetchWithTimeout(
