@@ -18,8 +18,7 @@ export function StartOnBoarding(): JSX.Element {
 			<TouchableOpacity
 				activeOpacity={0.9}
 				hitSlop={scale(10)}
-				onPress={async () => {
-					await resetOnboarding();
+				onPress={() => {
 					setOnboarding("start");
 				}}
 				style={{ marginTop: scale(1) }}
