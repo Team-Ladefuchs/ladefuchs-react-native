@@ -11,10 +11,10 @@ import { OfflineView } from "../components/home/offline";
 import { ScaledSheet } from "react-native-size-matters";
 import i18n from "../localization";
 import { useNavigation } from "@react-navigation/native";
-import { HomeScreenNavigationProp, appRoutes } from "../appRoutes";
+import { OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
 
 export function HomeScreen(): JSX.Element {
-	const router = useNavigation<HomeScreenNavigationProp>();
+	const router = useNavigation<OnboardingScreenNavigationProp>();
 
 	const { appError, showOnboarding } = useAppStore(
 		useShallow((state) => ({
@@ -25,7 +25,7 @@ export function HomeScreen(): JSX.Element {
 
 	useEffect(() => {
 		if (showOnboarding === "start") {
-			router.navigate(appRoutes.home.key);
+			router.navigate(appRoutes.onBoarding.key);
 		}
 	}, [showOnboarding]);
 

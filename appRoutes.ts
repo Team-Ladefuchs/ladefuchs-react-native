@@ -7,9 +7,6 @@ import { type TariffCondition } from "./types/conditions";
 import { type RouteProp } from "@react-navigation/native";
 
 export const appRoutes = {
-	homeWithOnboarding: {
-		key: "homeWithOnboarding",
-	},
 	home: {
 		key: "home",
 	},
@@ -45,7 +42,8 @@ export const appRoutes = {
 } as const;
 
 type MainStackParamList = {
-	[appRoutes.home.key]: undefined; // No params expected
+	[appRoutes.home.key]: undefined;
+	[appRoutes.onBoarding.key]: undefined;
 };
 
 export type ModalStackParamList = {
@@ -61,6 +59,11 @@ export type ModalStackParamList = {
 		tariffCondition: TariffCondition;
 	};
 };
+
+export type OnboardingScreenNavigationProp = NativeStackNavigationProp<
+	MainStackParamList,
+	typeof appRoutes.onBoarding.key
+>;
 
 export type HomeScreenNavigationProp = NativeStackNavigationProp<
 	MainStackParamList,

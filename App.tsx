@@ -30,7 +30,7 @@ import { useAopMetrics } from "./hooks/useAppMetrics";
 import { LicenseView } from "./screens/licenseView";
 import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
-import { TariffDetailScreenNavigationProp, appRoutes } from "./appRoutes";
+import { appRoutes } from "./appRoutes";
 import i18n from "./localization";
 import { OnboardingScreen } from "./screens/onboardingScreen";
 
@@ -97,14 +97,8 @@ function AppWrapper(): JSX.Element {
 				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}
-						component={TariffDetailView}
-						options={({
-							navigation,
-							route,
-						}: {
-							navigation: TariffDetailScreenNavigationProp;
-							route: any;
-						}) => ({
+						component={TariffDetailView as any}
+						options={({ navigation, route }: any) => ({
 							headerBackTitleVisible: false,
 							headerLeft: undefined,
 							header: () => {
