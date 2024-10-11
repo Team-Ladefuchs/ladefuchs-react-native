@@ -8,6 +8,7 @@ import {
 	Keyboard,
 	LayoutAnimation,
 	TouchableOpacity,
+	Platform,
 } from "react-native";
 
 import * as Haptics from "expo-haptics";
@@ -195,8 +196,9 @@ export function SectionHeaderList<T extends ItemType>({
 							onValueChange={(value) => {
 								if (!value) {
 									removeItem(item);
-									// maybe only android
-									// list.current?.prepareForLayoutAnimationRender();
+									if (Platform.OS === "android") {
+										list.current?.prepareForLayoutAnimationRender();
+									}
 									LayoutAnimation.configureNext(
 										LayoutAnimation.Presets.easeInEaseOut,
 									);

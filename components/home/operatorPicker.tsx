@@ -53,7 +53,7 @@ export default function OperatorPicker(): JSX.Element {
 					onChange={(index) => {
 						setOperatorId(operators[index].identifier);
 						setOperatorIndex(index);
-						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 					}}
 				/>
 			</View>
@@ -66,7 +66,7 @@ export default function OperatorPicker(): JSX.Element {
 				itemStyle={styles.defaultPickerItemStyle}
 				onValueChange={(operatorValue) => {
 					setOperatorId(operatorValue);
-					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 				}}
 			>
 				{operatorList?.map((operator) => (
