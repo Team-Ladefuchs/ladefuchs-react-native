@@ -6,7 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../../shared/cardImage";
 import { useFormatNumber } from "../../../hooks/useNumberFormat";
 import { scale } from "react-native-size-matters";
-import { appRoutes } from "../../../appRoutes";
+import {
+	TariffDetailScreenNavigationProp,
+	appRoutes,
+} from "../../../appRoutes";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../../state/state";
 
@@ -19,7 +22,7 @@ export function ChargeConditionRow({
 	tariff,
 	tariffCondition,
 }: ChargeCardModel): JSX.Element {
-	const navigator = useNavigation();
+	const navigator = useNavigation<TariffDetailScreenNavigationProp>();
 	const { formatNumber } = useFormatNumber();
 
 	const { favoriteTariffIds } = useAppStore(
@@ -38,7 +41,6 @@ export function ChargeConditionRow({
 		noteLength > 0;
 
 	const onPress = () => {
-		//@ts-ignore
 		navigator.navigate(appRoutes.detailScreen.key, {
 			tariff,
 			tariffCondition,

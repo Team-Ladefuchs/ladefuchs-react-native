@@ -1,173 +1,71 @@
 import React from "react";
-import { Image, Text, Button, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+	Image,
+	ImageSourcePropType,
+	StyleProp,
+	Text,
+	TextStyle,
+	View,
+} from "react-native";
 import { appRoutes } from "../appRoutes";
 import { colors } from "../theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
-import Onboarding from "react-native-onboarding-swiper";
+import Onboarding, { Page } from "react-native-onboarding-swiper";
 import i18n from "../localization";
+import { useShallow } from "zustand/react/shallow";
+import { useAppStore } from "../state/state";
 
-// Funktion, um das Onboarding zu wiederholen
-const resetOnboarding = async () => {
-	try {
-		await AsyncStorage.removeItem("alreadyLaunched"); // Löscht die Markierung
-		alert(i18n.t("onboardingAlert"));
-	} catch (error) {
-		console.error("Fehler beim Zurücksetzen des Onboardings", error);
-	}
-};
+interface OnboardingData {
+	imageSource: ImageSourcePropType;
+	overlayStyle: StyleProp<TextStyle>;
+	descriptionKey: string;
+}
 
 export function OnboardingScreen({ navigation }: any): JSX.Element {
-	// todo sven ??
-	// const [currentStep, setCurrentStep] = useState(0);
+	const [setOnboarding] = useAppStore(
+		useShallow((state) => [state.setOnboarding]),
+	);
 
-	// const handleNext = async () => {
-	// 	if (currentStep < onboardingData.length - 1) {
-	// 		setCurrentStep(currentStep + 1);
-	// 	} else {
-	// 		// Onboarding abgeschlossen, flag in AsyncStorage setzen
-	// 		await AsyncStorage.setItem("onboardingComplete", "true");
-	// 		navigation.navigate("appRoutes.home.key"); // Zur HomeScreen navigieren
-	// 	}
-	// };
+	const finish = () => {
+		setOnboarding("hide");
+		navigation.navigate(appRoutes.home.key);
+	};
 
 	return (
 		<Onboarding
-			onDone={() => navigation.navigate(appRoutes.home.key)}
-			onSkip={() => navigation.navigate(appRoutes.home.key)}
+			onDone={finish}
+			onSkip={finish}
 			pages={[
-				{
-					backgroundColor: "rgba(0, 0, 0, 0.8)",
-					image: (
-						<View>
-							<Image
-								source={require("@assets/onBoarding/onboardingStep0.png")}
-								style={{
-									width: scale(280),
-									height: scale(560),
-									marginBottom: -80,
-								}}
-							/>
-							{/* Subtitle als Overlay auf dem Bild */}
-
-							<Text style={styles.overlaySubtitle}>
-								{i18n.t("onboardingStep0Description")}
-							</Text>
-						</View>
-					),
-					title: "",
-					subtitle: "",
-				},
-				{
-					backgroundColor: "rgba(0, 0, 0, 0.8)",
-					image: (
-						<View>
-							<Image
-								source={require("@assets/onBoarding/onboardingStep1.png")}
-								style={{
-									width: scale(280),
-									height: scale(560),
-									marginBottom: -80,
-								}}
-							/>
-							{/* Subtitle als Overlay auf dem Bild */}
-
-							<Text style={styles.overlaySubtitle1}>
-								{i18n.t("onboardingStep1Description")}
-							</Text>
-						</View>
-					),
-					title: "",
-					subtitle: "",
-				},
-				{
-					backgroundColor: "rgba(0, 0, 0, 0.8)",
-					image: (
-						<View>
-							<Image
-								source={require("@assets/onBoarding/onboardingStep2.png")}
-								style={{
-									width: scale(280),
-									height: scale(560),
-									marginBottom: -80,
-								}}
-							/>
-							{/* Subtitle als Overlay auf dem Bild */}
-
-							<Text style={styles.overlaySubtitle2}>
-								{i18n.t("onboardingStep2Description")}
-							</Text>
-						</View>
-					),
-					title: "",
-					subtitle: "",
-				},
-				{
-					backgroundColor: "rgba(0, 0, 0, 0.8)",
-					image: (
-						<View>
-							<Image
-								source={require("@assets/onBoarding/onboardingStep3.png")}
-								style={{
-									width: scale(280),
-									height: scale(560),
-									marginBottom: -80,
-								}}
-							/>
-							{/* Subtitle als Overlay auf dem Bild */}
-
-							<Text style={styles.overlaySubtitle3}>
-								{i18n.t("onboardingStep3Description")}
-							</Text>
-						</View>
-					),
-					title: "",
-					subtitle: "",
-				},
-				{
-					backgroundColor: "rgba(0, 0, 0, 0.8)",
-					image: (
-						<View>
-							<Image
-								source={require("@assets/onBoarding/onboardingStep4.png")}
-								style={{
-									width: scale(280),
-									height: scale(560),
-									marginBottom: -80,
-								}}
-							/>
-							{/* Subtitle als Overlay auf dem Bild */}
-
-							<Text style={styles.overlaySubtitle4}>
-								{i18n.t("onboardingStep7Description")}
-							</Text>
-						</View>
-					),
-					title: "",
-					subtitle: "",
-				},
-				{
-					backgroundColor: "rgba(0, 0, 0, 0.8)",
-					image: (
-						<View>
-							<Image
-								source={require("@assets/onBoarding/onboardingStep5.png")}
-								style={{
-									width: scale(280),
-									height: scale(560),
-									marginBottom: -80,
-								}}
-							/>
-							{/* Subtitle als Overlay auf dem Bild */}
-
-							<Text style={styles.overlaySubtitle5}>
-								{i18n.t("onboardingStep8Description")}
-							</Text>
-						</View>
-					),
-					title: "",
-					subtitle: "",
-				},
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep0.png"),
+					overlayStyle: styles.overlaySubtitle,
+					descriptionKey: "onboardingStep0Description",
+				}),
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep1.png"),
+					overlayStyle: styles.overlaySubtitle1,
+					descriptionKey: "onboardingStep1Description",
+				}),
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep2.png"),
+					overlayStyle: styles.overlaySubtitle2,
+					descriptionKey: "onboardingStep2Description",
+				}),
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep3.png"),
+					overlayStyle: styles.overlaySubtitle3,
+					descriptionKey: "onboardingStep3Description",
+				}),
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep4.png"),
+					overlayStyle: styles.overlaySubtitle4,
+					descriptionKey: "onboardingStep7Description",
+				}),
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep5.png"),
+					overlayStyle: styles.overlaySubtitle5,
+					descriptionKey: "onboardingStep8Description",
+				}),
 				{
 					backgroundColor: colors.ladefuchsLightBackground,
 					image: (
@@ -177,21 +75,29 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 						/>
 					),
 					title: i18n.t("onboardingStep6Description"),
-					subtitle: (
-						<View>
-							<Text>{i18n.t("onboardingStep4Description")}</Text>
-							{/* Button zum Zurücksetzen des Onboardings */}
-							<Button
-								title={i18n.t("onboardingStep5Description")}
-								onPress={resetOnboarding}
-								color={colors.ladefuchsOrange} // Farbe für den Button
-							/>
-						</View>
-					),
+					subtitle: "",
 				},
 			]}
 		/>
 	);
+}
+
+function generatePage({
+	imageSource,
+	overlayStyle,
+	descriptionKey,
+}: OnboardingData): Page {
+	return {
+		backgroundColor: "rgba(0, 0, 0, 0.8)",
+		image: (
+			<View>
+				<Image source={imageSource} style={styles.defualtImageStyle} />
+				<Text style={overlayStyle}>{i18n.t(descriptionKey)}</Text>
+			</View>
+		),
+		title: "",
+		subtitle: "",
+	};
 }
 
 const styles = ScaledSheet.create({
@@ -201,6 +107,11 @@ const styles = ScaledSheet.create({
 		alignItems: "center",
 		padding: 16,
 		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	defualtImageStyle: {
+		width: "280@s",
+		height: "560@s",
+		marginBottom: -80,
 	},
 	image: {
 		width: "30%",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -30,16 +30,16 @@ import { useAopMetrics } from "./hooks/useAppMetrics";
 import { LicenseView } from "./screens/licenseView";
 import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
-import { appRoutes } from "./appRoutes";
+import { TariffDetailScreenNavigationProp, appRoutes } from "./appRoutes";
 import i18n from "./localization";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { OnboardingScreen } from "./screens/onboardingScreen";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
-const MainStack = createStackNavigator();
+
+const MainStack = createStackNavigator<{ [appRoutes.home.key]: undefined }>();
 
 // Main App component
 export default function App(): JSX.Element {
@@ -52,19 +52,6 @@ export default function App(): JSX.Element {
 }
 
 function AppWrapper(): JSX.Element {
-	const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
-
-	useEffect(() => {
-		AsyncStorage.getItem("alreadyLaunched").then((value) => {
-			if (value === null) {
-				AsyncStorage.setItem("alreadyLaunched", "true");
-				setIsFirstLaunch(true);
-			} else {
-				setIsFirstLaunch(false);
-			}
-		});
-	}, []);
-
 	const fontLoaded = useCustomFonts();
 
 	useEffect(() => {
@@ -82,24 +69,16 @@ function AppWrapper(): JSX.Element {
 	useAopMetrics();
 
 	// Sicherstellen, dass die Schriftarten geladen sind
-	if (!fontLoaded || isFirstLaunch === null) {
+	if (!fontLoaded) {
 		return <View />; // Ladebildschirm oder Placeholder während der Schriftarten geladen werden
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				{/* Wenn erster Start, dann Onboarding anzeigen */}
-				{isFirstLaunch ? (
+				<MainStack.Group>
 					<RootStack.Screen
-						name="Onboarding"
-						component={OnboardingScreen}
-						options={{ headerShown: false }}
-					/>
-				) : (
-					<RootStack.Screen
-					name="Home"
-						//name={appRoutes.home.key} --no multiple allowd
+						name={appRoutes.home.key}
 						component={HomeScreen}
 						options={() => ({
 							header: () => <AppHeader />,
@@ -109,13 +88,23 @@ function AppWrapper(): JSX.Element {
 							headerTintColor: colors.ladefuchsOrange,
 						})}
 					/>
-				)}
-
-<RootStack.Group screenOptions={{ presentation: "modal" }}>
+					<RootStack.Screen
+						name={appRoutes.onBoarding.key}
+						component={OnboardingScreen}
+						options={{ headerShown: false }}
+					/>
+				</MainStack.Group>
+				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}
 						component={TariffDetailView}
-						options={({ navigation, route }: any) => ({
+						options={({
+							navigation,
+							route,
+						}: {
+							navigation: TariffDetailScreenNavigationProp;
+							route: any;
+						}) => ({
 							headerBackTitleVisible: false,
 							headerLeft: undefined,
 							header: () => {
@@ -149,25 +138,10 @@ function AppWrapper(): JSX.Element {
 						options={{ headerShown: false }}
 					/>
 				</RootStack.Group>
-				<MainStack.Group screenOptions={{ presentation: "fullscreen" }}>
-					<RootStack.Screen
-						//name="Home"
-						name={appRoutes.home.key}
-						component={HomeScreen}
-						options={() => ({
-							header: () => <AppHeader />,
-							headerStyle: {
-								backgroundColor: colors.ladefuchsDarkBackground,
-							},
-							headerTintColor: colors.ladefuchsOrange,
-						})}
-					/>
-				</MainStack.Group>
 			</RootStack.Navigator>
 		</NavigationContainer>
 	);
 }
-
 
 // Define the Einstellungen stack with nested screens
 function SettingsStackNavigator(): JSX.Element {
@@ -177,7 +151,10 @@ function SettingsStackNavigator(): JSX.Element {
 				name={appRoutes.settings.key}
 				component={SettingsScreen}
 				options={({ navigation }) =>
-					modalHeader({ navigation, title: appRoutes.settings.title })
+					modalHeader({
+						navigation,
+						title: appRoutes.settings.title,
+					})
 				}
 			/>
 			<SettingsStack.Screen

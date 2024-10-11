@@ -13,11 +13,11 @@ import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { appRoutes } from "../../appRoutes";
+import { SettingsScreenNavigationProp, appRoutes } from "../../appRoutes";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 
 export function AppHeader(): JSX.Element {
-	const navigation = useNavigation();
+	const navigation = useNavigation<SettingsScreenNavigationProp>();
 	const [reloadBanner, isFavoriteTariffOnly, setisFavoriteTariffOnly] =
 		useAppStore((state) => [
 			state.reloadBanner,
@@ -61,9 +61,8 @@ export function AppHeader(): JSX.Element {
 				<TouchableOpacity
 					activeOpacity={0.6}
 					hitSlop={scale(12)}
-					onPress={async () => {
-						// @ts-ignore
-						await navigation.navigate(appRoutes.settingsStack.key);
+					onPress={() => {
+						navigation.navigate(appRoutes.settingsStack.key);
 					}}
 				>
 					<Zahnrad width={scale(29)} height={scale(29)} />

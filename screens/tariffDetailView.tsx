@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { View } from "react-native";
 import { colors } from "../theme";
-import { Tariff } from "../types/tariff";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { PriceBox } from "../components/detail/priceBox";
@@ -15,7 +14,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ScaledSheet } from "react-native-size-matters";
 import { FeedbackButton } from "../components/detail/feedbackButton";
 import { useNavigation } from "@react-navigation/native";
-import { appRoutes } from "../appRoutes";
+import {
+	FeedbackScreenNavigationProp,
+	TariffDetailScreenNavigationParams,
+	appRoutes,
+} from "../appRoutes";
 import * as Haptics from "expo-haptics";
 
 function findTariffCondition({
@@ -33,8 +36,14 @@ function findTariffCondition({
 	);
 }
 
-export function TariffDetailView({ route }: { route: any }): JSX.Element {
-	const navigation = useNavigation();
+export function TariffDetailView({
+	route: {
+		params: { tariff },
+	},
+}: {
+	route: TariffDetailScreenNavigationParams;
+}): JSX.Element {
+	const navigation = useNavigation<FeedbackScreenNavigationProp>();
 
 	const [operators, operatorId, tariffConditions] = useAppStore(
 		useShallow((state) => [
@@ -47,10 +56,6 @@ export function TariffDetailView({ route }: { route: any }): JSX.Element {
 	const operator = useMemo(() => {
 		return operators.find((item) => item.identifier === operatorId);
 	}, [operators, operatorId]);
-
-	const { tariff } = route.params as {
-		tariff: Tariff;
-	};
 
 	const getTariffCondition = useCallback(
 		(chargeMode: ChargeMode) => {
@@ -106,12 +111,11 @@ export function TariffDetailView({ route }: { route: any }): JSX.Element {
 							Haptics.notificationAsync(
 								Haptics.NotificationFeedbackType.Success,
 							);
-							// @ts-ignore
 							navigation.navigate(appRoutes.feedback.key, {
 								tariff,
 								acTariffCondition,
 								dcTariffCondition,
-								operator,
+								operator: operator!,
 							});
 						}}
 					/>

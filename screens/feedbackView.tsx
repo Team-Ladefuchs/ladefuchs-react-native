@@ -27,30 +27,26 @@ import {
 } from "../types/feedback";
 
 import { PriceBox } from "../components/detail/priceBox";
-import { Operator } from "../types/operator";
+
 import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api/feedback";
 import i18n from "../localization";
+import { FeedbackScreenRouteParams } from "../appRoutes";
 
-const notePlaceholderText = i18n.t('futter2');
+const notePlaceholderText = i18n.t("futter2");
 
 export function FeedbackView(): JSX.Element {
-	const route = useRoute();
+	const route = useRoute<FeedbackScreenRouteParams>();
 	const navigation = useNavigation();
 
 	const { tariff, acTariffCondition, dcTariffCondition, operator } =
-		route.params as {
-			tariff: Tariff;
-			acTariffCondition: TariffCondition | null;
-			dcTariffCondition: TariffCondition | null;
-			operator: Operator;
-		};
+		route.params;
 
 	const [notePlaceholder, setNotePlaceholder] =
 		useState<string>(notePlaceholderText);
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
-	const [sendButtonText, setSendButtonText] = useState(i18n.t('senden'));
+	const [sendButtonText, setSendButtonText] = useState(i18n.t("senden"));
 
 	const acPriceCounter = useCounter({
 		initialValue: acTariffCondition?.pricePerKwh ?? 0,
@@ -117,7 +113,7 @@ export function FeedbackView(): JSX.Element {
 	const handleSubmit = async () => {
 		try {
 			setDisableSendButton(true);
-			setSendButtonText(i18n.t('momentchen'));
+			setSendButtonText(i18n.t("momentchen"));
 
 			for (const request of createRequestPayload()) {
 				await sendFeedback(request);
@@ -127,7 +123,7 @@ export function FeedbackView(): JSX.Element {
 			setTimeout(() => {
 				Toast.show({
 					type: "success",
-					text1: i18n.t('thxfeedback'),
+					text1: i18n.t("thxfeedback"),
 					visibilityTime: 2000,
 				});
 			}, 500);
@@ -140,7 +136,7 @@ export function FeedbackView(): JSX.Element {
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
-				text1: i18n.t('ups'),
+				text1: i18n.t("ups"),
 				visibilityTime: 2400,
 			});
 		}
@@ -157,11 +153,11 @@ export function FeedbackView(): JSX.Element {
 					<Text
 						style={[themeStyle.headLine, { marginTop: scale(16) }]}
 					>
-						{i18n.t('futter')}
+						{i18n.t("futter")}
 					</Text>
 					<View>
 						<Text style={themeStyle.headerText}>
-						{i18n.t('futter1')}
+							{i18n.t("futter1")}
 						</Text>
 						<View style={feedbackStyle.logosContainer}>
 							<DetailLogos tariff={tariff} operator={operator} />

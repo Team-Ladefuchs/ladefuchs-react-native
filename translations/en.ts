@@ -79,6 +79,7 @@ const en = {
 	tariffFilter: "Filter",
 	favoriten: "Favorites",
 	aktiveTarife: "Active",
+	startOnBoarding: "Start App Tour ›",
 };
 
 export default en;

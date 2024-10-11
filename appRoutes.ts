@@ -1,33 +1,93 @@
 // todo add the rest
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import i18n from "./localization";
+import { type Tariff } from "./types/tariff";
+import { type Operator } from "./types/operator";
+import { type TariffCondition } from "./types/conditions";
+import { type RouteProp } from "@react-navigation/native";
+
 export const appRoutes = {
+	homeWithOnboarding: {
+		key: "homeWithOnboarding",
+	},
+	home: {
+		key: "home",
+	},
+	onBoarding: {
+		key: "onBoarding",
+	},
 	customerOperator: {
-		title: i18n.t('ladesaeulen'),
+		title: i18n.t("ladesaeulen"),
 		key: "customerOperator",
 	},
 	customTariffs: {
-		title: i18n.t('ladetarife'),
+		title: i18n.t("ladetarife"),
 		key: "customTariffs",
 	},
 	settingsStack: {
-		key: "SettingsStack",
+		key: "settingsStack",
 	},
 	detailScreen: {
 		key: "tariffDetailView",
 	},
 	settings: {
-		title: i18n.t('einstellungen'),
-		key: "Einstellungen",
+		title: i18n.t("einstellungen"),
+		key: "settings",
 	},
 	feedback: {
 		title: "Feedback",
 		key: "feedback",
 	},
 	license: {
-		title: i18n.t('lizenzen'),
+		title: i18n.t("lizenzen"),
 		key: "license",
 	},
-	home: {
-		key: "home",
-	},
 } as const;
+
+type MainStackParamList = {
+	[appRoutes.home.key]: undefined; // No params expected
+};
+
+export type ModalStackParamList = {
+	[appRoutes.settingsStack.key]: undefined;
+	[appRoutes.feedback.key]: {
+		tariff: Tariff;
+		acTariffCondition: TariffCondition | null | undefined;
+		dcTariffCondition: TariffCondition | null | undefined;
+		operator: Operator;
+	};
+	[appRoutes.detailScreen.key]: {
+		tariff: Tariff;
+		tariffCondition: TariffCondition;
+	};
+};
+
+export type HomeScreenNavigationProp = NativeStackNavigationProp<
+	MainStackParamList,
+	typeof appRoutes.home.key
+>;
+
+export type SettingsScreenNavigationProp = NativeStackNavigationProp<
+	ModalStackParamList,
+	typeof appRoutes.settingsStack.key
+>;
+
+export type FeedbackScreenNavigationProp = NativeStackNavigationProp<
+	ModalStackParamList,
+	typeof appRoutes.feedback.key
+>;
+
+export type FeedbackScreenRouteParams = RouteProp<
+	ModalStackParamList,
+	typeof appRoutes.feedback.key
+>;
+
+export type TariffDetailScreenNavigationProp = NativeStackNavigationProp<
+	ModalStackParamList,
+	typeof appRoutes.detailScreen.key
+>;
+
+export type TariffDetailScreenNavigationParams = RouteProp<
+	ModalStackParamList,
+	typeof appRoutes.detailScreen.key
+>;

@@ -195,7 +195,8 @@ export function SectionHeaderList<T extends ItemType>({
 							onValueChange={(value) => {
 								if (!value) {
 									removeItem(item);
-									list.current?.prepareForLayoutAnimationRender();
+									// maybe only android
+									// list.current?.prepareForLayoutAnimationRender();
 									LayoutAnimation.configureNext(
 										LayoutAnimation.Presets.easeInEaseOut,
 									);

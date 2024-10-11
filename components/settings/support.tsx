@@ -5,7 +5,7 @@ import { Line } from "./line";
 import { scale } from "react-native-size-matters";
 import i18n from "../../localization";
 
-export function Support() {
+export function Support(): JSX.Element {
 	return (
 		<View>
 			<Text style={styles.headLine}>{i18n.t("supportfuchs2")}</Text>

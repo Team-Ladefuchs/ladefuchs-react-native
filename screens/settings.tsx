@@ -16,6 +16,7 @@ import { genericOperatorImage, userTariffImage } from "../functions/shared";
 import { Line } from "../components/settings/line";
 import i18n from "../localization";
 import { Support } from "../components/settings/support";
+import { StartOnBoarding } from "../components/settings/startOnboarding";
 
 export function SettingsScreen() {
 	return (
@@ -82,6 +83,7 @@ export function SettingsScreen() {
 					<PodcastView />
 					<Support />
 					<Impressum />
+					<StartOnBoarding />
 					<NavigationItem
 						justifyContent="space-between"
 						title={appRoutes.license.title}

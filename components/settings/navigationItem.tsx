@@ -19,14 +19,13 @@ export function NavigationItem({
 	description,
 	iconPrefix,
 }: Props): JSX.Element {
-	const navigation = useNavigation();
+	const navigation = useNavigation<any>();
 
 	return (
 		<TouchableOpacity
 			activeOpacity={0.6}
 			hitSlop={scale(10)}
 			onPress={async () => {
-				// @ts-ignore
 				await navigation.navigate(screenKey);
 			}}
 		>

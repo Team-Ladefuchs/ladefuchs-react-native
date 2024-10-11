@@ -21,6 +21,8 @@ export interface BannerData {
 	chargePriceAdBanner?: Banner | null;
 }
 
+export type OnBoardingState = "start" | "hide" | "init";
+
 export interface AppState extends AppData {
 	setChargeConditions: (appData: ChargeConditionData) => Promise<void>;
 	operatorId: string;
@@ -36,6 +38,8 @@ export interface AppState extends AppData {
 	setisFavoriteTariffOnly: (value: boolean) => void;
 	favoriteTariffIds: Set<string>;
 	setFavoriteTariffIds: (ids: Set<string> | string[]) => void;
+	showOnboarding: OnBoardingState;
+	setOnboarding: (value: OnBoardingState) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -116,6 +120,10 @@ export const useAppStore = create<AppState>((set, get) => {
 			} else if (ids instanceof Set) {
 				set(() => ({ favoriteTariffIds: ids }));
 			}
+		},
+		showOnboarding: "init",
+		setOnboarding: async (showOnboarding: OnBoardingState) => {
+			set(() => ({ showOnboarding }));
 		},
 	};
 });
