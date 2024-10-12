@@ -6,7 +6,12 @@ import { useNavigation } from "@react-navigation/native";
 import { CardImage } from "../../shared/cardImage";
 import { useFormatNumber } from "../../../hooks/useNumberFormat";
 import { scale } from "react-native-size-matters";
-import { appRoutes } from "../../../appRoutes";
+import {
+	TariffDetailScreenNavigationProp,
+	appRoutes,
+} from "../../../appRoutes";
+import { useShallow } from "zustand/react/shallow";
+import { useAppStore } from "../../../state/state";
 
 interface ChargeCardModel {
 	tariff: Tariff | null | undefined;
@@ -17,8 +22,14 @@ export function ChargeConditionRow({
 	tariff,
 	tariffCondition,
 }: ChargeCardModel): JSX.Element {
-	const navigator = useNavigation();
+	const navigator = useNavigation<TariffDetailScreenNavigationProp>();
 	const { formatNumber } = useFormatNumber();
+
+	const { favoriteTariffIds } = useAppStore(
+		useShallow((state) => ({
+			favoriteTariffIds: state.favoriteTariffIds,
+		})),
+	);
 
 	if (!tariffCondition || !tariff) {
 		return <View style={styles.cardAndPriceContainer}></View>;
@@ -30,7 +41,6 @@ export function ChargeConditionRow({
 		noteLength > 0;
 
 	const onPress = () => {
-		//@ts-ignore
 		navigator.navigate(appRoutes.detailScreen.key, {
 			tariff,
 			tariffCondition,
@@ -46,6 +56,7 @@ export function ChargeConditionRow({
 				name={tariff.name}
 				imageUrl={tariff.imageUrl}
 				width={72}
+				isFavorite={favoriteTariffIds.has(tariff.identifier)}
 				showHighlightCorner={showHighlightCorner}
 			/>
 

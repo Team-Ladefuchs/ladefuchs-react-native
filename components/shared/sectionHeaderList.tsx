@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
 	StyleProp,
 	TouchableWithoutFeedback,
@@ -7,18 +7,32 @@ import {
 	ViewStyle,
 	Keyboard,
 	LayoutAnimation,
+	TouchableOpacity,
+	Platform,
 } from "react-native";
 
 import * as Haptics from "expo-haptics";
 import { FlashList } from "@shopify/flash-list";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { ItemMethods, SectionListItem } from "./sectionListItem";
 import { colors } from "../../theme";
 
-import { removeItemByIndex } from "../../functions/util";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
+import i18n from "../../localization";
+import {
+	GestureEvent,
+	PanGestureHandler,
+	State,
+} from "react-native-gesture-handler";
+import { FavoriteCheckbox } from "./favoriteCheckbox";
+import { useKeyBoard } from "../../hooks/useKeyboard";
+import { EmptyListText } from "./emptyListText";
+
+const alphabet = [
+	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
+	"#",
+];
 
 interface Props<T extends { identifier: string }> {
 	data: T[];
@@ -27,7 +41,14 @@ interface Props<T extends { identifier: string }> {
 	renderItem: (item: T) => JSX.Element;
 	containerStyle: StyleProp<ViewStyle>;
 	exists: (item: T) => boolean;
-	disableAnimation: boolean;
+	isFavorite?: (item: T) => boolean;
+	onFavoiteChange?: ({
+		value,
+		action,
+	}: {
+		value: T;
+		action: "add" | "remove";
+	}) => void;
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
 	estimatedItemSize: number;
@@ -47,17 +68,19 @@ export function SectionHeaderList<T extends ItemType>({
 	onRemove,
 	onAdd,
 	exists,
-	disableAnimation,
 	renderItem,
 	containerStyle,
 	onUndo,
 	emptyText,
 	estimatedItemSize,
+	onFavoiteChange,
+	isFavorite,
 }: Props<T>) {
 	const list = useRef<FlashList<any>>(null);
-	const itemsRef = useRef<ItemMethods[]>([]);
 
 	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
+
+	const keyboardIsVisble = useKeyBoard();
 
 	useShakeDetector(() => {
 		if (lastRemovedItem) {
@@ -65,10 +88,6 @@ export function SectionHeaderList<T extends ItemType>({
 			setLastRemovedItem(null);
 		}
 	});
-
-	useEffect(() => {
-		setLastRemovedItem(null);
-	}, [disableAnimation]);
 
 	const sections = useMemo(() => {
 		const specialList: (string | T)[] = ["#"];
@@ -78,6 +97,7 @@ export function SectionHeaderList<T extends ItemType>({
 
 				if (!isLetter.test(headerName)) {
 					specialList.push(item);
+					return acc;
 				}
 
 				if (!acc[headerName]) {
@@ -100,7 +120,7 @@ export function SectionHeaderList<T extends ItemType>({
 			return [FAKE_HEADER, ...items, ...specialList];
 		}
 		return [FAKE_HEADER, ...items];
-	}, [data, disableAnimation]);
+	}, [data]);
 
 	const stickyIndices = useMemo(() => {
 		return sections
@@ -108,19 +128,52 @@ export function SectionHeaderList<T extends ItemType>({
 			.filter((index) => index !== null) as number[];
 	}, [sections]);
 
-	const removeItem = (item: T, index: number) => {
+	const removeItem = (item: T) => {
 		setLastRemovedItem(item);
-		removeItemByIndex(itemsRef.current, index);
 		onRemove(item);
 	};
 
-	const renderItemCallback = ({
-		item,
-		index,
-	}: {
-		item: T;
-		index: number;
-	}) => {
+	const scrollToLetter = (letter: string) => {
+		const index = sections
+			.map((item) => item as unknown as string)
+			.findIndex((itemLetter) => itemLetter === letter);
+		if (index >= 0 && list.current) {
+			list.current.scrollToIndex({ animated: false, index: index });
+			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		}
+	};
+
+	const onSwipeGesture = ({ nativeEvent }: GestureEvent<any>) => {
+		if (
+			nativeEvent.state === State.ACTIVE ||
+			nativeEvent.state === State.END
+		) {
+			const alphabetHeight = alphabet.length * scale(16);
+			const letterHeight = alphabetHeight / alphabet.length;
+			const swipePosition = nativeEvent.y;
+			const letterIndex = Math.floor(swipePosition / letterHeight);
+
+			if (letterIndex >= 0 && letterIndex < alphabet.length) {
+				const letter = alphabet[letterIndex];
+
+				if (letter !== lastScrolledLetter) {
+					setLastScrolledLetter(letter);
+					scrollToLetter(letter);
+					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+				}
+			}
+		}
+
+		if (nativeEvent.state === State.END) {
+			setLastScrolledLetter(null);
+		}
+	};
+
+	const [lastScrolledLetter, setLastScrolledLetter] = useState<string | null>(
+		null,
+	);
+
+	const renderItemCallback = ({ item }: { item: T }) => {
 		if (typeof item === "string" && item === FAKE_HEADER) {
 			return null;
 		}
@@ -131,24 +184,9 @@ export function SectionHeaderList<T extends ItemType>({
 
 		const itemExist = exists(item);
 		return (
-			<SectionListItem
-				disableAnimation={!itemExist || disableAnimation}
-				ref={(el) => {
-					if (el) {
-						itemsRef.current[index] = el;
-					}
-				}}
-				onDelete={() => {
-					removeItem(item, index);
-					list.current?.prepareForLayoutAnimationRender();
-					LayoutAnimation.configureNext(
-						LayoutAnimation.Presets.easeInEaseOut,
-					);
-				}}
-			>
+			<View>
 				<TouchableWithoutFeedback
 					onPress={() => {
-						itemsRef.current[index]?.cancel();
 						Keyboard.dismiss();
 					}}
 				>
@@ -156,64 +194,89 @@ export function SectionHeaderList<T extends ItemType>({
 						<Checkbox
 							checked={itemExist}
 							onValueChange={(value) => {
-								if (disableAnimation) {
-									Haptics.notificationAsync(
-										Haptics.NotificationFeedbackType
-											.Success,
+								if (!value) {
+									removeItem(item);
+									if (Platform.OS === "android") {
+										list.current?.prepareForLayoutAnimationRender();
+									}
+									LayoutAnimation.configureNext(
+										LayoutAnimation.Presets.easeInEaseOut,
 									);
-									return !value
-										? removeItem(item, index)
-										: onAdd(item);
+								} else {
+									onAdd(item);
 								}
-
-								const currenRef = itemsRef.current[index];
-								if (currenRef.opacity() < 1) {
-									return currenRef.cancel();
-								}
-								Haptics.notificationAsync(
-									Haptics.NotificationFeedbackType.Success,
-								);
-								return !value
-									? itemsRef.current[index]?.fadeOut()
-									: onAdd(item);
 							}}
 						/>
-
+						{onFavoiteChange && isFavorite && (
+							<View style={styles.favoiteCheckbox}>
+								<FavoriteCheckbox
+									size={34}
+									checked={isFavorite(item)}
+									onValueChange={(value) => {
+										onFavoiteChange({
+											value: item,
+											action: value ? "add" : "remove",
+										});
+									}}
+								/>
+							</View>
+						)}
 						{renderItem(item)}
 					</View>
 				</TouchableWithoutFeedback>
-			</SectionListItem>
+			</View>
 		);
 	};
 	return (
-		<FlashList
-			getItemType={(item) => {
-				return typeof item === "string" ? "sectionHeader" : "row";
-			}}
-			ref={list}
-			estimatedItemSize={estimatedItemSize}
-			ItemSeparatorComponent={SeparatorItem}
-			data={sections as T[]}
-			keyboardShouldPersistTaps={"handled"}
-			stickyHeaderHiddenOnScroll={false}
-			automaticallyAdjustKeyboardInsets
-			keyExtractor={(item, index) => {
-				return typeof item === "string"
-					? index.toString() + index
-					: item.identifier;
-			}}
-			stickyHeaderIndices={stickyIndices}
-			ListEmptyComponent={() => (
-				<View style={styles.emptyListStyle}>
-					<Text style={styles.emptyListTextStyle}>
-						{emptyText
-							? emptyText
-							: `Hier gibt es nichts zu sehen,\nbitte laden Sie weiter. 🦊`}
-					</Text>
-				</View>
+		<View style={styles.listContainer}>
+			{sections.length > 0 && !keyboardIsVisble && (
+				<PanGestureHandler onGestureEvent={onSwipeGesture}>
+					<View style={styles.alphabetScroll}>
+						{alphabet.map((letter) => (
+							<TouchableOpacity
+								key={letter}
+								activeOpacity={0.75}
+								onPress={() => scrollToLetter(letter)}
+							>
+								<Text style={styles.letter}>{letter}</Text>
+							</TouchableOpacity>
+						))}
+					</View>
+				</PanGestureHandler>
 			)}
-			renderItem={renderItemCallback}
-		/>
+
+			<FlashList
+				getItemType={(item: T) => {
+					return typeof item === "string" ? "sectionHeader" : "row";
+				}}
+				ref={list}
+				estimatedItemSize={estimatedItemSize}
+				ItemSeparatorComponent={SeparatorItem}
+				data={sections as T[]}
+				keyboardShouldPersistTaps={"handled"}
+				stickyHeaderHiddenOnScroll={false}
+				showsVerticalScrollIndicator={false}
+				automaticallyAdjustKeyboardInsets
+				keyExtractor={(item: T, index: number) => {
+					return typeof item === "string"
+						? index.toString() + index
+						: item.identifier;
+				}}
+				stickyHeaderIndices={stickyIndices}
+				ListEmptyComponent={() => (
+					<View style={styles.emptyListStyle}>
+						<EmptyListText
+							text={
+								emptyText
+									? emptyText
+									: i18n.t("ladetarifeInfo1")
+							}
+						/>
+					</View>
+				)}
+				renderItem={renderItemCallback}
+			/>
+		</View>
 	);
 }
 
@@ -245,26 +308,43 @@ const styles = ScaledSheet.create({
 	emptyListStyle: {
 		color: colors.ladefuchsGrayTextColor,
 		marginVertical: "auto",
-		height: "250@s",
+		height: "240@s",
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	emptyListTextStyle: {
-		fontStyle: "italic",
-		lineHeight: "22@s",
-		textAlign: "center",
-		fontSize: "15@s",
-		fontFamily: "Bitter",
-	},
 	item: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		flexDirection: "row",
-		flex: 2,
+		display: "flex",
+		marginRight: "13@s",
 		alignItems: "center",
 	},
-	// todo use it
-	lastItem: {
-		marginBottom: "22@s",
+	listContainer: {
+		display: "flex",
+		flex: 1,
+		position: "relative",
+		marginRight: "2@s",
+	},
+	alphabetScroll: {
+		position: "absolute",
+		zIndex: 2,
+		right: "-2@s",
+		top: "116@s",
+		opacity: 0.8,
+		width: "20@s",
+		flex: 2,
+	},
+	favoiteCheckbox: {
+		marginRight: "3@s",
+		marginLeft: "3@s",
+		marginBottom: "2@s",
+	},
+	letter: {
+		fontSize: "10@s",
+		textAlign: "center",
+		lineHeight: "11@s",
+		fontFamily: "Roboto",
+		color: "black",
 	},
 });

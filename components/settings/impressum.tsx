@@ -3,17 +3,18 @@ import { View, Text, TouchableWithoutFeedback, Linking } from "react-native";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import { Line } from "./line";
+import i18n from "../../localization";
 
 export function Impressum(): JSX.Element {
 	return (
 		<View>
-			<Text style={styles.headLine}>IMPRESSUM</Text>
+			<Text style={styles.headLine}>{i18n.t('impressum')}</Text>
 
 			<Text style={styles.italicText}>
-				Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
+			{i18n.t('impressumtext1')}:
 			</Text>
 			<Text style={styles.italicText}>
-				Dipl.-Designer Malik Aziz{"\n"}Stephanstraße 43-45, 52064 Aachen
+			{i18n.t('impressumtext2')}
 			</Text>
 			<TouchableWithoutFeedback
 				onPress={async () =>

@@ -4,13 +4,14 @@ import Chargeprice from "@assets/about/chargeprice_logo.svg";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import { Line } from "./line";
+import i18n from "../../localization";
 
 export function DatenView(): JSX.Element {
 	return (
 		<View>
-			<Text style={styles.headLine}>DATENFUCHS</Text>
+			<Text style={styles.headLine}>{i18n.t('datenfuchs')}</Text>
 			<Text style={styles.italicText}>
-				Beste schlaue Daten kommen direkt von
+			{i18n.t('datenfuchstext')}
 			</Text>
 			<TouchableOpacity
 				activeOpacity={0.9}

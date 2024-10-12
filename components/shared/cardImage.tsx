@@ -2,24 +2,28 @@ import { authHeader } from "../../functions/api/base";
 import {
 	View,
 	Image,
-	StyleSheet,
 	Text,
 	StyleProp,
+	StyleSheet,
 	ViewStyle,
 	ImageStyle,
+	Platform,
 } from "react-native";
 import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
 import { colors } from "../../theme";
-import { scale } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
+
+import FavStar from "@assets/favorite/favstern.svg";
 
 interface Props {
 	imageUrl: string | null;
 	name?: string;
 	showHighlightCorner?: boolean;
 	hideFallBackText?: boolean;
+	isFavorite?: boolean;
 	width: number;
-	style?: ImageStyle;
+	styleProp?: ImageStyle;
 }
 
 export function CardImage({
@@ -27,19 +31,31 @@ export function CardImage({
 	name,
 	showHighlightCorner = false,
 	width,
+	isFavorite = false,
 	hideFallBackText = false,
-	style: styleProp,
+	styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
-
+	const favoriteStarSize = 20;
 	return (
 		<View
-			style={{
-				...styles.cardImageContainer,
-				...styleProp,
-				width: scale(width),
-			}}
+			style={[
+				dropShadow,
+				{
+					...cardStyle.cardImageContainer,
+					...styleProp,
+				},
+				{ width: scale(width) },
+			]}
 		>
+			{isFavorite && (
+				<FavStar
+					height={scale(favoriteStarSize)}
+					width={scale(favoriteStarSize)}
+					style={styles.favoriteStar}
+				/>
+			)}
+
 			{showHighlightCorner && <HighlightCorner />}
 			{!imageUrl || imageError ? (
 				<FallBack
@@ -87,15 +103,21 @@ function FallBack({
 }
 
 export const dropShadow = {
-	shadowColor: "#000",
-	shadowOffset: {
-		width: 0,
-		height: 1,
-	},
-	shadowOpacity: 0.25,
-	shadowRadius: 4,
-	elevation: 4,
-} satisfies StyleProp<ViewStyle>;
+	...Platform.select({
+		ios: {
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 1,
+			},
+			shadowOpacity: 0.25,
+			shadowRadius: 4,
+		},
+		android: {
+			elevation: 4,
+		},
+	}),
+} as StyleProp<ViewStyle>;
 
 const card = {
 	backgroundColor: "#fff",
@@ -103,12 +125,13 @@ const card = {
 	aspectRatio: 1.6,
 } satisfies StyleProp<ViewStyle>;
 
-const styles = StyleSheet.create({
+const cardStyle = StyleSheet.create({
 	cardImageContainer: {
 		...card,
-		...dropShadow,
 		position: "relative",
 	},
+});
+const styles = ScaledSheet.create({
 	cardImage: {
 		...card,
 		width: "100%",
@@ -130,14 +153,25 @@ const styles = StyleSheet.create({
 		marginVertical: 4,
 		fontFamily: "RobotoCondensed",
 		color: "#fff",
-		fontSize: scale(10.5),
+		fontSize: "10.5@s",
 	},
 	fallbackImage: {
 		position: "absolute",
 		right: -2,
 		bottom: -2,
-		height: scale(20),
+		height: "20@s",
 		objectFit: "scale-down",
-		width: scale(20),
+		width: "20@s",
+	},
+	favoriteStar: {
+		position: "absolute",
+		zIndex: 3,
+		top: "-5@s",
+		left: "-11.0@s",
+		shadowColor: "#000",
+		shadowOffset: { width: -0.1, height: 1.5 },
+		shadowOpacity: 0.4,
+		shadowRadius: 0.5,
+		elevation: 5,
 	},
 });

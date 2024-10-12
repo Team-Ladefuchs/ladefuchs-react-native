@@ -16,8 +16,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
-import { Tariff } from "../types/tariff";
-import { ChargeMode, TariffCondition } from "../types/conditions";
+import { ChargeMode } from "../types/conditions";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import {
 	FeedbackContext,
@@ -27,29 +26,26 @@ import {
 } from "../types/feedback";
 
 import { PriceBox } from "../components/detail/priceBox";
-import { Operator } from "../types/operator";
+
 import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api/feedback";
+import i18n from "../localization";
+import { FeedbackScreenRouteParams } from "../appRoutes";
 
-const notePlaceholderText = "Willst Du dem Fuchs noch etwas flüstern?";
+const notePlaceholderText = i18n.t("futter2");
 
 export function FeedbackView(): JSX.Element {
-	const route = useRoute();
+	const route = useRoute<FeedbackScreenRouteParams>();
 	const navigation = useNavigation();
 
 	const { tariff, acTariffCondition, dcTariffCondition, operator } =
-		route.params as {
-			tariff: Tariff;
-			acTariffCondition: TariffCondition | null;
-			dcTariffCondition: TariffCondition | null;
-			operator: Operator;
-		};
+		route.params;
 
 	const [notePlaceholder, setNotePlaceholder] =
 		useState<string>(notePlaceholderText);
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
-	const [sendButtonText, setSendButtonText] = useState("Senden");
+	const [sendButtonText, setSendButtonText] = useState(i18n.t("senden"));
 
 	const acPriceCounter = useCounter({
 		initialValue: acTariffCondition?.pricePerKwh ?? 0,
@@ -116,7 +112,7 @@ export function FeedbackView(): JSX.Element {
 	const handleSubmit = async () => {
 		try {
 			setDisableSendButton(true);
-			setSendButtonText("Momentchen …");
+			setSendButtonText(i18n.t("momentchen"));
 
 			for (const request of createRequestPayload()) {
 				await sendFeedback(request);
@@ -126,7 +122,7 @@ export function FeedbackView(): JSX.Element {
 			setTimeout(() => {
 				Toast.show({
 					type: "success",
-					text1: "⚡️ Vielen Dank für dein Feedback!",
+					text1: i18n.t("thxfeedback"),
 					visibilityTime: 2000,
 				});
 			}, 500);
@@ -139,7 +135,7 @@ export function FeedbackView(): JSX.Element {
 			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
-				text1: "🚧 Ups, ein Fehler ist aufgetreten",
+				text1: i18n.t("ups"),
 				visibilityTime: 2400,
 			});
 		}
@@ -156,11 +152,11 @@ export function FeedbackView(): JSX.Element {
 					<Text
 						style={[themeStyle.headLine, { marginTop: scale(16) }]}
 					>
-						Hast Du Futter für den Fuchs?
+						{i18n.t("futter")}
 					</Text>
 					<View>
 						<Text style={themeStyle.headerText}>
-							Sag uns was nicht stimmt!
+							{i18n.t("futter1")}
 						</Text>
 						<View style={feedbackStyle.logosContainer}>
 							<DetailLogos tariff={tariff} operator={operator} />
@@ -289,7 +285,7 @@ function buildWrongPriceRequest({
 			request: {
 				type: "wrongPriceFeedback",
 				attributes: {
-					notes: noteText,
+					notes: noteText.trim(),
 					displayedPrice,
 					actualPrice,
 					chargeType,

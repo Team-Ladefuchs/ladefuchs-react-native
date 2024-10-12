@@ -14,6 +14,9 @@ import { CardImage } from "../components/shared/cardImage";
 import { OperatorImage } from "../components/shared/operatorImage";
 import { genericOperatorImage, userTariffImage } from "../functions/shared";
 import { Line } from "../components/settings/line";
+import i18n from "../localization";
+import { Support } from "../components/settings/support";
+import { StartOnBoarding } from "../components/settings/startOnboarding";
 
 export function SettingsScreen() {
 	return (
@@ -40,7 +43,7 @@ export function SettingsScreen() {
 								/>
 							</View>
 						}
-						description={`Bei welchem Stromtarif-Anbieter\n(EMP) bist du Kunde?`}
+						description={i18n.t("ladetarifetext")}
 						screenKey={appRoutes.customTariffs.key}
 						justifyContent="space-evenly"
 					/>
@@ -51,7 +54,7 @@ export function SettingsScreen() {
 					<NavigationItem
 						title={appRoutes.customerOperator.title}
 						justifyContent="space-evenly"
-						description={`Welche Ladesäulen-Anbieter\n(CPO) möchtest du vergleichen?`}
+						description={i18n.t("ladesaeulentext")}
 						iconPrefix={
 							<View
 								style={{
@@ -78,12 +81,14 @@ export function SettingsScreen() {
 					<DatenView />
 					<Illustration />
 					<PodcastView />
+					<Support />
+					<StartOnBoarding />
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"
 						title={appRoutes.license.title}
 						screenKey={appRoutes.license.key}
-						description="Der Blick unter die Haube 🚘⚡️"
+						description={i18n.t("lizenztext")}
 					/>
 				</View>
 				<Footer />

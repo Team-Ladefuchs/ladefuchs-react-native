@@ -13,6 +13,7 @@ import MastodonIcon from "@assets/about/icon_mastodon.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SvgProps } from "react-native-svg";
 import { Line } from "./line";
+import i18n from "../../localization";
 
 const activeMember = [
 	{
@@ -35,7 +36,7 @@ const activeMember = [
 	{
 		name: "DOMINIC",
 		role: "Developerfuchs",
-		imageSource: require("@assets/team/team_dominic.jpg"),
+		imageSource: require("@assets/team/dominic.png"),
 		links: [
 			{
 				text: "@dominic",
@@ -70,35 +71,6 @@ const activeMember = [
 
 const veteranMember = [
 	{
-		name: "RODDI",
-		role: "iOSfuchs",
-		imageSource: require("@assets/team/team_roddi.jpg"),
-		links: [
-			{
-				text: "@roddi",
-				url: "https://mastodon.social/@roddi",
-				icon: MastodonIcon,
-			},
-			{
-				text: "",
-				url: "",
-				icon: MailIcon,
-			},
-		],
-	},
-	{
-		name: "THORSTEN",
-		role: "Androidfuchs",
-		imageSource: require("@assets/team/team_thorsten.jpg"),
-		links: [
-			{
-				text: "",
-				url: "",
-				icon: MastodonIcon,
-			},
-		],
-	},
-	{
 		name: "BASTI SCHLINGEL",
 		role: "Androidfuchs",
 		imageSource: require("@assets/team/team_basti.jpg"),
@@ -116,6 +88,23 @@ const veteranMember = [
 		],
 	},
 	{
+		name: "RODDI",
+		role: "iOSfuchs",
+		imageSource: require("@assets/team/team_roddi.jpg"),
+		links: [
+			{
+				text: "@roddi",
+				url: "https://mastodon.social/@roddi",
+				icon: MastodonIcon,
+			},
+			{
+				text: "",
+				url: "",
+				icon: MailIcon,
+			},
+		],
+	},
+	{
 		name: "FLOWINHO",
 		role: "APFELfuchs",
 		imageSource: require("@assets/team/team_flow.jpg"),
@@ -128,6 +117,18 @@ const veteranMember = [
 			{
 				text: "",
 				url: "",
+			},
+		],
+	},
+	{
+		name: "THORSTEN",
+		role: "Androidfuchs",
+		imageSource: require("@assets/team/team_thorsten.jpg"),
+		links: [
+			{
+				text: "",
+				url: "",
+				icon: MastodonIcon,
 			},
 		],
 	},
@@ -153,14 +154,13 @@ interface Props {
 export function MemberView(): JSX.Element {
 	return (
 		<View>
-			<Text style={appStyle.headLine}>TEAMFUCHS</Text>
+			<Text style={appStyle.headLine}>{i18n.t("teamfuchs")}</Text>
 			<Text style={[appStyle.headerText, { marginBottom: scale(12) }]}>
-				Wir sind schuld. Wirklich!{"\n"}Trotzdem alle Angaben ohne
-				Gewähr.
+				{i18n.t("teamfuchstext")}
 			</Text>
 			<TeamList items={activeMember} />
 			<Text style={[appStyle.headLine, { marginTop: scale(32) }]}>
-				VETERANEN
+				{i18n.t("veteranen")}
 			</Text>
 			<TeamList items={veteranMember} />
 			<Line />

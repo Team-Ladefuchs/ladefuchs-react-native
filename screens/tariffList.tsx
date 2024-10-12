@@ -18,27 +18,28 @@ import { SearchInput } from "../components/shared/searchInput";
 
 import { Tariff } from "../types/tariff";
 import { fetchAllTariffs } from "../functions/api/tariff";
-import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
-import { getMinutes } from "../functions/util";
-import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
+import {
+	CustomTariff,
+	useCustomTariffsOperators,
+} from "../hooks/useCustomTariffsOperators";
+import {
+	adHocTariffRegex,
+	formatTariffName,
+	getMinutes,
+} from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
-import { userTariffImage } from "../functions/shared";
 import { useAppStore } from "../state/state";
 import { useShallow } from "zustand/react/shallow";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
 import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
+import i18n from "../localization";
 
-const adHocRegex = /^(ad-hoc|adhoc)$/i;
+import {
+	FilterType,
+	TariffFilter,
+} from "../components/tariffList/tariffFilter";
 
 const itemHeight = scale(61);
-
-type filterType = "all" | "active" | "own";
-
-const tabs = [
-	{ key: "all", label: "Alle" },
-	{ key: "active", label: "Aktiv" },
-	{ key: "own", label: "Eigene" },
-] satisfies TabItem<filterType>[];
 
 export function TariffList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
@@ -56,7 +57,9 @@ export function TariffList(): JSX.Element {
 		new Set(),
 	);
 
-	const [filterMode, setFilterMode] = useState<filterType>("all");
+	const [favoriteSet, setFavoiteSet] = useState<Set<string>>(new Set());
+
+	const [filterMode, setFilterMode] = useState<FilterType>("all");
 
 	const { customTariffs, saveCustomTariffs, resetCustomTariffs } =
 		useCustomTariffsOperators();
@@ -66,6 +69,7 @@ export function TariffList(): JSX.Element {
 	useEffect(() => {
 		setTariffsAddSet(new Set(customTariffs.add));
 		setTariffsRemoveSet(new Set(customTariffs.remove));
+		setFavoiteSet(new Set(customTariffs.favorite));
 	}, [customTariffs]);
 
 	useEffect(() => {
@@ -73,7 +77,8 @@ export function TariffList(): JSX.Element {
 			await saveCustomTariffs({
 				add: Array.from(tariffsAddSet),
 				remove: Array.from(tariffsRemoveSet),
-			});
+				favorite: Array.from(favoriteSet),
+			} satisfies CustomTariff);
 			await manuelQueryChargeConditions.refetch();
 		});
 
@@ -82,6 +87,7 @@ export function TariffList(): JSX.Element {
 		navigator,
 		tariffsAddSet,
 		tariffsRemoveSet,
+		favoriteSet,
 		manuelQueryChargeConditions,
 		saveCustomTariffs,
 	]);
@@ -96,18 +102,33 @@ export function TariffList(): JSX.Element {
 				writeCache: !allTariffsQuery.data,
 				operators,
 			});
-			return tariffs.filter((tariff) => !adHocRegex.test(tariff.name));
+			return tariffs
+				.map((item) => {
+					return {
+						...item,
+						name: formatTariffName(item),
+					};
+				})
+				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 	});
 
 	const filteredTariffs = useMemo(() => {
 		let tariffs = allTariffsQuery.data ?? [];
 
-		if (filterMode === "own") {
+		if (filterMode === "activeOrFavorite") {
+			tariffs = tariffs.filter(({ identifier, isStandard }) => {
+				return (
+					!tariffsRemoveSet.has(identifier) &&
+					favoriteSet.has(identifier) &&
+					(isStandard || tariffsAddSet.has(identifier))
+				);
+			});
+		} else if (filterMode === "favorite") {
 			tariffs = tariffs.filter(({ identifier }) => {
 				return (
 					!tariffsRemoveSet.has(identifier) &&
-					tariffsAddSet.has(identifier)
+					favoriteSet.has(identifier)
 				);
 			});
 		} else if (filterMode === "active") {
@@ -121,6 +142,9 @@ export function TariffList(): JSX.Element {
 
 		return tariffs.filter((tariff) => {
 			const term = search.toLowerCase();
+			if (term.startsWith("adhoc")) {
+				return adHocTariffRegex.test(tariff.name);
+			}
 			return (
 				tariff.name.toLowerCase().includes(term) ||
 				tariff.providerName.toLowerCase().includes(term)
@@ -130,34 +154,31 @@ export function TariffList(): JSX.Element {
 		search,
 		allTariffsQuery.data,
 		filterMode,
+		favoriteSet,
 		tariffsAddSet,
 		tariffsRemoveSet,
 	]);
 
 	const handleTariffReset = () => {
-		Alert.alert(
-			"Tarife zurücksetzen",
-			"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
-			[
-				{
-					text: "Abbrechen",
-					style: "cancel",
+		Alert.alert(i18n.t("tarifAlert"), i18n.t("tarifAlertText"), [
+			{
+				text: i18n.t("cancel"),
+				style: "cancel",
+			},
+			{
+				text: i18n.t("yes"),
+				onPress: async () => {
+					setTariffsAddSet(new Set([]));
+					setTariffsRemoveSet(new Set([]));
+					await resetCustomTariffs();
 				},
-				{
-					text: "Ja bin ich",
-					onPress: async () => {
-						setTariffsAddSet(new Set([]));
-						setTariffsRemoveSet(new Set([]));
-						await resetCustomTariffs();
-					},
-				},
-			],
-		);
+			},
+		]);
 	};
 
 	const emptyText = useMemo(() => {
-		if (filterMode === "own") {
-			return "Wenn du unter „Alle“ ein weiteres Häkchen\nvor einem Tarif setzt, findest du ihn hier. ";
+		if (filterMode === "favorite") {
+			return i18n.t("ladetarifeInfo2");
 		}
 		return null;
 	}, [filterMode]);
@@ -169,10 +190,9 @@ export function TariffList(): JSX.Element {
 			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
 		>
 			<ListerFilterHeader onReset={handleTariffReset}>
-				<TabButtonGroup
-					tabs={tabs}
-					onSelected={(item) => {
-						setFilterMode(item.key);
+				<TariffFilter
+					onFilterChanged={(value) => {
+						setFilterMode(value);
 					}}
 				/>
 			</ListerFilterHeader>
@@ -181,10 +201,27 @@ export function TariffList(): JSX.Element {
 					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
-						disableAnimation={filterMode === "all"}
 						estimatedItemSize={itemHeight}
 						containerStyle={styles.listItemContainer}
 						emptyText={emptyText}
+						isFavorite={(item: Tariff) =>
+							favoriteSet.has(item.identifier)
+						}
+						onFavoiteChange={({ value, action }) => {
+							if (action === "add") {
+								setFavoiteSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.add(value.identifier);
+									return newSet;
+								});
+							} else {
+								setFavoiteSet((prevSet) => {
+									const newSet = new Set(prevSet);
+									newSet.delete(value.identifier);
+									return newSet;
+								});
+							}
+						}}
 						data={filteredTariffs}
 						onUndo={({ identifier, isStandard }: Tariff) => {
 							if (isStandard) {
@@ -233,17 +270,11 @@ export function TariffList(): JSX.Element {
 						renderItem={(tariff: Tariff) => {
 							return (
 								<View style={styles.itemBody}>
-									<View>
-										<CardImage
-											imageUrl={
-												tariff.imageUrl ??
-												userTariffImage
-											}
-											name={tariff.name}
-											width={60}
-											hideFallBackText={true}
-										/>
-									</View>
+									<CardImage
+										imageUrl={tariff.imageUrl}
+										name={tariff.name}
+										width={72}
+									/>
 									<View>
 										<Text
 											style={styles.tariffText}
@@ -271,7 +302,10 @@ export function TariffList(): JSX.Element {
 					/>
 				)}
 			</View>
-			<SearchInput onChange={setSearch} placeHolder="Tarif suchen" />
+			<SearchInput
+				onChange={setSearch}
+				placeHolder={i18n.t("tarifsuche")}
+			/>
 		</KeyboardAvoidingView>
 	);
 }
@@ -288,17 +322,17 @@ const styles = ScaledSheet.create({
 		flex: 2,
 	},
 	listItemContainer: {
-		paddingLeft: "10@s",
-		paddingRight: "16@s",
+		paddingLeft: "9@s",
+		paddingRight: "28@s",
 		height: itemHeight,
-		gap: "7@s",
+		gap: "5@s",
 	},
 	itemBody: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: "10@s",
+		gap: "8@s",
 		height: "100%",
-		width: "90%",
+		width: "88%",
 		paddingRight: "90@s",
 	},
 	tariffText: {

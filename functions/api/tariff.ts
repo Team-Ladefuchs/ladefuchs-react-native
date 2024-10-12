@@ -23,9 +23,10 @@ export async function fetchAllTariffs({
 		},
 		defaultTimeout + 500,
 	);
-
 	if (!tariffs.length) {
-		return (await retrieveFromStorage<Tariff[] | null>(storageKey)) ?? [];
+		const tariffs =
+			(await retrieveFromStorage<Tariff[] | null>(storageKey)) ?? [];
+		return tariffs;
 	}
 
 	if (writeCache) {
