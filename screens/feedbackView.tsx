@@ -16,8 +16,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { colors, styles as themeStyle } from "../theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
-import { Tariff } from "../types/tariff";
-import { ChargeMode, TariffCondition } from "../types/conditions";
+import { ChargeMode } from "../types/conditions";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import {
 	FeedbackContext,
@@ -286,7 +285,7 @@ function buildWrongPriceRequest({
 			request: {
 				type: "wrongPriceFeedback",
 				attributes: {
-					notes: noteText,
+					notes: noteText.trim(),
 					displayedPrice,
 					actualPrice,
 					chargeType,

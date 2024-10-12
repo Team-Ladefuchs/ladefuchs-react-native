@@ -1,5 +1,5 @@
 {
-  "@react-native-async-storage/async-storage@1.24.0": {
+  "@react-native-async-storage/async-storage@2.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-async-storage/async-storage",
     "publisher": "Krzysztof Borowy",
@@ -7,17 +7,11 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-native-async-storage/async-storage",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-native-async-storage/async-storage/LICENSE"
   },
-  "@react-native-picker/picker@2.7.7": {
+  "@react-native-picker/picker@2.8.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-picker/picker",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-native-picker/picker",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-native-picker/picker/LICENSE"
-  },
-  "@react-navigation/stack@6.4.1": {
-    "licenses": "MIT",
-    "repository": "https://github.com/react-navigation/react-navigation",
-    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-navigation/stack",
-    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@react-navigation/stack/LICENSE"
   },
   "@shopify/flash-list@1.7.1": {
     "licenses": "MIT",
@@ -26,20 +20,14 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@shopify/flash-list",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@shopify/flash-list/LICENSE.md"
   },
-  "@tanstack/react-query@5.51.23": {
+  "@tanstack/react-query@5.59.8": {
     "licenses": "MIT",
     "repository": "https://github.com/TanStack/query",
     "publisher": "tannerlinsley",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@tanstack/react-query",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@tanstack/react-query/LICENSE"
   },
-  "@types/react@18.3.3": {
-    "licenses": "MIT",
-    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@types/react",
-    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/@types/react/LICENSE"
-  },
-  "expo@51.0.28": {
+  "expo@51.0.37": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "Expo",
@@ -59,6 +47,13 @@
     "publisher": "650 Industries, Inc.",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-constants",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-constants/README.md"
+  },
+  "expo-haptics@13.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-haptics",
+    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-haptics/README.md"
   },
   "expo-localization@15.0.3": {
     "licenses": "MIT",
@@ -88,7 +83,15 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-system-ui",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/expo-system-ui/README.md"
   },
-  "lottie-react-native@6.7.2": {
+  "i18n-js@4.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/fnando/i18n",
+    "publisher": "Nando Vieira",
+    "email": "me@fnando.com",
+    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/i18n-js",
+    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/i18n-js/LICENSE.md"
+  },
+  "lottie-react-native@7.0.0": {
     "licenses": "Apache-2.0",
     "repository": "https://github.com/react-native-community/lottie-react-native",
     "publisher": "Emilio Rodriguez",
@@ -102,7 +105,7 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react/LICENSE"
   },
-  "react-native@0.74.5": {
+  "react-native@0.75.4": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native",
@@ -115,7 +118,7 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-elements",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-elements/LICENSE"
   },
-  "react-native-gesture-handler@2.18.1": {
+  "react-native-gesture-handler@2.20.0": {
     "licenses": "MIT",
     "repository": "https://github.com/software-mansion/react-native-gesture-handler",
     "publisher": "Krzysztof Magiera",
@@ -123,15 +126,14 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-gesture-handler",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-gesture-handler/LICENSE"
   },
-  "react-native-reanimated@3.10.1": {
+  "react-native-onboarding-swiper@1.3.0": {
     "licenses": "MIT",
-    "repository": "https://github.com/software-mansion/react-native-reanimated",
-    "publisher": "Krzysztof Magiera",
-    "email": "krzys.magiera@gmail.com",
-    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-reanimated",
-    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-reanimated/LICENSE"
+    "repository": "https://github.com/jfilter/react-native-onboarding-swiper",
+    "publisher": "Gosha Arinich, Johannes Filter",
+    "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-onboarding-swiper",
+    "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-onboarding-swiper/LICENSE"
   },
-  "react-native-safe-area-context@4.10.8": {
+  "react-native-safe-area-context@4.11.0": {
     "licenses": "MIT",
     "repository": "https://github.com/th3rdwave/react-native-safe-area-context",
     "publisher": "Janic Duplessis",
@@ -154,7 +156,7 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-size-matters",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-size-matters/LICENSE"
   },
-  "react-native-svg@15.5.0": {
+  "react-native-svg@15.7.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-community/react-native-svg",
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-svg",
@@ -167,7 +169,7 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-svg-transformer",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-svg-transformer/LICENSE"
   },
-  "react-native-toast-message@2.2.0": {
+  "react-native-toast-message@2.2.1": {
     "licenses": "MIT",
     "repository": "https://github.com/calintamas/react-native-toast-message",
     "publisher": "Calin Tamas",
@@ -183,7 +185,7 @@
     "path": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-wheely",
     "licenseFile": "/Users/dominic/Code/ladefuchs-react-native/node_modules/react-native-wheely/README.md"
   },
-  "zustand@4.5.4": {
+  "zustand@4.5.5": {
     "licenses": "MIT",
     "repository": "https://github.com/pmndrs/zustand",
     "publisher": "Paul Henschel",

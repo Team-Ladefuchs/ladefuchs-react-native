@@ -80,7 +80,7 @@ const de = {
 	tariffFilter: "Filter",
 	favoriten: "Favoriten",
 	aktiveTarife: "Aktive",
-	startOnBoarding: "Start app tour now ›",
+	startOnBoarding: "App Tour jetzt starten ›",
 };
 
 export default de;
