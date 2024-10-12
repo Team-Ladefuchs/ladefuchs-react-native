@@ -1,4 +1,3 @@
-import { authHeader } from "../../functions/api/base";
 import {
 	View,
 	Image,
@@ -8,6 +7,7 @@ import {
 	ViewStyle,
 	ImageStyle,
 	Platform,
+	ImageSourcePropType,
 } from "react-native";
 import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
@@ -15,9 +15,10 @@ import { colors } from "../../theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 
 import FavStar from "@assets/favorite/favstern.svg";
+import { getImageSource } from "../../functions/util";
 
 interface Props {
-	imageUrl: string | null;
+	imageUrl: string | ImageSourcePropType | null;
 	name?: string;
 	showHighlightCorner?: boolean;
 	hideFallBackText?: boolean;
@@ -37,6 +38,8 @@ export function CardImage({
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
 	const favoriteStarSize = 20;
+
+	const image = getImageSource(imageUrl);
 	return (
 		<View
 			style={[
@@ -67,10 +70,7 @@ export function CardImage({
 					onError={() => {
 						setImageError(true);
 					}}
-					source={{
-						uri: imageUrl,
-						...authHeader,
-					}}
+					source={image!}
 					style={styles.cardImage}
 				/>
 			)}

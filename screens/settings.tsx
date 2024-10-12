@@ -12,13 +12,12 @@ import { appRoutes } from "../appRoutes";
 import { Impressum } from "../components/settings/impressum";
 import { CardImage } from "../components/shared/cardImage";
 import { OperatorImage } from "../components/shared/operatorImage";
-import { genericOperatorImage, userTariffImage } from "../functions/shared";
 import { Line } from "../components/settings/line";
 import i18n from "../localization";
 import { Support } from "../components/settings/support";
 import { StartOnBoarding } from "../components/settings/startOnboarding";
 
-export function SettingsScreen() {
+export function SettingsScreen(): JSX.Element {
 	return (
 		<ScrollView style={[settingsStyle.scrollView]} bounces>
 			<View style={settingsStyle.viewContainer}>
@@ -38,7 +37,7 @@ export function SettingsScreen() {
 								}}
 							>
 								<CardImage
-									imageUrl={userTariffImage}
+									imageUrl={require("@assets/generic/user_tariff_generic_card.jpeg")}
 									width={55}
 								/>
 							</View>
@@ -64,7 +63,7 @@ export function SettingsScreen() {
 								}}
 							>
 								<OperatorImage
-									imageUrl={genericOperatorImage}
+									imageUrl={require("@assets/generic/operator_generic_fuchs.png")}
 									height={80}
 									width={60}
 								/>

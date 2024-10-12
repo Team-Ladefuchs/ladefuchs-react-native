@@ -1,7 +1,8 @@
 import Constants from "expo-constants";
 import { Tariff } from "../types/tariff";
 import type { ChargingCondition, TariffCondition } from "../types/conditions";
-import { Platform } from "react-native";
+import { ImageSourcePropType, Platform } from "react-native";
+import { authHeader } from "./api/base";
 
 export const isDebug = __DEV__;
 
@@ -150,4 +151,13 @@ export function formatTariffName({ name, providerName }: Tariff): string {
 		return `${providerName} ad-hoc`;
 	}
 	return name;
+}
+
+export function getImageSource(
+	imageUrl: string | ImageSourcePropType | null,
+): ImageSourcePropType | null {
+	if (typeof imageUrl === "string") {
+		return { uri: imageUrl, ...authHeader };
+	}
+	return imageUrl;
 }

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { scale } from "react-native-size-matters";
-import { authHeader } from "../../functions/api/base";
-import { Image, View, Text } from "react-native";
-import { hyphenText } from "../../functions/util";
+import { Image, View, Text, ImageSourcePropType } from "react-native";
+import { getImageSource, hyphenText } from "../../functions/util";
 
 interface Props {
-	imageUrl: string | null;
+	imageUrl: string | null | ImageSourcePropType;
 	name?: string;
 	height: number;
 	width: number;
@@ -22,7 +21,7 @@ export function OperatorImage({
 	hideFallBackText = false,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
-
+	const image = getImageSource(imageUrl);
 	return (
 		<View style={{ position: "relative" }}>
 			{!imageUrl || imageError ? (
@@ -34,9 +33,7 @@ export function OperatorImage({
 				/>
 			) : (
 				<Image
-					source={
-						imageUrl ? { uri: imageUrl, ...authHeader } : fallBack
-					}
+					source={image ?? fallBack}
 					onError={() => setImageError(true)}
 					style={{
 						height: scale(height),
