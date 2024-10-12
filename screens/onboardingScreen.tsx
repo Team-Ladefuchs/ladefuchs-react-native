@@ -74,22 +74,18 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 					backgroundColor: colors.ladefuchsLightBackground,
 					image: <AppLogo size={160} />,
 					title: (
-						<Text
-							style={{
-								fontSize: scale(16),
-								marginRight: scale(6),
-								bottom: scale(50),
-							}}
-						>
+						<Text style={styles.onboardingStep6Description}>
 							{i18n.t("onboardingStep6Description")}
 						</Text>
 					),
 					subtitle: (
-						<SafeAreaView style={styles.finishScreen}>
-							<LadefuchsButton
-								text={i18n.t("onboardingLetsGo")}
-								onPress={finishOnboarding}
-							/>
+						<SafeAreaView style={styles.finishButton}>
+							<View style={{ marginHorizontal: scale(26) }}>
+								<LadefuchsButton
+									text={i18n.t("onboardingLetsGo")}
+									onPress={finishOnboarding}
+								/>
+							</View>
 						</SafeAreaView>
 					),
 				},
@@ -204,11 +200,15 @@ const styles = ScaledSheet.create({
 		fontFamily: "Bitter",
 		fontSize: "12@s",
 	},
-	finishScreen: {
+	onboardingStep6Description: {
+		fontSize: "16@s",
+		marginRight: "6@s",
+		bottom: "50@s",
+	},
+	finishButton: {
 		position: "absolute",
 		bottom: "120@s",
 		width: "100%",
 		marginTop: "100@s",
-		paddingHorizontal: "24@s",
 	},
 });
