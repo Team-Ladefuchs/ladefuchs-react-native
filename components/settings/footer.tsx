@@ -3,15 +3,15 @@ import { View, Text } from "react-native";
 import { colors, styles } from "../../theme";
 import Constants from "expo-constants";
 import { ScaledSheet } from "react-native-size-matters";
+import i18n from "../../localization";
 
 const expoVersion = Constants.expoConfig?.version ?? "";
 
-export function Footer(): JSX.Element {
+export function Footer() {
 	return (
 		<View style={footerStyle.footerContainer}>
 			<Text style={[styles.italicText, footerStyle.text]}>
-				Handgefertigt aus ❤️ zur Elektromobilität in{"\n"} 👑 Aachen, ⚒️
-				Ahlen und 🧲 Hoppegarten
+			{i18n.t('footer')}
 			</Text>
 			<Text
 				style={[

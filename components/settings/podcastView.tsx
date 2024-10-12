@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Linking, Image } from "react-native";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import { Line } from "./line";
+import i18n from "../../localization";
 
 const podcasts = [
 	{
@@ -27,9 +28,9 @@ export function PodcastView(): JSX.Element {
 	const size = scale(70);
 	return (
 		<View>
-			<Text style={styles.headLine}>PODCASTFUCHS</Text>
+			<Text style={styles.headLine}>{i18n.t('podcastfuchs')}</Text>
 			<Text style={styles.italicText}>
-				Abonnieren Sie, sonst ist der Fuchs ganz traurig.
+			{i18n.t('podcastfuchstext')}
 			</Text>
 			<View
 				style={{

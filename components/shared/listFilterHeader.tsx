@@ -28,7 +28,12 @@ export function ListerFilterHeader({
 				activeOpacity={0.8}
 				style={styles.arrowLeftContainer}
 			>
-				<ArrowLeftBack style={{ left: scale(4), top: scale(3.5) }} />
+				<ArrowLeftBack
+					style={{
+						left: scale(4),
+						top: scale(-1),
+					}}
+				/>
 			</TouchableOpacity>
 		</View>
 	);
@@ -45,8 +50,7 @@ const styles = ScaledSheet.create({
 	arrowLeftContainer: {
 		backgroundColor: colors.ladefuchsOrange,
 		borderRadius: scale(12),
-		paddingVertical: scale(3),
-		height: "100%",
+		paddingVertical: scale(6),
 		width: scale(38),
 		paddingHorizontal: scale(6),
 	},

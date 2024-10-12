@@ -1,10 +1,11 @@
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../state/state";
+import { OnBoardingState, useAppStore } from "../state/state";
 import { getBanners } from "../functions/api/banner";
 import { getAllChargeConditions } from "../functions/api/chargeCondition";
+import { getFirstOnboarding } from "../functions/storage/onboarding";
 
 export function useQueryAppData() {
 	const [
@@ -13,6 +14,7 @@ export function useQueryAppData() {
 		operators,
 		setBanners,
 		ladefuchsBanners,
+		setShowOnboarding,
 	] = useAppStore(
 		useShallow((state) => [
 			state.setChargeConditions,
@@ -20,8 +22,24 @@ export function useQueryAppData() {
 			state.operators,
 			state.setBanners,
 			state.ladefuchsBanners,
+			state.setOnboarding,
 		]),
 	);
+
+	const onBoardingQuery = useQuery({
+		queryKey: ["showOnBoarding"],
+		queryFn: async (): Promise<OnBoardingState> => {
+			const value = await getFirstOnboarding();
+			return value ? "start" : "hide";
+		},
+	});
+
+	useEffect(() => {
+		if (!onBoardingQuery.data) {
+			return;
+		}
+		setShowOnboarding(onBoardingQuery.data);
+	}, [onBoardingQuery.data]);
 
 	const [allChargeConditionsQuery, bannerQuery] = useQueries({
 		queries: [
@@ -59,7 +77,6 @@ export function useQueryAppData() {
 		allChargeConditionsQuery.error,
 		setAppError,
 		setChargeConditions,
-		,
 	]);
 
 	useEffect(() => {

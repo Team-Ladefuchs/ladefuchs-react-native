@@ -31,11 +31,15 @@ import { LicenseView } from "./screens/licenseView";
 import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
+import i18n from "./localization";
+import { OnboardingScreen } from "./screens/onboardingScreen";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
+
+const MainStack = createStackNavigator<{ [appRoutes.home.key]: undefined }>();
 
 // Main App component
 export default function App(): JSX.Element {
@@ -48,6 +52,8 @@ export default function App(): JSX.Element {
 }
 
 function AppWrapper(): JSX.Element {
+	const fontLoaded = useCustomFonts();
+
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
@@ -58,32 +64,41 @@ function AppWrapper(): JSX.Element {
 		};
 	}, []);
 
+	// Die Hooks werden hier aufgerufen, unabhängig von der Onboarding-Logik
 	useQueryAppData();
 	useAopMetrics();
 
-	const fontLoaded = useCustomFonts();
+	// Sicherstellen, dass die Schriftarten geladen sind
 	if (!fontLoaded) {
-		return <View></View>;
+		return <View />; // Ladebildschirm oder Placeholder während der Schriftarten geladen werden
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				<RootStack.Screen
-					name="Home"
-					component={HomeScreen}
-					options={() => ({
-						header: () => <AppHeader />,
-						headerStyle: {
-							backgroundColor: colors.ladefuchsDarkBackground,
-						},
-						headerTintColor: colors.ladefuchsOrange,
-					})}
-				/>
+				<MainStack.Group>
+					<RootStack.Screen
+						name={appRoutes.home.key}
+						component={HomeScreen}
+						options={() => ({
+							header: () => <AppHeader />,
+							headerStyle: {
+								backgroundColor: colors.ladefuchsDarkBackground,
+							},
+							headerTintColor: colors.ladefuchsOrange,
+						})}
+					/>
+					<RootStack.Screen
+						name={appRoutes.onBoarding.key}
+						component={OnboardingScreen}
+						options={{ headerShown: false }}
+					/>
+				</MainStack.Group>
+
 				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}
-						component={TariffDetailView}
+						component={TariffDetailView as any}
 						options={({ navigation, route }: any) => ({
 							headerBackTitleVisible: false,
 							headerLeft: undefined,
@@ -131,7 +146,10 @@ function SettingsStackNavigator(): JSX.Element {
 				name={appRoutes.settings.key}
 				component={SettingsScreen}
 				options={({ navigation }) =>
-					modalHeader({ navigation, title: appRoutes.settings.title })
+					modalHeader({
+						navigation,
+						title: appRoutes.settings.title,
+					})
 				}
 			/>
 			<SettingsStack.Screen
@@ -165,7 +183,7 @@ function onAppStateChange(status: AppStateStatus) {
 
 function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
-		headerBackTitle: "Zurück",
+		headerBackTitle: i18n.t("zurueck"),
 		title,
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,

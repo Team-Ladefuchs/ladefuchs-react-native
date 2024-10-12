@@ -4,10 +4,13 @@ import {
 	saveToStorage,
 } from "../functions/storage/storage";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAppStore } from "../state/state";
+import { useShallow } from "zustand/react/shallow";
 
 export interface CustomTariff {
 	add: string[];
 	remove: string[];
+	favorite?: string[]; // this was addded later
 }
 export interface CustomOperators {
 	add: string[];
@@ -24,6 +27,7 @@ const emptyCustomSettings = {
 	tariffs: {
 		add: [],
 		remove: [],
+		favorite: [],
 	},
 	operators: {
 		add: [],
@@ -34,15 +38,26 @@ const emptyCustomSettings = {
 const key = "customTariffsOperators";
 
 export async function getCustomTariffsOperators(): Promise<CustomTariffsOperators> {
-	return (
+	const values =
 		(await retrieveFromStorage<CustomTariffsOperators>(key)) ??
-		emptyCustomSettings
-	);
+		emptyCustomSettings;
+
+	if (
+		values.tariffs.favorite === undefined ||
+		values.tariffs.favorite === null
+	) {
+		values.tariffs.favorite = [];
+	}
+	return values;
 }
 
 export function useCustomTariffsOperators() {
 	const [current, setCurrent] =
 		useState<CustomTariffsOperators>(emptyCustomSettings);
+
+	const [setFavoriteTariffIds] = useAppStore(
+		useShallow((state) => [state.setFavoriteTariffIds]),
+	);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -54,6 +69,7 @@ export function useCustomTariffsOperators() {
 	);
 
 	async function saveCustomTariffs(tariffs: CustomTariff): Promise<void> {
+		setFavoriteTariffIds(tariffs.favorite ?? []);
 		const newValue = {
 			...current,
 			tariffs,

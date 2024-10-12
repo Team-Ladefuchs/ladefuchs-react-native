@@ -84,14 +84,7 @@ export function hyphenText(input: string): string {
 	return result;
 }
 
-export function removeItemByIndex<T>(array: T[], index: number): T[] {
-	if (index > -1 && index < array.length) {
-		array.splice(index, 1);
-	}
-	return array;
-}
-
-export const defaultTimeout = Platform.OS === "android" ? 4500 : 3500;
+export const defaultTimeout = Platform.OS === "android" ? 5000 : 4500;
 
 export async function fetchWithTimeout(
 	url: string,
@@ -148,4 +141,13 @@ export function chargeConditionToHashMap(
 	}
 
 	return map;
+}
+
+export const adHocTariffRegex = /(ad-hoc|adhoc)$/i;
+
+export function formatTariffName({ name, providerName }: Tariff): string {
+	if (adHocTariffRegex.test(name)) {
+		return `${providerName} ad-hoc`;
+	}
+	return name;
 }

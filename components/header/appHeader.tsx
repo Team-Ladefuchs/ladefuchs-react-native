@@ -13,11 +13,17 @@ import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/state";
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { appRoutes } from "../../appRoutes";
+import { SettingsScreenNavigationProp, appRoutes } from "../../appRoutes";
+import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 
 export function AppHeader(): JSX.Element {
-	const navigation = useNavigation();
-	const reloadBanner = useAppStore((state) => state.reloadBanner);
+	const navigation = useNavigation<SettingsScreenNavigationProp>();
+	const [reloadBanner, isFavoriteTariffOnly, setisFavoriteTariffOnly] =
+		useAppStore((state) => [
+			state.reloadBanner,
+			state.isFavoriteTariffOnly,
+			state.setisFavoriteTariffOnly,
+		]);
 
 	return (
 		<SafeAreaView style={styles.headerContainer}>
@@ -45,17 +51,23 @@ export function AppHeader(): JSX.Element {
 					<AppLogo size={81} />
 				</TouchableOpacity>
 			</View>
-			<TouchableOpacity
-				activeOpacity={0.6}
-				hitSlop={scale(12)}
-				onPress={async () => {
-					// @ts-ignore
-					await navigation.navigate(appRoutes.settingsStack.key);
-				}}
-				style={styles.headerSettingsIcon}
-			>
-				<Zahnrad width={scale(30)} height={scale(30)} />
-			</TouchableOpacity>
+			<View style={styles.headerSettingsIcon}>
+				<FavoriteCheckbox
+					size={34}
+					style={{ bottom: scale(0.5) }}
+					checked={isFavoriteTariffOnly}
+					onValueChange={setisFavoriteTariffOnly}
+				/>
+				<TouchableOpacity
+					activeOpacity={0.6}
+					hitSlop={scale(12)}
+					onPress={() => {
+						navigation.navigate(appRoutes.settingsStack.key);
+					}}
+				>
+					<Zahnrad width={scale(29)} height={scale(29)} />
+				</TouchableOpacity>
+			</View>
 		</SafeAreaView>
 	);
 }
@@ -81,6 +93,10 @@ const styles = ScaledSheet.create({
 		width: "100%",
 	},
 	headerSettingsIcon: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		gap: "14@s",
 		position: "absolute",
 		right: "15@s",
 		bottom: "15@s",

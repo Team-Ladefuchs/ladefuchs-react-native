@@ -6,6 +6,7 @@ import {
 	Platform,
 	Alert,
 } from "react-native";
+
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { OperatorImage } from "../components/shared/operatorImage";
@@ -24,14 +25,15 @@ import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { genericOperatorImage } from "../functions/shared";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
 import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
+import i18n from "../localization";
 
 type filerType = "all" | "ownOperators";
 
 const itemHeight = scale(66);
 
 const tabs = [
-	{ key: "all", label: "Alle" },
-	{ key: "ownOperators", label: "Aktiv" },
+	{ key: "all", label: i18n.t("alle") },
+	{ key: "ownOperators", label: i18n.t("aktiv") },
 ] satisfies TabItem<filerType>[];
 
 export function OperatorList(): JSX.Element {
@@ -109,24 +111,20 @@ export function OperatorList(): JSX.Element {
 	]);
 
 	const handleOperatorReset = () => {
-		Alert.alert(
-			"Anbieter zurücksetzen",
-			"Deine Anbieter werden zurückgesetzt. Bist du dir ganz sicher?",
-			[
-				{
-					text: "Abbrechen",
-					style: "cancel",
+		Alert.alert(i18n.t("operatorAlert"), i18n.t("operatorAlertText"), [
+			{
+				text: i18n.t("cancel"),
+				style: "cancel",
+			},
+			{
+				text: i18n.t("yes"),
+				onPress: async () => {
+					setOperatorAddSet(new Set([]));
+					setOperatorRemoveSet(new Set([]));
+					await resetCustomOperators();
 				},
-				{
-					text: "Ja bin ich",
-					onPress: async () => {
-						setOperatorAddSet(new Set([]));
-						setOperatorRemoveSet(new Set([]));
-						await resetCustomOperators();
-					},
-				},
-			],
-		);
+			},
+		]);
 	};
 
 	useEffect(() => {
@@ -156,7 +154,6 @@ export function OperatorList(): JSX.Element {
 					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
-						disableAnimation={true}
 						estimatedItemSize={itemHeight}
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
@@ -234,7 +231,10 @@ export function OperatorList(): JSX.Element {
 					/>
 				)}
 			</View>
-			<SearchInput onChange={setSearch} placeHolder="Betreiber suchen" />
+			<SearchInput
+				onChange={setSearch}
+				placeHolder={i18n.t("betreibersuche")}
+			/>
 		</KeyboardAvoidingView>
 	);
 }

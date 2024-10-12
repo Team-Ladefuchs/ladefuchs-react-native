@@ -1,20 +1,36 @@
 import React from "react";
-import { Pressable } from "react-native";
+import { DimensionValue, Pressable } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import CheckMark from "@assets/generic/checkmark_bold.svg";
 import { colors } from "../../theme";
+import * as Haptics from "expo-haptics";
 
 interface Props {
 	checked: boolean;
+	size?: DimensionValue;
 	onValueChange: (value: boolean) => void;
 }
 
-export function Checkbox({ checked, onValueChange }: Props): JSX.Element {
+export function Checkbox({
+	checked,
+	onValueChange,
+	size = scale(24),
+}: Props): JSX.Element {
 	return (
 		<Pressable
-			style={[styles.checkBox, checked && styles.checked]}
+			style={[
+				styles.checkBox,
+				checked && styles.checked,
+				{ width: size, height: size },
+			]}
 			hitSlop={scale(12)}
 			onPress={() => {
+				if (!checked) {
+					Haptics.notificationAsync(
+						Haptics.NotificationFeedbackType.Success,
+					);
+				}
+
 				onValueChange(!checked);
 			}}
 		>
@@ -30,7 +46,7 @@ export function Checkbox({ checked, onValueChange }: Props): JSX.Element {
 
 const styles = ScaledSheet.create({
 	checkBox: {
-		marginHorizontal: "8@s",
+		marginHorizontal: "1@s",
 		borderRadius: "6@s",
 		padding: "3@s",
 		justifyContent: "center",
@@ -38,12 +54,10 @@ const styles = ScaledSheet.create({
 		alignItems: "center",
 		opacity: 0.75,
 		backgroundColor: colors.ladefuchsDarkGrayBackground,
-		// backgroundColor: colors.ladefuchsDunklerBalken,
 	},
 	checkMark: {
 		left: "2@s",
 		top: "2@s",
-		padding: 10,
 	},
 	checked: {
 		opacity: 1,

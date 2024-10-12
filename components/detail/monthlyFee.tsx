@@ -5,6 +5,7 @@ import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
 import React from "react";
 import { useFormatNumber } from "../../hooks/useNumberFormat";
+import i18n from "../../localization";
 
 export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 	const { formatCurrency } = useFormatNumber();
@@ -19,7 +20,7 @@ export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 			}}
 		>
 			{fee && <HighlightCorner />}
-			<CardHeader text="Monatliche Gebühr" />
+			<CardHeader text={i18n.t('monthlyfee')} />
 			<ItalicText text={formattedFee} />
 		</View>
 	);

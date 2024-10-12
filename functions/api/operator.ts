@@ -53,12 +53,12 @@ export async function fetchOperators({
 }
 
 interface OperatorCustomRequest {
-	add: string[];
-	remove: string[];
+    add: string[];
+    remove: string[];
 }
 
 export async function fetchOperatorCustom(
-	request: OperatorCustomRequest,
+    request: OperatorCustomRequest,
 ): Promise<Operator[]> {
 	try {
 		const response = await fetchWithTimeout(`${apiUrl}/v3/operators`, {
