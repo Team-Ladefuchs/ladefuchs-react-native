@@ -73,13 +73,12 @@ const en = {
 		"You choose the tariff that suits you best and mark your favorites.",
 	onboardingStep4Description: "…I would be happy about a nice review…",
 	onboardingStep5Description: "Repeat onboarding",
-	onboardingStep6Description: "You are now a 🦊",
-	onboardingAlert:
-		"Onboarding will be displayed again the next time you start.",
+	onboardingStep6Description: "All set! Let's get started!",
+	onboardingLetsGo: "Let's go!",
 	tariffFilter: "Filter",
 	favoriten: "Favorites",
 	aktiveTarife: "Active",
-	startOnBoarding: "Start App Tour ›",
+	startOnBoarding: "Start app tour now ›",
 };
 
 export default en;

@@ -6,7 +6,6 @@ import { Line } from "./line";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../state/state";
 import i18n from "../../localization";
-import { resetOnboarding } from "../../functions/storage/onboarding";
 
 export function StartOnBoarding(): JSX.Element {
 	const [setOnboarding] = useAppStore(

@@ -94,6 +94,7 @@ function AppWrapper(): JSX.Element {
 						options={{ headerShown: false }}
 					/>
 				</MainStack.Group>
+
 				<RootStack.Group screenOptions={{ presentation: "modal" }}>
 					<RootStack.Screen
 						name={appRoutes.detailScreen.key}

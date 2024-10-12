@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, Platform } from "react-native";
 import { colors } from "../../theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
+
 export function LadefuchsButton({
 	onPress,
 	text,

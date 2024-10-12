@@ -11,7 +11,7 @@ import { OfflineView } from "../components/home/offline";
 import { ScaledSheet } from "react-native-size-matters";
 import i18n from "../localization";
 import { useNavigation } from "@react-navigation/native";
-import { OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
+import { type OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
 
 export function HomeScreen(): JSX.Element {
 	const router = useNavigation<OnboardingScreenNavigationProp>();

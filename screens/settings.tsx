@@ -82,8 +82,8 @@ export function SettingsScreen() {
 					<Illustration />
 					<PodcastView />
 					<Support />
-					<Impressum />
 					<StartOnBoarding />
+					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"
 						title={appRoutes.license.title}

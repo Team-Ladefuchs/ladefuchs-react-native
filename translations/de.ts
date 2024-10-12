@@ -75,12 +75,12 @@ const de = {
 	onboardingStep4Description:
 		"…vielleicht schenkst du mir eine nette Bewertung…",
 	onboardingStep5Description: "Onboarding später nochmal wiederholen",
-	onboardingStep6Description: "Du bist jetzt ein 🦊",
-	onboardingAlert: "Onboarding wird beim nächsten Start wieder angezeigt.",
+	onboardingStep6Description: "Alles erledigt! Lass uns starten!",
+	onboardingLetsGo: "Los Gehts!",
 	tariffFilter: "Filter",
 	favoriten: "Favoriten",
 	aktiveTarife: "Aktive",
-	startOnBoarding: "App Tour starten ›",
+	startOnBoarding: "Start app tour now ›",
 };
 
 export default de;

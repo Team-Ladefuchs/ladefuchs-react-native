@@ -2,6 +2,7 @@ import React from "react";
 import {
 	Image,
 	ImageSourcePropType,
+	SafeAreaView,
 	StyleProp,
 	Text,
 	TextStyle,
@@ -14,6 +15,8 @@ import Onboarding, { Page } from "react-native-onboarding-swiper";
 import i18n from "../localization";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/state";
+import { AppLogo } from "../components/header/appLogo";
+import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 
 interface OnboardingData {
 	imageSource: ImageSourcePropType;
@@ -26,15 +29,16 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 		useShallow((state) => [state.setOnboarding]),
 	);
 
-	const finish = () => {
+	const finishOnboarding = () => {
 		setOnboarding("hide");
 		navigation.navigate(appRoutes.home.key);
 	};
 
 	return (
 		<Onboarding
-			onDone={finish}
-			onSkip={finish}
+			showDone={false}
+			onDone={finishOnboarding}
+			onSkip={finishOnboarding}
 			pages={[
 				generatePage({
 					imageSource: require("@assets/onBoarding/onboardingStep0.png"),
@@ -68,14 +72,26 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 				}),
 				{
 					backgroundColor: colors.ladefuchsLightBackground,
-					image: (
-						<Image
-							source={require("@assets/fuchs/ladefuchs.png")}
-							style={{ width: scale(250), height: scale(300) }}
-						/>
+					image: <AppLogo size={160} />,
+					title: (
+						<Text
+							style={{
+								fontSize: scale(16),
+								marginRight: scale(6),
+								bottom: scale(50),
+							}}
+						>
+							{i18n.t("onboardingStep6Description")}
+						</Text>
 					),
-					title: i18n.t("onboardingStep6Description"),
-					subtitle: "",
+					subtitle: (
+						<SafeAreaView style={styles.finishScreen}>
+							<LadefuchsButton
+								text={i18n.t("onboardingLetsGo")}
+								onPress={finishOnboarding}
+							/>
+						</SafeAreaView>
+					),
 				},
 			]}
 		/>
@@ -187,5 +203,12 @@ const styles = ScaledSheet.create({
 		color: "#fff",
 		fontFamily: "Bitter",
 		fontSize: "12@s",
+	},
+	finishScreen: {
+		position: "absolute",
+		bottom: "120@s",
+		width: "100%",
+		marginTop: "100@s",
+		paddingHorizontal: "24@s",
 	},
 });
