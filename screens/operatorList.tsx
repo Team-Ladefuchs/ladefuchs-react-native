@@ -204,10 +204,7 @@ export function OperatorList(): JSX.Element {
 							return (
 								<View style={styles.itemBody}>
 									<OperatorImage
-										imageUrl={
-											operator.imageUrl ??
-											genericOperatorImage
-										}
+										imageUrl={operator.imageUrl}
 										name={operator.name}
 										height={50}
 										width={72}

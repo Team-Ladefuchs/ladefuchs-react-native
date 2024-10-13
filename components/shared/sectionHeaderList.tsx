@@ -330,7 +330,7 @@ const styles = ScaledSheet.create({
 		position: "absolute",
 		zIndex: 2,
 		right: "-2@s",
-		top: "116@s",
+		top: "25%",
 		opacity: 0.8,
 		width: "20@s",
 		flex: 2,

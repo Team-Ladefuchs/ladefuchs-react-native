@@ -207,8 +207,7 @@ const styles = ScaledSheet.create({
 	},
 	finishButton: {
 		position: "absolute",
-		bottom: "120@s",
+		bottom: "126@s",
 		width: "100%",
-		marginTop: "100@s",
 	},
 });
