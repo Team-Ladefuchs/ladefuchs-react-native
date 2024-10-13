@@ -38,6 +38,8 @@ export function OnboardingScreen({ navigation }: any): JSX.Element {
 		<Onboarding
 			showDone={false}
 			onDone={finishOnboarding}
+			skipLabel={i18n.t("skip")}
+			nextLabel={i18n.t("next")}
 			onSkip={finishOnboarding}
 			pages={[
 				generatePage({
@@ -104,7 +106,12 @@ function generatePage({
 		image: (
 			<View>
 				<Image source={imageSource} style={styles.defualtImageStyle} />
-				<Text style={overlayStyle}>{i18n.t(descriptionKey)}</Text>
+				<Text
+					style={[overlayStyle, styles.subtitleText]}
+					allowFontScaling={false}
+				>
+					{i18n.t(descriptionKey)}
+				</Text>
 			</View>
 		),
 		title: "",
@@ -138,71 +145,48 @@ const styles = ScaledSheet.create({
 		textAlign: "center",
 		marginBottom: 20,
 	},
-	subtitle: {
+	subtitleText: {
+		position: "absolute",
 		color: "white",
 		fontFamily: "Bitter",
-		fontSize: "13@s",
-		lineHeight: "20@s",
-		marginBottom: 120,
-		position: "static",
+		lineHeight: "19@s",
+		fontSize: "14@s",
 	},
 	overlaySubtitle: {
-		position: "absolute",
-		bottom: scale(120),
-		left: scale(80),
-		right: scale(10),
-		color: "#fff",
-		fontFamily: "Bitter",
-		fontSize: "12@s",
+		bottom: "116@s",
+		left: "80@s",
+		right: "18@s",
 	},
 	overlaySubtitle1: {
-		position: "absolute",
-		bottom: scale(225),
-		left: scale(90),
-		right: scale(10),
-		color: "#fff",
-		fontFamily: "Bitter",
-		fontSize: "12@s",
+		bottom: "232@s",
+		left: "90@s",
+		right: "10@s",
 	},
 	overlaySubtitle2: {
-		position: "absolute",
-		bottom: scale(330),
-		left: scale(95),
-		right: scale(10),
-		color: "#fff",
-		fontFamily: "Bitter",
-		fontSize: "12@s",
+		bottom: "317@s",
+		left: "95@s",
+		right: "10@s",
 	},
 	overlaySubtitle3: {
-		position: "absolute",
-		top: scale(200),
-		left: scale(95),
-		right: scale(10),
-		color: "#fff",
-		fontFamily: "Bitter",
-		fontSize: "12@s",
+		top: "203@s",
+		left: "95@s",
+		right: "10@s",
 	},
 	overlaySubtitle4: {
-		position: "absolute",
-		top: scale(340),
-		left: scale(95),
-		right: scale(10),
-		color: "#fff",
-		fontFamily: "Bitter",
-		fontSize: "12@s",
+		top: "334@s",
+		left: "86@s",
+		width: "200@s",
+		right: "10@s",
 	},
 	overlaySubtitle5: {
-		position: "absolute",
-		bottom: scale(65),
-		left: scale(95),
-		right: scale(10),
-		color: "#fff",
-		fontFamily: "Bitter",
-		fontSize: "12@s",
+		bottom: "55@s",
+		left: "86@s",
+		right: "10@s",
 	},
 	onboardingStep6Description: {
 		fontSize: "16@s",
 		marginRight: "6@s",
+		fontFamily: "Bitter",
 		bottom: "50@s",
 	},
 	finishButton: {

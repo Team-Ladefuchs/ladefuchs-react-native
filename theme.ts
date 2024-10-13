@@ -23,6 +23,7 @@ const fonts = {
 const styles = ScaledSheet.create({
 	headLine: {
 		color: colors.ladefuchsOrange,
+		textTransform: "uppercase",
 		fontFamily: "Roboto",
 		fontSize: "18@s",
 		marginBottom: "2@s",
@@ -32,13 +33,12 @@ const styles = ScaledSheet.create({
 		fontFamily: "Bitter",
 		lineHeight: "20@s",
 	},
+	settingsLink: {
+		fontFamily: "Bitter",
+		textDecorationLine: "underline",
+	},
 	italicText: {
 		color: "black",
-		fontFamily: "Bitter",
-		lineHeight: "20@s",
-	},
-	italicTextLink: {
-		color: "#f45c2d",
 		fontFamily: "Bitter",
 		lineHeight: "20@s",
 	},

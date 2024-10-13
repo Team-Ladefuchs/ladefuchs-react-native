@@ -77,11 +77,11 @@ export function SettingsScreen(): JSX.Element {
 				</View>
 				<View style={settingsStyle.innerContainer}>
 					<MemberView />
-					<DatenView />
-					<Illustration />
-					<PodcastView />
 					<Support />
 					<StartOnBoarding />
+					<PodcastView />
+					<Illustration />
+					<DatenView />
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"

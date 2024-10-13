@@ -11,7 +11,7 @@ export function Support(): JSX.Element {
 			<Text style={styles.headLine}>{i18n.t("supportfuchs2")}</Text>
 			<Text style={styles.italicText}>{i18n.t("supportfuchstext2")}</Text>
 			<TouchableOpacity
-				activeOpacity={0.9}
+				activeOpacity={0.8}
 				hitSlop={scale(10)}
 				onPress={async () =>
 					await Linking.openURL(
@@ -20,7 +20,7 @@ export function Support(): JSX.Element {
 				}
 				style={{ marginTop: scale(1) }}
 			>
-				<Text style={styles.headLine}>{i18n.t("supportlink")}</Text>
+				<Text style={styles.settingsLink}>{i18n.t("supportlink")}</Text>
 			</TouchableOpacity>
 			<Line style={{ marginTop: scale(16) }} />
 		</View>

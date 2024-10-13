@@ -58,27 +58,30 @@ const en = {
 	supportfuchs2: "Support",
 	supportfuchstext:
 		"Of course you can support us, there are many ways you can help us:\n\n❤️Get the THQ quote for your electric car via our referral link at geld-fuer-eauto.de\n❤️Throw a coin into our PayPal fountain\n❤️Wear the fox from our merch\n❤️Send a financial messenger to our support account:\n	Account holder: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
-	supportfuchstext2: "How can I feed the fox?",
-	supportlink: "❤️ Check it out here ›",
+	supportfuchstext2: "How can I feed the fox? 🧡",
+	supportlink: "Check it out here",
 	onboardingStep0Description:
 		"Select the provider of the charging station where you are standing.",
 	onboardingStep1Description:
-		"You can find the cheapest charging cards in the list above. You can filter your favorites here.",
+		"You can find the cheapest charging cards in the list above.",
 	onboardingStep2Description: "Take a look at the settings!",
 	onboardingStep3Description:
 		"Here you can add your personal charging tariffs and other charging station operators.",
 	onboardingStep7Description:
-		"At the charging stations you can see all providers and have the option to configure them according to your wishes.",
+		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
 	onboardingStep8Description:
-		"You choose the tariff that suits you best and mark your favorites.",
+		"Find the right rates for you and mark them as ⭐️ favorites.",
 	onboardingStep4Description: "…I would be happy about a nice review…",
 	onboardingStep5Description: "Repeat onboarding",
-	onboardingStep6Description: "All set! Let's get started!",
+	onboardingStep6Description: "All set!",
 	onboardingLetsGo: "Let's go!",
 	tariffFilter: "Filter",
 	favoriten: "Favorites",
 	aktiveTarife: "Active",
-	startOnBoarding: "Start app tour now ›",
+	startOnBoarding: "Start app tour now",
+	next: "Next",
+	skip: "Skip",
+	howThisAppWorks: "How does this work?",
 };
 
 export default en;

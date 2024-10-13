@@ -14,15 +14,18 @@ export function StartOnBoarding(): JSX.Element {
 
 	return (
 		<View>
+			<Text style={styles.headLine}>{i18n.t("howThisAppWorks")}</Text>
 			<TouchableOpacity
-				activeOpacity={0.9}
+				activeOpacity={0.8}
 				hitSlop={scale(10)}
 				onPress={() => {
 					setOnboarding("start");
 				}}
 				style={{ marginTop: scale(1) }}
 			>
-				<Text style={styles.headLine}>{i18n.t("startOnBoarding")}</Text>
+				<Text style={styles.settingsLink}>
+					{i18n.t("startOnBoarding")}
+				</Text>
 			</TouchableOpacity>
 			<Line style={{ marginTop: scale(16) }} />
 		</View>

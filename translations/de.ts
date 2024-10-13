@@ -59,28 +59,31 @@ const de = {
 	supportfuchs2: "Unterstützung",
 	supportfuchstext:
 		"Na klar kannst du uns unterstützen, es gibt viele Wege über die du uns unter die Arme greifen kannst:\n\n❤️Hol dir die THQ Quote für dein E-Auto über unsere Referrallink bei geld-fuer-eauto.de\n❤️Wirf eine Münze in unseren PayPal Brunnen\n❤️Trage den Fuchs aus unserem Merch\n❤️Schicke einen Finanzboten zu unserem Unterstützungskonto:\n	Kontoinhaber: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
-	supportfuchstext2: "Wie kann ich den Fuchs füttern?",
-	supportlink: "❤️ Schau mal hier vorbei ›",
+	supportfuchstext2: "Wie kann ich den Fuchs füttern? 🧡",
+	supportlink: "Schau mal hier vorbei",
 	onboardingStep0Description:
 		"Wähle den Anbieter der Ladesäule, an der du stehst.",
 	onboardingStep1Description:
-		"Die günstigsten Ladekarten findest du oben in der Liste. Deine Favoriten kannst du dir hier filtern.",
+		"Die günstigsten Ladekarten findest du oben in der Liste.",
 	onboardingStep2Description: "Wirf einen Blick in die Settings!",
 	onboardingStep3Description:
 		"Hier kannst du deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
 	onboardingStep7Description:
-		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit diese nach deinen Wünschen zu konfigurieren.",
+		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
 	onboardingStep8Description:
-		"Du suchst dir deinen passenden Tarif heraus und markierst deine Favoriten.",
+		"Such dir die passenden Tarife heraus und markier sie als ⭐️ Favoriten.",
 	onboardingStep4Description:
 		"…vielleicht schenkst du mir eine nette Bewertung…",
 	onboardingStep5Description: "Onboarding später nochmal wiederholen",
-	onboardingStep6Description: "Alles erledigt! Lass uns starten!",
+	onboardingStep6Description: "Alles erledigt!",
 	onboardingLetsGo: "Los Gehts!",
 	tariffFilter: "Filter",
 	favoriten: "Favoriten",
 	aktiveTarife: "Aktive",
-	startOnBoarding: "App Tour jetzt starten ›",
+	startOnBoarding: "App Tour jetzt starten",
+	next: "Weiter",
+	skip: "Skip",
+	howThisAppWorks: "wie funktioniert das hier?",
 };
 
 export default de;

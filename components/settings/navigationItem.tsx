@@ -40,9 +40,7 @@ export function NavigationItem({
 					}}
 				>
 					<View style={navigationItemStyle.middleContainer}>
-						<Text style={styles.headLine}>
-							{title.toUpperCase()}
-						</Text>
+						<Text style={styles.headLine}>{title}</Text>
 						{description && (
 							<Text style={navigationItemStyle.descriptionText}>
 								{description}
