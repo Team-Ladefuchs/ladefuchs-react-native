@@ -32,7 +32,7 @@ import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 import i18n from "./localization";
-import { OnboardingScreen } from "./screens/onboardingScreen";
+import { OnboardingView } from "./screens/onboardingView";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
@@ -90,7 +90,7 @@ function AppWrapper(): JSX.Element {
 					/>
 					<RootStack.Screen
 						name={appRoutes.onBoarding.key}
-						component={OnboardingScreen}
+						component={OnboardingView}
 						options={{ headerShown: false }}
 					/>
 				</MainStack.Group>

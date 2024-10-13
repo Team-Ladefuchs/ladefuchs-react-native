@@ -14,7 +14,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import Onboarding, { Page } from "react-native-onboarding-swiper";
 import i18n from "../localization";
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../state/appState";
 import { AppLogo } from "../components/header/appLogo";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 
@@ -24,7 +24,7 @@ interface OnboardingData {
 	descriptionKey: string;
 }
 
-export function OnboardingScreen({ navigation }: any): JSX.Element {
+export function OnboardingView({ navigation }: any): JSX.Element {
 	const [setOnboarding] = useAppStore(
 		useShallow((state) => [state.setOnboarding]),
 	);

@@ -11,7 +11,7 @@ import { AppLogo } from "./appLogo";
 import { colors } from "../../theme";
 import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
-import { useAppStore } from "../../state/state";
+import { useAppStore } from "../../state/appState";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SettingsScreenNavigationProp, appRoutes } from "../../appRoutes";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";

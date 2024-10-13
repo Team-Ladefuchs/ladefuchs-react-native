@@ -6,7 +6,7 @@ import OperatorPicker from "../components/home/operatorPicker";
 import { ChargeConditionTable } from "../components/home/chargeCondtitonTable/chargeConditionTable";
 import { AppBanner } from "../components/home/appBanner";
 import { ChargingTableHeader } from "../components/home/chargeCondtitonTable/chargingTableHeader";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../state/appState";
 import { OfflineView } from "../components/home/offline";
 import { ScaledSheet } from "react-native-size-matters";
 import i18n from "../localization";

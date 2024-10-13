@@ -4,7 +4,7 @@ import {
 	saveToStorage,
 } from "../functions/storage/storage";
 import { useFocusEffect } from "@react-navigation/native";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../state/appState";
 import { useShallow } from "zustand/react/shallow";
 
 export interface CustomTariff {

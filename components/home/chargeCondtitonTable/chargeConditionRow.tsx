@@ -11,7 +11,7 @@ import {
 	appRoutes,
 } from "../../../appRoutes";
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../../../state/state";
+import { useAppStore } from "../../../state/appState";
 
 interface ChargeCardModel {
 	tariff: Tariff | null | undefined;

@@ -1,4 +1,4 @@
-import { ChargeConditionData } from "../../state/state";
+import { ChargeConditionData } from "../../state/appState";
 import {
 	ChargeMode,
 	ChargingCondition,

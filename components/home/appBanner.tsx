@@ -12,7 +12,7 @@ import {
 import { colors } from "../../theme";
 import { authHeader } from "../../functions/api/base";
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../../state/state";
+import { useAppStore } from "../../state/appState";
 import { scale } from "react-native-size-matters";
 
 export function AppBanner(): JSX.Element {

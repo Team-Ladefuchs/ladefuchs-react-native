@@ -3,7 +3,7 @@ import { View, FlatList } from "react-native";
 import { TariffCondition } from "../../../types/conditions";
 import { fill, zip } from "../../../functions/util";
 import { colors } from "../../../theme";
-import { useAppStore } from "../../../state/state";
+import { useAppStore } from "../../../state/appState";
 import { useShallow } from "zustand/react/shallow";
 import { ChargeConditionRow } from "./chargeConditionRow";
 import { useQueryAppData } from "../../../hooks/useQueryAppData";
@@ -99,7 +99,6 @@ export function ChargeConditionTable() {
 					]}
 				>
 					<ChargeConditionRow
-						
 						tariffCondition={left}
 						tariff={tariffs.get(left?.tariffId)}
 					/>

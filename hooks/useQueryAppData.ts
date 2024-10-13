@@ -2,7 +2,7 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 import { useShallow } from "zustand/react/shallow";
-import { OnBoardingState, useAppStore } from "../state/state";
+import { OnBoardingState, useAppStore } from "../state/appState";
 import { getBanners } from "../functions/api/banner";
 import { getAllChargeConditions } from "../functions/api/chargeCondition";
 import { getFirstOnboarding } from "../functions/storage/onboarding";

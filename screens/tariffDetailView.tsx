@@ -8,7 +8,7 @@ import { AffiliateButton } from "../components/detail/affiliateButton";
 import { Notes } from "../components/detail/notes";
 import { MonthlyFee } from "../components/detail/monthlyFee";
 import { BlockingFee } from "../components/detail/blockingFee";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../state/appState";
 import { useShallow } from "zustand/react/shallow";
 import { ScrollView } from "react-native-gesture-handler";
 import { ScaledSheet } from "react-native-size-matters";

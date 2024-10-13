@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { AppStateStatus, AppState } from "react-native";
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../state/state";
+import { useAppStore } from "../state/appState";
 import { postBannerImpression } from "../functions/api/banner";
 import { postAppMetric } from "../functions/api/appMetrics";
 

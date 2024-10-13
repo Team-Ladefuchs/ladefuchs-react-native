@@ -4,7 +4,7 @@ import { scale } from "react-native-size-matters";
 import { styles } from "../../theme";
 import { Line } from "./line";
 import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "../../state/state";
+import { useAppStore } from "../../state/appState";
 import i18n from "../../localization";
 
 export function StartOnBoarding(): JSX.Element {
