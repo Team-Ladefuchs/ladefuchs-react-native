@@ -67,11 +67,10 @@ const en = {
 	onboardingStep2Description: "Take a look at the settings!",
 	onboardingStep3Description:
 		"Here you can add your personal charging tariffs and other charging station operators.",
-	onboardingStep7Description:
+	onboardingStep4Description:
 		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
 	onboardingStep8Description:
 		"Find the right rates for you and mark them as ⭐️ favorites.",
-	onboardingStep4Description: "…I would be happy about a nice review…",
 	onboardingStep5Description: "Repeat onboarding",
 	onboardingStep6Description: "All set!",
 	onboardingLetsGo: "Let's go!",

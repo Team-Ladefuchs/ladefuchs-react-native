@@ -68,12 +68,10 @@ const de = {
 	onboardingStep2Description: "Wirf einen Blick in die Settings!",
 	onboardingStep3Description:
 		"Hier kannst du deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
-	onboardingStep7Description:
+	onboardingStep4Description:
 		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
 	onboardingStep8Description:
 		"Such dir die passenden Tarife heraus und markier sie als ⭐️ Favoriten.",
-	onboardingStep4Description:
-		"…vielleicht schenkst du mir eine nette Bewertung…",
 	onboardingStep5Description: "Onboarding später nochmal wiederholen",
 	onboardingStep6Description: "Alles erledigt!",
 	onboardingLetsGo: "Los Gehts!",

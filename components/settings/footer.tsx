@@ -7,12 +7,10 @@ import i18n from "../../localization";
 
 const expoVersion = Constants.expoConfig?.version ?? "";
 
-export function Footer() {
+export function Footer(): JSX.Element {
 	return (
 		<View style={footerStyle.footerContainer}>
-			<Text style={[styles.italicText, footerStyle.text]}>
-			{i18n.t('footer')}
-			</Text>
+			<Text style={[footerStyle.text]}>{i18n.t("footer")}</Text>
 			<Text
 				style={[
 					styles.italicText,
@@ -35,6 +33,8 @@ const footerStyle = ScaledSheet.create({
 	},
 	text: {
 		textAlign: "center",
+		color: "black",
+		fontFamily: "Bitter",
 	},
 	versionText: {
 		opacity: 0.4,
