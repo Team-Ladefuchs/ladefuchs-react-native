@@ -76,7 +76,7 @@ export function OnboardingView({ navigation }: any): JSX.Element {
 				generatePage({
 					imageSource: require("@assets/onBoarding/onboardingStep5.png"),
 					overlayStyle: styles.overlaySubtitle5,
-					descriptionKey: "onboardingStep3Description",
+					descriptionKey: "onboardingStep5Description",
 					page: 6,
 				}),
 				{
@@ -85,7 +85,7 @@ export function OnboardingView({ navigation }: any): JSX.Element {
 						<View>
 							<AppLogo size={160} />
 							<Text style={styles.onboardingFinalDescription}>
-								{i18n.t("onboardingStep6Description")}
+								{i18n.t("onboardingAllSet")}
 							</Text>
 						</View>
 					),

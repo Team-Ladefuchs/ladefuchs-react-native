@@ -68,11 +68,10 @@ const en = {
 	onboardingStep3Description:
 		"Here you can add your personal charging tariffs and other charging station operators.",
 	onboardingStep4Description:
-		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
-	onboardingStep8Description:
+		"With the charging stations you can see all providers and have the option of configuring them according to your wishes.",
+	onboardingStep5Description:
 		"Find the right rates for you and mark them as ⭐️ favorites.",
-	onboardingStep5Description: "Repeat onboarding",
-	onboardingStep6Description: "All set!",
+	onboardingAllSet: "All set!",
 	onboardingLetsGo: "Let's go!",
 	tariffFilter: "Filter",
 	favoriten: "Favorites",

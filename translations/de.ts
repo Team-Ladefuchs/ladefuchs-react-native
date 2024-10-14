@@ -70,10 +70,9 @@ const de = {
 		"Hier kannst du deine persönlichen Ladetarife und weitere Ladesäulen-Betreiber hinzufügen.",
 	onboardingStep4Description:
 		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
-	onboardingStep8Description:
+	onboardingStep5Description:
 		"Such dir die passenden Tarife heraus und markier sie als ⭐️ Favoriten.",
-	onboardingStep5Description: "Onboarding später nochmal wiederholen",
-	onboardingStep6Description: "Alles erledigt!",
+	onboardingAllSet: "Alles erledigt!",
 	onboardingLetsGo: "Los Gehts!",
 	tariffFilter: "Filter",
 	favoriten: "Favoriten",
