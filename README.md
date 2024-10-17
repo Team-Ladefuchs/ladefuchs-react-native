@@ -1,13 +1,25 @@
 ![fuchs](https://github.com/user-attachments/assets/9ebc8045-7652-4389-a7c9-f49233d35c57)
 
-# Ladefuchs 
+# Ladefuchs Mobile
 
-<p>
-  <img alt="typescript" src="https://img.shields.io/badge/-typescript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-  <img alt="appstore" src="https://img.shields.io/badge/-AppStore-0D96F6?style=flat-square&logo=appstore&logoColor=white" />
-  <img alt="googleplay" src="https://img.shields.io/badge/-GooglePlay-414141?style=flat-square&logo=googleplay&logoColor=white" />
-  <img alt="fdroid" src="https://img.shields.io/badge/-FDroid-1976D2?style=flat-square&logo=fdroid&logoColor=white" />
-</p>
+<table>
+  <thead>
+  <th>Written in</th>
+  <th>Available at</th>
+  <th>Licensed with</th>
+  </thead>
+  <td>
+    <img alt="typescript" src="https://img.shields.io/badge/-typescript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+  </td>
+  <td>
+    <img alt="appstore" src="https://img.shields.io/badge/-AppStore-0D96F6?style=flat-square&logo=appstore&logoColor=white" />
+    <img alt="googleplay" src="https://img.shields.io/badge/-GooglePlay-414141?style=flat-square&logo=googleplay&logoColor=white" />
+    <img alt="fdroid" src="https://img.shields.io/badge/-FDroid-1976D2?style=flat-square&logo=fdroid&logoColor=white" />
+  </td>
+  <td>
+    <img alt="apache" src="https://img.shields.io/badge/-Apache2-D22128?style=flat-square&logo=apache&logoColor=white" />
+  </td>
+</table>
 
 Ladefuchs is an open-source app that compares charging tariffs inside Germany depending on the charging-station you are currently standing at. Ladefuchs is a non-profit application and organisation that aims for making electric mobility more accessible to a broader userbase by adopting well-known patterns.
 
