@@ -9,7 +9,7 @@
   <img alt="fdroid" src="https://img.shields.io/badge/-FDroid-1976D2?style=flat-square&logo=fdroid&logoColor=white" />
 </p>
 
-Ladefuchs is an open-source app that compares charging tariffs inside Germany depending on the charging-station you are currently standing it. This is a non-profit application that aims for making electric mobility more accessible to a broader userbase by adopting well-known patterns.
+Ladefuchs is an open-source app that compares charging tariffs inside Germany depending on the charging-station you are currently standing at. Ladefuchs is a non-profit application and organisation that aims for making electric mobility more accessible to a broader userbase by adopting well-known patterns.
 
 
 Ladefuchs is available on 
@@ -22,15 +22,12 @@ Ladefuchs is available on
 ### Setup your local toolchain.
 
 ```bash
+// Install necessary tooling
 npm install
 npm run eula
-```
 
-Create a local .env file to contain the `API_TOKEN`
-
-```bash
+// Create / Update local .env file to supply API_TOKEN
 API_TOKEN=12xxxxxxxxxxx
-
 ```
 
 ### Run the app
