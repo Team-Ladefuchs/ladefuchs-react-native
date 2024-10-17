@@ -2,7 +2,7 @@ const de = {
 	pickerheader: "AN WELCHER SÄULE STEHST DU?",
 	chargeTableFavoritePlaceholder:
 		"Du hast für diesen Anbieter noch keine\n ⭐️ Favoriten markiert. Mach das unter\n ⚙️ Einstellungen → Ladetarife.\n \nDer Ladefuchs zeigt dir dann nur deine Auswahl an.",
-	chargeTablePlaceholder: "Bekackt! 💩\nDa ist was schief gelaufen …",
+	chargeTablePlaceholder: "Oh nein! 💩\nDa ist was schief gelaufen …",
 	blockingfee: "Blockier\u00ADgebühr",
 	monthlyfee: "Monatliche Gebühr",
 	notizen: "Notizen",
