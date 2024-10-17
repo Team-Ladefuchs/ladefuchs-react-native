@@ -1,7 +1,7 @@
 const en = {
 	pickerheader: "WHICH CHARGING STATION ARE YOU STANDING ON?",
 	chargeTableFavoritePlaceholder:
-		"You have not yet defined any\n ⭐️ favorites for this provider. You can do this in\n ⚙️ Settings → Charging tariffs.\n \nOur fox will display only your selected tariffs.",
+		"You have not yet defined any\n ⭐️ favourites for this provider. You can do this in\n ⚙️ Settings → Charging tariffs.\n \nOur fox will display only your selected tariffs.",
 	chargeTablePlaceholder: "Oh noes! 💩\nSomething went wrong …",
 	blockingfee: "Blocking \u00ADfee",
 	monthlyfee: "Monthly fee",
@@ -32,7 +32,7 @@ const en = {
 	ladetarifeInfo1:
 		"There is nothing to see here,\nplease continue loading. 🦊",
 	ladetarifeInfo2:
-		"You have not yet defined any favorites yet ⭐️\Our 🦊 will be happy to show you your selection here.",
+		"You have not yet defined any favourites yet ⭐️\Our 🦊 will be happy to show you your selection here.",
 	tarifAlert: "Reset tariffs",
 	tarifAlertText: "Your stored charging rates will be reset to defaults. Are you sure?",
 	operatorAlert: "Reset provider",
@@ -52,7 +52,7 @@ const en = {
 		"Dipl.-Designer Malik Aziz\nStephanstraße 43-45, 52064 Aachen",
 	lizenzen: "Third-party licenses",
 	lizenztext: "A look under the hood 🚘⚡️",
-	footer: "Handmade with dedication and ❤️ for electric mobility in\n 👑 Aachen, ⚒️ Ahlen and 🧲 Hoppegarten",
+	footer: "Handmade with dedication and ❤️ for electric mobility in\n 👑 Aachen, ⚒️ Ahlen and 🧲 Hoppegarten.",
 	zurueck: "Back",
 	supportfuchs: "Can you support us?",
 	supportfuchs2: "Support",
@@ -70,11 +70,11 @@ const en = {
 	onboardingStep4Description:
 		"Using charging stations you can see all providers and have the option of configuring them according to your wishes.",
 	onboardingStep5Description:
-		"Find the right rates for you and mark them as ⭐️ favorites.",
+		"Find the right rates for you and mark them as ⭐️ favourites.",
 	onboardingAllSet: "All set!",
 	onboardingLetsGo: "Let's go!",
 	tariffFilter: "Filter",
-	favoriten: "Favorites",
+	favoriten: "Favourites",
 	aktiveTarife: "Active",
 	startOnBoarding: "Start app tour now",
 	next: "Next",
