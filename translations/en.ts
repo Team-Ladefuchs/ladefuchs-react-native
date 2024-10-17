@@ -1,5 +1,5 @@
 const en = {
-	pickerheader: "WHICH CHARGING STATION ARE YOU STANDING ON?",
+	pickerheader: "WHICH CHARGING STATION ARE YOU STANDING AT?",
 	chargeTableFavoritePlaceholder:
 		"You have not yet defined any\n ⭐️ favourites for this provider. You can do this in\n ⚙️ Settings → Charging tariffs.\n \nOur fox will display only your selected tariffs.",
 	chargeTablePlaceholder: "Oh noes! 💩\nSomething went wrong …",
