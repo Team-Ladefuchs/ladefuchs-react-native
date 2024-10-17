@@ -31,6 +31,9 @@ Ladefuchs is available on
 
 ## How to run and execute locally
 
+> [!IMPORTANT]
+> In order to run and use this application locally you need request a valid API_TOKEN.
+
 ### Setup your local toolchain.
 
 ```bash
