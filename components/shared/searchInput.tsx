@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, TextInput, View } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 
 import MagnifyingGlass from "@assets/generic/magnifyingglass.svg";
 

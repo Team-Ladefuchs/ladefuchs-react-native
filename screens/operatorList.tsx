@@ -13,7 +13,7 @@ import { OperatorImage } from "../components/shared/operatorImage";
 
 import { SectionHeaderList } from "../components/shared/sectionHeaderList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
-import { colors } from "../theme";
+import { colors } from "@theme";
 import { SearchInput } from "../components/shared/searchInput";
 import { Operator } from "../types/operator";
 import { fetchAllOperators } from "../functions/api/operator";
@@ -24,7 +24,7 @@ import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
 import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
-import i18n from "../localization";
+import i18n from "../translations/translations";
 
 type filerType = "all" | "ownOperators";
 

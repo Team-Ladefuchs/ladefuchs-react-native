@@ -15,11 +15,11 @@ import * as Haptics from "expo-haptics";
 import { FlashList } from "@shopify/flash-list";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 import {
 	GestureEvent,
 	PanGestureHandler,

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 
 export function LoadingSpinner(): JSX.Element {
 	return (

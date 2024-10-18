@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 
 interface Props {
 	text: string;

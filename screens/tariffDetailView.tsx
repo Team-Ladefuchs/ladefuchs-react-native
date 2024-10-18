@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { View } from "react-native";
-import { colors } from "../theme";
+import { colors } from "@theme";
 import { ChargeMode, TariffCondition } from "../types/conditions";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { PriceBox } from "../components/detail/priceBox";

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { CloseButton } from "../header/closeButton";
 import { Tariff } from "../../types/tariff";
 import { ScaledSheet } from "react-native-size-matters";

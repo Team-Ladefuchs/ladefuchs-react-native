@@ -10,7 +10,7 @@ import {
 
 import licenses from "@assets/licenses.json";
 import { ScaledSheet } from "react-native-size-matters";
-import { colors } from "../theme";
+import { colors } from "@theme";
 
 interface LicenseInfo {
 	repository: string;

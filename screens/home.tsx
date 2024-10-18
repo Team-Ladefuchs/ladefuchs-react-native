@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { useShallow } from "zustand/react/shallow";
-import { colors } from "../theme";
+import { colors } from "@theme";
 import OperatorPicker from "../components/home/operatorPicker";
 import { ChargeConditionTable } from "../components/home/chargeCondtitonTable/chargeConditionTable";
 import { AppBanner } from "../components/home/appBanner";
@@ -9,7 +9,7 @@ import { ChargingTableHeader } from "../components/home/chargeCondtitonTable/cha
 import { useAppStore } from "../state/appState";
 import { OfflineView } from "../components/home/offline";
 import { ScaledSheet } from "react-native-size-matters";
-import i18n from "../localization";
+import i18n from "../translations/translations";
 import { useNavigation } from "@react-navigation/native";
 import { type OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
 

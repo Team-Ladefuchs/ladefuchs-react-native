@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import ArrowLeftBack from "@assets/generic/arrow_back-left.svg";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import * as Haptics from "expo-haptics";
 
 interface ListHeaderProps {

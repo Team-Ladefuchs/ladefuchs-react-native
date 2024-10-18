@@ -31,7 +31,7 @@ import { LicenseView } from "./screens/licenseView";
 import { OperatorList } from "./screens/operatorList";
 import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
-import i18n from "./localization";
+import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
 
 // Create query client and root stack navigator

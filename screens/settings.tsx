@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View, Text, Platform } from "react-native";
-import { colors } from "../theme";
+import { colors } from "@theme";
 import { DatenView } from "../components/settings/dataView";
 import { PodcastView } from "../components/settings/podcastView";
 import { MemberView } from "../components/settings/teamLIst";
@@ -13,7 +13,7 @@ import { Impressum } from "../components/settings/impressum";
 import { CardImage } from "../components/shared/cardImage";
 import { OperatorImage } from "../components/shared/operatorImage";
 import { Line } from "../components/settings/line";
-import i18n from "../localization";
+import i18n from "../translations/translations";
 import { Support } from "../components/settings/support";
 import { StartOnBoarding } from "../components/settings/startOnboarding";
 

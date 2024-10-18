@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { styles } from "../../theme";
 import { Line } from "./line";
 import { scale } from "react-native-size-matters";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function Support(): JSX.Element {
 	return (

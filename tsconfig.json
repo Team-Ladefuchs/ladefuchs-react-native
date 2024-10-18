@@ -3,7 +3,9 @@
     "jsx": "react",
     "strict": true,
     "paths": {
-      "@assets/*": ["./assets/*"]
+      "@assets/*": ["./assets/*"],
+      "@translations/*": ["./translations/*"],
+      "@theme": ["./theme.ts"]
     }
   },
   "extends": "expo/tsconfig.base"

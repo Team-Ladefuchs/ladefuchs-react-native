@@ -1,5 +1,5 @@
 import React from "react";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { Text } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 

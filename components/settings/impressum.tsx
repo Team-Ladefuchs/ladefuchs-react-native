@@ -3,7 +3,7 @@ import { View, Text, TouchableWithoutFeedback, Linking } from "react-native";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import { Line } from "./line";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function Impressum(): JSX.Element {
 	return (

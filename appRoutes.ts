@@ -1,6 +1,6 @@
 // todo add the rest
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
-import i18n from "./localization";
+import i18n from "./translations/translations";
 import { type Tariff } from "./types/tariff";
 import { type Operator } from "./types/operator";
 import { type TariffCondition } from "./types/conditions";

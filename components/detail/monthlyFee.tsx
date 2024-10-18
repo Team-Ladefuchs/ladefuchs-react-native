@@ -1,11 +1,11 @@
 import { View } from "react-native";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
 import React from "react";
 import { useFormatNumber } from "../../hooks/useNumberFormat";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 	const { formatCurrency } = useFormatNumber();
@@ -20,7 +20,7 @@ export function MonthlyFee({ fee }: { fee?: number | null }): JSX.Element {
 			}}
 		>
 			{fee && <HighlightCorner />}
-			<CardHeader text={i18n.t('monthlyfee')} />
+			<CardHeader text={i18n.t("monthlyfee")} />
 			<ItalicText text={formattedFee} />
 		</View>
 	);

@@ -3,15 +3,13 @@ import { View, Text } from "react-native";
 import { styles } from "../../theme";
 import { Line } from "./line";
 import { scale } from "react-native-size-matters";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function Illustration() {
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t('illufuchs')}</Text>
-			<Text style={styles.italicText}>
-			{i18n.t('illufuchstext')}
-			</Text>
+			<Text style={styles.headLine}>{i18n.t("illufuchs")}</Text>
+			<Text style={styles.italicText}>{i18n.t("illufuchstext")}</Text>
 			<Line style={{ marginTop: scale(16) }} />
 		</View>
 	);

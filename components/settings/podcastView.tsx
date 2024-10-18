@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Linking, Image } from "react-native";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import { Line } from "./line";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 const podcasts = [
 	{
@@ -28,10 +28,8 @@ export function PodcastView(): JSX.Element {
 	const size = scale(70);
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t('podcastfuchs')}</Text>
-			<Text style={styles.italicText}>
-			{i18n.t('podcastfuchstext')}
-			</Text>
+			<Text style={styles.headLine}>{i18n.t("podcastfuchs")}</Text>
+			<Text style={styles.italicText}>{i18n.t("podcastfuchstext")}</Text>
 			<View
 				style={{
 					flexDirection: "row",

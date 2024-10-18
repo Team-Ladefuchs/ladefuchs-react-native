@@ -1,7 +1,7 @@
 import { SafeAreaView, Linking } from "react-native";
 import React from "react";
 import { LadefuchsButton } from "./ladefuchsButton";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function AffiliateButton({
 	link,
@@ -14,7 +14,7 @@ export function AffiliateButton({
 	return (
 		<SafeAreaView style={{ marginTop: "auto", marginHorizontal: 16 }}>
 			<LadefuchsButton
-				text={i18n.t('karte')}
+				text={i18n.t("karte")}
 				onPress={async () => await Linking.openURL(link)}
 			/>
 		</SafeAreaView>
