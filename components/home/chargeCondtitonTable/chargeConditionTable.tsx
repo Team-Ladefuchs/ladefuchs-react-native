@@ -10,7 +10,7 @@ import { useQueryAppData } from "../../../hooks/useQueryAppData";
 import { LoadingSpinner } from "../../shared/loadingSpinner";
 import { EmptyListText } from "../../shared/emptyListText";
 import { ScaledSheet } from "react-native-size-matters";
-import i18n from "../@translations/translations";
+import i18n from "@translations/translations";
 
 export function ChargeConditionTable() {
 	const [allChargeConditionsQuery] = useQueryAppData();
