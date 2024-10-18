@@ -13,7 +13,7 @@ import MastodonIcon from "@assets/about/icon_mastodon.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SvgProps } from "react-native-svg";
 import { Line } from "./line";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 const activeMember = [
 	{

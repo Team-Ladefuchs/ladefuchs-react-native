@@ -9,7 +9,7 @@ import {
 	StyleProp,
 	Platform,
 } from "react-native";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { authHeader } from "../../functions/api/base";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../state/appState";

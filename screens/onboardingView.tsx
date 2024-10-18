@@ -9,10 +9,10 @@ import {
 	View,
 } from "react-native";
 import { appRoutes } from "../appRoutes";
-import { colors } from "../theme";
+import { colors } from "@theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import Onboarding, { Page } from "react-native-onboarding-swiper";
-import i18n from "../localization";
+import i18n from "../translations/translations";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/appState";
 import { AppLogo } from "../components/header/appLogo";

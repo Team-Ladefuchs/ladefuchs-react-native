@@ -1,10 +1,10 @@
 import { View, StyleSheet } from "react-native";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { CardHeader } from "./cardHeader";
 import { ItalicText } from "./ItalicText";
 import { HighlightCorner } from "./highlightCorner";
 import React, { useEffect, useState } from "react";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function Notes({ notes }: { notes?: string | null }): JSX.Element {
 	const [noteText, setNoteText] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export function Notes({ notes }: { notes?: string | null }): JSX.Element {
 	return (
 		<View style={styles.container}>
 			<HighlightCorner />
-			<CardHeader text={i18n.t('notizen')} />
+			<CardHeader text={i18n.t("notizen")} />
 			<ItalicText text={noteText} />
 		</View>
 	);

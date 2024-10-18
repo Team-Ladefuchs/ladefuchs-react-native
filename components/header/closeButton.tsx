@@ -1,6 +1,6 @@
 import { TouchableOpacity, ViewStyle, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import React from "react";
 import { scale } from "react-native-size-matters";
 

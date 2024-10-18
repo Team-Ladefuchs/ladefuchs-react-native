@@ -13,7 +13,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import { CardImage } from "../components/shared/cardImage";
 import { SectionHeaderList } from "../components/shared/sectionHeaderList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
-import { colors } from "../theme";
+import { colors } from "@theme";
 import { SearchInput } from "../components/shared/searchInput";
 
 import { Tariff } from "../types/tariff";
@@ -32,7 +32,7 @@ import { useAppStore } from "../state/appState";
 import { useShallow } from "zustand/react/shallow";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
 import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
-import i18n from "../localization";
+import i18n from "../translations/translations";
 
 import {
 	FilterType,

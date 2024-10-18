@@ -13,7 +13,7 @@ import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { colors, styles as themeStyle } from "../theme";
+import { colors, styles as themeStyle } from "@theme";
 import { DetailLogos } from "../components/detail/detailLogos";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 import { ChargeMode } from "../types/conditions";
@@ -29,7 +29,7 @@ import { PriceBox } from "../components/detail/priceBox";
 
 import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api/feedback";
-import i18n from "../localization";
+import i18n from "../translations/translations";
 import { FeedbackScreenRouteParams } from "../appRoutes";
 
 const notePlaceholderText = i18n.t("futter2");

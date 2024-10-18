@@ -5,7 +5,7 @@ import { styles } from "../../theme";
 import { Line } from "./line";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../state/appState";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export function StartOnBoarding(): JSX.Element {
 	const [setOnboarding] = useAppStore(

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import Zahnrad from "@assets/gearshape.svg";
 import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/appState";

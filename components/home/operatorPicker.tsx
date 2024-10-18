@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/appState";
 import { useShallow } from "zustand/react/shallow";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { Platform, View, StyleSheet } from "react-native";
 import WheelPicker from "react-native-wheely";
 import { scale } from "react-native-size-matters";

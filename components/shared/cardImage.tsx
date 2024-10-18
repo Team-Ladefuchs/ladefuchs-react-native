@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { HighlightCorner } from "../detail/highlightCorner";
 import React, { useState } from "react";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 
 import FavStar from "@assets/favorite/favstern.svg";

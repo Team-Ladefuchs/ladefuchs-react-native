@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { colors, styles } from "../../theme";
 import Constants from "expo-constants";
 import { ScaledSheet } from "react-native-size-matters";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 const expoVersion = Constants.expoConfig?.version ?? "";
 

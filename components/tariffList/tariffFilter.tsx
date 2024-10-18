@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
-import { colors } from "../../theme";
+import { colors } from "@theme";
 import { Checkbox } from "../shared/checkBox";
-import i18n from "../../localization";
+import i18n from "@translations/translations";
 
 export type FilterType = "all" | "active" | "favorite" | "activeOrFavorite";
 
