@@ -1,3 +1,5 @@
+import { Linking } from "react-native";
+
 const itunesItemId = 1522882164;
 // Open the iOS App Store in the browser -> redirects to App Store on iOS
 Linking.openURL(
