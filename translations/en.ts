@@ -80,6 +80,7 @@ const en = {
 	next: "Next",
 	skip: "Skip",
 	howThisAppWorks: "How does this work?",
+	appRating:"Rate the app",
 };
 
 export default en;

@@ -40,6 +40,8 @@
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
       },
+      "useNextNotificationsApi": true,
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=app.ladefuchs.android",
 
       "package": "app.ladefuchs.android"
     },
