@@ -81,7 +81,8 @@ const de = {
 	next: "Weiter",
 	skip: "Skip",
 	howThisAppWorks: "wie funktioniert das hier?",
-	appRating:"App bewerten",
+	foxRating: "Wie gefällt dir der ⚡️🦊",
+	appRating: "App bewerten",
 };
 
 export default de;

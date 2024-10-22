@@ -32,9 +32,10 @@ const en = {
 	ladetarifeInfo1:
 		"There is nothing to see here,\nplease continue loading. 🦊",
 	ladetarifeInfo2:
-		"You have not yet defined any favourites yet ⭐️\Our 🦊 will be happy to show you your selection here.",
+		"You have not yet defined any favourites yet ⭐️Our 🦊 will be happy to show you your selection here.",
 	tarifAlert: "Reset tariffs",
-	tarifAlertText: "Your stored charging rates will be reset to defaults. Are you sure?",
+	tarifAlertText:
+		"Your stored charging rates will be reset to defaults. Are you sure?",
 	operatorAlert: "Reset provider",
 	operatorAlertText: "Your providers will be reset. Are you sure?",
 	cancel: "Cancel",
@@ -80,7 +81,8 @@ const en = {
 	next: "Next",
 	skip: "Skip",
 	howThisAppWorks: "How does this work?",
-	appRating:"Rate the app",
+	foxRating: "How do you like the ⚡️🦊",
+	appRating: "Rate the app",
 };
 
 export default en;

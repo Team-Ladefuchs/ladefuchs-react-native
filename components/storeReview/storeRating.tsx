@@ -6,6 +6,7 @@ import { scale } from "react-native-size-matters";
 import { styles } from "@theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@translations/translations";
+import FavStar from "@assets/favorite/favstern.svg";
 
 export function Rating(): JSX.Element {
 	const appStoreUrl =
@@ -56,8 +57,9 @@ export function Rating(): JSX.Element {
 
 	return (
 		<View style={styles.headLine}>
+			<Text style={styles.headLine}>{i18n.t("foxRating")} <FavStar height="25" width="25" /></Text>
 			<TouchableOpacity activeOpacity={0.8} hitSlop={scale(10)}>
-				<Text style={styles.headLine} onPress={requestReview}>
+				<Text style={styles.settingsLink} onPress={requestReview}>
 					{i18n.t("appRating")}
 				</Text>
 			</TouchableOpacity>
