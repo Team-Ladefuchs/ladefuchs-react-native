@@ -4,19 +4,52 @@ import * as StoreReview from "expo-store-review";
 import { Line } from "../settings/line";
 import { scale } from "react-native-size-matters";
 import { styles } from "@theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@translations/translations";
 import FavStar from "@assets/favorite/favstern.svg";
+import {
+	retrieveFromStorage,
+	saveToStorage,
+} from "../../functions/storage/storage";
+
+const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1month in month
+
+const appStoreUrl =
+	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
+const playStoreUrl =
+	"market://details?id=app.ladefuchs.android&showAllReviews=true`";
+
+const lastReviewPrompt = "lastReviewPrompt";
+const lastreviewPromptRequest = "lastReviewPrompt";
 
 export function Rating(): JSX.Element {
-	const appStoreUrl =
-		"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review"; // Ersetze mit deinem echten App Store Link
-	const playStoreUrl =
-		"market://details?id=app.ladefuchs.android&showAllReviews=true`"; // Ersetze mit deinem echten Play Store Link
-	const REVIEW_KEY = "lastReviewPrompt"; // Schlüssel zum Speichern des Datums der letzten Bewertungsaufforderung
-	const ONE_MONTH = 60 * 60 * 1000; // 1h in Millisekunden
+	const checkReviewPrompt = async () => {
+		const lastRviewPromptRquestData =
+			await retrieveFromStorage(lastReviewPrompt);
 
-	// Funktion zur App Store Weiterleitung, basierend auf dem Betriebssystem
+		if (lastRviewPromptRquestData) {
+			return;
+		}
+		const lastRviewPromptDate = Number(
+			(await retrieveFromStorage(lastReviewPrompt)) ?? 0,
+		);
+		const now = Date.now();
+
+		if (!lastRviewPromptDate) {
+			saveToStorage<number>(lastReviewPrompt, now);
+			return;
+		}
+		try {
+			if (
+				now - lastRviewPromptDate >= ONE_MONTH &&
+				!lastRviewPromptRquestData
+			) {
+				saveToStorage<number>(lastreviewPromptRequest, now);
+				await requestReview();
+			}
+		} catch (error) {
+			console.log("error during review prompt", error);
+		}
+	};
 	const openStoreLink = () => {
 		const url = Platform.OS === "ios" ? appStoreUrl : playStoreUrl;
 		Linking.openURL(url);
@@ -31,33 +64,15 @@ export function Rating(): JSX.Element {
 		}
 	};
 
-	// Überprüfe, ob die Bewertungsaufforderung gezeigt werden soll
-	const checkReviewPrompt = async () => {
-		try {
-			const lastPromptDate = await AsyncStorage.getItem(REVIEW_KEY);
-			const now = Date.now();
-
-			if (!lastPromptDate) {
-				// Falls kein Datum gespeichert ist, speichere das aktuelle Datum
-				await AsyncStorage.setItem(REVIEW_KEY, now.toString());
-			} else if (now - parseInt(lastPromptDate) >= ONE_MONTH) {
-				// Zeige die Bewertungsaufforderung, wenn mehr als ein Monat vergangen ist
-				await requestReview();
-				// Speichere das Datum der letzten Bewertungsaufforderung
-				await AsyncStorage.setItem(REVIEW_KEY, now.toString());
-			}
-		} catch (error) {
-			console.log("Fehler beim Überprüfen des Review-Prompts:", error);
-		}
-	};
-
 	useEffect(() => {
-		checkReviewPrompt(); // Prüfe bei jedem App-Start, ob die Aufforderung gezeigt werden soll
+		checkReviewPrompt();
 	}, []);
 
 	return (
 		<View style={styles.headLine}>
-			<Text style={styles.headLine}>{i18n.t("foxRating")} <FavStar height="25" width="25" /></Text>
+			<Text style={styles.headLine}>
+				{i18n.t("foxRating")} <FavStar height="25" width="25" />
+			</Text>
 			<TouchableOpacity activeOpacity={0.8} hitSlop={scale(10)}>
 				<Text style={styles.settingsLink} onPress={requestReview}>
 					{i18n.t("appRating")}

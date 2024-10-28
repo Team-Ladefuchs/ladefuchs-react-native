@@ -12,7 +12,7 @@ import { EmptyListText } from "../../shared/emptyListText";
 import { ScaledSheet } from "react-native-size-matters";
 import i18n from "@translations/translations";
 
-export function ChargeConditionTable() {
+export function ChargeConditionTable(): JSX.Element {
 	const [allChargeConditionsQuery] = useQueryAppData();
 
 	const {
