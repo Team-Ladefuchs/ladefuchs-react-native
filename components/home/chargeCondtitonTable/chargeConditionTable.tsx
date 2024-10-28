@@ -122,18 +122,24 @@ export function ChargeConditionTable(): JSX.Element {
 					ref={flatListRef as any}
 					data={currentTariffConditions}
 					renderItem={renderItem}
-					ListEmptyComponent={() => (
-						// TODO center me vertical :)
-						<View style={styles.emptyContainer}>
-							<EmptyListText
-								text={i18n.t(
-									isFavoriteTariffOnly
-										? "chargeTableFavoritePlaceholder"
-										: "chargeTableFavoritePlaceholder",
-								)}
-							/>
-						</View>
-					)}
+					ListEmptyComponent={() => {
+						if (
+							!allChargeConditionsQuery.data?.chargingConditions
+						) {
+							return <View></View>;
+						}
+						return (
+							<View style={styles.emptyContainer}>
+								<EmptyListText
+									text={i18n.t(
+										isFavoriteTariffOnly
+											? "chargeTableFavoritePlaceholder"
+											: "chargeTableFavoritePlaceholder",
+									)}
+								/>
+							</View>
+						);
+					}}
 					scrollsToTop={true}
 					keyExtractor={([left, right], _index) =>
 						conditionKey(left) + conditionKey(right)
