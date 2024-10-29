@@ -16,32 +16,33 @@ const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1month in month
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const playStoreUrl =
-	"market://details?id=app.ladefuchs.android&showAllReviews=true`";
+	"market://details?id=app.ladefuchs.android&showAllReviews=true";
 
 const lastReviewPrompt = "lastReviewPrompt";
 const lastreviewPromptRequest = "lastReviewPrompt";
 
 export function Rating(): JSX.Element {
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const checkReviewPrompt = async () => {
-		const lastRviewPromptRquestData =
+		const lastReviewPromptRequestData =
 			await retrieveFromStorage(lastReviewPrompt);
 
-		if (lastRviewPromptRquestData) {
+		if (lastReviewPromptRequestData) {
 			return;
 		}
-		const lastRviewPromptDate = Number(
+		const lastReviewPromptDate = Number(
 			(await retrieveFromStorage(lastReviewPrompt)) ?? 0,
 		);
 		const now = Date.now();
 
-		if (!lastRviewPromptDate) {
+		if (!lastReviewPromptDate) {
 			saveToStorage<number>(lastReviewPrompt, now);
 			return;
 		}
 		try {
 			if (
-				now - lastRviewPromptDate >= ONE_MONTH &&
-				!lastRviewPromptRquestData
+				now - lastReviewPromptDate >= ONE_MONTH &&
+				!lastReviewPromptRequestData
 			) {
 				saveToStorage<number>(lastreviewPromptRequest, now);
 				await requestReview();
@@ -66,7 +67,7 @@ export function Rating(): JSX.Element {
 
 	useEffect(() => {
 		checkReviewPrompt();
-	}, []);
+	}, [checkReviewPrompt]);
 
 	return (
 		<View style={styles.headLine}>
