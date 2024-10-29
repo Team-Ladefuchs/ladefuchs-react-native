@@ -11,36 +11,45 @@ import {
 	saveToStorage,
 } from "../../functions/storage/storage";
 
-const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 Monat in Millisekunden
+const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1month in month
+
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const playStoreUrl =
 	"market://details?id=app.ladefuchs.android&showAllReviews=true";
+
 const lastReviewPrompt = "lastReviewPrompt";
 const lastreviewPromptRequest = "lastReviewPrompt";
 
 export function Rating(): JSX.Element {
 	const checkReviewPrompt = async () => {
+		const lastReviewPromptRequestData =
+			await retrieveFromStorage(lastReviewPrompt);
+
+		if (lastReviewPromptRequestData) {
+			return;
+		}
+		const lastReviewPromptDate = Number(
+			(await retrieveFromStorage(lastReviewPrompt)) ?? 0,
+		);
+		const now = Date.now();
+
+		if (!lastReviewPromptDate) {
+			saveToStorage<number>(lastReviewPrompt, now);
+			return;
+		}
 		try {
-			const lastReviewPromptData =
-				await retrieveFromStorage(lastReviewPrompt);
-			const lastReviewPromptDate = Number(lastReviewPromptData ?? 0);
-			const now = Date.now();
-
-			if (!lastReviewPromptDate) {
-				await saveToStorage<number>(lastReviewPrompt, now);
-				return;
-			}
-
-			if (now - lastReviewPromptDate >= ONE_MONTH) {
-				await saveToStorage<number>(lastreviewPromptRequest, now);
+			if (
+				now - lastReviewPromptDate >= ONE_MONTH &&
+				!lastReviewPromptRequestData
+			) {
+				saveToStorage<number>(lastreviewPromptRequest, now);
 				await requestReview();
 			}
 		} catch (error) {
-			console.error("error during review prompt", error);
+			console.log("error during review prompt", error);
 		}
 	};
-
 	const openStoreLink = () => {
 		const url = Platform.OS === "ios" ? appStoreUrl : playStoreUrl;
 		Linking.openURL(url);
@@ -51,7 +60,7 @@ export function Rating(): JSX.Element {
 		if (await StoreReview.isAvailableAsync()) {
 			await StoreReview.requestReview();
 		} else {
-			openStoreLink();
+			openStoreLink(); // Fallback zu App Store/Play Store Link
 		}
 	};
 
@@ -64,12 +73,10 @@ export function Rating(): JSX.Element {
 			<Text style={styles.headLine}>
 				{i18n.t("foxRating")} <FavStar height="25" width="25" />
 			</Text>
-			<TouchableOpacity
-				activeOpacity={0.8}
-				hitSlop={scale(10)}
-				onPress={requestReview}
-			>
-				<Text style={styles.settingsLink}>{i18n.t("appRating")}</Text>
+			<TouchableOpacity activeOpacity={0.8} hitSlop={scale(10)}>
+				<Text style={styles.settingsLink} onPress={requestReview}>
+					{i18n.t("appRating")}
+				</Text>
 			</TouchableOpacity>
 			<Line style={{ marginTop: scale(16) }} />
 		</View>
