@@ -66,6 +66,7 @@ const styles = ScaledSheet.create({
 	pickerBannerText: {
 		fontSize: "16@s",
 		color: "black",
+		fontWeight: "bold",
 		fontFamily: "Roboto",
 	},
 });

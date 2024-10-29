@@ -85,7 +85,7 @@ export function hyphenText(input: string): string {
 	return result;
 }
 
-export const defaultTimeout = Platform.OS === "android" ? 5000 : 4500;
+export const defaultTimeout = 5000;
 
 export async function fetchWithTimeout(
 	url: string,

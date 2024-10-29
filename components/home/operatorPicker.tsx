@@ -33,21 +33,13 @@ export default function OperatorPicker(): JSX.Element {
 	if (Platform.OS === "android") {
 		const optionLabels = operatorList?.map((item) => item.name);
 		return (
-			<View
-				style={{
-					...styles.pickerContainer,
-					paddingHorizontal: scale(16),
-					marginBottom: 5,
-				}}
-			>
+			<View style={[styles.pickerContainer, { marginBottom: scale(4) }]}>
 				<WheelPicker
 					options={optionLabels}
-					itemTextStyle={{
-						fontSize: scale(21),
-					}}
 					selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
 					selectedIndex={operatorIndex}
-					itemHeight={41}
+					itemTextStyle={{ fontSize: scale(19) }}
+					itemHeight={scale(37)}
 					key={optionLabels.join("")}
 					decelerationRate={"fast"}
 					onChange={(index) => {

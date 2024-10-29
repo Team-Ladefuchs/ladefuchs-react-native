@@ -22,7 +22,7 @@ export async function postAppMetric(): Promise<void> {
 
 	if (cache?.lastUpdated) {
 		const updatedDevice = Date.parse(cache?.lastUpdated);
-		const oneHourInMs = getMinutes(3);
+		const oneHourInMs = getMinutes(1);
 		if (Date.now() - updatedDevice < oneHourInMs) {
 			return;
 		}
