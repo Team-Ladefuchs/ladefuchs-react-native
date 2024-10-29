@@ -22,6 +22,7 @@ const lastReviewPrompt = "lastReviewPrompt";
 const lastreviewPromptRequest = "lastReviewPrompt";
 
 export function Rating(): JSX.Element {
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const checkReviewPrompt = async () => {
 		const lastReviewPromptRequestData =
 			await retrieveFromStorage(lastReviewPrompt);
@@ -66,7 +67,7 @@ export function Rating(): JSX.Element {
 
 	useEffect(() => {
 		checkReviewPrompt();
-	}, []);
+	}, [checkReviewPrompt]);
 
 	return (
 		<View style={styles.headLine}>
