@@ -16,7 +16,7 @@ const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1month in month
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const playStoreUrl =
-	"market://details?id=app.ladefuchs.android&showAllReviews=true`";
+	"market://details?id=app.ladefuchs.android&showAllReviews=true";
 
 const lastReviewPrompt = "lastReviewPrompt";
 const lastreviewPromptRequest = "lastReviewPrompt";
