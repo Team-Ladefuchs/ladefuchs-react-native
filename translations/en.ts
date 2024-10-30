@@ -83,6 +83,9 @@ const en = {
 	howThisAppWorks: "How does this work?",
 	foxRating: "How do you like the ⚡️🦊",
 	appRating: "Rate the app",
+	reviewAlreadyGiven: "You've already done that",
+	noFurtherReview:
+		"The Fox has already received a review from you. Thank you!🙏",
 };
 
 export default en;
