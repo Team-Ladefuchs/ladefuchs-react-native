@@ -18,25 +18,23 @@ import {
 	saveToStorage,
 } from "../../functions/storage/storage";
 
-// Konstanten
-const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 Monat in Millisekunden
+const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 month in ms
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const playStoreUrl =
 	"market://details?id=app.ladefuchs.android&showAllReviews=true";
 const lastReviewPrompt = "lastReviewPrompt";
-const hasReviewedKey = "hasReviewed"; // Neuer Schlüssel für die Überprüfung
+const hasReviewedKey = "hasReviewed";
 
 export function Rating(): JSX.Element {
 	const [hasReviewed, setHasReviewed] = useState(false);
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const checkReviewPrompt = async () => {
 		try {
 			const reviewedStatus = await retrieveFromStorage(hasReviewedKey);
 
-			// Überprüfen, ob der Benutzer bereits eine Bewertung abgegeben hat
 			if (reviewedStatus) {
+				// check if user already reviewed
 				setHasReviewed(true);
 				return;
 			}
@@ -46,16 +44,14 @@ export function Rating(): JSX.Element {
 			);
 			const now = Date.now();
 
-			// Speichern des aktuellen Datums, wenn dies die erste Aufforderung ist
 			if (!lastReviewPromptDate) {
 				await saveToStorage(lastReviewPrompt, now);
 				return;
 			}
 
-			// Review-Prompt anzeigen, wenn mehr als ein Monat seit dem letzten vergangen ist
 			if (now - lastReviewPromptDate >= ONE_MONTH) {
 				await saveToStorage(lastReviewPrompt, now);
-				await requestReview();
+				await requestStoreReview();
 			}
 		} catch (error) {
 			console.log("error during review prompt", error);
@@ -67,16 +63,13 @@ export function Rating(): JSX.Element {
 		Linking.openURL(url);
 	};
 
-	// Bewertungsfunktion für Geräte, die Store Review unterstützen
-	const requestReview = async () => {
+	const requestStoreReview = async () => {
+		await saveToStorage(hasReviewedKey, true);
+		setHasReviewed(true);
 		if (await StoreReview.isAvailableAsync()) {
 			await StoreReview.requestReview();
-			await saveToStorage(hasReviewedKey, true); // Markieren, dass eine Bewertung abgegeben wurde
-			setHasReviewed(true);
 		} else {
 			openStoreLink();
-			await saveToStorage(hasReviewedKey, true);
-			setHasReviewed(true);
 		}
 	};
 
@@ -91,7 +84,7 @@ export function Rating(): JSX.Element {
 				i18n.t("noFurtherReview"),
 			);
 		} else {
-			requestReview();
+			requestStoreReview();
 		}
 	};
 
