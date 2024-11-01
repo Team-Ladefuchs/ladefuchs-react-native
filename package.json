@@ -18,13 +18,14 @@
     "@shopify/flash-list": "1.7.1",
     "@tanstack/react-query": "^5.59.16",
     "@types/react": "~18.2.0",
-    "expo": "~51.0.37",
+    "expo": "^51.0.38",
     "expo-checkbox": "~3.0.0",
     "expo-constants": "^16.0.2",
     "expo-haptics": "~13.0.1",
     "expo-localization": "^15.0.3",
     "expo-sensors": "^13.0.9",
     "expo-status-bar": "~1.12.1",
+    "expo-store-review": "~7.0.2",
     "expo-system-ui": "^3.0.7",
     "i18n-js": "^4.5.0",
     "lottie-react-native": "7.0.0",
@@ -40,8 +41,7 @@
     "react-native-svg-transformer": "^1.5.0",
     "react-native-toast-message": "^2.2.1",
     "react-native-wheely": "^0.6.0",
-    "zustand": "^4.5.5",
-    "expo-store-review": "~7.0.2"
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
