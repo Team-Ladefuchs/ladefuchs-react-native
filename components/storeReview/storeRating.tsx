@@ -21,7 +21,7 @@ import {
 // Konstanten für den URL und Speicher
 const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 Monat in Millisekunden
 const appStoreUrl =
-	"itms-apps://itunes.apple.com/app/id1522882164?action=write-review";
+	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const appStoreWebUrl =
 	"https://itunes.apple.com/app/id1522882164?action=write-review";
 const playStoreUrl =
