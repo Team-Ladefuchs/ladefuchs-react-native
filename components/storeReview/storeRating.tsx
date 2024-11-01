@@ -18,8 +18,7 @@ import {
 	saveToStorage,
 } from "../../functions/storage/storage";
 
-// Konstanten für den URL und Speicher
-const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 Monat in Millisekunden
+const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 month in ms
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const appStoreWebUrl =
@@ -40,7 +39,6 @@ export function Rating(): JSX.Element {
 		try {
 			const reviewedStatus = await retrieveFromStorage(hasReviewedKey);
 
-			// Benutzer hat bereits eine Bewertung abgegeben
 			if (reviewedStatus) {
 				setHasReviewed(true);
 				return;
@@ -51,13 +49,10 @@ export function Rating(): JSX.Element {
 			);
 			const now = Date.now();
 
-			// Speichere das aktuelle Datum, wenn dies die erste Aufforderung ist
 			if (!lastReviewPromptDate) {
 				await saveToStorage(lastReviewPrompt, now);
 				return;
 			}
-
-			// Prüfe, ob ein Monat seit der letzten Aufforderung vergangen ist
 			if (now - lastReviewPromptDate >= ONE_MONTH) {
 				await saveToStorage(lastReviewPrompt, now);
 				await requestStoreReview();
@@ -72,7 +67,7 @@ export function Rating(): JSX.Element {
 		const webUrl = Platform.OS === "ios" ? appStoreWebUrl : playStoreWebUrl;
 
 		Linking.openURL(url).catch(() => {
-			// Falls itms-apps oder market Link fehlschlägt, öffne die Web-URL
+			// fallback links to web url
 			Linking.openURL(webUrl).catch((err) => {
 				console.log("Error opening Web URL:", err);
 				Alert.alert(i18n.t("error"), i18n.t("unableToOpenStore"));
@@ -86,7 +81,7 @@ export function Rating(): JSX.Element {
 		if (await StoreReview.isAvailableAsync()) {
 			await StoreReview.requestReview();
 		} else {
-			openStoreLink(); // Fallback zu App Store/Play Store Link
+			openStoreLink();
 		}
 	};
 
@@ -96,7 +91,6 @@ export function Rating(): JSX.Element {
 
 	const handleReviewPress = () => {
 		if (hasReviewed) {
-			// Wenn bereits eine Bewertung abgegeben wurde, zeige einen Alert mit Link an
 			Alert.alert(
 				i18n.t("reviewAlreadyGiven"),
 				i18n.t("noFurtherReview"),
