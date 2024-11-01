@@ -83,11 +83,10 @@ const en = {
 	howThisAppWorks: "How does this work?",
 	foxRating: "How do you like the ⚡️🦊",
 	appRating: "Rate the app",
-	reviewAlreadyGiven: "You've already done that",
-	noFurtherReview:
-		"The Fox has already received a review from you. Thank you!🙏",
-	viewReview: "View your rating",
-	ok: "OK",
+	reviewAlreadyGiven: "Thank you! 🙏🏼",
+	noFurtherReview: "Your review has arrived at the foxhole.",
+	viewReview: "View review",
+	ok: "All right",
 };
 
 export default en;

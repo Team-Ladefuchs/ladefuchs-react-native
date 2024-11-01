@@ -83,11 +83,10 @@ const de = {
 	howThisAppWorks: "wie funktioniert das hier?",
 	foxRating: "Wie gefällt dir der ⚡️🦊",
 	appRating: "App bewerten",
-	reviewAlreadyGiven: "Du hast das schon erledigt",
-	noFurtherReview:
-		"Der Fuchs hat schon eine Bewertung von dir erhalten. Danke!🙏",
-	viewReview: "Sieh dir deine Bewertung an",
-	ok: "OK",
+	reviewAlreadyGiven: "Dankeschön! 🙏🏼",
+	noFurtherReview: "Deine Bewertung ist im Fuchsbau angekommen.",
+	viewReview: "Bewertung ansehen",
+	ok: "Alles klar",
 };
 
 export default de;

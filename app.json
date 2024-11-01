@@ -14,13 +14,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1",
+      "buildNumber": "2",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",
-        "CFBundleLocalizations": ["de"],
+        "CFBundleLocalizations": ["de","en"],
         "AsyncStorage_db_size_in_MB": 8,
         "RCTAsyncStorageExcludeFromBackup": false,
         "TARGETED_DEVICE_FAMILY": [1]
@@ -35,7 +35,7 @@
         "resizeMode": "contain",
         "backgroundColor": "#F3EEE2"
       },
-      "versionCode": 314,
+      "versionCode": 315,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
