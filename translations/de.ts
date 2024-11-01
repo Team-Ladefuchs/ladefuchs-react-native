@@ -86,6 +86,8 @@ const de = {
 	reviewAlreadyGiven: "Du hast das schon erledigt",
 	noFurtherReview:
 		"Der Fuchs hat schon eine Bewertung von dir erhalten. Danke!🙏",
+	viewReview: "Sieh dir deine Bewertung an",
+	ok: "OK",
 };
 
 export default de;

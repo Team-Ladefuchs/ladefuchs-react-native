@@ -86,6 +86,8 @@ const en = {
 	reviewAlreadyGiven: "You've already done that",
 	noFurtherReview:
 		"The Fox has already received a review from you. Thank you!🙏",
+	viewReview: "View your rating",
+	ok: "OK",
 };
 
 export default en;
