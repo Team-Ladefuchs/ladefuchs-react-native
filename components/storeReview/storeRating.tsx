@@ -21,20 +21,25 @@ import {
 const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 month in ms
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
+const appStoreWebUrl =
+	"https://itunes.apple.com/app/id1522882164?action=write-review";
 const playStoreUrl =
 	"market://details?id=app.ladefuchs.android&showAllReviews=true";
+const playStoreWebUrl =
+	"https://play.google.com/store/apps/details?id=app.ladefuchs.android&showAllReviews=true";
+
 const lastReviewPrompt = "lastReviewPrompt";
 const hasReviewedKey = "hasReviewed";
 
 export function Rating(): JSX.Element {
 	const [hasReviewed, setHasReviewed] = useState(false);
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const checkReviewPrompt = async () => {
 		try {
 			const reviewedStatus = await retrieveFromStorage(hasReviewedKey);
 
 			if (reviewedStatus) {
-				// check if user already reviewed
 				setHasReviewed(true);
 				return;
 			}
@@ -48,19 +53,26 @@ export function Rating(): JSX.Element {
 				await saveToStorage(lastReviewPrompt, now);
 				return;
 			}
-
 			if (now - lastReviewPromptDate >= ONE_MONTH) {
 				await saveToStorage(lastReviewPrompt, now);
 				await requestStoreReview();
 			}
 		} catch (error) {
-			console.log("error during review prompt", error);
+			console.log("Error during review prompt:", error);
 		}
 	};
 
 	const openStoreLink = () => {
 		const url = Platform.OS === "ios" ? appStoreUrl : playStoreUrl;
-		Linking.openURL(url);
+		const webUrl = Platform.OS === "ios" ? appStoreWebUrl : playStoreWebUrl;
+
+		Linking.openURL(url).catch(() => {
+			// fallback links to web url
+			Linking.openURL(webUrl).catch((err) => {
+				console.log("Error opening Web URL:", err);
+				Alert.alert(i18n.t("error"), i18n.t("unableToOpenStore"));
+			});
+		});
 	};
 
 	const requestStoreReview = async () => {
@@ -82,6 +94,13 @@ export function Rating(): JSX.Element {
 			Alert.alert(
 				i18n.t("reviewAlreadyGiven"),
 				i18n.t("noFurtherReview"),
+				[
+					{
+						text: i18n.t("viewReview"),
+						onPress: openStoreLink,
+					},
+					{ text: i18n.t("ok"), style: "cancel" },
+				],
 			);
 		} else {
 			requestStoreReview();
