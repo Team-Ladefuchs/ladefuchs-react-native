@@ -61,6 +61,7 @@ const en = {
 		"Of course you can support us, there are many ways you can help us:\n\n❤️Get the THQ quote for your electric car via our referral link at geld-fuer-eauto.de\n❤️Throw a coin into our PayPal fountain\n❤️Wear the fox from our merch\n❤️Send a financial messenger to our support account:\n	Account holder: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
 	supportfuchstext2: "How can I feed the fox? 🧡",
 	supportlink: "Check it out here",
+	faqlink: "What? Why? And how?… FAQ",
 	onboardingStep0Description:
 		"Select the provider of the charging station you are standing at.",
 	onboardingStep1Description:

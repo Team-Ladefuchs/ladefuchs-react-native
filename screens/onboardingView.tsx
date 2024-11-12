@@ -2,10 +2,12 @@ import React from "react";
 import {
 	Image,
 	ImageSourcePropType,
+	Linking,
 	SafeAreaView,
 	StyleProp,
 	Text,
 	TextStyle,
+	TouchableOpacity,
 	View,
 } from "react-native";
 import { appRoutes } from "../appRoutes";
@@ -34,6 +36,8 @@ export function OnboardingView({ navigation }: any): JSX.Element {
 		setOnboarding("hide");
 		navigation.navigate(appRoutes.home.key);
 	};
+
+	const url = "https://ladefuchs.app/faq/";
 
 	return (
 		<Onboarding
@@ -82,11 +86,26 @@ export function OnboardingView({ navigation }: any): JSX.Element {
 				{
 					backgroundColor: colors.ladefuchsLightBackground,
 					image: (
-						<View>
+						<View
+							style={{
+								alignItems: "center",
+								justifyContent: "center",
+							}}
+						>
 							<AppLogo size={160} />
 							<Text style={styles.onboardingFinalDescription}>
 								{i18n.t("onboardingAllSet")}
 							</Text>
+							<TouchableOpacity
+								activeOpacity={0.8}
+								hitSlop={scale(10)}
+								onPress={() => Linking.openURL(url)}
+								style={{ marginTop: scale(5) }}
+							>
+								<Text style={styles.settingsLink}>
+									{i18n.t("faqlink")}
+								</Text>
+							</TouchableOpacity>
 						</View>
 					),
 					title: "",
@@ -116,7 +135,7 @@ function generatePage({
 		backgroundColor: "rgba(0, 0, 0, 0.8)",
 		image: (
 			<View>
-				<Image source={imageSource} style={styles.defualtImageStyle} />
+				<Image source={imageSource} style={styles.defaultImageStyle} />
 				<View style={[styles.descriptionContainer, overlayStyle]}>
 					<PageNumber number={page} />
 					<Text
@@ -135,7 +154,7 @@ function generatePage({
 }
 
 const styles = ScaledSheet.create({
-	defualtImageStyle: {
+	defaultImageStyle: {
 		width: "280@s",
 		height: "560@s",
 		top: "26@s",
@@ -195,6 +214,10 @@ const styles = ScaledSheet.create({
 		position: "absolute",
 		bottom: "126@s",
 		width: "100%",
+	},
+	settingsLink: {
+		fontFamily: "Bitter",
+		textDecorationLine: "underline",
 	},
 });
 
