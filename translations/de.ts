@@ -61,6 +61,7 @@ const de = {
 		"Na klar kannst du uns unterstützen, es gibt viele Wege über die du uns unter die Arme greifen kannst:\n\n❤️Hol dir die THQ Quote für dein E-Auto über unsere Referrallink bei geld-fuer-eauto.de\n❤️Wirf eine Münze in unseren PayPal Brunnen\n❤️Trage den Fuchs aus unserem Merch\n❤️Schicke einen Finanzboten zu unserem Unterstützungskonto:\n	Kontoinhaber: Malik Aziz\n	IBAN: DE98110101001000000490\n	BIC: SOBKDEBBXXX ",
 	supportfuchstext2: "Wie kann ich den Fuchs füttern? 🧡",
 	supportlink: "Schau mal hier vorbei",
+	faqlink: "Was? Warum? Und wie überhaupt?… FAQ",
 	onboardingStep0Description:
 		"Wähle den Anbieter der Ladesäule, an der du stehst.",
 	onboardingStep1Description:
