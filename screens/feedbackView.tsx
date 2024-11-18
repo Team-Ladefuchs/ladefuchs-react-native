@@ -12,6 +12,7 @@ import {
 import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { colors, styles as themeStyle } from "@theme";
 import { DetailLogos } from "../components/detail/detailLogos";
@@ -46,6 +47,7 @@ export function FeedbackView(): JSX.Element {
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState(i18n.t("senden"));
+	const [hasError, setHasError] = useState(false);
 
 	const acPriceCounter = useCounter({
 		initialValue: acTariffCondition?.pricePerKwh ?? 0,
@@ -141,6 +143,59 @@ export function FeedbackView(): JSX.Element {
 		}
 	};
 
+	const renderNoteInput = () => {
+		return (
+			<View style={{ position: "relative" }}>
+				{hasError && (
+					<LinearGradient
+						colors={["red", "orange"]}
+						start={{ x: 0, y: 0 }}
+						end={{ x: 1, y: 1 }}
+						style={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0,
+							borderRadius: scale(10),
+							padding: 2,
+						}}
+					>
+						<View
+							style={{
+								flex: 1,
+								backgroundColor: "#F3EEE2",
+								borderRadius: scale(10),
+							}}
+						/>
+					</LinearGradient>
+				)}
+				<TextInput
+					style={[
+						feedbackStyle.noteInput,
+						hasError && { borderWidth: 0 },
+					]}
+					placeholder={notePlaceholder}
+					onFocus={() => setNotePlaceholder("")}
+					maxLength={maxNoteTextLength}
+					value={noteText}
+					placeholderTextColor={colors.ladefuchsGrayTextColor}
+					onBlur={() => {
+						if (!noteText) {
+							setNotePlaceholder(notePlaceholderText);
+						}
+					}}
+					onChangeText={(text) => {
+						setNoteText(text);
+						if (text) setHasError(false);
+					}}
+					multiline
+					numberOfLines={6}
+				/>
+			</View>
+		);
+	};
+
 	return (
 		<KeyboardAvoidingView
 			style={feedbackStyle.keyboardView}
@@ -185,32 +240,27 @@ export function FeedbackView(): JSX.Element {
 						</View>
 					</View>
 					<View style={feedbackStyle.noteContainer}>
-						<TextInput
-							style={feedbackStyle.noteInput}
-							placeholder={notePlaceholder}
-							onFocus={() => setNotePlaceholder("")}
-							maxLength={maxNoteTextLength}
-							value={noteText}
-							placeholderTextColor={colors.ladefuchsGrayTextColor}
-							onBlur={() => {
-								if (!noteText) {
-									setNotePlaceholder(notePlaceholderText);
-								}
-							}}
-							onChangeText={setNoteText}
-							multiline
-							numberOfLines={6}
-						/>
+						{renderNoteInput()}
 						<Text style={feedbackStyle.charCount}>
 							{remainingCharacters} / {maxNoteTextLength}
 						</Text>
 					</View>
 
-					<LadefuchsButton
-						text={sendButtonText}
-						disabled={disableSendButton}
-						onPress={handleSubmit}
-					/>
+					<TouchableWithoutFeedback
+						onPress={() => {
+							if (disableSendButton) {
+								setHasError(true);
+							}
+						}}
+					>
+						<View>
+							<LadefuchsButton
+								text={sendButtonText}
+								disabled={disableSendButton}
+								onPress={handleSubmit}
+							/>
+						</View>
+					</TouchableWithoutFeedback>
 				</ScrollView>
 			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
