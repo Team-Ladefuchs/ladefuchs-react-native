@@ -55,7 +55,6 @@ interface Props<T extends { identifier: string }> {
 }
 
 const isLetter = /[a-zA-Z]/;
-const FAKE_HEADER = "FAKE_HEADER";
 
 interface ItemType {
 	identifier: string;
@@ -117,9 +116,9 @@ export function SectionHeaderList<T extends ItemType>({
 		}
 
 		if (specialList.length > 1) {
-			return [FAKE_HEADER, ...items, ...specialList];
+			return [...items, ...specialList];
 		}
-		return [FAKE_HEADER, ...items];
+		return items;
 	}, [data]);
 
 	const stickyIndices = useMemo(() => {
@@ -174,10 +173,6 @@ export function SectionHeaderList<T extends ItemType>({
 	);
 
 	const renderItemCallback = ({ item }: { item: T }) => {
-		if (typeof item === "string" && item === FAKE_HEADER) {
-			return null;
-		}
-
 		if (typeof item === "string") {
 			return <Text style={styles.separatorHeader}>{item}</Text>;
 		}
