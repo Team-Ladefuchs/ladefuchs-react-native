@@ -26,6 +26,12 @@ import {
 	WrongPriceRequest,
 } from "../types/feedback";
 
+import Animated, {
+	useSharedValue,
+	useAnimatedStyle,
+	withTiming,
+} from "react-native-reanimated";
+
 import { PriceBox } from "../components/detail/priceBox";
 
 import { useCounter } from "../hooks/useCounter";
@@ -143,73 +149,69 @@ export function FeedbackView(): JSX.Element {
 		}
 	};
 
+	const opacity = useSharedValue(0);
+
+	const animatedStyle = useAnimatedStyle(() => ({
+		opacity: opacity.value,
+	}));
 	const renderNoteInput = () => {
 		return (
-			<View style={{ position: "relative" }}>
-				{hasError ? (
-					<View style={{ position: "relative" }}>
-						<LinearGradient
-							colors={["#F50902", "#F12F07", "#eb5508"]}
-							start={{ x: 0, y: 0 }}
-							end={{ x: 0, y: 1 }}
-							style={[feedbackStyle.grandient]}
+			<View style={{ position: "relative", marginHorizontal: scale(16) }}>
+				<Animated.View
+					style={[animatedStyle, feedbackStyle.animateContainer]}
+				>
+					<LinearGradient
+						colors={["#e30f08", "#a33902"]}
+						start={{ x: 0, y: 0 }}
+						end={{ x: 0, y: 1 }}
+						style={[feedbackStyle.grandient]}
+					>
+						<View
+							style={{
+								backgroundColor: "#F3EEE2",
+								borderRadius: scale(11),
+							}}
 						>
-							<View
-								style={{
-									backgroundColor: "#F3EEE2",
-									borderRadius: scale(12),
-								}}
-							>
-								<TextInput
-									style={[
-										feedbackStyle.noteInput,
-										{ borderColor: "transparent" },
-									]}
-									placeholder={notePlaceholder}
-									onFocus={() => setNotePlaceholder("")}
-									maxLength={maxNoteTextLength}
-									value={noteText}
-									placeholderTextColor={
-										colors.ladefuchsGrayTextColor
-									}
-									onBlur={() => {
-										if (!noteText) {
-											setNotePlaceholder(
-												notePlaceholderText,
-											);
-										}
-									}}
-									onChangeText={(text) => {
-										setNoteText(text);
-										if (text) setHasError(false);
-									}}
-									multiline
-									numberOfLines={6}
-								/>
-							</View>
-						</LinearGradient>
-					</View>
-				) : (
-					<TextInput
-						style={feedbackStyle.noteInput}
-						placeholder={notePlaceholder}
-						onFocus={() => setNotePlaceholder("")}
-						maxLength={maxNoteTextLength}
-						value={noteText}
-						placeholderTextColor={colors.ladefuchsGrayTextColor}
-						onBlur={() => {
-							if (!noteText) {
-								setNotePlaceholder(notePlaceholderText);
-							}
-						}}
-						onChangeText={(text) => {
-							setNoteText(text);
-							if (text) setHasError(false);
-						}}
-						multiline
-						numberOfLines={6}
-					/>
-				)}
+							<TextInput
+								style={[
+									feedbackStyle.noteInput,
+									{
+										borderColor: "transparent",
+										borderWidth: 0,
+									},
+								]}
+								value={noteText}
+								multiline
+								numberOfLines={6}
+							/>
+						</View>
+					</LinearGradient>
+				</Animated.View>
+
+				<TextInput
+					style={[
+						feedbackStyle.noteInput,
+						{
+							zIndex: 2,
+						},
+					]}
+					placeholder={notePlaceholder}
+					onFocus={() => setNotePlaceholder("")}
+					maxLength={maxNoteTextLength}
+					value={noteText}
+					placeholderTextColor={colors.ladefuchsGrayTextColor}
+					onBlur={() => {
+						if (!noteText) {
+							setNotePlaceholder(notePlaceholderText);
+						}
+					}}
+					onChangeText={(text) => {
+						setNoteText(text);
+						if (text) setHasError(false);
+					}}
+					multiline
+					numberOfLines={6}
+				/>
 			</View>
 		);
 	};
@@ -267,11 +269,18 @@ export function FeedbackView(): JSX.Element {
 					<TouchableWithoutFeedback
 						onPress={() => {
 							if (disableSendButton) {
-								setHasError(true);
+								opacity.value = withTiming(1, {
+									duration: 360,
+								});
+								setTimeout(() => {
+									opacity.value = withTiming(0, {
+										duration: 360,
+									});
+								}, 1600);
 							}
 						}}
 					>
-						<View>
+						<View style={{ marginHorizontal: scale(16) }}>
 							<LadefuchsButton
 								text={sendButtonText}
 								disabled={disableSendButton}
@@ -289,7 +298,6 @@ const feedbackStyle = ScaledSheet.create({
 	keyboardView: {
 		backgroundColor: colors.ladefuchsLightBackground,
 		height: "100%",
-		paddingHorizontal: "16@s",
 	},
 	logosContainer: {
 		justifyContent: "center",
@@ -303,8 +311,8 @@ const feedbackStyle = ScaledSheet.create({
 	noteInput: {
 		height: "92@s",
 		borderColor: colors.ladefuchsDarkGrayBackground,
-		borderWidth: "2@s",
 		paddingVertical: "8@s",
+		borderWidth: "2@s",
 		paddingHorizontal: "10@s",
 		fontSize: "13@s",
 		width: "100%",
@@ -316,7 +324,7 @@ const feedbackStyle = ScaledSheet.create({
 	charCount: {
 		position: "absolute",
 		bottom: "4@s",
-		right: "8@s",
+		right: "24@s",
 		opacity: 0.3,
 		fontSize: "11@s",
 	},
@@ -324,15 +332,26 @@ const feedbackStyle = ScaledSheet.create({
 		flexDirection: "row",
 		marginTop: "8@s",
 		gap: "12@s",
+		marginHorizontal: "16@s",
 	},
 	priceContainer: {
 		flex: 1,
 		width: "auto",
 	},
 	grandient: {
-		backgroundColor: colors.ladefuchsLightGrayBackground,
-		borderRadius: "12@s",
-		padding: "2.5@s",
+		borderRadius: "10@s",
+	},
+	animateContainer: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		shadowColor: "#b80600",
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 1,
+		shadowRadius: "10@s",
+		elevation: 4,
 	},
 });
 

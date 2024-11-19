@@ -42,7 +42,8 @@
     "react-native-svg-transformer": "^1.5.0",
     "react-native-toast-message": "^2.2.1",
     "react-native-wheely": "^0.6.0",
-    "zustand": "^4.5.5"
+    "zustand": "^4.5.5",
+    "react-native-reanimated": "~3.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
