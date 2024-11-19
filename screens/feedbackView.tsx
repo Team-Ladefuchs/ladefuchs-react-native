@@ -56,7 +56,6 @@ async function inUnderFeedbackDebounce(): Promise<boolean> {
 	}
 
 	const threeminutes = 60 * 1000; // 3minutes
-	console.log(lastReviewDate);
 	return Date.now() - Number(lastReviewDate ?? 0) > threeminutes;
 }
 
