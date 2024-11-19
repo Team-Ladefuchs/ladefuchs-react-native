@@ -18,7 +18,6 @@ import {
 	saveToStorage,
 } from "../../functions/storage/storage";
 
-const ONE_MONTH = 3600 * 24 * 30 * 1000; // 1 month in ms
 const appStoreUrl =
 	"itms-apps://itunes.apple.com/app/viewContentsUserReviews/id1522882164?action=write-review";
 const appStoreWebUrl =
@@ -53,7 +52,8 @@ export function Rating(): JSX.Element {
 				await saveToStorage(lastReviewPrompt, now);
 				return;
 			}
-			if (now - lastReviewPromptDate >= ONE_MONTH) {
+			const oneMonth = 3600 * 24 * 30 * 1000; // 1 month in ms
+			if (now - lastReviewPromptDate >= oneMonth) {
 				await saveToStorage(lastReviewPrompt, now);
 				await requestStoreReview();
 			}

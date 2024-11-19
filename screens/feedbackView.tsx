@@ -30,6 +30,7 @@ import Animated, {
 	useSharedValue,
 	useAnimatedStyle,
 	withTiming,
+	withDelay,
 } from "react-native-reanimated";
 
 import { PriceBox } from "../components/detail/priceBox";
@@ -51,9 +52,6 @@ async function inUnderFeedbackDebounce(): Promise<boolean> {
 	const lastReviewDate = await retrieveFromStorage<number | null>(
 		"lastFeedBackSend",
 	);
-	if (!lastReviewDate) {
-		return false;
-	}
 
 	const threeminutes = 60 * 1000; // 3minutes
 	return Date.now() - Number(lastReviewDate ?? 0) > threeminutes;
@@ -69,11 +67,9 @@ export function FeedbackView(): JSX.Element {
 	const [notePlaceholder, setNotePlaceholder] =
 		useState<string>(notePlaceholderText);
 
-	const [feedBackButtonIsDisbaled, setFeedBackButtonIsEnabled] =
-		useState(false);
+	const [feedBackButtonStatus, setfeedBackButtonStatus] = useState(false);
 
 	const [noteText, setNoteText] = useState("");
-	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState(i18n.t("senden"));
 
 	const acPriceCounter = useCounter({
@@ -88,16 +84,12 @@ export function FeedbackView(): JSX.Element {
 		useState(maxNoteTextLength);
 
 	useEffect(() => {
-		inUnderFeedbackDebounce().then(setFeedBackButtonIsEnabled);
+		inUnderFeedbackDebounce().then(setfeedBackButtonStatus);
 	}, []);
 
 	useEffect(() => {
 		setRemainingCharacters(maxNoteTextLength - noteText.length);
 	}, [setRemainingCharacters, noteText]);
-
-	useEffect(() => {
-		setDisableSendButton(noteText.length < minNotesLength);
-	}, [setDisableSendButton, noteText]);
 
 	const createRequestPayload = (): FeedbackRequest[] => {
 		const context: FeedbackContext = {
@@ -144,7 +136,18 @@ export function FeedbackView(): JSX.Element {
 
 	const handleSubmit = async () => {
 		try {
-			setDisableSendButton(true);
+			const animationDuration = 400;
+			if (noteText.length < minNotesLength) {
+				opacity.value = withTiming(1, {
+					duration: animationDuration - 100,
+				});
+				setTimeout(() => {
+					opacity.value = withTiming(0, {
+						duration: animationDuration,
+					});
+				}, 1000);
+				return;
+			}
 			setSendButtonText(i18n.t("momentchen"));
 
 			for (const request of createRequestPayload()) {
@@ -166,7 +169,6 @@ export function FeedbackView(): JSX.Element {
 			);
 			setSendButtonText("Senden");
 			console.log("sending feedback", error);
-			setDisableSendButton(false);
 			Toast.show({
 				type: "error",
 				text1: i18n.t("ups"),
@@ -299,28 +301,12 @@ export function FeedbackView(): JSX.Element {
 						</Text>
 					</View>
 					<View style={{ marginHorizontal: scale(16) }}>
-						{feedBackButtonIsDisbaled ? (
-							<TouchableWithoutFeedback
-								onPress={() => {
-									const animationDuration = 400;
-									if (disableSendButton) {
-										opacity.value = withTiming(1, {
-											duration: animationDuration,
-										});
-										setTimeout(() => {
-											opacity.value = withTiming(0, {
-												duration: animationDuration,
-											});
-										}, 1300);
-									}
-								}}
-							>
-								<LadefuchsButton
-									text={sendButtonText}
-									disabled={disableSendButton}
-									onPress={handleSubmit}
-								/>
-							</TouchableWithoutFeedback>
+						{feedBackButtonStatus ? (
+							<LadefuchsButton
+								text={sendButtonText}
+								// disabled={disableSendButton}
+								onPress={handleSubmit}
+							/>
 						) : (
 							<LadefuchsButton
 								text={i18n.t("feedbackDebounceText")}
