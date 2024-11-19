@@ -96,7 +96,7 @@ export function TariffList(): JSX.Element {
 		queryKey: ["AllTariffs"],
 		retry: 3,
 		retryDelay: 100,
-		gcTime: getMinutes(20),
+		gcTime: getMinutes(12),
 		queryFn: async () => {
 			const tariffs = await fetchAllTariffs({
 				writeCache: !allTariffsQuery.data,

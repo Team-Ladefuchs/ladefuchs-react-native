@@ -146,52 +146,70 @@ export function FeedbackView(): JSX.Element {
 	const renderNoteInput = () => {
 		return (
 			<View style={{ position: "relative" }}>
-				{hasError && (
-					<LinearGradient
-						colors={["red", "orange"]}
-						start={{ x: 0, y: 0 }}
-						end={{ x: 1, y: 1 }}
-						style={{
-							position: "absolute",
-							top: 0,
-							left: 0,
-							right: 0,
-							bottom: 0,
-							borderRadius: scale(10),
-							padding: 2,
+				{hasError ? (
+					<View style={{ position: "relative" }}>
+						<LinearGradient
+							colors={["#F50902", "#F12F07", "#eb5508"]}
+							start={{ x: 0, y: 0 }}
+							end={{ x: 0, y: 1 }}
+							style={[feedbackStyle.grandient]}
+						>
+							<View
+								style={{
+									backgroundColor: "#F3EEE2",
+									borderRadius: scale(12),
+								}}
+							>
+								<TextInput
+									style={[
+										feedbackStyle.noteInput,
+										{ borderColor: "transparent" },
+									]}
+									placeholder={notePlaceholder}
+									onFocus={() => setNotePlaceholder("")}
+									maxLength={maxNoteTextLength}
+									value={noteText}
+									placeholderTextColor={
+										colors.ladefuchsGrayTextColor
+									}
+									onBlur={() => {
+										if (!noteText) {
+											setNotePlaceholder(
+												notePlaceholderText,
+											);
+										}
+									}}
+									onChangeText={(text) => {
+										setNoteText(text);
+										if (text) setHasError(false);
+									}}
+									multiline
+									numberOfLines={6}
+								/>
+							</View>
+						</LinearGradient>
+					</View>
+				) : (
+					<TextInput
+						style={feedbackStyle.noteInput}
+						placeholder={notePlaceholder}
+						onFocus={() => setNotePlaceholder("")}
+						maxLength={maxNoteTextLength}
+						value={noteText}
+						placeholderTextColor={colors.ladefuchsGrayTextColor}
+						onBlur={() => {
+							if (!noteText) {
+								setNotePlaceholder(notePlaceholderText);
+							}
 						}}
-					>
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: "#F3EEE2",
-								borderRadius: scale(10),
-							}}
-						/>
-					</LinearGradient>
+						onChangeText={(text) => {
+							setNoteText(text);
+							if (text) setHasError(false);
+						}}
+						multiline
+						numberOfLines={6}
+					/>
 				)}
-				<TextInput
-					style={[
-						feedbackStyle.noteInput,
-						hasError && { borderWidth: 0 },
-					]}
-					placeholder={notePlaceholder}
-					onFocus={() => setNotePlaceholder("")}
-					maxLength={maxNoteTextLength}
-					value={noteText}
-					placeholderTextColor={colors.ladefuchsGrayTextColor}
-					onBlur={() => {
-						if (!noteText) {
-							setNotePlaceholder(notePlaceholderText);
-						}
-					}}
-					onChangeText={(text) => {
-						setNoteText(text);
-						if (text) setHasError(false);
-					}}
-					multiline
-					numberOfLines={6}
-				/>
 			</View>
 		);
 	};
@@ -310,6 +328,11 @@ const feedbackStyle = ScaledSheet.create({
 	priceContainer: {
 		flex: 1,
 		width: "auto",
+	},
+	grandient: {
+		backgroundColor: colors.ladefuchsLightGrayBackground,
+		borderRadius: "12@s",
+		padding: "2.5@s",
 	},
 });
 

@@ -76,7 +76,7 @@ export function OperatorList(): JSX.Element {
 
 	const allOperatorsQuery = useQuery({
 		queryKey: ["AllOperators"],
-		gcTime: getMinutes(20),
+		gcTime: getMinutes(12),
 		retry: 3,
 		queryFn: async () => {
 			return await fetchAllOperators({
