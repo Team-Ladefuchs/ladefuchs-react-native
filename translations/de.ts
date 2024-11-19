@@ -88,6 +88,7 @@ const de = {
 	noFurtherReview: "Deine Bewertung ist im Fuchsbau angekommen.",
 	viewReview: "Bewertung ansehen",
 	ok: "Alles klar",
+	feedbackDebounceText: "Komm später wieder",
 };
 
 export default de;

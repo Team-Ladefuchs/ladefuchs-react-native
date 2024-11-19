@@ -88,6 +88,7 @@ const en = {
 	noFurtherReview: "Your review has arrived at the foxhole.",
 	viewReview: "View review",
 	ok: "All right",
+	feedbackDebounceText: "Comback later",
 };
 
 export default en;

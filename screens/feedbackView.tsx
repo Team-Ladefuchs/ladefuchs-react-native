@@ -38,8 +38,27 @@ import { useCounter } from "../hooks/useCounter";
 import { sendFeedback } from "../functions/api/feedback";
 import i18n from "../translations/translations";
 import { FeedbackScreenRouteParams } from "../appRoutes";
+import {
+	retrieveFromStorage,
+	saveToStorage,
+} from "../functions/storage/storage";
 
 const notePlaceholderText = i18n.t("futter2");
+
+const minNotesLength = 10;
+
+async function inUnderFeedbackDebounce(): Promise<boolean> {
+	const lastReviewDate = await retrieveFromStorage<number | null>(
+		"lastFeedBackSend",
+	);
+	if (!lastReviewDate) {
+		return false;
+	}
+
+	const threeminutes = 60 * 1000; // 3minutes
+	console.log(lastReviewDate);
+	return Date.now() - Number(lastReviewDate ?? 0) > threeminutes;
+}
 
 export function FeedbackView(): JSX.Element {
 	const route = useRoute<FeedbackScreenRouteParams>();
@@ -50,10 +69,13 @@ export function FeedbackView(): JSX.Element {
 
 	const [notePlaceholder, setNotePlaceholder] =
 		useState<string>(notePlaceholderText);
+
+	const [feedBackButtonIsDisbaled, setFeedBackButtonIsEnabled] =
+		useState(false);
+
 	const [noteText, setNoteText] = useState("");
 	const [disableSendButton, setDisableSendButton] = useState(false);
 	const [sendButtonText, setSendButtonText] = useState(i18n.t("senden"));
-	const [hasError, setHasError] = useState(false);
 
 	const acPriceCounter = useCounter({
 		initialValue: acTariffCondition?.pricePerKwh ?? 0,
@@ -67,11 +89,15 @@ export function FeedbackView(): JSX.Element {
 		useState(maxNoteTextLength);
 
 	useEffect(() => {
+		inUnderFeedbackDebounce().then(setFeedBackButtonIsEnabled);
+	}, []);
+
+	useEffect(() => {
 		setRemainingCharacters(maxNoteTextLength - noteText.length);
 	}, [setRemainingCharacters, noteText]);
 
 	useEffect(() => {
-		setDisableSendButton(!noteText);
+		setDisableSendButton(noteText.length < minNotesLength);
 	}, [setDisableSendButton, noteText]);
 
 	const createRequestPayload = (): FeedbackRequest[] => {
@@ -127,6 +153,7 @@ export function FeedbackView(): JSX.Element {
 			}
 
 			navigation.goBack();
+			saveToStorage("lastFeedBackSend", Date.now());
 			setTimeout(() => {
 				Toast.show({
 					type: "success",
@@ -173,6 +200,7 @@ export function FeedbackView(): JSX.Element {
 							}}
 						>
 							<TextInput
+								editable={false}
 								style={[
 									feedbackStyle.noteInput,
 									{
@@ -180,7 +208,6 @@ export function FeedbackView(): JSX.Element {
 										borderWidth: 0,
 									},
 								]}
-								value={noteText}
 								multiline
 								numberOfLines={6}
 							/>
@@ -201,14 +228,11 @@ export function FeedbackView(): JSX.Element {
 					value={noteText}
 					placeholderTextColor={colors.ladefuchsGrayTextColor}
 					onBlur={() => {
-						if (!noteText) {
+						if (noteText) {
 							setNotePlaceholder(notePlaceholderText);
 						}
 					}}
-					onChangeText={(text) => {
-						setNoteText(text);
-						if (text) setHasError(false);
-					}}
+					onChangeText={setNoteText}
 					multiline
 					numberOfLines={6}
 				/>
@@ -224,17 +248,27 @@ export function FeedbackView(): JSX.Element {
 		>
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<ScrollView keyboardShouldPersistTaps="handled" bounces>
-					<Text
-						style={[themeStyle.headLine, { marginTop: scale(16) }]}
-					>
-						{i18n.t("futter")}
-					</Text>
-					<View>
-						<Text style={themeStyle.headerText}>
-							{i18n.t("futter1")}
+					<View style={{ marginHorizontal: scale(16) }}>
+						<Text
+							style={[
+								themeStyle.headLine,
+								{
+									marginTop: scale(16),
+								},
+							]}
+						>
+							{i18n.t("futter")}
 						</Text>
-						<View style={feedbackStyle.logosContainer}>
-							<DetailLogos tariff={tariff} operator={operator} />
+						<View>
+							<Text style={themeStyle.headerText}>
+								{i18n.t("futter1")}
+							</Text>
+							<View style={feedbackStyle.logosContainer}>
+								<DetailLogos
+									tariff={tariff}
+									operator={operator}
+								/>
+							</View>
 						</View>
 					</View>
 					<View style={feedbackStyle.priceBoxesContainer}>
@@ -265,29 +299,37 @@ export function FeedbackView(): JSX.Element {
 							{remainingCharacters} / {maxNoteTextLength}
 						</Text>
 					</View>
-
-					<TouchableWithoutFeedback
-						onPress={() => {
-							if (disableSendButton) {
-								opacity.value = withTiming(1, {
-									duration: 360,
-								});
-								setTimeout(() => {
-									opacity.value = withTiming(0, {
-										duration: 360,
-									});
-								}, 1600);
-							}
-						}}
-					>
-						<View style={{ marginHorizontal: scale(16) }}>
+					<View style={{ marginHorizontal: scale(16) }}>
+						{feedBackButtonIsDisbaled ? (
+							<TouchableWithoutFeedback
+								onPress={() => {
+									const animationDuration = 400;
+									if (disableSendButton) {
+										opacity.value = withTiming(1, {
+											duration: animationDuration,
+										});
+										setTimeout(() => {
+											opacity.value = withTiming(0, {
+												duration: animationDuration,
+											});
+										}, 1300);
+									}
+								}}
+							>
+								<LadefuchsButton
+									text={sendButtonText}
+									disabled={disableSendButton}
+									onPress={handleSubmit}
+								/>
+							</TouchableWithoutFeedback>
+						) : (
 							<LadefuchsButton
-								text={sendButtonText}
-								disabled={disableSendButton}
+								text={i18n.t("feedbackDebounceText")}
+								disabled={true}
 								onPress={handleSubmit}
 							/>
-						</View>
-					</TouchableWithoutFeedback>
+						)}
+					</View>
 				</ScrollView>
 			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
