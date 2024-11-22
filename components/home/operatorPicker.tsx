@@ -5,7 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 import { colors } from "@theme";
 import { Platform, View, StyleSheet } from "react-native";
 import WheelPicker from "react-native-wheely";
-import { scale } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 
 export default function OperatorPicker(): JSX.Element {
@@ -73,9 +73,8 @@ export default function OperatorPicker(): JSX.Element {
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	defaultPickerItemStyle: {
-		fontSize: scale(20),
 		fontWeight: "400",
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",

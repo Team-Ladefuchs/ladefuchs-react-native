@@ -53,7 +53,7 @@ export function AppHeader(): JSX.Element {
 			</View>
 			<View style={styles.headerSettingsIcon}>
 				<FavoriteCheckbox
-					size={34}
+					size={32}
 					style={{ bottom: scale(0.5) }}
 					checked={isFavoriteTariffOnly}
 					onValueChange={setisFavoriteTariffOnly}
