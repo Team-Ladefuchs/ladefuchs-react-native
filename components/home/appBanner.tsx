@@ -13,7 +13,7 @@ import { colors } from "@theme";
 import { authHeader } from "../../functions/api/base";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../state/appState";
-import { scale } from "react-native-size-matters";
+import { ScaledSheet, scale } from "react-native-size-matters";
 
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
@@ -25,26 +25,6 @@ export function AppBanner(): JSX.Element {
 		}
 	}, [banner]);
 
-	const imageStyle = (): StyleProp<ImageStyle> => {
-		if (banner?.bannerType === "chargePrice") {
-			return {
-				width: "85%",
-				aspectRatio: "6.4",
-				marginTop: scale(35),
-				overflow: "hidden",
-				borderTopLeftRadius: scale(14),
-				borderTopRightRadius: scale(14),
-				objectFit: "scale-down",
-			};
-		}
-		return {
-			height: scale(100),
-			marginTop: scale(18),
-			aspectRatio: "2.8",
-			objectFit: "scale-down",
-		};
-	};
-
 	return (
 		<View style={styles.viewContainer}>
 			{banner && (
@@ -55,12 +35,19 @@ export function AppBanner(): JSX.Element {
 								await Linking.openURL(banner.affiliateLinkUrl);
 							}
 						}}
-						style={{ marginTop: scale(20) }}
 					>
 						<Image
 							resizeMode="contain"
 							source={{ uri: banner.imageUrl, ...authHeader }}
-							style={imageStyle()}
+							style={[
+								styles.image,
+								{
+									aspectRatio:
+										banner?.bannerType === "chargePrice"
+											? "6.4"
+											: "2.8",
+								},
+							]}
 							onLoad={() => setImageLoaded(true)}
 							onError={() => setImageLoaded(false)}
 							fadeDuration={0}
@@ -75,7 +62,7 @@ export function AppBanner(): JSX.Element {
 	);
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	viewContainer: {
 		backgroundColor: colors.ladefuchsDarkBackground,
 		alignItems: "center",
@@ -83,6 +70,14 @@ const styles = StyleSheet.create({
 		flex: 16,
 		display: "flex",
 		justifyContent: "center",
+	},
+	image: {
+		width: "85%",
+		marginTop: "35@s",
+		overflow: "hidden",
+		borderTopLeftRadius: "14@s",
+		borderTopRightRadius: "14@s",
+		objectFit: "scale-down",
 	},
 	blankBanner: {
 		backgroundColor: "#fff",
@@ -92,7 +87,7 @@ const styles = StyleSheet.create({
 			android: {
 				width: "85%",
 			},
-			default: {
+			ios: {
 				width: "85%",
 			},
 		}),
