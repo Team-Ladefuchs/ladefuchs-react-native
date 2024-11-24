@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { scale } from "react-native-size-matters";
-import { Image, View, Text, ImageSourcePropType } from "react-native";
+import { View, Text, ImageSourcePropType } from "react-native";
+import { Image } from "expo-image";
 import { getImageSource, hyphenText } from "../../functions/util";
 
 interface Props {
@@ -35,10 +36,10 @@ export function OperatorImage({
 				<Image
 					source={image ?? fallBack}
 					onError={() => setImageError(true)}
+					contentFit="scale-down"
 					style={{
 						height: scale(height),
 						width: scale(width),
-						objectFit: "scale-down",
 					}}
 				/>
 			)}

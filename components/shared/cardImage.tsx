@@ -1,6 +1,5 @@
 import {
 	View,
-	Image,
 	Text,
 	StyleProp,
 	StyleSheet,
@@ -16,6 +15,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 
 import FavStar from "@assets/favorite/favstern.svg";
 import { getImageSource } from "../../functions/util";
+import { Image } from "expo-image";
 
 interface Props {
 	imageUrl: string | ImageSourcePropType | null;
@@ -34,20 +34,15 @@ export function CardImage({
 	width,
 	isFavorite = false,
 	hideFallBackText = false,
-	styleProp,
 }: Props): JSX.Element {
 	const [imageError, setImageError] = useState(false);
 	const favoriteStarSize = 20;
 
-	const image = getImageSource(imageUrl);
 	return (
 		<View
 			style={[
 				dropShadow,
-				{
-					...cardStyle.cardImageContainer,
-					...styleProp,
-				},
+				cardStyle.cardImageContainer,
 				{ width: scale(width) },
 			]}
 		>
@@ -70,7 +65,7 @@ export function CardImage({
 					onError={() => {
 						setImageError(true);
 					}}
-					source={image!}
+					source={getImageSource(imageUrl)}
 					style={styles.cardImage}
 				/>
 			)}
@@ -94,8 +89,8 @@ function FallBack({
 			)}
 			<Image
 				source={require("@assets/generic/blitz.png")}
-				resizeMethod={"scale"}
-				fadeDuration={0}
+				contentFit="scale-down"
+				transition={0}
 				style={styles.fallbackImage}
 			/>
 		</View>

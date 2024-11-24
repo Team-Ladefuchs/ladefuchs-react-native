@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
 	View,
-	StyleSheet,
 	TouchableWithoutFeedback,
-	Image,
 	Linking,
-	ImageStyle,
-	StyleProp,
 	Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import { colors } from "@theme";
 import { authHeader } from "../../functions/api/base";
 import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../../state/appState";
-import { ScaledSheet, scale } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
@@ -37,7 +34,7 @@ export function AppBanner(): JSX.Element {
 						}}
 					>
 						<Image
-							resizeMode="contain"
+							contentFit="contain"
 							source={{ uri: banner.imageUrl, ...authHeader }}
 							style={[
 								styles.image,
@@ -50,7 +47,7 @@ export function AppBanner(): JSX.Element {
 							]}
 							onLoad={() => setImageLoaded(true)}
 							onError={() => setImageLoaded(false)}
-							fadeDuration={0}
+							transition={0}
 						/>
 					</TouchableWithoutFeedback>
 					{banner.bannerType === "chargePrice" && imageLoaded && (
