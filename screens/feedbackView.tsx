@@ -46,7 +46,7 @@ import {
 
 const notePlaceholderText = i18n.t("futter2");
 
-const minNotesLength = 10;
+const minNotesLength = 15;
 
 async function inUnderFeedbackDebounce(): Promise<boolean> {
 	const lastReviewDate = await retrieveFromStorage<number | null>(
@@ -272,6 +272,7 @@ export function FeedbackView(): JSX.Element {
 					<View style={feedbackStyle.noteContainer}>
 						{renderNoteInput()}
 						<Text style={feedbackStyle.charCount}>
+							{i18n.t("minChar")}
 							{remainingCharacters} / {maxNoteTextLength}
 						</Text>
 					</View>
