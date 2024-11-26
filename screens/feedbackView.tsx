@@ -12,7 +12,6 @@ import {
 import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { colors, styles as themeStyle } from "@theme";
 import { DetailLogos } from "../components/detail/detailLogos";
@@ -30,7 +29,8 @@ import Animated, {
 	useSharedValue,
 	useAnimatedStyle,
 	withTiming,
-	withDelay,
+	withSequence,
+	interpolateColor,
 } from "react-native-reanimated";
 
 import { PriceBox } from "../components/detail/priceBox";
@@ -136,16 +136,12 @@ export function FeedbackView(): JSX.Element {
 
 	const handleSubmit = async () => {
 		try {
-			const animationDuration = 400;
+			const animationDuration = 1000;
 			if (noteText.length < minNotesLength) {
-				opacity.value = withTiming(1, {
-					duration: animationDuration - 100,
-				});
-				setTimeout(() => {
-					opacity.value = withTiming(0, {
-						duration: animationDuration,
-					});
-				}, 1000);
+				borderColorState.value = withSequence(
+					withTiming(1, { duration: animationDuration }),
+					withTiming(0, { duration: animationDuration }),
+				);
 				return;
 			}
 			setSendButtonText(i18n.t("momentchen"));
@@ -177,66 +173,45 @@ export function FeedbackView(): JSX.Element {
 		}
 	};
 
-	const opacity = useSharedValue(0);
+	const borderColorState = useSharedValue(0);
 
 	const animatedStyle = useAnimatedStyle(() => ({
-		opacity: opacity.value,
+		borderColor: interpolateColor(
+			borderColorState.value,
+			[0, 1],
+			[colors.ladefuchsDarkGrayBackground, "red"],
+		),
 	}));
+
 	const renderNoteInput = () => {
 		return (
 			<View style={{ position: "relative", marginHorizontal: scale(16) }}>
 				<Animated.View
-					style={[animatedStyle, feedbackStyle.animateContainer]}
-				>
-					<LinearGradient
-						colors={["#e30f08", "#a33902"]}
-						start={{ x: 0, y: 0 }}
-						end={{ x: 0, y: 1 }}
-						style={[feedbackStyle.grandient]}
-					>
-						<View
-							style={{
-								backgroundColor: "#F3EEE2",
-								borderRadius: scale(11),
-							}}
-						>
-							<TextInput
-								editable={false}
-								style={[
-									feedbackStyle.noteInput,
-									{
-										borderColor: "transparent",
-										borderWidth: 0,
-									},
-								]}
-								multiline
-								numberOfLines={6}
-							/>
-						</View>
-					</LinearGradient>
-				</Animated.View>
-
-				<TextInput
 					style={[
-						feedbackStyle.noteInput,
+						animatedStyle,
 						{
-							zIndex: 2,
+							borderWidth: scale(3),
+							borderRadius: scale(10),
 						},
 					]}
-					placeholder={notePlaceholder}
-					onFocus={() => setNotePlaceholder("")}
-					maxLength={maxNoteTextLength}
-					value={noteText}
-					placeholderTextColor={colors.ladefuchsGrayTextColor}
-					onBlur={() => {
-						if (noteText) {
-							setNotePlaceholder(notePlaceholderText);
-						}
-					}}
-					onChangeText={setNoteText}
-					multiline
-					numberOfLines={6}
-				/>
+				>
+					<TextInput
+						style={[feedbackStyle.noteInput]}
+						placeholder={notePlaceholder}
+						onFocus={() => setNotePlaceholder("")}
+						maxLength={maxNoteTextLength}
+						value={noteText}
+						placeholderTextColor={colors.ladefuchsGrayTextColor}
+						onBlur={() => {
+							if (noteText) {
+								setNotePlaceholder(notePlaceholderText);
+							}
+						}}
+						onChangeText={setNoteText}
+						multiline
+						numberOfLines={6}
+					/>
+				</Animated.View>
 			</View>
 		);
 	};
@@ -304,7 +279,6 @@ export function FeedbackView(): JSX.Element {
 						{feedBackButtonStatus ? (
 							<LadefuchsButton
 								text={sendButtonText}
-								// disabled={disableSendButton}
 								onPress={handleSubmit}
 							/>
 						) : (
@@ -337,16 +311,14 @@ const feedbackStyle = ScaledSheet.create({
 	},
 	noteInput: {
 		height: "92@s",
-		borderColor: colors.ladefuchsDarkGrayBackground,
 		paddingVertical: "8@s",
-		borderWidth: "2@s",
 		paddingHorizontal: "10@s",
 		fontSize: "13@s",
 		width: "100%",
 		alignSelf: "center",
 		textAlignVertical: "top",
+		borderRadius: "7@s",
 		backgroundColor: colors.ladefuchsLightGrayBackground,
-		borderRadius: "10@s",
 	},
 	charCount: {
 		position: "absolute",
@@ -367,18 +339,6 @@ const feedbackStyle = ScaledSheet.create({
 	},
 	grandient: {
 		borderRadius: "10@s",
-	},
-	animateContainer: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		shadowColor: "#b80600",
-		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 1,
-		shadowRadius: "10@s",
-		elevation: 4,
 	},
 });
 
