@@ -11,7 +11,7 @@ const en = {
 	futter: "Do you have any food for our fox?",
 	futter1: "Tell us what's wrong!",
 	futter2: "Give the fox some more information!",
-	minChar: "(at least 15 characters)  ",
+	minChar: "(min. 15)",
 	senden: "Send",
 	momentchen: "One moment please …",
 	thxfeedback: "⚡️ Thank you for your feedback!",

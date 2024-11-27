@@ -41,7 +41,7 @@ export function AppBanner(): JSX.Element {
 								{
 									aspectRatio:
 										banner?.bannerType === "chargePrice"
-											? "6.4"
+											? "6.0"
 											: "2.8",
 								},
 							]}
@@ -77,7 +77,7 @@ const styles = ScaledSheet.create({
 		objectFit: "scale-down",
 	},
 	blankBanner: {
-		backgroundColor: "#fff",
+		backgroundColor: "white",
 		marginTop: -2,
 		height: "100%",
 		...Platform.select({

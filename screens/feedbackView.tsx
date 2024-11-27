@@ -139,7 +139,7 @@ export function FeedbackView(): JSX.Element {
 			const animationDuration = 1000;
 			if (noteText.length < minNotesLength) {
 				borderColorState.value = withSequence(
-					withTiming(1, { duration: animationDuration }),
+					withTiming(1, { duration: animationDuration / 2 }),
 					withTiming(0, { duration: animationDuration }),
 				);
 				return;
@@ -272,7 +272,7 @@ export function FeedbackView(): JSX.Element {
 					<View style={feedbackStyle.noteContainer}>
 						{renderNoteInput()}
 						<Text style={feedbackStyle.charCount}>
-							{i18n.t("minChar")}
+							{!noteText.length && i18n.t("minChar")}
 							{remainingCharacters} / {maxNoteTextLength}
 						</Text>
 					</View>

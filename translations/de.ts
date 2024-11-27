@@ -11,7 +11,7 @@ const de = {
 	futter: "Hast du Futter für den Fuchs?",
 	futter1: "Sag uns was nicht stimmt!",
 	futter2: "Gib dem Fuchs noch eine Info mit!",
-	minChar: "(mindestens 15 Zeichen)  ",
+	minChar: "(min. 15)  ",
 	senden: "Senden",
 	momentchen: "Momentchen …",
 	thxfeedback: "⚡️ Vielen Dank für dein Feedback!",
