@@ -92,14 +92,7 @@ const styles = ScaledSheet.create({
 		justifyContent: "center",
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
-		...Platform.select({
-			android: {
-				paddingTop: scale(28),
-			},
-			ios: {
-				marginTop: scale(-10),
-			},
-		}),
+		marginTop: scale(-8),
 	},
 	headerSettingsIcon: {
 		display: "flex",

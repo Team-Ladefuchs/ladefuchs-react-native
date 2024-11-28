@@ -272,8 +272,7 @@ export function FeedbackView(): JSX.Element {
 					<View style={feedbackStyle.noteContainer}>
 						{renderNoteInput()}
 						<Text style={feedbackStyle.charCount}>
-							{!noteText.length && i18n.t("minChar")}
-							{remainingCharacters} / {maxNoteTextLength}
+							{`${i18n.t("minChar")}  ${remainingCharacters}/${maxNoteTextLength}`}
 						</Text>
 					</View>
 					<View style={{ marginHorizontal: scale(16) }}>
