@@ -3,14 +3,18 @@
     "name": "Ladefuchs",
     "slug": "ladefuchs",
     "version": "3.1.7",
-    "newArchEnabled": false,
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
     "icon": "./assets/fuchs/app_icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/fuchs/ladefuchs.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F3EEE2"
+    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "3",
+      "buildNumber": "5",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
@@ -26,6 +30,11 @@
       }
     },
     "android": {
+      "splash": {
+        "image": "./assets/fuchs/android_logo.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#F3EEE2"
+      },
       "versionCode": 321,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
@@ -36,14 +45,6 @@
     },
     "plugins": [
       [
-        "expo-splash-screen",
-        {
-          "image": "./assets/fuchs/ladefuchs.png",
-          "backgroundColor": "#F3EEE2",
-          "imageWidth": 200
-        }
-      ],
-      [
         "expo-build-properties",
         {
           "android": {
@@ -51,9 +52,9 @@
             "minSdkVersion": 26,
             "enableProguardInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true,
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0"
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
           },
           "ios": {
             "deploymentTarget": "16.0"
