@@ -5,6 +5,7 @@ import {
 	Linking,
 	SafeAreaView,
 	StatusBar,
+	Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
@@ -91,6 +92,14 @@ const styles = ScaledSheet.create({
 		justifyContent: "center",
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
+		...Platform.select({
+			android: {
+				paddingTop: scale(28),
+			},
+			ios: {
+				marginTop: scale(-10),
+			},
+		}),
 	},
 	headerSettingsIcon: {
 		display: "flex",

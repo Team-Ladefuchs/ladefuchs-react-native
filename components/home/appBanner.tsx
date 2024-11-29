@@ -70,7 +70,7 @@ const styles = ScaledSheet.create({
 	},
 	image: {
 		width: "85%",
-		marginTop: "35@s",
+		marginTop: "30@s",
 		overflow: "hidden",
 		borderTopLeftRadius: "14@s",
 		borderTopRightRadius: "14@s",
