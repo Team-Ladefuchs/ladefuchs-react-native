@@ -2,28 +2,31 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.1.x",
+    "version": "3.2.x",
     "newArchEnabled": true,
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
     "icon": "./assets/fuchs/app_icon.png",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "7",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
+
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",
         "CFBundleLocalizations": ["de", "en"],
         "AsyncStorage_db_size_in_MB": 8,
         "RCTAsyncStorageExcludeFromBackup": false,
-        "TARGETED_DEVICE_FAMILY": [1]
+        "TARGETED_DEVICE_FAMILY": [1],
+        "category": "TRAVEL"
       },
       "entitlements": {
         "aps-environment": "production"
       }
+
     },
     "android": {
       "versionCode": 319,
