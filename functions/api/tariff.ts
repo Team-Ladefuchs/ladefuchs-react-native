@@ -21,7 +21,7 @@ export async function fetchAllTariffs({
 			add: [],
 			remove: [],
 		},
-		defaultTimeout + 500,
+		defaultTimeout,
 	);
 	if (!tariffs.length) {
 		const tariffs =
