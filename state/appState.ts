@@ -23,6 +23,8 @@ export interface BannerData {
 
 export type OnBoardingState = "start" | "hide" | "init";
 
+export type NetworkState = "offline" | "online";
+
 export interface AppState extends AppData {
 	setChargeConditions: (appData: ChargeConditionData) => Promise<void>;
 	operatorId: string;
@@ -40,6 +42,8 @@ export interface AppState extends AppData {
 	setFavoriteTariffIds: (ids: Set<string> | string[]) => void;
 	showOnboarding: OnBoardingState;
 	setOnboarding: (value: OnBoardingState) => void;
+	networkStatus: NetworkState;
+	setNetworkState: (value: NetworkState) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -88,6 +92,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		bannerType: "ladefuchs",
 		banner: null,
 		appError: null,
+		networkStatus: "online",
+		setNetworkState: (value: NetworkState) => {
+			set(() => ({ networkStatus: value }));
+		},
 		setAppError: (appError) => {
 			set(() => ({ appError }));
 		},

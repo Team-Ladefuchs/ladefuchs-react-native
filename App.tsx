@@ -15,7 +15,7 @@ import {
 	QueryClientProvider,
 	focusManager,
 } from "@tanstack/react-query";
-
+import NetInfo from "@react-native-community/netinfo";
 import { TariffDetailView } from "./screens/tariffDetailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
@@ -33,6 +33,8 @@ import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
+import { useShallow } from "zustand/react/shallow";
+import { useAppStore } from "./state/appState";
 
 // Create query client and root stack navigator
 const queryClient = new QueryClient();
@@ -54,6 +56,10 @@ export default function App(): JSX.Element {
 function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
 
+	const [setNetworkState] = useAppStore(
+		useShallow((state) => [state.setNetworkState]),
+	);
+
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
@@ -61,6 +67,16 @@ function AppWrapper(): JSX.Element {
 		);
 		return () => {
 			subscription.remove();
+		};
+	}, []);
+
+	useEffect(() => {
+		const unsubscribe = NetInfo.addEventListener((state) => {
+			setNetworkState(state.isConnected ? "online" : "offline");
+		});
+
+		return () => {
+			unsubscribe();
 		};
 	}, []);
 
