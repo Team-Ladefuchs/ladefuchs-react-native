@@ -23,7 +23,8 @@
         "CFBundleLocalizations": ["de", "en"],
         "AsyncStorage_db_size_in_MB": 8,
         "RCTAsyncStorageExcludeFromBackup": false,
-        "TARGETED_DEVICE_FAMILY": [1]
+        "TARGETED_DEVICE_FAMILY": [1],
+        "category": "TRAVEL"
       },
       "entitlements": {
         "aps-environment": "production"
