@@ -8,11 +8,6 @@ import WheelPicker from "react-native-wheely";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 
-type Operator = {
-	name: string;
-	id: string;
-};
-
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
 		useShallow((state) => ({
@@ -23,7 +18,6 @@ export default function OperatorPicker(): JSX.Element {
 	);
 
 	const [operatorIndex, setOperatorIndex] = useState(0);
-
 	// Transform operators data for picker
 	const operatorList = useMemo(() => {
 		if (!operators?.length) return [];
@@ -45,7 +39,6 @@ export default function OperatorPicker(): JSX.Element {
 		}
 	}, [operatorId, operators]);
 
-	// Früher Return wenn keine Daten verfügbar
 	if (!operators?.length || !operatorList?.length) {
 		return <View style={styles.pickerContainer} />;
 	}
