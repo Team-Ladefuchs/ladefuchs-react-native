@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/appState";
 import { useShallow } from "zustand/react/shallow";
@@ -9,29 +9,41 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 
 export default function OperatorPicker(): JSX.Element {
-	const { operators, operatorId, setOperatorId } = useAppStore(
-		useShallow((state) => ({
-			operators: state.operators,
-			operatorId: state.operatorId,
-			setOperatorId: state.setOperatorId,
-		})),
-	);
+	const { operators, operatorId, setOperatorId } = useAppStore(useShallow((state) => ({
+		operators: state.operators,
+		operatorId: state.operatorId,
+		setOperatorId: state.setOperatorId,
+	})));
 
 	const [operatorIndex, setOperatorIndex] = useState(0);
 
 	const operatorList = useMemo(() => {
+		if (!operators?.length) return [];
 		return operators.map((item) => ({
 			name: item.name,
 			id: item.identifier,
 		}));
 	}, [operators]);
 
-	if (!operatorId) {
+	// Aktualisiere operatorIndex wenn sich operatorId ändert
+	useEffect(() => {
+		if (operators?.length && operatorId) {
+			const newIndex = operators.findIndex(
+				(op) => op.identifier === operatorId,
+			);
+			if (newIndex !== -1) {
+				setOperatorIndex(newIndex);
+			}
+		}
+	}, [operatorId, operators]);
+
+	// Früher Return wenn keine Daten verfügbar
+	if (!operators?.length || !operatorList?.length) {
 		return <View style={styles.pickerContainer} />;
 	}
 
 	if (Platform.OS === "android") {
-		const optionLabels = operatorList?.map((item) => item.name);
+		const optionLabels = operatorList.map((item) => item.name);
 		return (
 			<View style={[styles.pickerContainer, { marginBottom: scale(4) }]}>
 				<WheelPicker
@@ -40,17 +52,22 @@ export default function OperatorPicker(): JSX.Element {
 					selectedIndex={operatorIndex}
 					itemTextStyle={{ fontSize: scale(19) }}
 					itemHeight={scale(37)}
-					key={optionLabels.join("")}
+					key={`wheel-picker-${operatorId}`}
 					decelerationRate={"fast"}
 					onChange={(index) => {
-						setOperatorId(operators[index].identifier);
-						setOperatorIndex(index);
-						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+						if (operators[index]) {
+							setOperatorId(operators[index].identifier);
+							setOperatorIndex(index);
+							Haptics.impactAsync(
+								Haptics.ImpactFeedbackStyle.Medium,
+							);
+						}
 					}}
 				/>
 			</View>
 		);
 	}
+
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
@@ -61,7 +78,7 @@ export default function OperatorPicker(): JSX.Element {
 					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 				}}
 			>
-				{operatorList?.map((operator) => (
+				{operatorList.map((operator) => (
 					<Picker.Item
 						key={operator.id}
 						label={operator.name}
