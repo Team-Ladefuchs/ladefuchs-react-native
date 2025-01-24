@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import {
-	View,
-	type ListRenderItem,
-	LayoutRectangle,
-} from "react-native";
+import { View, LayoutRectangle } from "react-native";
+import { ListRenderItem } from "@shopify/flash-list";
 import { TariffCondition } from "../../../types/conditions";
 import { fill, zip } from "../../../functions/util";
 import { colors } from "../../../theme";
@@ -26,6 +23,7 @@ const EMPTY_ARRAY: TariffCondition[] = [];
 const ITEMS_PER_BATCH = 10;
 const WINDOW_SIZE = 5;
 const ROW_HEIGHT = scale(70);
+const ESTIMATED_ITEM_SIZE = 78;
 
 // Memoized style objects
 const evenRowStyle = { backgroundColor: colors.ladefuchsLightBackground };
@@ -41,13 +39,6 @@ const LoadingView = React.memo(() => (
 	</View>
 ));
 LoadingView.displayName = "LoadingView";
-
-// Optimized getItemLayout function
-const getItemLayout = (_: unknown, index: number) => ({
-	length: ROW_HEIGHT,
-	offset: ROW_HEIGHT * index,
-	index,
-});
 
 export function ChargeConditionTable(): JSX.Element {
 	const [allChargeConditionsQuery] = useQueryAppData();
@@ -69,11 +60,10 @@ export function ChargeConditionTable(): JSX.Element {
 	// Component Lifecycle optimieren
 	useEffect(() => {
 		return () => {
-			// Release references
-			flatListRef.current = null;
+			// FlashList handles its own cleanup
 		};
 	}, []);
-	// Sicheres State-Update
+	// Save State-Update
 	const safeSetDimensions = useCallback(
 		(newDimensions: LayoutRectangle | null) => {
 			if (isMounted.current) {
@@ -83,7 +73,7 @@ export function ChargeConditionTable(): JSX.Element {
 		[],
 	);
 
-	// Optimierter State-Selector
+	// Optimized State-Selector
 	const {
 		tariffs,
 		tariffConditions,
@@ -104,7 +94,7 @@ export function ChargeConditionTable(): JSX.Element {
 		})),
 	);
 
-	// Memoized Tariff-Conditions mit frühem Return
+	// Memoized Tariff-Conditions with early Return
 	const filteredTariffConditions = useMemo(() => {
 		if (!operatorId || !chargingConditionsMap.has(operatorId))
 			return EMPTY_ARRAY;
@@ -120,7 +110,7 @@ export function ChargeConditionTable(): JSX.Element {
 		favoriteTariffIds,
 	]);
 
-	// Optimierte Gruppierung mit Cache
+	// Optimized grouping with cache
 	const currentTariffConditions = useMemo(() => {
 		const acConditions = new Set<TariffCondition>();
 		const dcConditions = new Set<TariffCondition>();
@@ -138,7 +128,7 @@ export function ChargeConditionTable(): JSX.Element {
 		return zip(filledAc, filledDc);
 	}, [tariffConditions]);
 
-	// Optimiertes Scroll-Reset mit Abort-Controller
+	// Optimized scroll reset with abort controller
 	const resetScroll = useCallback(() => {
 		if (!isMounted.current) return;
 
@@ -156,7 +146,7 @@ export function ChargeConditionTable(): JSX.Element {
 		}
 	}, [currentTariffConditions.length]);
 
-	// Scroll zurücksetzen bei Operator-Wechsel
+	// Reset scroll when changing operator
 	useEffect(() => {
 		resetScroll();
 	}, [operatorId, resetScroll]);
@@ -174,7 +164,7 @@ export function ChargeConditionTable(): JSX.Element {
 		[safeSetDimensions],
 	);
 
-	// Memoized Render-Funktionen
+	// Memoized Render-Function
 	const renderItem: ListRenderItem<TariffPair> = useCallback(
 		({ item: [left, right], index }) => {
 			// Sichere Tarif-Zugriffe
@@ -242,19 +232,23 @@ export function ChargeConditionTable(): JSX.Element {
 				ListEmptyComponent={EmptyComponent}
 				scrollsToTop={true}
 				keyExtractor={keyExtractor}
-				initialNumToRender={ITEMS_PER_BATCH}
-				maxToRenderPerBatch={ITEMS_PER_BATCH}
-				windowSize={WINDOW_SIZE}
 				removeClippedSubviews={true}
-				getItemLayout={getItemLayout}
 				maintainVisibleContentPosition={{
 					minIndexForVisible: 0,
 				}}
 				style={dimensions ? { height: dimensions.height } : undefined}
+				estimatedItemSize={ESTIMATED_ITEM_SIZE}
+				estimatedListSize={dimensions || undefined}
 			/>
 		</View>
 	);
 }
+
+const getItemLayout = (data: any, index: number) => ({
+	length: ROW_HEIGHT,
+	offset: ROW_HEIGHT * index,
+	index,
+});
 
 function conditionKey(condition: TariffCondition | null): string {
 	if (!condition) return "";
