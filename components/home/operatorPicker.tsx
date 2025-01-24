@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/appState";
 import { useShallow } from "zustand/react/shallow";
 import { colors } from "@theme";
-import { Platform, View, StyleSheet } from "react-native";
+import { Platform, View, ColorSchemeName } from "react-native";
 import WheelPicker from "react-native-wheely";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
@@ -97,6 +97,12 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
 		height: "100%",
+		...Platform.select({
+			ios: {
+				color: '#000000',
+				appearance: 'light' as ColorSchemeName,
+			}
+		})
 	},
 	pickerContainer: {
 		flex: 46,
