@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import {
 	View,
-	FlatList,
 	type ListRenderItem,
 	LayoutRectangle,
 } from "react-native";
@@ -16,6 +15,7 @@ import { LoadingSpinner } from "../../shared/loadingSpinner";
 import { EmptyListText } from "../../shared/emptyListText";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import i18n from "@translations/translations";
+import { FlashList } from "@shopify/flash-list";
 
 // Types
 type TariffPair = [TariffCondition | null, TariffCondition | null];
@@ -51,19 +51,28 @@ const getItemLayout = (_: unknown, index: number) => ({
 
 export function ChargeConditionTable(): JSX.Element {
 	const [allChargeConditionsQuery] = useQueryAppData();
-	const flatListRef = useRef<FlatList<TariffPair>>(null);
+	const flatListRef = useRef<FlashList<TariffPair>>(null);
 	const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
 		null,
 	);
 	const isMounted = useRef(true);
 
-	// Cleanup beim Unmounting
+	// Cleanup bei Unmount
 	useEffect(() => {
 		return () => {
-			isMounted.current = false;
+			if (flatListRef.current) {
+				flatListRef.current.recordInteraction();
+			}
 		};
 	}, []);
 
+	// Component Lifecycle optimieren
+	useEffect(() => {
+		return () => {
+			// Release references
+			flatListRef.current = null;
+		};
+	}, []);
 	// Sicheres State-Update
 	const safeSetDimensions = useCallback(
 		(newDimensions: LayoutRectangle | null) => {
@@ -226,7 +235,7 @@ export function ChargeConditionTable(): JSX.Element {
 
 	return (
 		<View style={styles.chargingTableContainer} onLayout={onLayout}>
-			<FlatList
+			<FlashList
 				ref={flatListRef}
 				data={currentTariffConditions}
 				renderItem={renderItem}
