@@ -1,5 +1,5 @@
 // todo add the rest
-import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import i18n from "./translations/translations";
 import { type Tariff } from "./types/tariff";
 import { type Operator } from "./types/operator";
