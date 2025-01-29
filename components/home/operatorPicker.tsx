@@ -72,20 +72,23 @@ export default function OperatorPicker(): JSX.Element {
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
-				selectedValue={operatorId}
-				itemStyle={styles.defaultPickerItemStyle}
+				key={operatorId}
+				selectedValue={operatorId || operatorList[0]?.id} // Fallback
+				//itemStyle={styles.defaultPickerItemStyle}
 				onValueChange={(operatorValue) => {
 					setOperatorId(operatorValue);
 					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 				}}
 			>
-				{operatorList.map((operator) => (
-					<Picker.Item
-						key={operator.id}
-						label={operator.name}
-						value={operator.id}
-					/>
-				))}
+				{operatorList
+					.filter((operator) => operator?.id && operator?.name)
+					.map((operator) => (
+						<Picker.Item
+							key={operator.id}
+							label={operator.name}
+							value={operator.id}
+						/>
+					))}
 			</Picker>
 		</View>
 	);
@@ -99,10 +102,10 @@ const styles = ScaledSheet.create({
 		height: "100%",
 		...Platform.select({
 			ios: {
-				color: '#000000',
-				appearance: 'light' as ColorSchemeName,
-			}
-		})
+				color: "#000000",
+				appearance: "light" as ColorSchemeName,
+			},
+		}),
 	},
 	pickerContainer: {
 		flex: 46,
