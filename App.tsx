@@ -34,14 +34,12 @@ import { appRoutes } from "./appRoutes";
 import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
 
-// Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
 
 const MainStack = createStackNavigator<{ [appRoutes.home.key]: undefined }>();
 
-// Main App component
 export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -64,19 +62,17 @@ function AppWrapper(): JSX.Element {
 		};
 	}, []);
 
-	// Die Hooks werden hier aufgerufen, unabhängig von der Onboarding-Logik
 	useQueryAppData();
 	useAopMetrics();
 
-	// Sicherstellen, dass die Schriftarten geladen sind
 	if (!fontLoaded) {
-		return <View />; // Ladebildschirm oder Placeholder während der Schriftarten geladen werden
+		return <View />;
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				<MainStack.Group>
+				<MainStack.Group screenOptions={{ presentation: "card" }}>
 					<RootStack.Screen
 						name={appRoutes.home.key}
 						component={HomeScreen}
@@ -138,7 +134,6 @@ function AppWrapper(): JSX.Element {
 	);
 }
 
-// Define the Einstellungen stack with nested screens
 function SettingsStackNavigator(): JSX.Element {
 	return (
 		<SettingsStack.Navigator>
@@ -188,7 +183,7 @@ function normalHeader({ title }: { title: string }): StackNavigationOptions {
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: "#000", // Farbe für den Header-Text
+		headerTintColor: "#000",
 	};
 }
 
@@ -213,6 +208,6 @@ function modalHeader({
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: "#000", // Farbe für den Header-Text
+		headerTintColor: "#000",
 	};
 }
