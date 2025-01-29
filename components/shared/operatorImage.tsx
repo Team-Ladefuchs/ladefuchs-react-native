@@ -14,6 +14,12 @@ interface Props {
 
 const fallBack = require("@assets/generic/cpo_generic.png");
 
+const commonImageStyles = (height: number, width: number) => ({
+	height: scale(height),
+	width: scale(width),
+	contentFit: "scale-down" as const,
+});
+
 export function OperatorImage({
 	imageUrl,
 	name,
@@ -36,11 +42,7 @@ export function OperatorImage({
 				<Image
 					source={image ?? fallBack}
 					onError={() => setImageError(true)}
-					contentFit="scale-down"
-					style={{
-						height: scale(height),
-						width: scale(width),
-					}}
+					style={commonImageStyles(height, width)}
 				/>
 			)}
 		</View>
@@ -60,14 +62,7 @@ function FallBack({
 }): JSX.Element {
 	return (
 		<>
-			<Image
-				source={fallBack}
-				style={{
-					height: scale(height),
-					width: scale(width),
-					objectFit: "scale-down",
-				}}
-			/>
+			<Image source={fallBack} style={commonImageStyles(height, width)} />
 			<View
 				style={{
 					position: "absolute",
@@ -83,7 +78,6 @@ function FallBack({
 						lineBreakMode="tail"
 						style={{
 							color: "white",
-							paddingHorizontal: "auto",
 							fontSize: 13,
 							fontFamily: "RobotoCondensed",
 							textAlign: "center",
