@@ -74,7 +74,7 @@ export default function OperatorPicker(): JSX.Element {
 			<Picker
 				key={operatorId}
 				selectedValue={operatorId || operatorList[0]?.id} // Fallback
-				//itemStyle={styles.defaultPickerItemStyle}
+				itemStyle={styles.defaultPickerItemStyle}
 				onValueChange={(operatorValue) => {
 					setOperatorId(operatorValue);
 					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
