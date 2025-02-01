@@ -2,22 +2,19 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.1.8",
+    "version": "3.1.9",
+    "newArchEnabled": true,
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
     "icon": "./assets/fuchs/app_icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/fuchs/ladefuchs.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#F3EEE2"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "2",
+      "buildNumber": "6",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
+
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",
         "CFBundleLocalizations": ["de", "en"],
@@ -29,14 +26,10 @@
       "entitlements": {
         "aps-environment": "production"
       }
+
     },
     "android": {
-      "splash": {
-        "image": "./assets/fuchs/android_logo.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#F3EEE2"
-      },
-      "versionCode": 325,
+      "versionCode": 329,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
@@ -46,6 +39,18 @@
     },
     "plugins": [
       [
+       "expo-splash-screen",
+        {
+          "image": "./assets/fuchs/ladefuchs.png",
+          "backgroundColor": "#F3EEE2",
+          "dark": {
+            "image": "./assets/fuchs/ladefuchs.png",
+            "backgroundColor": "#000000"
+          },
+          "resizeMode": "contain"
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "android": {
@@ -53,9 +58,9 @@
             "minSdkVersion": 26,
             "enableProguardInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true,
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0"
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
           },
           "ios": {
             "deploymentTarget": "16.0"
@@ -63,5 +68,6 @@
         }
       ]
     ]
-  }
+  },
+  "main": "RootComponent"
 }

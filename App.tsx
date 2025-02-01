@@ -15,7 +15,7 @@ import {
 	QueryClientProvider,
 	focusManager,
 } from "@tanstack/react-query";
-import NetInfo from "@react-native-community/netinfo";
+
 import { TariffDetailView } from "./screens/tariffDetailView";
 import { Tariff } from "./types/tariff";
 import { CloseButton } from "./components/header/closeButton";
@@ -33,17 +33,13 @@ import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
-import { useShallow } from "zustand/react/shallow";
-import { useAppStore } from "./state/appState";
 
-// Create query client and root stack navigator
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
 
 const MainStack = createStackNavigator<{ [appRoutes.home.key]: undefined }>();
 
-// Main App component
 export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -56,10 +52,6 @@ export default function App(): JSX.Element {
 function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
 
-	const [setNetworkState] = useAppStore(
-		useShallow((state) => [state.setNetworkState]),
-	);
-
 	useEffect(() => {
 		const subscription = AppState.addEventListener(
 			"change",
@@ -70,29 +62,17 @@ function AppWrapper(): JSX.Element {
 		};
 	}, []);
 
-	useEffect(() => {
-		const unsubscribe = NetInfo.addEventListener((state) => {
-			setNetworkState(state.isConnected ? "online" : "offline");
-		});
-
-		return () => {
-			unsubscribe();
-		};
-	}, []);
-
-	// Die Hooks werden hier aufgerufen, unabhängig von der Onboarding-Logik
 	useQueryAppData();
 	useAopMetrics();
 
-	// Sicherstellen, dass die Schriftarten geladen sind
 	if (!fontLoaded) {
-		return <View />; // Ladebildschirm oder Placeholder während der Schriftarten geladen werden
+		return <View />;
 	}
 
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator>
-				<MainStack.Group>
+				<MainStack.Group screenOptions={{ presentation: "card" }}>
 					<RootStack.Screen
 						name={appRoutes.home.key}
 						component={HomeScreen}
@@ -154,7 +134,6 @@ function AppWrapper(): JSX.Element {
 	);
 }
 
-// Define the Einstellungen stack with nested screens
 function SettingsStackNavigator(): JSX.Element {
 	return (
 		<SettingsStack.Navigator>
@@ -204,7 +183,7 @@ function normalHeader({ title }: { title: string }): StackNavigationOptions {
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: "#000", // Farbe für den Header-Text
+		headerTintColor: "#000",
 	};
 }
 
@@ -229,6 +208,6 @@ function modalHeader({
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,
 		},
-		headerTintColor: "#000", // Farbe für den Header-Text
+		headerTintColor: "#000",
 	};
 }

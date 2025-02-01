@@ -6,9 +6,9 @@ import {
 	SafeAreaView,
 	StyleProp,
 	Text,
-	TextStyle,
 	TouchableOpacity,
 	View,
+	ViewStyle,
 } from "react-native";
 import { appRoutes } from "../appRoutes";
 import { colors } from "@theme";
@@ -22,7 +22,7 @@ import { LadefuchsButton } from "../components/detail/ladefuchsButton";
 
 interface OnboardingData {
 	imageSource: ImageSourcePropType;
-	overlayStyle: StyleProp<TextStyle>;
+	overlayStyle: StyleProp<ViewStyle>;
 	descriptionKey: string;
 	page: number;
 }

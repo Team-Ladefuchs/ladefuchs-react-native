@@ -62,10 +62,7 @@ function FallBack({
 }): JSX.Element {
 	return (
 		<>
-			<Image
-				source={fallBack}
-				style={commonImageStyles(height, width)}
-			/>
+			<Image source={fallBack} style={commonImageStyles(height, width)} />
 			<View
 				style={{
 					position: "absolute",

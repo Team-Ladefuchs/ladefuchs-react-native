@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
 	View,
 	TouchableOpacity,
@@ -19,12 +19,20 @@ import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation<SettingsScreenNavigationProp>();
-	const [reloadBanner, isFavoriteTariffOnly, setisFavoriteTariffOnly] =
-		useAppStore((state) => [
-			state.reloadBanner,
-			state.isFavoriteTariffOnly,
-			state.setisFavoriteTariffOnly,
-		]);
+
+	// Separate selectors to prevent unnecessary re-renders
+	const reloadBanner = useAppStore((state) => state.reloadBanner);
+	const isFavoriteTariffOnly = useAppStore((state) => state.isFavoriteTariffOnly);
+	const setisFavoriteTariffOnly = useAppStore((state) => state.setisFavoriteTariffOnly);
+
+	// Memoize callbacks
+	const handleChargepricePress = useCallback(async () => {
+		await Linking.openURL("https://chargeprice.app");
+	}, []);
+
+	const handleSettingsPress = useCallback(() => {
+		navigation.navigate(appRoutes.settingsStack.key);
+	}, [navigation]);
 
 	return (
 		<SafeAreaView style={styles.headerContainer}>
@@ -33,9 +41,7 @@ export function AppHeader(): JSX.Element {
 				backgroundColor={colors.ladefuchsLightBackground}
 			/>
 			<TouchableOpacity
-				onPress={async () =>
-					await Linking.openURL("https://chargeprice.app")
-				}
+				onPress={handleChargepricePress}
 				activeOpacity={0.6}
 				hitSlop={scale(5)}
 				style={[styles.headerWrapperChargepriceIcon]}
@@ -62,9 +68,7 @@ export function AppHeader(): JSX.Element {
 				<TouchableOpacity
 					activeOpacity={0.6}
 					hitSlop={scale(12)}
-					onPress={() => {
-						navigation.navigate(appRoutes.settingsStack.key);
-					}}
+					onPress={handleSettingsPress}
 				>
 					<Zahnrad width={scale(29)} height={scale(29)} />
 				</TouchableOpacity>
@@ -92,7 +96,14 @@ const styles = ScaledSheet.create({
 		justifyContent: "center",
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
-		marginTop: scale(-8),
+		...Platform.select({
+			android: {
+				paddingTop: scale(28),
+			},
+			ios: {
+				marginTop: scale(-10),
+			},
+		}),
 	},
 	headerSettingsIcon: {
 		display: "flex",
