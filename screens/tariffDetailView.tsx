@@ -45,13 +45,15 @@ export function TariffDetailView({
 }): JSX.Element {
 	const navigation = useNavigation<FeedbackScreenNavigationProp>();
 
-	const [operators, operatorId, tariffConditions] = useAppStore(
-		useShallow((state) => [
-			state.operators,
-			state.operatorId,
-			state.tariffConditions,
-		]),
-	);
+	const [operators, operatorId, tariffConditions, networkStatus] =
+		useAppStore(
+			useShallow((state) => [
+				state.operators,
+				state.operatorId,
+				state.tariffConditions,
+				state.networkStatus,
+			]),
+		);
 
 	const operator = useMemo(() => {
 		return operators.find((item) => item.identifier === operatorId);
@@ -106,19 +108,21 @@ export function TariffDetailView({
 					</View>
 					<MonthlyFee fee={tariff.monthlyFee} />
 					<Notes notes={tariff.note} />
-					<FeedbackButton
-						onPress={() => {
-							Haptics.notificationAsync(
-								Haptics.NotificationFeedbackType.Success,
-							);
-							navigation.navigate(appRoutes.feedback.key, {
-								tariff,
-								acTariffCondition,
-								dcTariffCondition,
-								operator: operator!,
-							});
-						}}
-					/>
+					{networkStatus === "online" && (
+						<FeedbackButton
+							onPress={() => {
+								Haptics.notificationAsync(
+									Haptics.NotificationFeedbackType.Success,
+								);
+								navigation.navigate(appRoutes.feedback.key, {
+									tariff,
+									acTariffCondition,
+									dcTariffCondition,
+									operator: operator!,
+								});
+							}}
+						/>
+					)}
 				</View>
 			</ScrollView>
 

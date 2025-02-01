@@ -12,7 +12,7 @@ export async function fetchAllOperators({
 
 	const operators = await fetchOperators({
 		standard: false,
-		timeout: defaultTimeout + 500,
+		timeout: defaultTimeout,
 	});
 
 	if (!operators.length) {
