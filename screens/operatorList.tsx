@@ -31,8 +31,8 @@ type filerType = "all" | "ownOperators";
 const itemHeight = scale(66);
 
 const tabs = [
-	{ key: "all", label: i18n.t("alle") },
-	{ key: "ownOperators", label: i18n.t("aktiv") },
+	{ key: "all", label: i18n.t("all") },
+	{ key: "ownOperators", label: i18n.t("active") },
 ] satisfies TabItem<filerType>[];
 
 export function OperatorList(): JSX.Element {
@@ -229,7 +229,7 @@ export function OperatorList(): JSX.Element {
 			</View>
 			<SearchInput
 				onChange={setSearch}
-				placeHolder={i18n.t("betreibersuche")}
+				placeHolder={i18n.t("operatorSearch")}
 			/>
 		</KeyboardAvoidingView>
 	);

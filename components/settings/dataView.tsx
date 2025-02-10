@@ -9,8 +9,8 @@ import i18n from "@translations/translations";
 export function DatenView(): JSX.Element {
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t("datenfuchs")}</Text>
-			<Text style={styles.italicText}>{i18n.t("datenfuchstext")}</Text>
+			<Text style={styles.headLine}>{i18n.t("datafox")}</Text>
+			<Text style={styles.italicText}>{i18n.t("datafoxtext")}</Text>
 			<TouchableOpacity
 				activeOpacity={0.9}
 				hitSlop={scale(10)}

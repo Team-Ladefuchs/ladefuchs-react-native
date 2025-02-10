@@ -23,7 +23,7 @@ export function Notes({ notes }: { notes?: string | null }): JSX.Element {
 	return (
 		<View style={styles.container}>
 			{hasNotes && <HighlightCorner />}
-			<CardHeader text={i18n.t("notizen")} />
+			<CardHeader text={i18n.t("notes")} />
 			<ItalicText text={noteText} />
 		</View>
 	);

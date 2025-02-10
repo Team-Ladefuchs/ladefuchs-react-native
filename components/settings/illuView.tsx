@@ -8,8 +8,8 @@ import i18n from "@translations/translations";
 export function Illustration() {
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t("illufuchs")}</Text>
-			<Text style={styles.italicText}>{i18n.t("illufuchstext")}</Text>
+			<Text style={styles.headLine}>{i18n.t("illufox")}</Text>
+			<Text style={styles.italicText}>{i18n.t("illufoxtext")}</Text>
 			<Line style={{ marginTop: scale(16) }} />
 		</View>
 	);

@@ -264,7 +264,7 @@ export function SectionHeaderList<T extends ItemType>({
 							text={
 								emptyText
 									? emptyText
-									: i18n.t("ladetarifeInfo1")
+									: i18n.t("chargingTariffsInfo1")
 							}
 						/>
 					</View>

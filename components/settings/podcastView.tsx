@@ -28,8 +28,8 @@ export function PodcastView(): JSX.Element {
 	const size = scale(70);
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t("podcastfuchs")}</Text>
-			<Text style={styles.italicText}>{i18n.t("podcastfuchstext")}</Text>
+			<Text style={styles.headLine}>{i18n.t("podcastfox")}</Text>
+			<Text style={styles.italicText}>{i18n.t("podcastfoxtext")}</Text>
 			<View
 				style={{
 					flexDirection: "row",

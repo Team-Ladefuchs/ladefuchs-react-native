@@ -8,8 +8,8 @@ import i18n from "@translations/translations";
 export function Support(): JSX.Element {
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t("supportfuchs2")}</Text>
-			<Text style={styles.italicText}>{i18n.t("supportfuchstext2")}</Text>
+			<Text style={styles.headLine}>{i18n.t("supportfox2")}</Text>
+			<Text style={styles.italicText}>{i18n.t("supportfoxtext2")}</Text>
 			<TouchableOpacity
 				activeOpacity={0.8}
 				hitSlop={scale(10)}

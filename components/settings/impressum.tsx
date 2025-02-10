@@ -8,10 +8,10 @@ import i18n from "@translations/translations";
 export function Impressum(): JSX.Element {
 	return (
 		<View>
-			<Text style={styles.headLine}>{i18n.t("impressum")}</Text>
+			<Text style={styles.headLine}>{i18n.t("imprint")}</Text>
 
-			<Text style={styles.italicText}>{i18n.t("impressumtext1")}:</Text>
-			<Text style={styles.italicText}>{i18n.t("impressumtext2")}</Text>
+			<Text style={styles.italicText}>{i18n.t("imprinttext1")}:</Text>
+			<Text style={styles.italicText}>{i18n.t("imprinttext2")}</Text>
 			<TouchableWithoutFeedback
 				onPress={async () =>
 					await Linking.openURL("mailto:malik@ladefuchs.app")

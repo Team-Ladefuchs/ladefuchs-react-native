@@ -14,11 +14,11 @@ export const appRoutes = {
 		key: "onBoarding",
 	},
 	customerOperator: {
-		title: i18n.t("ladesaeulen"),
+		title: i18n.t("chargingStations"),
 		key: "customerOperator",
 	},
 	customTariffs: {
-		title: i18n.t("ladetarife"),
+		title: i18n.t("chargingTariffs"),
 		key: "customTariffs",
 	},
 	settingsStack: {
@@ -36,7 +36,7 @@ export const appRoutes = {
 		key: "feedback",
 	},
 	license: {
-		title: i18n.t("lizenzen"),
+		title: i18n.t("licenses"),
 		key: "license",
 	},
 } as const;

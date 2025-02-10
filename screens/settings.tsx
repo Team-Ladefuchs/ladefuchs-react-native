@@ -43,7 +43,7 @@ export function SettingsScreen(): JSX.Element {
 								/>
 							</View>
 						}
-						description={i18n.t("ladetarifetext")}
+						description={i18n.t("chargingTariffstext")}
 						screenKey={appRoutes.customTariffs.key}
 						justifyContent="space-evenly"
 					/>
@@ -54,7 +54,7 @@ export function SettingsScreen(): JSX.Element {
 					<NavigationItem
 						title={appRoutes.customerOperator.title}
 						justifyContent="space-evenly"
-						description={i18n.t("ladesaeulentext")}
+						description={i18n.t("chargingStationstext")}
 						iconPrefix={
 							<View
 								style={{
@@ -89,7 +89,7 @@ export function SettingsScreen(): JSX.Element {
 						justifyContent="space-between"
 						title={appRoutes.license.title}
 						screenKey={appRoutes.license.key}
-						description={i18n.t("lizenztext")}
+						description={i18n.t("licensetext")}
 					/>
 				</View>
 				<Footer />

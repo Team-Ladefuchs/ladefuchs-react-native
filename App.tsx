@@ -178,7 +178,7 @@ function onAppStateChange(status: AppStateStatus) {
 
 function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
-		headerBackTitle: i18n.t("zurueck"),
+		headerBackTitle: i18n.t("back"),
 		title,
 		headerStyle: {
 			backgroundColor: colors.ladefuchsDunklerBalken,

@@ -14,7 +14,7 @@ export function AffiliateButton({
 	return (
 		<SafeAreaView style={{ marginTop: "auto", marginHorizontal: 16 }}>
 			<LadefuchsButton
-				text={i18n.t("karte")}
+				text={i18n.t("map")}
 				onPress={async () => await Linking.openURL(link)}
 			/>
 		</SafeAreaView>

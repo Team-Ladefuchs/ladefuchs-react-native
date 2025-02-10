@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
+import i18n from "@translations/translations";
 
 export function OfflineView(): JSX.Element {
 	return (
@@ -23,7 +24,7 @@ export function OfflineView(): JSX.Element {
 					marginTop: 20,
 				}}
 			>
-				Sorry, du bist offline.
+				{i18n.t("offlineMessage")}
 			</Text>
 		</View>
 	);

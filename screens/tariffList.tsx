@@ -273,8 +273,8 @@ export function TariffList(): JSX.Element {
 
 	const handleTariffReset = useCallback(() => {
 		Alert.alert(
-			i18n.t("tarifAlert"),
-			i18n.t("tarifAlertText"),
+			i18n.t("tariffAlert"),
+			i18n.t("tariffAlertText"),
 			ALERT_BUTTONS(async () => {
 				setState({
 					tariffsAddSet: new Set<string>(),
@@ -368,7 +368,7 @@ export function TariffList(): JSX.Element {
 
 	const emptyText = useMemo(() => {
 		if (filterMode === "favorite") {
-			return i18n.t("ladetarifeInfo2");
+			return i18n.t("chargingTariffsInfo2");
 		}
 		return null;
 	}, [filterMode]);
@@ -403,7 +403,7 @@ export function TariffList(): JSX.Element {
 			</View>
 			<MemoizedSearchInput
 				onChange={setSearch}
-				placeHolder={i18n.t("tarifsuche")}
+				placeHolder={i18n.t("tariffSearch")}
 			/>
 		</KeyboardAvoidingView>
 	);

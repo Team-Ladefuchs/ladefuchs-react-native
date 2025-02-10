@@ -154,13 +154,13 @@ interface Props {
 export function MemberView(): JSX.Element {
 	return (
 		<View>
-			<Text style={appStyle.headLine}>{i18n.t("teamfuchs")}</Text>
+			<Text style={appStyle.headLine}>{i18n.t("teamfox")}</Text>
 			<Text style={[appStyle.headerText, { marginBottom: scale(12) }]}>
-				{i18n.t("teamfuchstext")}
+				{i18n.t("teamfoxtext")}
 			</Text>
 			<TeamList items={activeMember} />
 			<Text style={[appStyle.headLine, { marginTop: scale(32) }]}>
-				{i18n.t("veteranen")}
+				{i18n.t("veterans")}
 			</Text>
 			<TeamList items={veteranMember} />
 			<Line />

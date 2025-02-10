@@ -17,7 +17,7 @@ export function FeedbackButton({ onPress }: FeedbackButtonProps): JSX.Element {
 				hitSlop={scale(10)}
 			>
 				<Text style={[styles.underlinedText]}>
-					{i18n.t("preisfalsch")}
+					{i18n.t("wrongPrice")}
 				</Text>
 			</TouchableOpacity>
 		</View>

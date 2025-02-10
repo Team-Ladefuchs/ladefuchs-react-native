@@ -55,7 +55,7 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 					}}
 				>
 					<Text style={style.filterText} allowFontScaling={false}>
-						{i18n.translate("aktiveTarife")}
+						{i18n.translate("activeTariffs")}
 					</Text>
 				</Pressable>
 			</View>
@@ -72,7 +72,7 @@ export function TariffFilter({ onFilterChanged }: Props): JSX.Element {
 					}}
 				>
 					<Text style={style.filterText} allowFontScaling={false}>
-						{i18n.translate("favoriten")}
+						{i18n.translate("favorites")}
 					</Text>
 				</Pressable>
 			</View>

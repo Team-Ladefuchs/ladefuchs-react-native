@@ -44,7 +44,7 @@ import {
 	saveToStorage,
 } from "../functions/storage/storage";
 
-const notePlaceholderText = i18n.t("futter2");
+const notePlaceholderText = i18n.t("food2");
 
 const minNotesLength = 15;
 
@@ -70,7 +70,7 @@ export function FeedbackView(): JSX.Element {
 	const [feedBackButtonStatus, setfeedBackButtonStatus] = useState(false);
 
 	const [noteText, setNoteText] = useState("");
-	const [sendButtonText, setSendButtonText] = useState(i18n.t("senden"));
+	const [sendButtonText, setSendButtonText] = useState(i18n.t("send"));
 
 	const acPriceCounter = useCounter({
 		initialValue: acTariffCondition?.pricePerKwh ?? 0,
@@ -144,7 +144,7 @@ export function FeedbackView(): JSX.Element {
 				);
 				return;
 			}
-			setSendButtonText(i18n.t("momentchen"));
+			setSendButtonText(i18n.t("moment"));
 
 			for (const request of createRequestPayload()) {
 				await sendFeedback(request);
@@ -163,7 +163,7 @@ export function FeedbackView(): JSX.Element {
 			await Haptics.notificationAsync(
 				Haptics.NotificationFeedbackType.Error,
 			);
-			setSendButtonText("Senden");
+			setSendButtonText("send");
 			console.log("sending feedback", error);
 			Toast.show({
 				type: "error",
@@ -233,11 +233,11 @@ export function FeedbackView(): JSX.Element {
 								},
 							]}
 						>
-							{i18n.t("futter")}
+							{i18n.t("food")}
 						</Text>
 						<View>
 							<Text style={themeStyle.headerText}>
-								{i18n.t("futter1")}
+								{i18n.t("food1")}
 							</Text>
 							<View style={feedbackStyle.logosContainer}>
 								<DetailLogos
