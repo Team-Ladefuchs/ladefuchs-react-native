@@ -17,8 +17,8 @@ const en = {
 	thxfeedback: "⚡️ Thank you for your feedback!",
 	ups: "🚧 Oops, An error has occurred",
 	einstellungen: "Settings",
-	teamfoxtext: "TEAMFOX",
-	teamfoxtexttext:
+	teamfox: "TEAMFOX",
+	teamfoxtext:
 		"This app is our fault. Really!\nHowever, all information is provided without guarantee.",
 	all: "All",
 	active: "Active",
