@@ -13,6 +13,7 @@ export interface ChargeConditionData {
 	tariffs: Map<string, Tariff>;
 	favoriteTariffIds: Set<string>;
 	chargingConditions: Map<string, TariffCondition[]>;
+	lastBannerChange: number;
 }
 
 export interface BannerData {
@@ -48,7 +49,9 @@ export interface AppState extends AppData {
 
 export const useAppStore = create<AppState>((set, get) => {
 	let ladefuchsBannerIndex = 0;
+	const initialLastBannerChange = 0; // Auf 0 setzen für ersten Load
 	return {
+		lastBannerChange: initialLastBannerChange,
 		setChargeConditions: async (appData): Promise<void> => {
 			const { operators } = appData;
 			let { operatorId } = get();
@@ -67,15 +70,47 @@ export const useAppStore = create<AppState>((set, get) => {
 		},
 		setBanners(data) {
 			const { bannerType, ladefuchsBanners, chargePriceAdBanner } = data;
-			set(() => ({
-				ladefuchsBanners,
-				chargePriceAdBanner,
-				banner: selectLadefuchsBanner({
+			const now = Date.now();
+			const { lastBannerChange } = get();
+			const twoMinutes = 10 * 1000;
+
+			// Beim ersten Start (lastBannerChange === 0) oder nach 2 Minuten (im Test 10sec) laden
+			if (
+				lastBannerChange === 0 ||
+				now - lastBannerChange >= twoMinutes
+			) {
+				set(() => ({
 					ladefuchsBanners,
 					chargePriceAdBanner,
-				}),
-				bannerType,
-			}));
+					banner: selectLadefuchsBanner({
+						ladefuchsBanners,
+						chargePriceAdBanner,
+					}),
+					bannerType,
+					lastBannerChange: now,
+				}));
+			}
+		},
+		reloadBanner: () => {
+			const { banner, ladefuchsBanners } = get();
+
+			if (ladefuchsBanners.length < 2) {
+				return;
+			}
+
+			let newBanner: Banner | null = null;
+			do {
+				ladefuchsBannerIndex =
+					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
+				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
+			} while (newBanner.imageUrl === banner?.imageUrl);
+
+			const appBanner = {
+				...newBanner,
+				bannerType: "ladefuchs",
+			} satisfies Banner;
+
+			set(() => ({ banner: appBanner }));
 		},
 		operatorId: "",
 		setOperatorId: (operatorId) => {
@@ -98,24 +133,6 @@ export const useAppStore = create<AppState>((set, get) => {
 		},
 		setAppError: (appError) => {
 			set(() => ({ appError }));
-		},
-		reloadBanner: () => {
-			const { banner, ladefuchsBanners } = get();
-
-			if (ladefuchsBanners.length < 2) {
-				return;
-			}
-			let newBanner: Banner | null = null;
-			do {
-				ladefuchsBannerIndex =
-					(ladefuchsBannerIndex + 1) % ladefuchsBanners.length;
-				newBanner = ladefuchsBanners[ladefuchsBannerIndex];
-			} while (newBanner.imageUrl === banner?.imageUrl);
-			const appBanner = {
-				...newBanner,
-				bannerType: "ladefuchs",
-			} satisfies Banner;
-			set(() => ({ banner: appBanner }));
 		},
 		isFavoriteTariffOnly: false,
 		setisFavoriteTariffOnly: (value: boolean) => {
