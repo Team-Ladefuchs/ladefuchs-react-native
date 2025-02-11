@@ -4,6 +4,8 @@ import {
 	TouchableWithoutFeedback,
 	Linking,
 	Platform,
+	AppState,
+	AppStateStatus,
 } from "react-native";
 import { Image } from "expo-image";
 import { colors } from "@theme";
@@ -15,12 +17,29 @@ import { ScaledSheet } from "react-native-size-matters";
 export function AppBanner(): JSX.Element {
 	const [banner] = useAppStore(useShallow((state) => [state.banner]));
 	const [imageLoaded, setImageLoaded] = useState(false);
+	const [isVisible, setIsVisible] = useState(true);
+
+	useEffect(() => {
+		const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+			if (nextAppState === 'active') {
+				setIsVisible(true);
+			} else {
+				setIsVisible(false);
+			}
+		});
+
+		return () => {
+			subscription.remove();
+		};
+	}, []);
 
 	useEffect(() => {
 		if (banner) {
 			setImageLoaded(false);
 		}
 	}, [banner]);
+
+	if (!isVisible) return <View />;
 
 	return (
 		<View style={styles.viewContainer}>
