@@ -49,7 +49,7 @@ export interface AppState extends AppData {
 
 export const useAppStore = create<AppState>((set, get) => {
 	let ladefuchsBannerIndex = 0;
-	const initialLastBannerChange = 0; // Auf 0 setzen für ersten Load
+	const initialLastBannerChange = 0;
 	return {
 		lastBannerChange: initialLastBannerChange,
 		setChargeConditions: async (appData): Promise<void> => {
@@ -72,12 +72,11 @@ export const useAppStore = create<AppState>((set, get) => {
 			const { bannerType, ladefuchsBanners, chargePriceAdBanner } = data;
 			const now = Date.now();
 			const { lastBannerChange } = get();
-			const twoMinutes = 10 * 1000;
+			const delayedReload = 30 * 1000;
 
-			// Beim ersten Start (lastBannerChange === 0) oder nach 2 Minuten (im Test 10sec) laden
 			if (
 				lastBannerChange === 0 ||
-				now - lastBannerChange >= twoMinutes
+				now - lastBannerChange >= delayedReload
 			) {
 				set(() => ({
 					ladefuchsBanners,
