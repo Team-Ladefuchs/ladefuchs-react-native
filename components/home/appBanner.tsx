@@ -39,11 +39,9 @@ export function AppBanner(): JSX.Element {
 		}
 	}, [banner]);
 
-	if (!isVisible) return <View />;
-
 	return (
 		<View style={styles.viewContainer}>
-			{banner && (
+			{banner && isVisible && (
 				<>
 					<TouchableWithoutFeedback
 						onPress={async () => {
