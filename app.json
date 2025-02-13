@@ -10,7 +10,7 @@
     "userInterfaceStyle": "light",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "3",
+      "buildNumber": "5",
       "supportsTablet": false,
       "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
