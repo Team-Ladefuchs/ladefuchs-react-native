@@ -51,8 +51,10 @@ export function AppBanner(): JSX.Element {
 						}}
 					>
 						<Image
-							contentFit="contain"
+						contentFit="contain"
 							source={{ uri: banner.imageUrl, ...authHeader }}
+							transition={0}						
+							priority="high"
 							style={[
 								styles.image,
 								{
@@ -64,7 +66,6 @@ export function AppBanner(): JSX.Element {
 							]}
 							onLoad={() => setImageLoaded(true)}
 							onError={() => setImageLoaded(false)}
-							transition={0}
 						/>
 					</TouchableWithoutFeedback>
 					{banner.bannerType === "chargePrice" && imageLoaded && (
