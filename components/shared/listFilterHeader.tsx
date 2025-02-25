@@ -4,6 +4,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import ArrowLeftBack from "@assets/generic/arrow_back-left.svg";
 import { colors } from "@theme";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 interface ListHeaderProps {
 	children: React.ReactNode;
@@ -19,9 +20,7 @@ export function ListerFilterHeader({
 			<View style={{ flex: 2 }}>{children}</View>
 			<TouchableOpacity
 				onPress={() => {
-					Haptics.notificationAsync(
-						Haptics.NotificationFeedbackType.Warning,
-					);
+					triggerHaptic(Haptics.NotificationFeedbackType.Warning);
 					onReset();
 				}}
 				hitSlop={scale(8)}

@@ -16,7 +16,8 @@ import { Line } from "../components/settings/line";
 import i18n from "../translations/translations";
 import { Support } from "../components/settings/support";
 import { StartOnBoarding } from "../components/settings/startOnboarding";
-import {Rating} from "../components/storeReview/storeRating";
+import { Rating } from "../components/storeReview/storeRating";
+import { HapticSettings } from "../components/settings/hapticSettings";
 
 export function SettingsScreen(): JSX.Element {
 	return (
@@ -84,6 +85,7 @@ export function SettingsScreen(): JSX.Element {
 					<PodcastView />
 					<Illustration />
 					<DatenView />
+					<HapticSettings />
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"

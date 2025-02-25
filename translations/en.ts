@@ -91,6 +91,8 @@ const en = {
 	ok: "All right",
 	feedbackDebounceText: "Comback later",
 	offlineMessage: "Sorry, you are offline.",
+	hapticFeedback: "APP SETTINGS",
+	hapticFeedbackText: "disable haptic feedback",
 };
 
 export default en;

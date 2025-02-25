@@ -7,6 +7,7 @@ import { Platform, View, ColorSchemeName } from "react-native";
 import WheelPicker from "react-native-wheely";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 export default function OperatorPicker(): JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
@@ -59,9 +60,7 @@ export default function OperatorPicker(): JSX.Element {
 						if (operators[index]) {
 							setOperatorId(operators[index].identifier);
 							setOperatorIndex(index);
-							Haptics.impactAsync(
-								Haptics.ImpactFeedbackStyle.Medium,
-							);
+							triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
 						}
 					}}
 				/>
@@ -77,7 +76,7 @@ export default function OperatorPicker(): JSX.Element {
 				itemStyle={styles.defaultPickerItemStyle}
 				onValueChange={(operatorValue) => {
 					setOperatorId(operatorValue);
-					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+					triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
 				}}
 			>
 				{operatorList
