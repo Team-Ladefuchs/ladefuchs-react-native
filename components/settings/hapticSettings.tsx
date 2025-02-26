@@ -14,15 +14,15 @@ export function HapticSettings(): JSX.Element {
 	);
 
 	return (
-		<View>
+		<View style={{ marginBottom: scale(10), marginLeft:scale(15) }}>
 
 			<Text style={styles.headLine}>{i18n.t("hapticFeedback")}</Text>
 				
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<Checkbox checked={isHapticEnabled} onValueChange={setHapticEnabled} />
-				<Text style={[styles.italicText, { marginLeft: scale(8) }]}>{i18n.t("hapticFeedbackText")}</Text>
+				<Text style={[styles.italicText, { marginLeft: scale(15) }]}>{i18n.t("hapticFeedbackText")}</Text>
 			</View>
-			<Line style={{ marginTop: scale(16) }} />
+
 		</View>
 	);
 } 

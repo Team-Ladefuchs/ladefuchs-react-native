@@ -54,9 +54,7 @@ export function PriceModifyButton({
 			hitSlop={scale(8)}
 			style={style.button}
 			onPress={() => {
-				Haptics.notificationAsync(
-					Haptics.NotificationFeedbackType.Success,
-				);
+				triggerHaptic(Haptics.NotificationFeedbackType.Success);
 				onPress();
 			}}
 			onPressIn={handlePressIn}

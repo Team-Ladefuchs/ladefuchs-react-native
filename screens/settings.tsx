@@ -26,7 +26,7 @@ export function SettingsScreen(): JSX.Element {
 				<View
 					style={{
 						marginTop: scale(16),
-						marginBottom: scale(32),
+						marginBottom: scale(10),
 						paddingHorizontal: scale(16),
 					}}
 				>
@@ -73,19 +73,23 @@ export function SettingsScreen(): JSX.Element {
 						}
 						screenKey={appRoutes.customerOperator.key}
 					/>
-				</View>
+										<View style={{ marginTop: scale(12) }}>
+						<Line />
+					</View>
+						
+
+				<HapticSettings /></View>	
 				<View style={settingsStyle.separator}>
 					<Text style={settingsStyle.separatorText}>Infos</Text>
 				</View>
 				<View style={settingsStyle.innerContainer}>
-					<MemberView />
+					<MemberView />					
 					<Support />
 					<StartOnBoarding />
 					<Rating />
 					<PodcastView />
 					<Illustration />
 					<DatenView />
-					<HapticSettings />
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"
