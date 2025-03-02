@@ -37,7 +37,7 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=app.ladefuchs.android",
       "package": "app.ladefuchs.android",
       "androidNavigationBar": {
-        "visible": "leanback"
+        "visible": "immersive"
       }
     },
     "plugins": [
