@@ -3,7 +3,6 @@ import {
 	View,
 	TouchableOpacity,
 	Linking,
-	SafeAreaView,
 	StatusBar,
 	Platform,
 } from "react-native";
@@ -16,14 +15,19 @@ import { useAppStore } from "../../state/appState";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SettingsScreenNavigationProp, appRoutes } from "../../appRoutes";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation<SettingsScreenNavigationProp>();
 
 	// Separate selectors to prevent unnecessary re-renders
 	const reloadBanner = useAppStore((state) => state.reloadBanner);
-	const isFavoriteTariffOnly = useAppStore((state) => state.isFavoriteTariffOnly);
-	const setisFavoriteTariffOnly = useAppStore((state) => state.setisFavoriteTariffOnly);
+	const isFavoriteTariffOnly = useAppStore(
+		(state) => state.isFavoriteTariffOnly,
+	);
+	const setisFavoriteTariffOnly = useAppStore(
+		(state) => state.setisFavoriteTariffOnly,
+	);
 
 	// Memoize callbacks
 	const handleChargepricePress = useCallback(async () => {
@@ -80,10 +84,7 @@ export function AppHeader(): JSX.Element {
 const dropShadow = {
 	elevation: 4,
 	shadowColor: "rgb(70, 130, 180)",
-	shadowOffset: {
-		width: 0,
-		height: 1,
-	},
+	shadowOffset: { width: 0, height: 1 },
 	shadowOpacity: 0.3,
 	shadowRadius: 2,
 };
@@ -97,12 +98,8 @@ const styles = ScaledSheet.create({
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
 		...Platform.select({
-			android: {
-				paddingTop: scale(28),
-			},
-			ios: {
-				marginTop: scale(-10),
-			},
+			android: { paddingTop: scale(1) },
+			ios: { marginTop: scale(-10) },
 		}),
 	},
 	headerSettingsIcon: {
@@ -119,11 +116,6 @@ const styles = ScaledSheet.create({
 		left: "15@s",
 		bottom: "8@s",
 	},
-	chargepriceIcon: {
-		...dropShadow,
-	},
-	headerTitle: {
-		color: colors.ladefuchsOrange,
-		fontSize: "18@s",
-	},
+	chargepriceIcon: { ...dropShadow },
+	headerTitle: { color: colors.ladefuchsOrange, fontSize: "18@s" },
 });

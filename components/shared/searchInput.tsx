@@ -1,9 +1,10 @@
 import React from "react";
-import { SafeAreaView, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "@theme";
 
 import MagnifyingGlass from "@assets/generic/magnifyingglass.svg";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Props {
 	onChange: (value: string) => void;

@@ -23,10 +23,7 @@
         "TARGETED_DEVICE_FAMILY": [1],
         "category": "TRAVEL"
       },
-      "entitlements": {
-        "aps-environment": "production"
-      }
-
+      "entitlements": { "aps-environment": "production" }
     },
     "android": {
       "versionCode": 332,
@@ -35,14 +32,11 @@
         "backgroundColor": "#F3EEE2"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=app.ladefuchs.android",
-      "package": "app.ladefuchs.android",
-      "androidNavigationBar": {
-        "visible": "immersive"
-      }
+      "package": "app.ladefuchs.android"
     },
     "plugins": [
       [
-       "expo-splash-screen",
+        "expo-splash-screen",
         {
           "image": "./assets/fuchs/ladefuchs.png",
           "backgroundColor": "#F3EEE2",
@@ -62,12 +56,10 @@
             "enableProguardInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true,
             "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
+            "targetSdkVersion": 34,
             "buildToolsVersion": "35.0.0"
           },
-          "ios": {
-            "deploymentTarget": "16.0"
-          }
+          "ios": { "deploymentTarget": "16.0" }
         }
       ]
     ]

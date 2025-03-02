@@ -1,7 +1,8 @@
-import { SafeAreaView, Linking } from "react-native";
+import { Linking } from "react-native";
 import React from "react";
 import { LadefuchsButton } from "./ladefuchsButton";
 import i18n from "@translations/translations";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function AffiliateButton({
 	link,

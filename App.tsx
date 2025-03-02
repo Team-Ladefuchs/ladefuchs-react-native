@@ -33,6 +33,7 @@ import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
+import { SafeAreaProvider } frreact-native-safe-area-context"om ";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -43,8 +44,10 @@ const MainStack = createStackNavigator<{ [appRoutes.home.key]: undefined }>();
 export default function App(): JSX.Element {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<AppWrapper />
-			<ToastNotification />
+			<SafeAreaProvider>
+				<AppWrapper />
+				<ToastNotification />
+			</SafeAreaProvider>
 		</QueryClientProvider>
 	);
 }
@@ -108,9 +111,7 @@ function AppWrapper(): JSX.Element {
 								);
 							},
 							headerRight: undefined,
-							headerTitleStyle: {
-								display: "none",
-							},
+							headerTitleStyle: { display: "none" },
 						})}
 					/>
 					<RootStack.Screen
@@ -141,10 +142,7 @@ function SettingsStackNavigator(): JSX.Element {
 				name={appRoutes.settings.key}
 				component={SettingsScreen}
 				options={({ navigation }) =>
-					modalHeader({
-						navigation,
-						title: appRoutes.settings.title,
-					})
+					modalHeader({ navigation, title: appRoutes.settings.title })
 				}
 			/>
 			<SettingsStack.Screen
@@ -180,9 +178,7 @@ function normalHeader({ title }: { title: string }): StackNavigationOptions {
 	return {
 		headerBackTitle: i18n.t("back"),
 		title,
-		headerStyle: {
-			backgroundColor: colors.ladefuchsDunklerBalken,
-		},
+		headerStyle: { backgroundColor: colors.ladefuchsDunklerBalken },
 		headerTintColor: "#000",
 	};
 }
@@ -205,9 +201,7 @@ function modalHeader({
 				style={{ marginRight: scale(16) }}
 			/>
 		),
-		headerStyle: {
-			backgroundColor: colors.ladefuchsDunklerBalken,
-		},
+		headerStyle: { backgroundColor: colors.ladefuchsDunklerBalken },
 		headerTintColor: "#000",
 	};
 }
