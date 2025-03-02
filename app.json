@@ -35,7 +35,10 @@
         "backgroundColor": "#F3EEE2"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=app.ladefuchs.android",
-      "package": "app.ladefuchs.android"
+      "package": "app.ladefuchs.android",
+      "androidNavigationBar": {
+        "visible": "leanback"
+      }
     },
     "plugins": [
       [
