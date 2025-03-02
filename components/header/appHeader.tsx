@@ -101,7 +101,7 @@ const styles = ScaledSheet.create({
 		height: "100@s",
 		...Platform.select({
 			ios: { marginTop: scale(14) },
-			android: { marginTop: scale(-16) },
+			android: { marginTop: scale(-30) },
 		}),
 	},
 	headerSettingsIcon: {
