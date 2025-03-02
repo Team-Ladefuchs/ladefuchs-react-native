@@ -54,9 +54,10 @@ export function AppHeader(): JSX.Element {
 					<ChargepriceButton width={scale(95)} height={scale(50)} />
 				</View>
 			</TouchableOpacity>
-			<View style={{ marginBottom: -scale(10) }}>
+			<View style={{ position: "relative" }}>
 				<TouchableOpacity
 					activeOpacity={1}
+					style={styles.appLogoContainer}
 					onLongPress={() => reloadBanner()}
 				>
 					<AppLogo size={81} />
@@ -97,9 +98,10 @@ const styles = ScaledSheet.create({
 		justifyContent: "center",
 		backgroundColor: colors.ladefuchsLightBackground,
 		width: "100%",
+		height: "100@s",
 		...Platform.select({
-			android: { paddingTop: scale(1) },
-			ios: { marginTop: scale(-10) },
+			ios: { marginTop: scale(14) },
+			android: { marginTop: scale(-16) },
 		}),
 	},
 	headerSettingsIcon: {
@@ -110,6 +112,14 @@ const styles = ScaledSheet.create({
 		position: "absolute",
 		right: "15@s",
 		bottom: "15@s",
+	},
+	appLogoContainer: {
+		left: "50%",
+		transform: [{ translateX: scale(-38) }],
+		...Platform.select({
+			ios: { bottom: "-8@s" },
+			android: { bottom: "-19@s" },
+		}),
 	},
 	headerWrapperChargepriceIcon: {
 		position: "absolute",

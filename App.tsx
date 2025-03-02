@@ -33,7 +33,7 @@ import { TariffList } from "./screens/tariffList";
 import { appRoutes } from "./appRoutes";
 import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
-import { SafeAreaProvider } frreact-native-safe-area-context"om ";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();

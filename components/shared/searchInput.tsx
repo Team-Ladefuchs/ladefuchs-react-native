@@ -13,7 +13,10 @@ interface Props {
 
 export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
 	return (
-		<SafeAreaView style={styles.searchContainer}>
+		<SafeAreaView
+			style={styles.searchContainer}
+			edges={["right", "bottom", "left"]}
+		>
 			<View style={styles.iconContainer}>
 				<MagnifyingGlass width={scale(21)} height={scale(21)} />
 			</View>
@@ -50,6 +53,7 @@ const styles = ScaledSheet.create({
 		shadowRadius: 3,
 		elevation: 5,
 		position: "relative",
+		flex: 0,
 		zIndex: 1,
 		backgroundColor: colors.ladefuchsDarkBackground,
 	},

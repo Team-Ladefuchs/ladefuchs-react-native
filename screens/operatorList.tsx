@@ -111,10 +111,7 @@ export function OperatorList(): JSX.Element {
 
 	const handleOperatorReset = () => {
 		Alert.alert(i18n.t("operatorAlert"), i18n.t("operatorAlertText"), [
-			{
-				text: i18n.t("cancel"),
-				style: "cancel",
-			},
+			{ text: i18n.t("cancel"), style: "cancel" },
 			{
 				text: i18n.t("yes"),
 				onPress: async () => {
@@ -236,10 +233,7 @@ export function OperatorList(): JSX.Element {
 }
 
 const styles = ScaledSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: colors.ladefuchsLightBackground,
-	},
+	container: { flex: 1, backgroundColor: colors.ladefuchsLightBackground },
 	listItemContainer: {
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
@@ -249,9 +243,7 @@ const styles = ScaledSheet.create({
 		gap: "6@s",
 	},
 
-	listContainer: {
-		flex: 2,
-	},
+	listContainer: { flex: 2 },
 	itemBody: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -259,9 +251,5 @@ const styles = ScaledSheet.create({
 		width: "94%",
 		marginLeft: scale(-6),
 	},
-	itemText: {
-		flex: 2,
-		fontSize: "16@s",
-		fontWeight: "bold",
-	},
+	itemText: { flex: 2, fontSize: "16@s", fontWeight: "bold" },
 });
