@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Animated, Platform } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "@theme";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 export interface TabItem<T> {
 	key: T;
@@ -37,7 +38,7 @@ export function TabButtonGroup<T>({ tabs, onSelected }: Props<T>) {
 			delay: 0,
 			duration: 210,
 		}).start();
-		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+		triggerHaptic(Haptics.NotificationFeedbackType.Success);
 	};
 
 	return (

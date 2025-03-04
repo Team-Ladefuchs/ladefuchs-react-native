@@ -20,8 +20,6 @@ type TariffPair = [TariffCondition | null, TariffCondition | null];
 // Constants
 const INITIAL_SCROLL_OFFSET = 0;
 const EMPTY_ARRAY: TariffCondition[] = [];
-const ITEMS_PER_BATCH = 10;
-const WINDOW_SIZE = 5;
 const ROW_HEIGHT = scale(70);
 const ESTIMATED_ITEM_SIZE = 78;
 
@@ -233,9 +231,7 @@ export function ChargeConditionTable(): JSX.Element {
 				scrollsToTop={true}
 				keyExtractor={keyExtractor}
 				removeClippedSubviews={true}
-				maintainVisibleContentPosition={{
-					minIndexForVisible: 0,
-				}}
+				maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
 				style={dimensions ? { height: dimensions.height } : undefined}
 				estimatedItemSize={ESTIMATED_ITEM_SIZE}
 				estimatedListSize={dimensions || undefined}
@@ -267,12 +263,6 @@ const styles = ScaledSheet.create({
 		paddingVertical: 0,
 		height: ROW_HEIGHT,
 	},
-	space: {
-		width: 1,
-		backgroundColor: "white",
-	},
-	emptyContainer: {
-		height: "100%",
-		marginTop: "130@s",
-	},
+	space: { width: 1, backgroundColor: "white" },
+	emptyContainer: { height: "100%", marginTop: "130@s" },
 });

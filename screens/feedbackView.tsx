@@ -43,6 +43,7 @@ import {
 	retrieveFromStorage,
 	saveToStorage,
 } from "../functions/storage/storage";
+import { triggerHaptic } from "../functions/util/haptics";
 
 const notePlaceholderText = i18n.t("food2");
 
@@ -160,9 +161,7 @@ export function FeedbackView(): JSX.Element {
 				});
 			}, 500);
 		} catch (error) {
-			await Haptics.notificationAsync(
-				Haptics.NotificationFeedbackType.Error,
-			);
+			await triggerHaptic(Haptics.NotificationFeedbackType.Error);
 			setSendButtonText("send");
 			console.log("sending feedback", error);
 			Toast.show({

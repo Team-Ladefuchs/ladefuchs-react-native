@@ -1,16 +1,10 @@
 import React from "react";
-import {
-	View,
-	Text,
-	FlatList,
-	Linking,
-	TouchableOpacity,
-	SafeAreaView,
-} from "react-native";
+import { View, Text, FlatList, Linking, TouchableOpacity } from "react-native";
 
 import licenses from "@assets/licenses.json";
 import { ScaledSheet } from "react-native-size-matters";
 import { colors } from "@theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface LicenseInfo {
 	repository: string;
@@ -76,18 +70,10 @@ export function LicenseView(): JSX.Element {
 }
 
 const styles = ScaledSheet.create({
-	screen: {
-		backgroundColor: colors.ladefuchsLightBackground,
-	},
-	list: {
-		paddingTop: "16@s",
-	},
-	lastItem: {
-		marginBottom: "32@s",
-	},
-	itemContainer: {
-		gap: 2,
-	},
+	screen: { backgroundColor: colors.ladefuchsLightBackground },
+	list: { paddingTop: "16@s" },
+	lastItem: { marginBottom: "32@s" },
+	itemContainer: { gap: 2 },
 	item: {
 		paddingVertical: "4@s",
 		paddingHorizontal: "14@s",
@@ -99,14 +85,8 @@ const styles = ScaledSheet.create({
 		fontFamily: "Roboto",
 		color: "#F2642D",
 	},
-	version: {
-		fontSize: "14@s",
-		fontFamily: "Bitter",
-	},
-	license: {
-		fontSize: "14@s",
-		fontFamily: "Bitter",
-	},
+	version: { fontSize: "14@s", fontFamily: "Bitter" },
+	license: { fontSize: "14@s", fontFamily: "Bitter" },
 	repo: {
 		textDecorationLine: "underline",
 		color: "#716B61",

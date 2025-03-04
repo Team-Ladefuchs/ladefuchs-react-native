@@ -45,6 +45,8 @@ export interface AppState extends AppData {
 	setOnboarding: (value: OnBoardingState) => void;
 	networkStatus: NetworkState;
 	setNetworkState: (value: NetworkState) => void;
+	isHapticEnabled: boolean;
+	setHapticEnabled: (value: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -148,6 +150,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		showOnboarding: "init",
 		setOnboarding: async (showOnboarding: OnBoardingState) => {
 			set(() => ({ showOnboarding }));
+		},
+		isHapticEnabled: true,
+		setHapticEnabled: (value: boolean) => {
+			set(() => ({ isHapticEnabled: value }));
 		},
 	};
 });

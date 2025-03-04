@@ -91,6 +91,8 @@ const de = {
 	ok: "Alles klar",
 	feedbackDebounceText: "Komm später wieder",
 	offlineMessage: "Sorry, du bist offline.",
+	hapticFeedback: "APP EINSTELLUNGEN",
+	hapticFeedbackText: "Haptisches Feedback",
 };
 
 export default de;

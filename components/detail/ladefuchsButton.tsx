@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, Platform } from "react-native";
 import { colors } from "@theme";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 export function LadefuchsButton({
 	onPress,
@@ -20,9 +21,7 @@ export function LadefuchsButton({
 			disabled={disabled}
 			style={[styles.button, disabled && styles.disabledButton]}
 			onPress={() => {
-				Haptics.notificationAsync(
-					Haptics.NotificationFeedbackType.Success,
-				);
+				triggerHaptic(Haptics.NotificationFeedbackType.Success);
 				onPress();
 			}}
 		>

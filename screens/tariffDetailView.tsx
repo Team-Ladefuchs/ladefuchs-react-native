@@ -20,6 +20,7 @@ import {
 	appRoutes,
 } from "../appRoutes";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../functions/util/haptics";
 
 function findTariffCondition({
 	tariffConditions,
@@ -111,9 +112,7 @@ export function TariffDetailView({
 					{networkStatus === "online" && (
 						<FeedbackButton
 							onPress={() => {
-								Haptics.notificationAsync(
-									Haptics.NotificationFeedbackType.Success,
-								);
+								triggerHaptic(Haptics.NotificationFeedbackType.Success);
 								navigation.navigate(appRoutes.feedback.key, {
 									tariff,
 									acTariffCondition,

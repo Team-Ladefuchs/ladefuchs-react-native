@@ -6,6 +6,7 @@ import FavStarEmpty from "@assets/favorite/favstern_empty.svg";
 import { Pressable, ViewStyle } from "react-native";
 import { scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 interface Props {
 	checked: boolean;
@@ -27,9 +28,7 @@ export function FavoriteCheckbox({
 			style={style}
 			onPress={() => {
 				if (!checked) {
-					Haptics.notificationAsync(
-						Haptics.NotificationFeedbackType.Success,
-					);
+					triggerHaptic(Haptics.NotificationFeedbackType.Success);
 				}
 				onValueChange(!checked);
 			}}

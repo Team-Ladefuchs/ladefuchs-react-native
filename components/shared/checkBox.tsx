@@ -4,6 +4,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import CheckMark from "@assets/generic/checkmark_bold.svg";
 import { colors } from "@theme";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 interface Props {
 	checked: boolean;
@@ -26,9 +27,7 @@ export function Checkbox({
 			hitSlop={scale(12)}
 			onPress={() => {
 				if (!checked) {
-					Haptics.notificationAsync(
-						Haptics.NotificationFeedbackType.Success,
-					);
+					triggerHaptic(Haptics.NotificationFeedbackType.Success);
 				}
 
 				onValueChange(!checked);

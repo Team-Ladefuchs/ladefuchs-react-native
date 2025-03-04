@@ -28,6 +28,7 @@ import {
 import { FavoriteCheckbox } from "./favoriteCheckbox";
 import { useKeyBoard } from "../../hooks/useKeyboard";
 import { EmptyListText } from "./emptyListText";
+import { triggerHaptic } from "../../functions/util/haptics";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -138,7 +139,7 @@ export function SectionHeaderList<T extends ItemType>({
 			.findIndex((itemLetter) => itemLetter === letter);
 		if (index >= 0 && list.current) {
 			list.current.scrollToIndex({ animated: false, index: index });
-			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+			triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
 		}
 	};
 
@@ -158,7 +159,7 @@ export function SectionHeaderList<T extends ItemType>({
 				if (letter !== lastScrolledLetter) {
 					setLastScrolledLetter(letter);
 					scrollToLetter(letter);
-					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+					triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
 				}
 			}
 		}

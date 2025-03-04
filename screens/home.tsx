@@ -12,6 +12,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import i18n from "../translations/translations";
 import { useNavigation } from "@react-navigation/native";
 import { type OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export function HomeScreen(): JSX.Element {
 	const router = useNavigation<OnboardingScreenNavigationProp>();
@@ -34,18 +35,23 @@ export function HomeScreen(): JSX.Element {
 	}
 
 	return (
-		<View style={{ flex: 1 }}>
-			<ChargingTableHeader />
+		<SafeAreaProvider>
+			<View style={{ flex: 1 }}>
+				<ChargingTableHeader />
 
-			<ChargeConditionTable />
-			<View style={styles.pickerBanner}>
-				<Text style={styles.pickerBannerText} allowFontScaling={false}>
-					{i18n.t("pickerheader")}
-				</Text>
+				<ChargeConditionTable />
+				<View style={styles.pickerBanner}>
+					<Text
+						style={styles.pickerBannerText}
+						allowFontScaling={false}
+					>
+						{i18n.t("pickerheader")}
+					</Text>
+				</View>
+				<OperatorPicker />
+				<AppBanner />
 			</View>
-			<OperatorPicker />
-			<AppBanner />
-		</View>
+		</SafeAreaProvider>
 	);
 }
 

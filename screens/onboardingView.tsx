@@ -3,7 +3,6 @@ import {
 	Image,
 	ImageSourcePropType,
 	Linking,
-	SafeAreaView,
 	StyleProp,
 	Text,
 	TouchableOpacity,
@@ -19,6 +18,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useAppStore } from "../state/appState";
 import { AppLogo } from "../components/header/appLogo";
 import { LadefuchsButton } from "../components/detail/ladefuchsButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface OnboardingData {
 	imageSource: ImageSourcePropType;
@@ -154,11 +154,7 @@ function generatePage({
 }
 
 const styles = ScaledSheet.create({
-	defaultImageStyle: {
-		width: "280@s",
-		height: "560@s",
-		top: "26@s",
-	},
+	defaultImageStyle: { width: "280@s", height: "560@s", top: "26@s" },
 	descriptionContainer: {
 		display: "flex",
 		flexDirection: "row",
@@ -174,51 +170,20 @@ const styles = ScaledSheet.create({
 		fontSize: "14@s",
 		width: "77%",
 	},
-	overlaySubtitle: {
-		bottom: "195@s",
-		left: "20@s",
-		right: "15@s",
-	},
-	overlaySubtitle1: {
-		top: "227@s",
-		left: "20@s",
-		right: "10@s",
-	},
-	overlaySubtitle2: {
-		top: "227@s",
-		left: "29@s",
-		right: "10@s",
-	},
-	overlaySubtitle3: {
-		top: "240@s",
-		left: "29@s",
-		right: "10@s",
-	},
-	overlaySubtitle4: {
-		bottom: "120@s",
-		left: "16@s",
-		right: "10@s",
-	},
-	overlaySubtitle5: {
-		bottom: "94@s",
-		left: "16@s",
-		right: "10@s",
-	},
+	overlaySubtitle: { bottom: "195@s", left: "20@s", right: "15@s" },
+	overlaySubtitle1: { top: "227@s", left: "20@s", right: "10@s" },
+	overlaySubtitle2: { top: "227@s", left: "29@s", right: "10@s" },
+	overlaySubtitle3: { top: "240@s", left: "29@s", right: "10@s" },
+	overlaySubtitle4: { bottom: "120@s", left: "16@s", right: "10@s" },
+	overlaySubtitle5: { bottom: "94@s", left: "16@s", right: "10@s" },
 	onboardingFinalDescription: {
 		fontSize: "16@s",
 		fontFamily: "Bitter",
 		textAlign: "center",
 		bottom: "3@s",
 	},
-	finishButton: {
-		position: "absolute",
-		bottom: "126@s",
-		width: "100%",
-	},
-	settingsLink: {
-		fontFamily: "Bitter",
-		textDecorationLine: "underline",
-	},
+	finishButton: { position: "absolute", bottom: "126@s", width: "100%" },
+	settingsLink: { fontFamily: "Bitter", textDecorationLine: "underline" },
 });
 
 function PageNumber({ number }: { number: number }): JSX.Element {
@@ -238,9 +203,5 @@ const pageNumberStyle = ScaledSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	text: {
-		color: "white",
-		fontSize: "31@s",
-		fontWeight: "bold",
-	},
+	text: { color: "white", fontSize: "31@s", fontWeight: "bold" },
 });

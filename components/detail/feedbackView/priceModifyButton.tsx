@@ -5,6 +5,7 @@ import PlusCircle from "@assets/plusMinus/plus_circle_fill.svg";
 import MinusIcon from "@assets/plusMinus/minus_circle_fill.svg";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
+import { triggerHaptic } from "../../../functions/util/haptics";
 
 interface Props {
 	buttonType: "plus" | "minus";
@@ -53,9 +54,7 @@ export function PriceModifyButton({
 			hitSlop={scale(8)}
 			style={style.button}
 			onPress={() => {
-				Haptics.notificationAsync(
-					Haptics.NotificationFeedbackType.Success,
-				);
+				triggerHaptic(Haptics.NotificationFeedbackType.Success);
 				onPress();
 			}}
 			onPressIn={handlePressIn}
