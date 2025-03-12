@@ -1,8 +1,8 @@
 // theme.js
 import { ScaledSheet } from "react-native-size-matters";
 
-const colors = {
-	primary: "#00700",
+export const colors = {
+	// Light Mode Farben
 	ladefuchsLightBackground: "#F3EEE2",
 	ladefuchsDarkBackground: "#C2B49C",
 	ladefuchsLightGrayBackground: "rgba(194,180,156, 0.4)", // 20% opacity
@@ -11,6 +11,12 @@ const colors = {
 	text: "#343a40",
 	ladefuchsOrange: "#F2642D",
 	ladefuchsGrayTextColor: "#716B61",
+	
+	// Dark Mode Farben
+	darkModeText: "#ffffff",
+	darkModeBackground: "#C2B49C",
+	darkModeSecondaryBackground: "#1E1E1E",
+	darkModeBorder: "#333333"
 };
 
 const fonts = {
@@ -20,7 +26,7 @@ const fonts = {
 	italicStyle: "italic",
 };
 
-const styles = ScaledSheet.create({
+export const styles = ScaledSheet.create({
 	headLine: {
 		color: colors.ladefuchsOrange,
 		textTransform: "uppercase",
@@ -47,5 +53,40 @@ const styles = ScaledSheet.create({
 		color: "#f45c2d",
 		paddingLeft: "10@s",
 	},
+	// Dark Mode Styles
+	darkModeText: {
+		color: "#ffffff",
+        fontFamily: "Bitter",
+		marginTop: "15@s",
+        marginLeft: "15@s",
+	},
+	lightModeText: {
+		color: "colors.darkModeText",
+        fontFamily: "Bitter",
+		marginTop: "15@s",
+        marginLeft: "15@s",
+	},
+	darkModeHeadline: {
+		color: "#F2642D",
+		textTransform: "uppercase",
+		fontFamily: "Roboto",
+		fontSize: "18@s",
+		marginBottom: "2@s",
+		marginLeft: "15@s",
+	},
+	lightModeHeadline: {
+		color: "#F2642D",
+		textTransform: "uppercase",
+		fontFamily: "Roboto",
+		fontSize: "18@s",
+		marginBottom: "2@s",
+		marginLeft: "15@s",
+	},
+	darkModeBackground: {
+		backgroundColor: colors.darkModeBackground,
+	},
+	lightModeBackground: {
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
 });
-export { colors, fonts, styles };
+export { fonts};

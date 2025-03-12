@@ -47,6 +47,8 @@ export interface AppState extends AppData {
 	setNetworkState: (value: NetworkState) => void;
 	isHapticEnabled: boolean;
 	setHapticEnabled: (value: boolean) => void;
+	isDarkMode: boolean;
+	setDarkMode: (value: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -154,6 +156,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		isHapticEnabled: true,
 		setHapticEnabled: (value: boolean) => {
 			set(() => ({ isHapticEnabled: value }));
+		},
+		isDarkMode: false,
+		setDarkMode: (value: boolean) => {
+			set(() => ({ isDarkMode: value }));
 		},
 	};
 });

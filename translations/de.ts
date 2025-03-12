@@ -93,6 +93,8 @@ const de = {
 	offlineMessage: "Sorry, du bist offline.",
 	hapticFeedback: "APP EINSTELLUNGEN",
 	hapticFeedbackText: "Haptisches Feedback",
+	darkMode: "ERSCHEINUNGSBILD",
+	darkModeDescription: "Dark Mode aktivieren",
 };
 
 export default de;
