@@ -22,91 +22,99 @@ import { HapticSettings } from "../components/settings/hapticSettings";
 import { DarkModeSettings } from "../components/settings/darkModeSettings";
 
 export function SettingsScreen(): JSX.Element {
-    const { isDarkMode } = useAppStore();
-    
-    const containerStyle = [
-        settingsStyle.viewContainer,
-        isDarkMode ? themeStyles.darkModeBackground : themeStyles.lightModeBackground
-    ];
+	const { isDarkMode } = useAppStore();
 
-    return (
-        <ScrollView style={settingsStyle.scrollView} bounces>
-            <View style={containerStyle}>
-                <View style={settingsStyle.navigationList}>
-                    <NavigationItem
-                        title={appRoutes.customTariffs.title}
-                        iconPrefix={
-                            <View style={{ left: scale(11) }}>
-                                <CardImage
-                                    imageUrl={require("@assets/generic/user_tariff_generic_card.jpeg")}
-                                    width={55}
-                                />
-                            </View>
-                        }
-                        description={i18n.t("chargingTariffstext")}
-                        screenKey={appRoutes.customTariffs.key}
-                        justifyContent="space-evenly"
-                    />
-                    <View style={{ marginTop: scale(12) }}>
-                        <Line />
-                    </View>
+	const containerStyle = [
+		settingsStyle.viewContainer,
+		isDarkMode
+			? themeStyles.darkModeBackground
+			: themeStyles.lightModeBackground,
+	];
 
-                    <NavigationItem
-                        title={appRoutes.customerOperator.title}
-                        justifyContent="space-evenly"
-                        description={i18n.t("chargingStationstext")}
-                        iconPrefix={
-                            <View style={{ left: scale(7), bottom: scale(2), marginRight: scale(-9) }}>
-                                <OperatorImage
-                                    imageUrl={require("@assets/generic/operator_generic_fuchs.png")}
-                                    height={80}
-                                    width={60}
-                                />
-                            </View>
-                        }
-                        screenKey={appRoutes.customerOperator.key}
-                    />
-                    <View style={{ marginTop: scale(12) }}>
-                        <Line />
-                    </View>
+	return (
+		<ScrollView style={settingsStyle.scrollView} bounces>
+			<View style={containerStyle}>
+				<View style={settingsStyle.navigationList}>
+					<NavigationItem
+						title={appRoutes.customTariffs.title}
+						iconPrefix={
+							<View style={{ left: scale(11) }}>
+								<CardImage
+									imageUrl={require("@assets/generic/user_tariff_generic_card.jpeg")}
+									width={55}
+								/>
+							</View>
+						}
+						description={i18n.t("chargingTariffstext")}
+						screenKey={appRoutes.customTariffs.key}
+						justifyContent="space-evenly"
+					/>
+					<View style={{ marginTop: scale(12) }}>
+						<Line />
+					</View>
 
-                    <HapticSettings />
-                    <View style={{ marginTop: scale(12) }}>
-                        <Line />
-                    </View>
-                    <DarkModeSettings />
-                </View>
+					<NavigationItem
+						title={appRoutes.customerOperator.title}
+						justifyContent="space-evenly"
+						description={i18n.t("chargingStationstext")}
+						iconPrefix={
+							<View
+								style={{
+									left: scale(7),
+									bottom: scale(2),
+									marginRight: scale(-9),
+								}}
+							>
+								<OperatorImage
+									imageUrl={require("@assets/generic/operator_generic_fuchs.png")}
+									height={80}
+									width={60}
+								/>
+							</View>
+						}
+						screenKey={appRoutes.customerOperator.key}
+					/>
+					<View style={{ marginTop: scale(12) }}>
+						<Line />
+					</View>
 
-                <View style={settingsStyle.separator}>
-                    <Text style={settingsStyle.separatorText}>Infos</Text>
-                </View>
+					<HapticSettings />
+					<View style={{ marginTop: scale(12) }}>
+						<Line />
+					</View>
+					<DarkModeSettings />
+				</View>
 
-                <View style={settingsStyle.innerContainer}>
-                    <MemberView />					
-                    <Support />
-                    <StartOnBoarding />
-                    <Rating />
-                    <PodcastView />
-                    <Illustration />
-                    <DatenView />
-                    <Impressum />
-                    <NavigationItem
-                        justifyContent="space-between"
-                        title={appRoutes.license.title}
-                        screenKey={appRoutes.license.key}
-                        description={i18n.t("licensetext")}
-                    />
-                </View>
-                <Footer />
-            </View>
-        </ScrollView>
-    );
+				<View style={settingsStyle.separator}>
+					<Text style={settingsStyle.separatorText}>Infos</Text>
+				</View>
+
+				<View style={settingsStyle.innerContainer}>
+					<MemberView />
+					<Support />
+					<StartOnBoarding />
+					<Rating />
+					<PodcastView />
+					<Illustration />
+					<DatenView />
+					<Impressum />
+					<NavigationItem
+						justifyContent="space-between"
+						title={appRoutes.license.title}
+						screenKey={appRoutes.license.key}
+						description={i18n.t("licensetext")}
+					/>
+				</View>
+				<Footer />
+			</View>
+		</ScrollView>
+	);
 }
 
 const settingsStyle = ScaledSheet.create({
 	viewContainer: {
-		backgroundColor: colors.ladefuchsLightBackground,
 		flex: 1,
+		backgroundColor: colors.ladefuchsLightBackground,
 	},
 	scrollView: {
 		display: "flex",

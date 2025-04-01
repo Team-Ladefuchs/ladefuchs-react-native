@@ -15,8 +15,8 @@ export function DarkModeSettings(): JSX.Element {
 		? themeStyles.darkModeHeadline
 		: themeStyles.lightModeHeadline;
 	const containerStyle = isDarkMode
-        ? themeStyles.darkModeBackground
-        : themeStyles.lightModeBackground;
+		? themeStyles.darkModeBackground
+		: themeStyles.lightModeBackground;
 
 	return (
 		<View style={containerStyle}>
@@ -43,13 +43,16 @@ export function DarkModeSettings(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-
+	container: {
+		marginTop: scale(1),
+		marginBottom: scale(10),
+		marginLeft: scale(16),
+	},
 	settingRow: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
 		borderBottomColor: colors.ladefuchsDunklerBalken,
-
 	},
 	textContainer: {
 		flex: 1,
@@ -58,12 +61,12 @@ const styles = StyleSheet.create({
 	settingTitle: {
 		fontSize: scale(16),
 		fontWeight: "500",
-        marginLeft: scale(15),
+		marginLeft: scale(15),
 	},
 	settingDescription: {
-        color: "black",
-        fontFamily: "Bitter",
+		color: "black",
+		fontFamily: "Bitter",
 		marginTop: scale(4),
-        marginLeft: scale(15),
+		marginLeft: scale(15),
 	},
 });

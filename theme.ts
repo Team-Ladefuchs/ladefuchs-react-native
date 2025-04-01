@@ -11,10 +11,9 @@ export const colors = {
 	text: "#343a40",
 	ladefuchsOrange: "#F2642D",
 	ladefuchsGrayTextColor: "#716B61",
-	
+
 	// Dark Mode Farben
-	darkModeText: "#ffffff",
-	darkModeBackground: "#C2B49C",
+	darkModeBackground: "rgba(209, 199, 181, 0.4)",
 	darkModeSecondaryBackground: "#1E1E1E",
 	darkModeBorder: "#333333"
 };
@@ -55,7 +54,7 @@ export const styles = ScaledSheet.create({
 	},
 	// Dark Mode Styles
 	darkModeText: {
-		color: "#ffffff",
+		color: "#666000",
         fontFamily: "Bitter",
 		marginTop: "15@s",
         marginLeft: "15@s",
