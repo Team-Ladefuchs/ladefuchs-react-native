@@ -51,26 +51,20 @@ export function AppBanner(): JSX.Element {
 						}}
 					>
 						<Image
-						contentFit="contain"
+							contentFit="contain"
 							source={{ uri: banner.imageUrl, ...authHeader }}
 							transition={0}						
 							priority="high"
 							style={[
 								styles.image,
 								{
-									aspectRatio:
-										banner?.bannerType === "chargePrice"
-											? "6.0"
-											: "2.8",
+									aspectRatio: "2.8",
 								},
 							]}
 							onLoad={() => setImageLoaded(true)}
 							onError={() => setImageLoaded(false)}
 						/>
 					</TouchableWithoutFeedback>
-					{banner.bannerType === "chargePrice" && imageLoaded && (
-						<View style={styles.blankBanner} />
-					)}
 				</>
 			)}
 		</View>
@@ -93,18 +87,5 @@ const styles = ScaledSheet.create({
 		borderTopLeftRadius: "14@s",
 		borderTopRightRadius: "14@s",
 		objectFit: "scale-down",
-	},
-	blankBanner: {
-		backgroundColor: "white",
-		marginTop: -2,
-		height: "100%",
-		...Platform.select({
-			android: {
-				width: "85%",
-			},
-			ios: {
-				width: "85%",
-			},
-		}),
 	},
 });

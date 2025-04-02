@@ -19,7 +19,6 @@ export interface ChargeConditionData {
 export interface BannerData {
 	ladefuchsBanners: LadefuchsBanner[];
 	bannerType: BannerType;
-	chargePriceAdBanner?: Banner | null;
 }
 
 export type OnBoardingState = "start" | "hide" | "init";
@@ -71,7 +70,7 @@ export const useAppStore = create<AppState>((set, get) => {
 			}
 		},
 		setBanners(data) {
-			const { bannerType, ladefuchsBanners, chargePriceAdBanner } = data;
+			const { bannerType, ladefuchsBanners } = data;
 			const now = Date.now();
 			const { lastBannerChange } = get();
 			const delayedReload = 30 * 1000;
@@ -82,10 +81,8 @@ export const useAppStore = create<AppState>((set, get) => {
 			) {
 				set(() => ({
 					ladefuchsBanners,
-					chargePriceAdBanner,
 					banner: selectLadefuchsBanner({
 						ladefuchsBanners,
-						chargePriceAdBanner,
 					}),
 					bannerType,
 					lastBannerChange: now,
@@ -159,39 +156,14 @@ export const useAppStore = create<AppState>((set, get) => {
 });
 
 export async function getBannerType(): Promise<BannerType> {
-	const key = "bannerType";
-	const ladefuchsValue = "ladefuchs";
-	const chargePriceValue = "chargePrice";
-
-	try {
-		const storedValue = (await AsyncStorage.getItem(key)) ?? ladefuchsValue;
-		const showChargePriceBanner = storedValue === chargePriceValue;
-		if (showChargePriceBanner) {
-			await AsyncStorage.setItem(key, ladefuchsValue);
-			return chargePriceValue;
-		} else {
-			await AsyncStorage.setItem(key, chargePriceValue);
-			return ladefuchsValue;
-		}
-	} catch {
-		console.log("Could not get banner type from storage");
-	}
-	return ladefuchsValue;
+	return "ladefuchs";
 }
 
 function selectLadefuchsBanner({
 	ladefuchsBanners,
-	chargePriceAdBanner,
 }: {
 	ladefuchsBanners: LadefuchsBanner[] | null;
-	chargePriceAdBanner: Banner | null | undefined;
 }): Banner | null {
-	if (chargePriceAdBanner) {
-		return {
-			...chargePriceAdBanner,
-			bannerType: "chargePrice",
-		};
-	}
 	if (!ladefuchsBanners) {
 		return null;
 	}
