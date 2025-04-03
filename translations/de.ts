@@ -9,7 +9,7 @@ const de = {
 	wrongPrice: "Preise/Infos falsch?",
 	map: "Hol dir die Karte!",
 	food: "Hast du Futter für den Fuchs?",
-	food1: "Sag uns was nicht stimmt!",
+	food1: "Woher weißt du das? Bitte gib dem Fuchs die Quelle deiner Information mit.",
 	food2: "Gib dem Fuchs noch eine Info mit!",
 	minChar: "(min. 15)",
 	send: "Senden",
