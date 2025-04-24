@@ -93,7 +93,7 @@ const styles = ScaledSheet.create({
 		left: "50%",
 		transform: [{ translateX: scale(-38) }],
 		...Platform.select({
-			ios: { bottom: "-8s" },
+			ios: { bottom: "-8@s" },
 			android: { bottom: "-19@s" },
 		}),
 	},
