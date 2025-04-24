@@ -66,14 +66,6 @@ export function AppHeader(): JSX.Element {
 	);
 }
 
-const dropShadow = {
-	elevation: 4,
-	shadowColor: "rgb(70, 130, 180)",
-	shadowOffset: { width: 0, height: 1 },
-	shadowOpacity: 0.3,
-	shadowRadius: 2,
-};
-
 const styles = ScaledSheet.create({
 	headerContainer: {
 		display: "flex",
@@ -101,7 +93,7 @@ const styles = ScaledSheet.create({
 		left: "50%",
 		transform: [{ translateX: scale(-38) }],
 		...Platform.select({
-			ios: { bottom: "-8@s" },
+			ios: { bottom: "-8s" },
 			android: { bottom: "-19@s" },
 		}),
 	},
