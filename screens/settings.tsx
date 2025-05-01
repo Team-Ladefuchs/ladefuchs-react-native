@@ -89,7 +89,6 @@ export function SettingsScreen(): JSX.Element {
 					<Rating />
 					<PodcastView />
 					<Illustration />
-					<DatenView />
 					<Impressum />
 					<NavigationItem
 						justifyContent="space-between"

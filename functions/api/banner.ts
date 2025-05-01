@@ -22,23 +22,6 @@ export async function fetchAllLadefuchsBanners(): Promise<LadefuchsBanner[]> {
 	}
 }
 
-export async function fetchChargePriceAdBanner(): Promise<Banner | null> {
-	try {
-		const response = await fetchWithTimeout(
-			`${apiUrl}/v3/banners/chargeprice/advertisement`,
-			{
-				headers: {
-					...authHeader.headers,
-					Accept: "application/json",
-				},
-			},
-		);
-		return response.json();
-	} catch {
-		return null;
-	}
-}
-
 export async function postBannerImpression(
 	banner: Banner | null,
 ): Promise<void> {
@@ -73,10 +56,7 @@ export async function getBanners({
 	writeToCache: boolean;
 }): Promise<BannerData> {
 	const bannerType = await getBannerType();
-	const [ladefuchsBanners, chargePriceAdBanner] = await Promise.all([
-		fetchAllLadefuchsBanners(),
-		bannerType === "chargePrice" ? fetchChargePriceAdBanner() : null,
-	]);
+	const ladefuchsBanners = await fetchAllLadefuchsBanners();
 
 	if (!ladefuchsBanners.length) {
 		const offlineData = await retrieveFromStorage<BannerData>(
@@ -92,9 +72,8 @@ export async function getBanners({
 	if (writeToCache) {
 		await saveToStorage<Partial<BannerData>>(storageSet.banners, {
 			ladefuchsBanners,
-			chargePriceAdBanner,
 		});
 	}
 
-	return { bannerType, ladefuchsBanners, chargePriceAdBanner };
+	return { bannerType, ladefuchsBanners };
 }

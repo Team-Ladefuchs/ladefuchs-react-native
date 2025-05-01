@@ -14,7 +14,7 @@ export interface Banner {
 	bannerType: BannerType;
 }
 
-export type BannerType = "ladefuchs" | "chargePrice";
+export type BannerType = "ladefuchs";
 
 export interface ImpressionRequest {
 	bannerId: string;

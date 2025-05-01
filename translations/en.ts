@@ -10,7 +10,7 @@ const en = {
 	map: "Grab a card!",
 	food: "Do you have any food for our fox?",
 	food1: "Tell us what's wrong!",
-	food2: "Give the fox some more information!",
+	food2: "How do you know that? Please tell the fox the source of your information.",
 	minChar: "(min. 15)",
 	send: "Send",
 	moment: "One moment please …",

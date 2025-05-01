@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import {
 	View,
 	TouchableOpacity,
-	Linking,
 	StatusBar,
 	Platform,
 } from "react-native";
@@ -10,7 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
 import { colors } from "@theme";
 import Zahnrad from "@assets/gearshape.svg";
-import ChargepriceButton from "@assets/chargepriceButton.svg";
 import { useAppStore } from "../../state/appState";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { SettingsScreenNavigationProp, appRoutes } from "../../appRoutes";
@@ -29,11 +27,6 @@ export function AppHeader(): JSX.Element {
 		(state) => state.setisFavoriteTariffOnly,
 	);
 
-	// Memoize callbacks
-	const handleChargepricePress = useCallback(async () => {
-		await Linking.openURL("https://chargeprice.app");
-	}, []);
-
 	const handleSettingsPress = useCallback(() => {
 		navigation.navigate(appRoutes.settingsStack.key);
 	}, [navigation]);
@@ -44,16 +37,7 @@ export function AppHeader(): JSX.Element {
 				barStyle="dark-content"
 				backgroundColor={colors.ladefuchsLightBackground}
 			/>
-			<TouchableOpacity
-				onPress={handleChargepricePress}
-				activeOpacity={0.6}
-				hitSlop={scale(5)}
-				style={[styles.headerWrapperChargepriceIcon]}
-			>
-				<View style={styles.chargepriceIcon}>
-					<ChargepriceButton width={scale(95)} height={scale(50)} />
-				</View>
-			</TouchableOpacity>
+
 			<View style={{ position: "relative" }}>
 				<TouchableOpacity
 					activeOpacity={1}
@@ -81,14 +65,6 @@ export function AppHeader(): JSX.Element {
 		</SafeAreaView>
 	);
 }
-
-const dropShadow = {
-	elevation: 4,
-	shadowColor: "rgb(70, 130, 180)",
-	shadowOffset: { width: 0, height: 1 },
-	shadowOpacity: 0.3,
-	shadowRadius: 2,
-};
 
 const styles = ScaledSheet.create({
 	headerContainer: {
@@ -121,11 +97,4 @@ const styles = ScaledSheet.create({
 			android: { bottom: "-19@s" },
 		}),
 	},
-	headerWrapperChargepriceIcon: {
-		position: "absolute",
-		left: "15@s",
-		bottom: "8@s",
-	},
-	chargepriceIcon: { ...dropShadow },
-	headerTitle: { color: colors.ladefuchsOrange, fontSize: "18@s" },
 });
