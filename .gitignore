@@ -37,3 +37,7 @@ yarn-error.*
 
 /android/
 ios/
+.idea/.gitignore
+.idea/vcs.xml
+.idea/caches/deviceStreaming.xml
+.gitignore
