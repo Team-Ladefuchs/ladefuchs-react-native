@@ -74,6 +74,8 @@ const de = {
 		"Bei den Ladesäulen siehst du alle Anbieter und hast die Möglichkeit, diese nach deinen Wünschen zu konfigurieren.",
 	onboardingStep5Description:
 		"Such dir die passenden Tarife heraus und markier sie als ⭐️ Favoriten.",
+	onboardingStep6Description:
+		"Jetzt kannst du nach deinen ⭐️ Favoriten filtern.",
 	onboardingAllSet: "Alles erledigt!",
 	onboardingLetsGo: "Los Gehts!",
 	tariffFilter: "Filter",

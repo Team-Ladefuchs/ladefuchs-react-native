@@ -25,6 +25,7 @@ interface OnboardingData {
 	overlayStyle: StyleProp<ViewStyle>;
 	descriptionKey: string;
 	page: number;
+	additionalTextKey?: string;
 }
 
 export function OnboardingView({ navigation }: any): JSX.Element {
@@ -54,33 +55,34 @@ export function OnboardingView({ navigation }: any): JSX.Element {
 					page: 1,
 				}),
 				generatePage({
-					imageSource: require("@assets/onBoarding/onboardingStep1.png"),
-					overlayStyle: styles.overlaySubtitle1,
-					descriptionKey: "onboardingStep1Description",
-					page: 2,
-				}),
-				generatePage({
 					imageSource: require("@assets/onBoarding/onboardingStep2.png"),
 					overlayStyle: styles.overlaySubtitle2,
-					descriptionKey: "onboardingStep2Description",
-					page: 3,
+					descriptionKey: "onboardingStep1Description",
+					page: 2,
+					additionalTextKey: "onboardingStep2Description",
 				}),
 				generatePage({
 					imageSource: require("@assets/onBoarding/onboardingStep3.png"),
 					overlayStyle: styles.overlaySubtitle3,
 					descriptionKey: "onboardingStep3Description",
-					page: 4,
+					page: 3,
 				}),
 				generatePage({
 					imageSource: require("@assets/onBoarding/onboardingStep4.png"),
 					overlayStyle: styles.overlaySubtitle4,
 					descriptionKey: "onboardingStep4Description",
-					page: 5,
+					page: 4,
 				}),
 				generatePage({
 					imageSource: require("@assets/onBoarding/onboardingStep5.png"),
 					overlayStyle: styles.overlaySubtitle5,
 					descriptionKey: "onboardingStep5Description",
+					page: 5,
+				}),
+				generatePage({
+					imageSource: require("@assets/onBoarding/onboardingStep1.png"),
+					overlayStyle: styles.overlaySubtitle1,
+					descriptionKey: "onboardingStep6Description",
 					page: 6,
 				}),
 				{
@@ -130,6 +132,7 @@ function generatePage({
 	overlayStyle,
 	descriptionKey,
 	page,
+	additionalTextKey,
 }: OnboardingData): Page {
 	return {
 		backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -145,6 +148,15 @@ function generatePage({
 					>
 						{i18n.t(descriptionKey)}
 					</Text>
+					{additionalTextKey && (
+						<Text
+							style={styles.additionalText}
+							allowFontScaling={false}
+							numberOfLines={2}
+						>
+							{i18n.t(additionalTextKey)}
+						</Text>
+					)}
 				</View>
 			</View>
 		),
@@ -170,12 +182,19 @@ const styles = ScaledSheet.create({
 		fontSize: "14@s",
 		width: "77%",
 	},
+	additionalText: {
+		color: "white",
+		fontFamily: "Bitter",
+		fontSize: "14@s",
+		left: "-270@s",
+		bottom: "358@s",
+	},
 	overlaySubtitle: { bottom: "195@s", left: "20@s", right: "15@s" },
-	overlaySubtitle1: { top: "227@s", left: "20@s", right: "10@s" },
-	overlaySubtitle2: { top: "227@s", left: "29@s", right: "10@s" },
+	overlaySubtitle1: { top: "240@s", left: "20@s", right: "10@s" },
+	overlaySubtitle2: { top: "380@s", left: "29@s", right: "10@s" },
 	overlaySubtitle3: { top: "240@s", left: "29@s", right: "10@s" },
 	overlaySubtitle4: { bottom: "120@s", left: "16@s", right: "10@s" },
-	overlaySubtitle5: { bottom: "94@s", left: "16@s", right: "10@s" },
+	overlaySubtitle5: { bottom: "100@s", left: "16@s", right: "10@s" },
 	onboardingFinalDescription: {
 		fontSize: "16@s",
 		fontFamily: "Bitter",
