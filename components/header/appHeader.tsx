@@ -38,7 +38,7 @@ export function AppHeader(): JSX.Element {
 				backgroundColor={colors.ladefuchsLightBackground}
 			/>
 
-			<View style={{ position: "relative" }}>
+			<View style={{ position: "absolute", top: scale(21) }}>
 				<TouchableOpacity
 					activeOpacity={1}
 					style={styles.appLogoContainer}
@@ -94,7 +94,7 @@ const styles = ScaledSheet.create({
 		transform: [{ translateX: scale(-38) }],
 		...Platform.select({
 			ios: { bottom: "-8@s" },
-			android: { bottom: "-19@s" },
+			android: { bottom: "-8@s" },
 		}),
 	},
 });
