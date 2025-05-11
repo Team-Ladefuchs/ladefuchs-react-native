@@ -5,8 +5,6 @@ With just one finger swipe, Ladefuchs shows you the cheapest charging plan at th
 
 Not more, not less.
 
-Thanks to chargeprice.app, the data is always up to date.
-
 The app is free. However, the little Ladefuchs (Chargefox) is always happy like a young badger about food donations.
 
 He always cheeps a bit then.
@@ -18,14 +16,12 @@ Who is actually to blame?
 * Malik & Flowinho of audiodump.de
 * Bastian ’Schlingel‘ Wölfle of bitsundso.de
 * Dominic Wrege
-* Thorsten Roesler
+* Sven Raskin
 * Illu: Aga und Marcel-André
 
 Ideas? Bugs?
 ------------
 Plese send to android@ladefuchs.app
-
-If you have suggestions for foot note texts, let us know at https://ladefuchs.app/fussnote
 
 Anti-Features
 -------------

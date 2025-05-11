@@ -5,8 +5,6 @@ Mit einem Fingerwischen zeigt Dir der Ladefuchs die günstigste Ladekarte an der
 
 Nicht mehr, nicht weniger.
 
-Dank chargeprice.app sind die Daten immer aktuell.
-
 Die App ist kostenlos. Der kleine Ladefuchs freut sich allerdings wie ein junger Dachs über Futterspenden.
 
 Er fiepst dann immer ein bisschen.
@@ -16,14 +14,12 @@ Wer ist eigentlich schuld?
 * Malik & Flowinho von audiodump.de
 * Bastian ’Schlingel‘ Wölfle von bitsundso.de
 * Dominic Wrege
-* Thorsten Roesler
+* Sven Raskin
 * Illu: Aga und Marcel-André
 
 Ideen? Bugs?
 --------------
 Bitte an android@ladefuchs.app
-
-Falls du Vorschläge für Fußnotentexte hast, lass es uns wissen auf https://ladefuchs.app/fussnote
 
 Anti-Features/Unerwünschte Merkmale
 -----------------------------------
