@@ -46,6 +46,7 @@ import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { styles } from "./theme";
 import { InfoModal } from "./components/InfoModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -66,9 +67,15 @@ export default function App(): JSX.Element {
 
 function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
-	const [showInfoModal, setShowInfoModal] = useState(true);
+	const [showInfoModal, setShowInfoModal] = useState(false);
 
 	useEffect(() => {
+		const checkModal = async () => {
+			const alreadyShown = await AsyncStorage.getItem("infoModalShown");
+			if (!alreadyShown) setShowInfoModal(true);
+		};
+		checkModal();
+
 		const subscription = AppState.addEventListener(
 			"change",
 			onAppStateChange,
@@ -77,6 +84,11 @@ function AppWrapper(): JSX.Element {
 			subscription.remove();
 		};
 	}, []);
+
+	const handleCloseInfoModal = async () => {
+		setShowInfoModal(false);
+		await AsyncStorage.setItem("infoModalShown", "true");
+	};
 
 	useQueryAppData();
 	useAopMetrics();
@@ -87,10 +99,7 @@ function AppWrapper(): JSX.Element {
 
 	return (
 		<>
-			<InfoModal
-				visible={showInfoModal}
-				onClose={() => setShowInfoModal(false)}
-			/>
+			<InfoModal visible={showInfoModal} onClose={handleCloseInfoModal} />
 			<NavigationContainer>
 				<RootStack.Navigator>
 					<MainStack.Group screenOptions={{ presentation: "card" }}>
