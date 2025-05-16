@@ -1,5 +1,10 @@
-import React, { useEffect } from "react";
-import { AppState, AppStateStatus, Platform, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+	AppState,
+	AppStateStatus,
+	Platform,
+	View,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	StackNavigationOptions,
@@ -34,6 +39,8 @@ import { appRoutes } from "./appRoutes";
 import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { InfoModal } from "./components/InfoModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -54,8 +61,15 @@ export default function App(): JSX.Element {
 
 function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
+	const [showInfoModal, setShowInfoModal] = useState(false);
 
 	useEffect(() => {
+		const checkModal = async () => {
+			const alreadyShown = await AsyncStorage.getItem("infoModalShown");
+			if (!alreadyShown) setShowInfoModal(true);
+		};
+		checkModal();
+
 		const subscription = AppState.addEventListener(
 			"change",
 			onAppStateChange,
@@ -65,6 +79,11 @@ function AppWrapper(): JSX.Element {
 		};
 	}, []);
 
+	const handleCloseInfoModal = async () => {
+		setShowInfoModal(false);
+		await AsyncStorage.setItem("infoModalShown", "true");
+	};
+
 	useQueryAppData();
 	useAopMetrics();
 
@@ -73,65 +92,71 @@ function AppWrapper(): JSX.Element {
 	}
 
 	return (
-		<NavigationContainer>
-			<RootStack.Navigator>
-				<MainStack.Group screenOptions={{ presentation: "card" }}>
-					<RootStack.Screen
-						name={appRoutes.home.key}
-						component={HomeScreen}
-						options={() => ({
-							header: () => <AppHeader />,
-							headerStyle: {
-								backgroundColor: colors.ladefuchsDarkBackground,
-							},
-							headerTintColor: colors.ladefuchsOrange,
-						})}
-					/>
-					<RootStack.Screen
-						name={appRoutes.onBoarding.key}
-						component={OnboardingView}
-						options={{ headerShown: false }}
-					/>
-				</MainStack.Group>
+		<>
+			<InfoModal visible={showInfoModal} onClose={handleCloseInfoModal} />
+			<NavigationContainer>
+				<RootStack.Navigator>
+					<MainStack.Group screenOptions={{ presentation: "card" }}>
+						<RootStack.Screen
+							name={appRoutes.home.key}
+							component={HomeScreen}
+							options={() => ({
+								header: () => <AppHeader />,
+								headerStyle: {
+									backgroundColor:
+										colors.ladefuchsDarkBackground,
+								},
+								headerTintColor: colors.ladefuchsOrange,
+							})}
+						/>
+						<RootStack.Screen
+							name={appRoutes.onBoarding.key}
+							component={OnboardingView}
+							options={{ headerShown: false }}
+						/>
+					</MainStack.Group>
 
-				<RootStack.Group screenOptions={{ presentation: "modal" }}>
-					<RootStack.Screen
-						name={appRoutes.detailScreen.key}
-						component={TariffDetailView as any}
-						options={({ navigation, route }: any) => ({
-							headerBackTitleVisible: false,
-							headerLeft: undefined,
-							header: () => {
-								const tariff = route.params["tariff"] as Tariff;
-								return (
-									<DetailHeader
-										tariff={tariff}
-										navigation={navigation}
-									/>
-								);
-							},
-							headerRight: undefined,
-							headerTitleStyle: { display: "none" },
-						})}
-					/>
-					<RootStack.Screen
-						name={appRoutes.feedback.key}
-						component={FeedbackView}
-						options={({ navigation }) =>
-							modalHeader({
-								navigation,
-								title: appRoutes.feedback.title,
-							})
-						}
-					/>
-					<RootStack.Screen
-						name={appRoutes.settingsStack.key}
-						component={SettingsStackNavigator}
-						options={{ headerShown: false }}
-					/>
-				</RootStack.Group>
-			</RootStack.Navigator>
-		</NavigationContainer>
+					<RootStack.Group screenOptions={{ presentation: "modal" }}>
+						<RootStack.Screen
+							name={appRoutes.detailScreen.key}
+							component={TariffDetailView as any}
+							options={({ navigation, route }: any) => ({
+								headerBackTitleVisible: false,
+								headerLeft: undefined,
+								header: () => {
+									const tariff = route.params[
+										"tariff"
+									] as Tariff;
+									return (
+										<DetailHeader
+											tariff={tariff}
+											navigation={navigation}
+										/>
+									);
+								},
+								headerRight: undefined,
+								headerTitleStyle: { display: "none" },
+							})}
+						/>
+						<RootStack.Screen
+							name={appRoutes.feedback.key}
+							component={FeedbackView}
+							options={({ navigation }) =>
+								modalHeader({
+									navigation,
+									title: appRoutes.feedback.title,
+								})
+							}
+						/>
+						<RootStack.Screen
+							name={appRoutes.settingsStack.key}
+							component={SettingsStackNavigator}
+							options={{ headerShown: false }}
+						/>
+					</RootStack.Group>
+				</RootStack.Navigator>
+			</NavigationContainer>
+		</>
 	);
 }
 
