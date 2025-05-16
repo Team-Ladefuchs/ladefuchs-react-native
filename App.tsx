@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { AppState, AppStateStatus, Platform, View, Modal, Text, Button, TouchableOpacity, Linking } from "react-native";
+import {
+	AppState,
+	AppStateStatus,
+	Platform,
+	View,
+	Modal,
+	Text,
+	Button,
+	TouchableOpacity,
+	Linking,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	StackNavigationOptions,
@@ -35,6 +45,7 @@ import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { styles } from "./theme";
+import { InfoModal } from "./components/InfoModal";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -76,59 +87,10 @@ function AppWrapper(): JSX.Element {
 
 	return (
 		<>
-			<Modal
+			<InfoModal
 				visible={showInfoModal}
-				transparent
-				animationType="fade"
-				onRequestClose={() => setShowInfoModal(false)}
-			>
-				<View
-					style={{
-						flex: 1,
-						justifyContent: "center",
-						alignItems: "center",
-						backgroundColor: "rgba(0,0,0,0.5)",
-					}}
-				>
-					<View
-						style={{
-							backgroundColor: "white",
-							padding: 24,
-							borderRadius: 12,
-							//alignItems: "center",
-							maxWidth: "80%",
-						}}
-					>
-						<Text style={styles.headLine}>Liebe Ladefuchs-User:innen,</Text>
-						<Text style={styles.italicText}>
-							vielleicht habt ihr schon bemerkt, dass sich im Fuchsbau einiges verschoben hat und gerade nicht alles so steht,
-							 wie es soll. Wir wissen, dass dringend der Renovierungstrupp losgeschickt werden muss – und genau das haben wir bereits getan!
-							 {"\n"}{"\n"}
-Alles wieder in Ordnung zu bringen ist ein Fulltime-Job. Allerdings ist der Ladefuchs schon immer ein ehrenamtliches Projekt, an dem zwei Entwickler in ihrer Freizeit tüfteln. 
-Wir geben unser Bestes, um euch die volle Funktionalität vom Ladefuchs schnellstmöglich zurückzubringen, müssen euch aber um ein wenig Geduld bitten. 
-{"\n"}
-Alle aktuellen Updates findet ihr unter: 
-						</Text>
-						<TouchableOpacity
-							activeOpacity={0.8}
-							onPress={async () => await Linking.openURL('https://electroverse.tech/@ladefuchs')}
-							style={{ marginVertical: 8 }}
-						>
-							<Text style={styles.settingsLink}>
-								electroverse.tech/@ladefuchs
-							</Text>
-						</TouchableOpacity>
-						<Text style={styles.italicText}>
-							Liebe Grüße{"\n"}eure Ladefüchse            
-						</Text>
-						<Button
-							title="Schließen"
-							onPress={() => setShowInfoModal(false)}
-						/>
-					</View>
-				</View>
-			</Modal>
-
+				onClose={() => setShowInfoModal(false)}
+			/>
 			<NavigationContainer>
 				<RootStack.Navigator>
 					<MainStack.Group screenOptions={{ presentation: "card" }}>
@@ -138,7 +100,8 @@ Alle aktuellen Updates findet ihr unter:
 							options={() => ({
 								header: () => <AppHeader />,
 								headerStyle: {
-									backgroundColor: colors.ladefuchsDarkBackground,
+									backgroundColor:
+										colors.ladefuchsDarkBackground,
 								},
 								headerTintColor: colors.ladefuchsOrange,
 							})}
@@ -158,7 +121,9 @@ Alle aktuellen Updates findet ihr unter:
 								headerBackTitleVisible: false,
 								headerLeft: undefined,
 								header: () => {
-									const tariff = route.params["tariff"] as Tariff;
+									const tariff = route.params[
+										"tariff"
+									] as Tariff;
 									return (
 										<DetailHeader
 											tariff={tariff}
