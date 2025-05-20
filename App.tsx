@@ -63,6 +63,9 @@ function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
+	const [lastBackgroundTime, setLastBackgroundTime] = useState<number | null>(
+		null,
+	);
 
 	useEffect(() => {
 		const checkAndFetchModal = async () => {
@@ -78,10 +81,7 @@ function AppWrapper(): JSX.Element {
 				const lastShown =
 					await AsyncStorage.getItem("infoModalLastShown");
 				const now = Date.now();
-				if (
-					!lastShown ||
-					now - parseInt(lastShown, 10) > 24 * 60 * 60 * 1000
-				) {
+				if (!lastShown || now - parseInt(lastShown, 10) > 60 * 1000) {
 					setShowInfoModal(true);
 				}
 			} catch {
@@ -91,14 +91,29 @@ function AppWrapper(): JSX.Element {
 		};
 		checkAndFetchModal();
 
+		const handleAppStateChange = async (status: AppStateStatus) => {
+			if (status === "background") {
+				setLastBackgroundTime(Date.now());
+			}
+			if (status === "active" && lastBackgroundTime) {
+				const now = Date.now();
+				// z.B. 60 Sekunden im Hintergrund
+				if (now - lastBackgroundTime > 60 * 1000) {
+					setShowInfoModal(true);
+				}
+				setLastBackgroundTime(null);
+			}
+			onAppStateChange(status);
+		};
+
 		const subscription = AppState.addEventListener(
 			"change",
-			onAppStateChange,
+			handleAppStateChange,
 		);
 		return () => {
 			subscription.remove();
 		};
-	}, []);
+	}, [lastBackgroundTime]);
 
 	const handleCloseInfoModal = async () => {
 		setShowInfoModal(false);
