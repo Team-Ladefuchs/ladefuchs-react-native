@@ -10,12 +10,18 @@ import {
 } from "react-native";
 import { styles } from "../theme";
 
+type InfoContentSection =
+	| { type: "headline"; text: string }
+	| { type: "text"; text: string }
+	| { type: "link"; text: string; url: string };
+
 type InfoModalProps = {
 	visible: boolean;
 	onClose: () => void;
+	content: InfoContentSection[];
 };
 
-export function InfoModal({ visible, onClose }: InfoModalProps) {
+export function InfoModal({ visible, onClose, content }: InfoModalProps) {
 	return (
 		<Modal
 			visible={visible}
@@ -41,37 +47,44 @@ export function InfoModal({ visible, onClose }: InfoModalProps) {
 					}}
 				>
 					<ScrollView bounces={true}>
-						<Text style={styles.headLine}>
-							Liebe Ladefuchs-User:innen,
-						</Text>
-						<Text style={styles.italicText}>
-							Babysteps: EnBW Preise sind wieder da! Nach wie vor
-							ist noch viel zu klären und aufzuräumen… stay with
-							us! Vielen Dank für die aufmunternden Worte, Spenden
-							und positiven Bewertungen in den App Stores! 🧡
-							{"\n"}
-							Backend-Zauberei: Die meiste Arbeit passiert gerade
-							unsichtbar im Hintergrund. Daten werden sortiert,
-							Systeme neu verdrahtet, der Fuchs schwitzt leise im
-							Serverraum.🔧🧙‍♂️
-							{"\n"} Alle aktuellen Updates findet ihr unter:
-						</Text>
-						<TouchableOpacity
-							activeOpacity={0.8}
-							onPress={async () =>
-								await Linking.openURL(
-									"https://electroverse.tech/@ladefuchs",
-								)
+						{content.map((section, idx) => {
+							switch (section.type) {
+								case "headline":
+									return (
+										<Text key={idx} style={styles.headLine}>
+											{section.text}
+										</Text>
+									);
+								case "text":
+									return (
+										<Text
+											key={idx}
+											style={styles.italicText}
+										>
+											{section.text}
+										</Text>
+									);
+								case "link":
+									return (
+										<TouchableOpacity
+											key={idx}
+											activeOpacity={0.8}
+											onPress={async () =>
+												await Linking.openURL(
+													section.url,
+												)
+											}
+											style={{ marginVertical: 8 }}
+										>
+											<Text style={styles.settingsLink}>
+												{section.text}
+											</Text>
+										</TouchableOpacity>
+									);
+								default:
+									return null;
 							}
-							style={{ marginVertical: 8 }}
-						>
-							<Text style={styles.settingsLink}>
-								electroverse.tech/@ladefuchs
-							</Text>
-						</TouchableOpacity>
-						<Text style={styles.italicText}>
-							Liebe Grüße{"\n"}eure Ladefüchse
-						</Text>
+						})}
 					</ScrollView>
 					<Button title="Schließen" onPress={onClose} />
 				</View>

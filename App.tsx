@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-	AppState,
-	AppStateStatus,
-	Platform,
-	View,
-} from "react-native";
+import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	StackNavigationOptions,
@@ -42,6 +37,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { InfoModal } from "./components/InfoModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+type InfoContentSection =
+	| { type: "headline"; text: string }
+	| { type: "text"; text: string }
+	| { type: "link"; text: string; url: string };
+
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
@@ -62,13 +62,34 @@ export default function App(): JSX.Element {
 function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
 	const [showInfoModal, setShowInfoModal] = useState(false);
+	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
 
 	useEffect(() => {
-		const checkModal = async () => {
-			const alreadyShown = await AsyncStorage.getItem("infoModalShown");
-			if (!alreadyShown) setShowInfoModal(true);
+		const checkAndFetchModal = async () => {
+			try {
+				// Info-Content von API laden
+				const response = await fetch(
+					"https://api.maxxweb.net/info.json",
+				);
+				const data = await response.json();
+				setInfoContent(data.content || []);
+
+				// Letztes Anzeigen prüfen
+				const lastShown =
+					await AsyncStorage.getItem("infoModalLastShown");
+				const now = Date.now();
+				if (
+					!lastShown ||
+					now - parseInt(lastShown, 10) > 24 * 60 * 60 * 1000
+				) {
+					setShowInfoModal(true);
+				}
+			} catch {
+				setShowInfoModal(false);
+				setInfoContent([]);
+			}
 		};
-		checkModal();
+		checkAndFetchModal();
 
 		const subscription = AppState.addEventListener(
 			"change",
@@ -81,7 +102,7 @@ function AppWrapper(): JSX.Element {
 
 	const handleCloseInfoModal = async () => {
 		setShowInfoModal(false);
-		await AsyncStorage.setItem("infoModalShown", "true");
+		await AsyncStorage.setItem("infoModalLastShown", Date.now().toString());
 	};
 
 	useQueryAppData();
@@ -93,7 +114,11 @@ function AppWrapper(): JSX.Element {
 
 	return (
 		<>
-			<InfoModal visible={showInfoModal} onClose={handleCloseInfoModal} />
+			<InfoModal
+				visible={showInfoModal}
+				onClose={handleCloseInfoModal}
+				content={infoContent}
+			/>
 			<NavigationContainer>
 				<RootStack.Navigator>
 					<MainStack.Group screenOptions={{ presentation: "card" }}>
