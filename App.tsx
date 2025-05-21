@@ -36,11 +36,14 @@ import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { InfoModal } from "./components/InfoModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+//import { apiUrl, authHeader } from "./functions/api/base";
 
 type InfoContentSection =
 	| { type: "headline"; text: string }
 	| { type: "text"; text: string }
 	| { type: "link"; text: string; url: string };
+
+const INFO_MODAL_INTERVAL_MS = 24 * 60 * 60 * 1000;
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -63,25 +66,43 @@ function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
-	const [lastBackgroundTime, setLastBackgroundTime] = useState<number | null>(
-		null,
-	);
 
 	useEffect(() => {
 		const checkAndFetchModal = async () => {
 			try {
-				// Info-Content von API laden
 				const response = await fetch(
 					"https://api.maxxweb.net/info.json",
+					// `${apiUrl}/v3/info`
+					//		{
+					//			headers: {
+					//				...authHeader.headers,
+					//				Accept: "application/json",
+					//			},
+					//		},
 				);
+				if (!response.ok) {
+					// Datei existiert nicht oder Fehler
+					setShowInfoModal(false);
+					setInfoContent([]);
+					return;
+				}
 				const data = await response.json();
-				setInfoContent(data.content || []);
+				if (!data.content || data.content.length === 0) {
+					// Datei existiert, aber kein Inhalt
+					setShowInfoModal(false);
+					setInfoContent([]);
+					return;
+				}
+				// Datei existiert und hat Inhalt
+				setInfoContent(data.content);
 
-				// Letztes Anzeigen prüfen
 				const lastShown =
 					await AsyncStorage.getItem("infoModalLastShown");
 				const now = Date.now();
-				if (!lastShown || now - parseInt(lastShown, 10) > 60 * 1000) {
+				if (
+					!lastShown ||
+					now - parseInt(lastShown, 10) > INFO_MODAL_INTERVAL_MS
+				) {
 					setShowInfoModal(true);
 				}
 			} catch {
@@ -92,16 +113,37 @@ function AppWrapper(): JSX.Element {
 		checkAndFetchModal();
 
 		const handleAppStateChange = async (status: AppStateStatus) => {
-			if (status === "background") {
-				setLastBackgroundTime(Date.now());
-			}
-			if (status === "active" && lastBackgroundTime) {
-				const now = Date.now();
-				// z.B. 60 Sekunden im Hintergrund
-				if (now - lastBackgroundTime > 60 * 1000) {
-					setShowInfoModal(true);
+			if (status === "active") {
+				try {
+					const response = await fetch(
+						"https://api.maxxweb.net/info.json",
+					);
+					if (!response.ok) {
+						setShowInfoModal(false);
+						setInfoContent([]);
+						return;
+					}
+					const data = await response.json();
+					if (!data.content || data.content.length === 0) {
+						setShowInfoModal(false);
+						setInfoContent([]);
+						return;
+					}
+					setInfoContent(data.content);
+
+					const lastShown =
+						await AsyncStorage.getItem("infoModalLastShown");
+					const now = Date.now();
+					if (
+						!lastShown ||
+						now - parseInt(lastShown, 10) > INFO_MODAL_INTERVAL_MS
+					) {
+						setShowInfoModal(true);
+					}
+				} catch {
+					setShowInfoModal(false);
+					setInfoContent([]);
 				}
-				setLastBackgroundTime(null);
 			}
 			onAppStateChange(status);
 		};
@@ -113,7 +155,7 @@ function AppWrapper(): JSX.Element {
 		return () => {
 			subscription.remove();
 		};
-	}, [lastBackgroundTime]);
+	}, []);
 
 	const handleCloseInfoModal = async () => {
 		setShowInfoModal(false);
@@ -130,7 +172,7 @@ function AppWrapper(): JSX.Element {
 	return (
 		<>
 			<InfoModal
-				visible={showInfoModal}
+				visible={showInfoModal && infoContent.length > 0}
 				onClose={handleCloseInfoModal}
 				content={infoContent}
 			/>

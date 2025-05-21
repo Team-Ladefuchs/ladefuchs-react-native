@@ -22,6 +22,9 @@ type InfoModalProps = {
 };
 
 export function InfoModal({ visible, onClose, content }: InfoModalProps) {
+	if (!visible || !content || content.length === 0) {
+		return null;
+	}
 	return (
 		<Modal
 			visible={visible}
