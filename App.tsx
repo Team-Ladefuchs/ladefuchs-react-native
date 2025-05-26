@@ -43,7 +43,7 @@ type InfoContentSection =
 	| { type: "text"; text: string }
 	| { type: "link"; text: string; url: string };
 
-const INFO_MODAL_INTERVAL_MS = 24 * 60 * 60 * 1000;
+const INFO_MODAL_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
