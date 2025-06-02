@@ -1,10 +1,5 @@
-import React, { useCallback } from "react";
-import {
-	View,
-	TouchableOpacity,
-	StatusBar,
-	Platform,
-} from "react-native";
+import React, { JSX, useCallback } from "react";
+import { View, TouchableOpacity, StatusBar, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
 import { colors } from "@theme";
@@ -77,7 +72,7 @@ const styles = ScaledSheet.create({
 		height: "100@s",
 		...Platform.select({
 			ios: { marginTop: scale(14) },
-			android: { marginTop: scale(-30) },
+			android: { marginTop: scale(-1) },
 		}),
 	},
 	headerSettingsIcon: {
@@ -94,7 +89,7 @@ const styles = ScaledSheet.create({
 		transform: [{ translateX: scale(-38) }],
 		...Platform.select({
 			ios: { bottom: "-8@s" },
-			android: { bottom: "-8@s" },
+			android: { bottom: "-9@s" },
 		}),
 	},
 });

@@ -4,6 +4,7 @@ import React, {
 	useMemo,
 	useCallback,
 	useRef,
+	JSX,
 } from "react";
 import {
 	View,
@@ -167,21 +168,6 @@ export function TariffList(): JSX.Element {
 		});
 	}, [customTariffs]);
 
-	useEffect(() => {
-		const unsubscribe = navigator.addListener("beforeRemove", async () => {
-			if (!isMounted.current) return;
-
-			await saveCustomTariffs({
-				add: Array.from(state.tariffsAddSet),
-				remove: Array.from(state.tariffsRemoveSet),
-				favorite: Array.from(state.favoriteSet),
-			} satisfies CustomTariff);
-			await queryChargeConditions.refetch();
-		});
-
-		return unsubscribe;
-	}, [navigator, state, queryChargeConditions, saveCustomTariffs]);
-
 	const allTariffsQuery = useQuery({
 		queryKey: ["AllTariffs", operators],
 		retry: MAX_RETRIES,
@@ -203,6 +189,30 @@ export function TariffList(): JSX.Element {
 				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 	});
+
+	useEffect(() => {
+		const unsubscribe = navigator.addListener("beforeRemove", async () => {
+			if (!isMounted.current) return;
+
+			if (!allTariffsQuery.data) {
+				return;
+			}
+			const allTarifIds = new Set(
+				allTariffsQuery.data.map(({ identifier }) => identifier),
+			);
+			const filterValidIds = (ids: Set<string>) =>
+				Array.from(ids).filter((id) => allTarifIds.has(id));
+
+			await saveCustomTariffs({
+				add: filterValidIds(state.tariffsAddSet),
+				remove: filterValidIds(state.tariffsRemoveSet),
+				favorite: filterValidIds(state.favoriteSet),
+			} satisfies CustomTariff);
+			await queryChargeConditions.refetch();
+		});
+
+		return unsubscribe;
+	}, [navigator, state, queryChargeConditions, saveCustomTariffs]);
 
 	const filterByMode = useCallback(
 		(tariff: Tariff) => {

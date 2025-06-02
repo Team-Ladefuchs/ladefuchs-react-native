@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, JSX } from "react";
 import {
 	View,
 	Text,
@@ -52,24 +52,6 @@ export function OperatorList(): JSX.Element {
 	const navigator = useNavigation();
 
 	useEffect(() => {
-		const unsubscribe = navigator.addListener("beforeRemove", async () => {
-			await saveCustomOperators({
-				add: Array.from(operatorAddSet),
-				remove: Array.from(operatorRemoveSet),
-			});
-			await manuelQueryChargeConditions.refetch();
-		});
-
-		return unsubscribe;
-	}, [
-		navigator,
-		operatorAddSet,
-		operatorRemoveSet,
-		manuelQueryChargeConditions,
-		saveCustomOperators,
-	]);
-
-	useEffect(() => {
 		setOperatorAddSet(new Set(customOperators.add));
 		setOperatorRemoveSet(new Set(customOperators.remove));
 	}, [customOperators]);
@@ -107,6 +89,32 @@ export function OperatorList(): JSX.Element {
 		filterMode,
 		operatorAddSet,
 		operatorRemoveSet,
+	]);
+
+	useEffect(() => {
+		const unsubscribe = navigator.addListener("beforeRemove", async () => {
+			if (!allOperatorsQuery.data) {
+				return;
+			}
+			const allOperatorIds = new Set(
+				allOperatorsQuery.data.map((item) => item.identifier),
+			);
+			const filterValidIds = (ids: Set<string>) =>
+				Array.from(ids).filter((id) => allOperatorIds.has(id));
+			await saveCustomOperators({
+				add: filterValidIds(operatorAddSet),
+				remove: filterValidIds(operatorRemoveSet),
+			});
+			await manuelQueryChargeConditions.refetch();
+		});
+
+		return unsubscribe;
+	}, [
+		navigator,
+		operatorAddSet,
+		operatorRemoveSet,
+		manuelQueryChargeConditions,
+		saveCustomOperators,
 	]);
 
 	const handleOperatorReset = () => {
