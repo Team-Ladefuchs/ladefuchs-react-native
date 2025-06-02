@@ -25,6 +25,7 @@
     },
     "android": {
       "versionCode": 340,
+      "edgeToEdgeEnabled": false,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
