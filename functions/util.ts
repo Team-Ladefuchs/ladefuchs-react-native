@@ -85,7 +85,7 @@ export function hyphenText(input: string): string {
 	return result;
 }
 
-export const defaultTimeout = 7500;
+export const defaultTimeout = 8000;
 
 export async function fetchWithTimeout(
 	url: string,
