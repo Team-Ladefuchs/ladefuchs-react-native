@@ -9,7 +9,8 @@
     "build": "expo prebuild",
     "build:clean": "expo prebuild --clean",
     "build:ios": "expo prebuild --clean --platform ios",
-    "build:android": "expo prebuild --clean --platform android ",
+    "build:android": "rm -rf android && expo prebuild --clean --platform android ",
+    "androidstudio": "open /Applications/Android\\ Studio.app ",
     "license": "node generateLicenses.js",
     "lint": "expo lint"
   },

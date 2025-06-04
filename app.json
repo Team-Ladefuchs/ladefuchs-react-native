@@ -24,7 +24,7 @@
       "entitlements": { "aps-environment": "production" }
     },
     "android": {
-      "versionCode": 342,
+      "versionCode": 343,
       "edgeToEdgeEnabled": false,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",

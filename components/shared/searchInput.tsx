@@ -60,6 +60,7 @@ const styles = ScaledSheet.create({
 	searchInput: {
 		borderColor: "#ccc",
 		borderWidth: 1,
+		color: "#000",
 		paddingHorizontal: "10@s",
 		paddingVertical: "10@s",
 		backgroundColor: colors.ladefuchsLightBackground,
