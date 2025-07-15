@@ -36,7 +36,7 @@ import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { InfoModal } from "./components/InfoModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import { apiUrl, authHeader } from "./functions/api/base";
+import { apiUrl, authHeader } from "./functions/api/base";
 
 type InfoContentSection =
 	| { type: "headline"; text: string }
@@ -71,14 +71,14 @@ function AppWrapper(): JSX.Element {
 		const checkAndFetchModal = async () => {
 			try {
 				const response = await fetch(
-					"https://api.maxxweb.net/info.json",
-					// `${apiUrl}/v3/info`
-					//		{
-					//			headers: {
-					//				...authHeader.headers,
-					//				Accept: "application/json",
-					//			},
-					//		},
+					//"https://api.maxxweb.net/info.json",
+					`${apiUrl}/v3/announcement`,
+					{
+						headers: {
+							...authHeader.headers,
+							Accept: "application/json",
+						},
+					},
 				);
 				if (!response.ok) {
 					// Datei existiert nicht oder Fehler
@@ -115,9 +115,7 @@ function AppWrapper(): JSX.Element {
 		const handleAppStateChange = async (status: AppStateStatus) => {
 			if (status === "active") {
 				try {
-					const response = await fetch(
-						"https://api.maxxweb.net/info.json",
-					);
+					const response = await fetch(`${apiUrl}/v3/announcement`);
 					if (!response.ok) {
 						setShowInfoModal(false);
 						setInfoContent([]);
