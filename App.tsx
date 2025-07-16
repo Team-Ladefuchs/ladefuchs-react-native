@@ -70,16 +70,12 @@ function AppWrapper(): JSX.Element {
 	useEffect(() => {
 		const checkAndFetchModal = async () => {
 			try {
-				const response = await fetch(
-					//"https://api.maxxweb.net/info.json",
-					`${apiUrl}/v3/announcement`,
-					{
-						headers: {
-							...authHeader.headers,
-							Accept: "application/json",
-						},
+				const response = await fetch(`${apiUrl}/v3/announcement`, {
+					headers: {
+						...authHeader.headers,
+						Accept: "application/json",
 					},
-				);
+				});
 				if (!response.ok) {
 					// Datei existiert nicht oder Fehler
 					setShowInfoModal(false);

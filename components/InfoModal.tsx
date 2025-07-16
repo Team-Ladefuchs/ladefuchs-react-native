@@ -46,7 +46,9 @@ export function InfoModal({ visible, onClose, content }: InfoModalProps) {
 						padding: 24,
 						borderRadius: 12,
 						maxWidth: "80%",
+						minWidth: "80%",
 						maxHeight: "60%",
+						minHeight: "40%",
 					}}
 				>
 					<ScrollView bounces={true}>
