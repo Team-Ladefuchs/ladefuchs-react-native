@@ -56,7 +56,13 @@ export function InfoModal({ visible, onClose, content }: InfoModalProps) {
 							switch (section.type) {
 								case "headline":
 									return (
-										<Text key={idx} style={styles.headLine}>
+										<Text
+											key={idx}
+											style={[
+												styles.headLine,
+												{ marginBottom: 16 },
+											]}
+										>
 											{section.text}
 										</Text>
 									);
@@ -64,7 +70,10 @@ export function InfoModal({ visible, onClose, content }: InfoModalProps) {
 									return (
 										<Text
 											key={idx}
-											style={styles.italicText}
+											style={[
+												styles.italicText,
+												{ fontSize: 16 },
+											]}
 										>
 											{section.text}
 										</Text>
