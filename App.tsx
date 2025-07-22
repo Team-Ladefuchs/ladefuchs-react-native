@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { AppState, AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -14,6 +14,7 @@ import {
 	QueryClient,
 	QueryClientProvider,
 	focusManager,
+	useQuery,
 } from "@tanstack/react-query";
 
 import { TariffDetailView } from "./screens/tariffDetailView";
@@ -36,12 +37,8 @@ import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { InfoModal } from "./components/InfoModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { apiUrl, authHeader } from "./functions/api/base";
-
-type InfoContentSection =
-	| { type: "headline"; text: string }
-	| { type: "text"; text: string }
-	| { type: "link"; text: string; url: string };
+import { InfoContentSection } from "./types/announcement";
+import { fetchAnouncement } from "./functions/api/announcement";
 
 const INFO_MODAL_INTERVAL_MS = 24 * 60 * 60 * 1000;
 
@@ -67,94 +64,36 @@ function AppWrapper(): JSX.Element {
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
 
-	useEffect(() => {
-		const checkAndFetchModal = async () => {
-			try {
-				const response = await fetch(`${apiUrl}/v3/announcement`, {
-					headers: {
-						...authHeader.headers,
-						Accept: "application/json",
-					},
-				});
-				if (!response.ok) {
-					// Datei existiert nicht oder Fehler
-					setShowInfoModal(false);
-					setInfoContent([]);
-					return;
-				}
-				const data = await response.json();
-				if (!data.content || data.content.length === 0) {
-					// Datei existiert, aber kein Inhalt
-					setShowInfoModal(false);
-					setInfoContent([]);
-					return;
-				}
-				// Datei existiert und hat Inhalt
-				setInfoContent(data.content);
+	const announcementQuery = useQuery({
+		queryKey: ["getAnouncement"],
+		retry: 2,
+		retryDelay: 500,
+		queryFn: async (): Promise<InfoContentSection[]> => {
+			return await fetchAnouncement();
+		},
+	});
 
-				const lastShown =
-					await AsyncStorage.getItem("infoModalLastShown");
-				const now = Date.now();
-				if (
-					!lastShown ||
-					now - parseInt(lastShown, 10) > INFO_MODAL_INTERVAL_MS
-				) {
-					setShowInfoModal(true);
-				}
-			} catch {
+	useEffect(() => {
+		const showAnouncement = async () => {
+			const { data } = announcementQuery;
+			if (!data?.length) {
 				setShowInfoModal(false);
 				setInfoContent([]);
+				return;
+			}
+			setInfoContent(data);
+
+			const lastShown = await AsyncStorage.getItem("infoModalLastShown");
+			const now = Date.now();
+			if (
+				!lastShown ||
+				now - parseInt(lastShown, 10) > INFO_MODAL_INTERVAL_MS
+			) {
+				setShowInfoModal(true);
 			}
 		};
-		checkAndFetchModal();
-
-		const handleAppStateChange = async (status: AppStateStatus) => {
-			if (status === "active") {
-				try {
-					const response = await fetch(`${apiUrl}/v3/announcement`, {
-						headers: {
-							...authHeader.headers,
-							Accept: "application/json",
-						},
-					});
-					if (!response.ok) {
-						setShowInfoModal(false);
-						setInfoContent([]);
-						return;
-					}
-					const data = await response.json();
-					if (!data.content || data.content.length === 0) {
-						setShowInfoModal(false);
-						setInfoContent([]);
-						return;
-					}
-					setInfoContent(data.content);
-
-					const lastShown =
-						await AsyncStorage.getItem("infoModalLastShown");
-					const now = Date.now();
-					if (
-						!lastShown ||
-						now - parseInt(lastShown, 10) > INFO_MODAL_INTERVAL_MS
-					) {
-						setShowInfoModal(true);
-					}
-				} catch {
-					setShowInfoModal(false);
-					setInfoContent([]);
-				}
-			}
-			onAppStateChange(status);
-		};
-
-		const subscription = AppState.addEventListener(
-			"change",
-			handleAppStateChange,
-		);
-		return () => {
-			subscription.remove();
-		};
-	}, []);
+		showAnouncement();
+	}, [announcementQuery.data]);
 
 	const handleCloseInfoModal = async () => {
 		setShowInfoModal(false);
