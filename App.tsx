@@ -111,7 +111,12 @@ function AppWrapper(): JSX.Element {
 		const handleAppStateChange = async (status: AppStateStatus) => {
 			if (status === "active") {
 				try {
-					const response = await fetch(`${apiUrl}/v3/announcement`);
+					const response = await fetch(`${apiUrl}/v3/announcement`, {
+						headers: {
+							...authHeader.headers,
+							Accept: "application/json",
+						},
+					});
 					if (!response.ok) {
 						setShowInfoModal(false);
 						setInfoContent([]);
