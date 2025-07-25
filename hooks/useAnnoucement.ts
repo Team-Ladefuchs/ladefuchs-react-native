@@ -10,15 +10,17 @@ import { AppState, AppStateStatus } from "react-native";
 
 export function useAnounncement() {
 	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
+	const queryClient = useQueryClient();
 
 	const queryKey = ["announcement"];
-	const queryClient = useQueryClient();
 
 	const announcementQuery = useQuery({
 		queryKey,
 		retry: 2,
 		retryDelay: 500,
-		enabled: true,
+		gcTime: 0,
+		refetchOnMount: "always",
+		refetchOnReconnect: "always",
 		queryFn: async () => {
 			return await fetchAnouncement();
 		},
@@ -39,6 +41,7 @@ export function useAnounncement() {
 	useEffect(() => {
 		const showAnouncement = async () => {
 			const { data } = announcementQuery;
+
 			if (!data?.content?.length) {
 				setInfoContent([]);
 				return;
