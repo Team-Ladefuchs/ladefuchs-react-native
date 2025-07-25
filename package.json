@@ -9,7 +9,7 @@
     "build": "expo prebuild",
     "build:clean": "expo prebuild --clean",
     "build:ios": "expo prebuild --clean --platform ios",
-    "build:android": "rm -rf android && expo prebuild --clean --platform android ",
+    "build:android": "rm -rf android && expo prebuild --clean --platform android",
     "androidstudio": "open /Applications/Android\\ Studio.app ",
     "license": "node generateLicenses.js",
     "lint": "expo lint"
@@ -36,7 +36,8 @@
     "i18n-js": "^4.5.1",
     "lottie-react-native": "^7.2.4",
     "react": "~19.0.0",
-    "react-native": "0.79.2",
+    "react-native": "0.79.5",
+    "react-native-edge-to-edge": "^1.6.2",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.25.0",
     "react-native-onboarding-swiper": "^1.3.0",
