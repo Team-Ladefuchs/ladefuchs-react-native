@@ -5,4 +5,5 @@ export type InfoContentSection =
 
 export interface AnnouncementResponse {
 	content: InfoContentSection[];
+	updated: string;
 }

@@ -5,7 +5,7 @@ import {
 import { fetchWithTimeout } from "../util";
 import { apiUrl, authHeader } from "./base";
 
-export async function fetchAnouncement(): Promise<InfoContentSection[]> {
+export async function fetchAnouncement(): Promise<AnnouncementResponse | null> {
 	try {
 		const response = await fetchWithTimeout(`${apiUrl}/v3/announcement`, {
 			headers: {
@@ -13,10 +13,9 @@ export async function fetchAnouncement(): Promise<InfoContentSection[]> {
 				Accept: "application/json",
 			},
 		});
-		const data = (await response.json()) as AnnouncementResponse;
-		return data?.content ?? [];
+		return (await response.json()) as AnnouncementResponse;
 	} catch (error) {
 		console.error("fetchAnouncement", error);
-		return [];
+		return null;
 	}
 }

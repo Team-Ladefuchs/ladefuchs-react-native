@@ -1,5 +1,5 @@
-import React, { JSX, useEffect, useState } from "react";
-import { AppState, AppStateStatus, Platform, View } from "react-native";
+import React, { JSX } from "react";
+import { AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	StackNavigationOptions,
@@ -14,7 +14,6 @@ import {
 	QueryClient,
 	QueryClientProvider,
 	focusManager,
-	useQuery,
 } from "@tanstack/react-query";
 
 import { TariffDetailView } from "./screens/tariffDetailView";
@@ -36,11 +35,7 @@ import i18n from "./translations/translations";
 import { OnboardingView } from "./screens/onboardingView";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { InfoModal } from "./components/InfoModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { InfoContentSection } from "./types/announcement";
-import { fetchAnouncement } from "./functions/api/announcement";
-
-const INFO_MODAL_INTERVAL_MS = 24 * 60 * 60 * 1000;
+import { useAnounncement } from "./hooks/useAnnoucement";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -61,43 +56,11 @@ export default function App(): JSX.Element {
 
 function AppWrapper(): JSX.Element {
 	const fontLoaded = useCustomFonts();
-	const [showInfoModal, setShowInfoModal] = useState(false);
-	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
 
-	const announcementQuery = useQuery({
-		queryKey: ["getAnouncement"],
-		retry: 2,
-		retryDelay: 500,
-		queryFn: async (): Promise<InfoContentSection[]> => {
-			return await fetchAnouncement();
-		},
-	});
+	const annoncement = useAnounncement();
 
-	useEffect(() => {
-		const showAnouncement = async () => {
-			const { data } = announcementQuery;
-			if (!data?.length) {
-				setShowInfoModal(false);
-				setInfoContent([]);
-				return;
-			}
-			setInfoContent(data);
-
-			const lastShown = await AsyncStorage.getItem("infoModalLastShown");
-			const now = Date.now();
-			if (
-				!lastShown ||
-				now - parseInt(lastShown, 10) > INFO_MODAL_INTERVAL_MS
-			) {
-				setShowInfoModal(true);
-			}
-		};
-		showAnouncement();
-	}, [announcementQuery.data]);
-
-	const handleCloseInfoModal = async () => {
-		setShowInfoModal(false);
-		await AsyncStorage.setItem("infoModalLastShown", Date.now().toString());
+	const handleCloseInfoModal = () => {
+		annoncement.hideInfoContent();
 	};
 
 	useQueryAppData();
@@ -110,9 +73,9 @@ function AppWrapper(): JSX.Element {
 	return (
 		<>
 			<InfoModal
-				visible={showInfoModal && infoContent.length > 0}
+				visible={annoncement.hasAnnouncement()}
 				onClose={handleCloseInfoModal}
-				content={infoContent}
+				content={annoncement.infoContent}
 			/>
 			<NavigationContainer>
 				<RootStack.Navigator>
