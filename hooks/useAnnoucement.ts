@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { fetchAnouncement } from "../functions/api/announcement";
 import {
@@ -9,20 +9,13 @@ import { InfoContentSection } from "../types/announcement";
 import { AppState, AppStateStatus } from "react-native";
 
 export function useAnounncement() {
-	const [appState, setAppState] = useState<AppStateStatus>(
-		AppState.currentState,
-	);
-
-	useEffect(() => {
-		const subscription = AppState.addEventListener("change", setAppState);
-		return () => {
-			subscription.remove();
-		};
-	}, []);
 	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
 
+	const queryKey = ["announcement"];
+	const queryClient = useQueryClient();
+
 	const announcementQuery = useQuery({
-		queryKey: [appState === "active"],
+		queryKey,
 		retry: 2,
 		retryDelay: 500,
 		enabled: true,
@@ -30,6 +23,18 @@ export function useAnounncement() {
 			return await fetchAnouncement();
 		},
 	});
+
+	useEffect(() => {
+		const subscription = AppState.addEventListener("change", (state) => {
+			if (state === "active") {
+				queryClient.invalidateQueries({ queryKey });
+			}
+		});
+
+		return () => {
+			subscription.remove();
+		};
+	}, []);
 
 	useEffect(() => {
 		const showAnouncement = async () => {
@@ -56,7 +61,7 @@ export function useAnounncement() {
 			}
 		};
 		showAnouncement();
-	}, [announcementQuery.data, appState]);
+	}, [announcementQuery.data]);
 
 	const hideInfoContent = () => {
 		setInfoContent([]);
