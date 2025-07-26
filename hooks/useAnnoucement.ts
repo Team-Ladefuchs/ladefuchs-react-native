@@ -6,11 +6,10 @@ import {
 	saveToStorage,
 } from "../functions/storage/storage";
 import { InfoContentSection } from "../types/announcement";
-import { AppState, AppStateStatus } from "react-native";
+import { AppState } from "react-native";
 
 export function useAnounncement() {
 	const [infoContent, setInfoContent] = useState<InfoContentSection[]>([]);
-	const queryClient = useQueryClient();
 
 	const queryKey = ["announcement"];
 
@@ -19,8 +18,7 @@ export function useAnounncement() {
 		retry: 2,
 		retryDelay: 500,
 		gcTime: 0,
-		refetchOnMount: "always",
-		refetchOnReconnect: "always",
+		enabled: true,
 		queryFn: async () => {
 			return await fetchAnouncement();
 		},
@@ -29,7 +27,7 @@ export function useAnounncement() {
 	useEffect(() => {
 		const subscription = AppState.addEventListener("change", (state) => {
 			if (state === "active") {
-				queryClient.invalidateQueries({ queryKey });
+				announcementQuery.refetch();
 			}
 		});
 
