@@ -9,6 +9,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { styles } from "../theme";
+import { scale } from "react-native-size-matters";
 
 type InfoContentSection =
 	| { type: "headline"; text: string }
@@ -43,15 +44,18 @@ export function InfoModal({ visible, onClose, content }: InfoModalProps) {
 				<View
 					style={{
 						backgroundColor: "white",
-						padding: 24,
-						borderRadius: 12,
+						padding: scale(24),
+						borderRadius: scale(12),
 						maxWidth: "80%",
 						minWidth: "80%",
 						maxHeight: "60%",
 						minHeight: "40%",
 					}}
 				>
-					<ScrollView bounces={true}>
+					<ScrollView
+						bounces={true}
+						style={{ marginBottom: scale(16) }}
+					>
 						{content.map((section, idx) => {
 							switch (section.type) {
 								case "headline":
