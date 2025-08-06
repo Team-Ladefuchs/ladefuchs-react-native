@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { useAppStore } from "../../state/appState";
 import { useShallow } from "zustand/react/shallow";
@@ -9,7 +9,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 import { triggerHaptic } from "../../functions/util/haptics";
 
-export default function OperatorPicker(): JSX.Element {
+export default function OperatorPicker(){
 	const { operators, operatorId, setOperatorId } = useAppStore(
 		useShallow((state) => ({
 			operators: state.operators,
@@ -19,6 +19,7 @@ export default function OperatorPicker(): JSX.Element {
 	);
 
 	const [operatorIndex, setOperatorIndex] = useState(0);
+	
 	// Transform operators data for picker
 	const operatorList = useMemo(() => {
 		if (!operators?.length) return [];
@@ -39,6 +40,12 @@ export default function OperatorPicker(): JSX.Element {
 			}
 		}
 	}, [operatorId, operators]);
+
+	// Memoized callback for iOS picker
+	const handleIOSValueChange = useCallback((operatorValue: string) => {
+		setOperatorId(operatorValue);
+		triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
+	}, [setOperatorId]);
 
 	if (!operators?.length || !operatorList?.length) {
 		return <View style={styles.pickerContainer} />;
@@ -71,13 +78,9 @@ export default function OperatorPicker(): JSX.Element {
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
-				key={operatorId}
-				selectedValue={operatorId || operatorList[0]?.id} // Fallback
+				selectedValue={operatorId || operatorList[0]?.id}
 				itemStyle={styles.defaultPickerItemStyle}
-				onValueChange={(operatorValue) => {
-					setOperatorId(operatorValue);
-					triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
-				}}
+				onValueChange={handleIOSValueChange}
 			>
 				{operatorList
 					.filter((operator) => operator?.id && operator?.name)
