@@ -1,6 +1,6 @@
 import { Operator, OperatorsResponse } from "../../types/operator";
 import { apiUrl, authHeader } from "./base";
-import { defaultTimeout, fetchWithTimeout } from "../util";
+import { deduplicate, defaultTimeout, fetchWithTimeout } from "../util";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 
 export async function fetchAllOperators({
@@ -53,14 +53,19 @@ export async function fetchOperators({
 }
 
 interface OperatorCustomRequest {
-    add: string[];
-    remove: string[];
+	add: string[];
+	remove: string[];
 }
 
-export async function fetchOperatorCustom(
-    request: OperatorCustomRequest,
-): Promise<Operator[]> {
+export async function fetchOperatorCustom({
+	add,
+	remove,
+}: OperatorCustomRequest): Promise<Operator[]> {
 	try {
+		const requestJson: OperatorCustomRequest = {
+			add: deduplicate(add),
+			remove: deduplicate(remove),
+		};
 		const response = await fetchWithTimeout(`${apiUrl}/v3/operators`, {
 			method: "POST",
 			headers: {
@@ -68,7 +73,7 @@ export async function fetchOperatorCustom(
 				Accept: "application/json",
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(request),
+			body: JSON.stringify(requestJson),
 		});
 		const { operators } = (await response.json()) as OperatorsResponse;
 		return operators;

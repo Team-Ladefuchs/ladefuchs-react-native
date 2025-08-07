@@ -1,6 +1,6 @@
 import { Tariff, TariffResponse } from "../../types/tariff";
 import { apiUrl, authHeader } from "./base";
-import { defaultTimeout, fetchWithTimeout } from "../util";
+import { deduplicate, defaultTimeout, fetchWithTimeout } from "../util";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
 import { Operator } from "../../types/operator";
 
@@ -44,7 +44,7 @@ interface TariffCustomRequest {
 }
 
 export async function fetchTariffsCustom(
-	request: TariffCustomRequest,
+	{ add, remove }: TariffCustomRequest,
 	timeout = defaultTimeout,
 ): Promise<Tariff[]> {
 	try {
@@ -57,7 +57,10 @@ export async function fetchTariffsCustom(
 					Accept: "application/json",
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(request),
+				body: JSON.stringify({
+					add: deduplicate(add),
+					remove: deduplicate(remove),
+				}),
 			},
 			timeout,
 		);
