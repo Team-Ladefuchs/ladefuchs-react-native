@@ -39,7 +39,7 @@ Ladefuchs is available on
 ```bash
 // Install necessary tooling
 npm install
-npm run eula
+npm run license
 
 // Create / Update local .env file to supply API_TOKEN
 API_TOKEN=12xxxxxxxxxxx

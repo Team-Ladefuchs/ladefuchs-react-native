@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { View, Text } from "react-native";
 import { colors } from "../../../theme";
 import CCS from "@assets/plugs/ccs.svg";
