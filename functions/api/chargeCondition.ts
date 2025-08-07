@@ -45,6 +45,10 @@ export async function fetchChargingConditions(requestBody: {
 	}
 }
 
+function deduplicate<T>(values: T[]) {
+	return Array.from(new Set(values));
+}
+
 export async function getAllChargeConditions({
 	writeToCache,
 }: {
@@ -54,7 +58,7 @@ export async function getAllChargeConditions({
 		await getCustomTariffsOperators();
 
 	const operators = await fetchOperatorCustom(customOperators);
-	const operatorIds = operators.map((item) => item.identifier);
+	const operatorIds = deduplicate(operators.map((item) => item.identifier));
 	const tariffs = await fetchTariffsCustom({
 		...customTariffs,
 		operatorIds,
@@ -62,7 +66,7 @@ export async function getAllChargeConditions({
 	});
 
 	const chargingConditions = await fetchChargingConditions({
-		tariffIds: tariffs.map((item) => item.identifier),
+		tariffIds: deduplicate(tariffs.map((item) => item.identifier)),
 		operatorIds: operatorIds,
 		chargingModes: ["ac", "dc"],
 	});
