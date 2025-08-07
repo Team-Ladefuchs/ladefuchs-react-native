@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { JSX, useMemo, useRef, useState } from "react";
 import {
 	StyleProp,
 	TouchableWithoutFeedback,
@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import * as Haptics from "expo-haptics";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, FlashListRef } from "@shopify/flash-list";
 
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "@theme";
@@ -52,7 +52,6 @@ interface Props<T extends { identifier: string }> {
 	}) => void;
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
-	estimatedItemSize: number;
 }
 
 const isLetter = /[a-zA-Z]/;
@@ -72,11 +71,10 @@ export function SectionHeaderList<T extends ItemType>({
 	containerStyle,
 	onUndo,
 	emptyText,
-	estimatedItemSize,
 	onFavoiteChange,
 	isFavorite,
 }: Props<T>) {
-	const list = useRef<FlashList<any>>(null);
+	const list = useRef<FlashListRef<any>>(null);
 
 	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
 
@@ -246,7 +244,6 @@ export function SectionHeaderList<T extends ItemType>({
 					return typeof item === "string" ? "sectionHeader" : "row";
 				}}
 				ref={list}
-				estimatedItemSize={estimatedItemSize}
 				ItemSeparatorComponent={SeparatorItem}
 				data={sections as T[]}
 				keyboardShouldPersistTaps={"handled"}

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { JSX, useCallback, useEffect, useMemo, useRef } from "react";
 import { View, LayoutRectangle } from "react-native";
-import { ListRenderItem } from "@shopify/flash-list";
+import { FlashListRef, ListRenderItem } from "@shopify/flash-list";
 import { TariffCondition } from "../../../types/conditions";
 import { fill, zip } from "../../../functions/util";
 import { colors } from "../../../theme";
@@ -10,7 +10,7 @@ import { ChargeConditionRow } from "./chargeConditionRow";
 import { useQueryAppData } from "../../../hooks/useQueryAppData";
 import { LoadingSpinner } from "../../shared/loadingSpinner";
 import { EmptyListText } from "../../shared/emptyListText";
-import { ScaledSheet, scale } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 import i18n from "@translations/translations";
 import { FlashList } from "@shopify/flash-list";
 
@@ -20,8 +20,6 @@ type TariffPair = [TariffCondition | null, TariffCondition | null];
 // Constants
 const INITIAL_SCROLL_OFFSET = 0;
 const EMPTY_ARRAY: TariffCondition[] = [];
-const ROW_HEIGHT = scale(70);
-const ESTIMATED_ITEM_SIZE = 78;
 
 // Memoized style objects
 const evenRowStyle = { backgroundColor: colors.ladefuchsLightBackground };
@@ -40,13 +38,12 @@ LoadingView.displayName = "LoadingView";
 
 export function ChargeConditionTable(): JSX.Element {
 	const [allChargeConditionsQuery] = useQueryAppData();
-	const flatListRef = useRef<FlashList<TariffPair>>(null);
+	const flatListRef = useRef<FlashListRef<TariffPair>>(null);
 	const [dimensions, setDimensions] = React.useState<LayoutRectangle | null>(
 		null,
 	);
 	const isMounted = useRef(true);
 
-	// Cleanup bei Unmount
 	useEffect(() => {
 		return () => {
 			if (flatListRef.current) {
@@ -55,13 +52,6 @@ export function ChargeConditionTable(): JSX.Element {
 		};
 	}, []);
 
-	// Component Lifecycle optimieren
-	useEffect(() => {
-		return () => {
-			// FlashList handles its own cleanup
-		};
-	}, []);
-	// Save State-Update
 	const safeSetDimensions = useCallback(
 		(newDimensions: LayoutRectangle | null) => {
 			if (isMounted.current) {
@@ -231,20 +221,11 @@ export function ChargeConditionTable(): JSX.Element {
 				scrollsToTop={true}
 				keyExtractor={keyExtractor}
 				removeClippedSubviews={true}
-				maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
 				style={dimensions ? { height: dimensions.height } : undefined}
-				estimatedItemSize={ESTIMATED_ITEM_SIZE}
-				estimatedListSize={dimensions || undefined}
 			/>
 		</View>
 	);
 }
-
-const getItemLayout = (data: any, index: number) => ({
-	length: ROW_HEIGHT,
-	offset: ROW_HEIGHT * index,
-	index,
-});
 
 function conditionKey(condition: TariffCondition | null): string {
 	if (!condition) return "";
@@ -261,7 +242,7 @@ const styles = ScaledSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		paddingVertical: 0,
-		height: ROW_HEIGHT,
+		height: "70@s",
 	},
 	space: { width: 1, backgroundColor: "white" },
 	emptyContainer: { height: "100%", marginTop: "130@s" },

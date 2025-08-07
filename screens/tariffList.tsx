@@ -69,7 +69,6 @@ interface AlertButton {
 	onPress?: () => void;
 }
 
-const ITEM_HEIGHT = scale(61);
 const GC_TIME = getMinutes(12);
 const RETRY_DELAY = 100;
 const MAX_RETRIES = 3;
@@ -397,7 +396,6 @@ export function TariffList(): JSX.Element {
 					<MemoizedLoadingSpinner />
 				) : (
 					<SectionHeaderList
-						estimatedItemSize={ITEM_HEIGHT}
 						containerStyle={styles.listItemContainer}
 						emptyText={emptyText}
 						isFavorite={favoriteCheck}
@@ -433,7 +431,7 @@ const styles = ScaledSheet.create({
 	listItemContainer: {
 		paddingLeft: "9@s",
 		paddingRight: "28@s",
-		height: ITEM_HEIGHT,
+		height: "61@s",
 		gap: "5@s",
 	},
 	itemBody: {

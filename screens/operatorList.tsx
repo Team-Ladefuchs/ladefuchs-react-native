@@ -28,8 +28,6 @@ import i18n from "../translations/translations";
 
 type filerType = "all" | "ownOperators";
 
-const itemHeight = scale(66);
-
 const tabs = [
 	{ key: "all", label: i18n.t("all") },
 	{ key: "ownOperators", label: i18n.t("active") },
@@ -158,7 +156,6 @@ export function OperatorList(): JSX.Element {
 					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
-						estimatedItemSize={itemHeight}
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
 						onUndo={({ identifier, isStandard }: Operator) => {
@@ -246,7 +243,7 @@ const styles = ScaledSheet.create({
 		paddingVertical: "10@s",
 		paddingLeft: "14@s",
 		paddingRight: "36@s",
-		height: itemHeight,
+		height: "66@s",
 		display: "flex",
 		gap: "6@s",
 	},
