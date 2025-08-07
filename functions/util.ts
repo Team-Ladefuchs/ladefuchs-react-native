@@ -161,3 +161,7 @@ export function getImageSource(
 	}
 	return imageUrl;
 }
+
+export function deduplicate<T>(values: Iterable<T>): T[] {
+	return Array.from(new Set(values));
+}

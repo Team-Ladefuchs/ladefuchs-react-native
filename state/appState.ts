@@ -4,7 +4,6 @@ import { TariffCondition } from "../types/conditions";
 import { Operator } from "../types/operator";
 import { Tariff } from "../types/tariff";
 import { shuffleAndPickOne } from "../functions/util";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type AppData = ChargeConditionData & BannerData;
 
@@ -13,7 +12,6 @@ export interface ChargeConditionData {
 	tariffs: Map<string, Tariff>;
 	favoriteTariffIds: Set<string>;
 	chargingConditions: Map<string, TariffCondition[]>;
-	lastBannerChange: number;
 }
 
 export interface BannerData {
@@ -46,6 +44,7 @@ export interface AppState extends AppData {
 	setNetworkState: (value: NetworkState) => void;
 	isHapticEnabled: boolean;
 	setHapticEnabled: (value: boolean) => void;
+	lastBannerChange: number;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
