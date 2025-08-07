@@ -47,8 +47,8 @@ export default function OperatorPicker(){
 		triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
 	}, [setOperatorId]);
 
-	if (!operators?.length || !operatorList?.length) {
-		return <View style={styles.pickerContainer} />;
+	if (!operators?.length || !operatorList?.length || !operatorId) {
+		return null;
 	}
 
 	if (Platform.OS === "android") {
@@ -78,7 +78,10 @@ export default function OperatorPicker(){
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
-				selectedValue={operatorId || operatorList[0]?.id}
+				key={`ios-picker-${operatorId}`}
+				selectedValue={
+					operatorList.find((op) => op.id === operatorId)?.id ?? operatorList[0]?.id
+				}
 				itemStyle={styles.defaultPickerItemStyle}
 				onValueChange={handleIOSValueChange}
 			>
