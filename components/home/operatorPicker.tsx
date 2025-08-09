@@ -9,7 +9,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import * as Haptics from "expo-haptics";
 import { triggerHaptic } from "../../functions/util/haptics";
 
-export default function OperatorPicker(){
+export default function OperatorPicker(): React.JSX.Element {
 	const { operators, operatorId, setOperatorId } = useAppStore(
 		useShallow((state) => ({
 			operators: state.operators,
@@ -43,12 +43,24 @@ export default function OperatorPicker(){
 
 	// Memoized callback for iOS picker
 	const handleIOSValueChange = useCallback((operatorValue: string) => {
+		// Guard against unexpected/unknown values
+		if (!operatorValue || !operatorList.some(op => op.id === operatorValue)) {
+			return;
+		}
 		setOperatorId(operatorValue);
 		triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
-	}, [setOperatorId]);
+	}, [setOperatorId, operatorList]);
 
-	if (!operators?.length || !operatorList?.length || !operatorId) {
-		return null;
+	// Safe selected value for iOS picker
+	const safeSelectedValue = useMemo(() => {
+		if (operatorId && operatorList.some(op => op.id === operatorId)) {
+			return operatorId;
+		}
+		return operatorList[0]?.id || "";
+	}, [operatorId, operatorList]);
+
+	if (!operators?.length || !operatorList?.length) {
+		return <View style={styles.pickerContainer} />;
 	}
 
 	if (Platform.OS === "android") {
@@ -78,19 +90,17 @@ export default function OperatorPicker(){
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
-				key={`ios-picker-${operatorId}`}
-				selectedValue={
-					operatorList.find((op) => op.id === operatorId)?.id ?? operatorList[0]?.id
-				}
+				selectedValue={safeSelectedValue}
 				itemStyle={styles.defaultPickerItemStyle}
 				onValueChange={handleIOSValueChange}
+				enabled={operatorList.length > 0}
 			>
 				{operatorList
 					.filter((operator) => operator?.id && operator?.name)
 					.map((operator) => (
 						<Picker.Item
 							key={operator.id}
-							label={operator.name}
+							label={operator.name || ""}
 							value={operator.id}
 						/>
 					))}
