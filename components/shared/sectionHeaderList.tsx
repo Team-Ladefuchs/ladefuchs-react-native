@@ -21,10 +21,10 @@ import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "@translations/translations";
 import {
-	GestureEvent,
-	PanGestureHandler,
-	State,
+	Gesture,
+	GestureDetector,
 } from "react-native-gesture-handler";
+import { runOnJS } from "react-native-reanimated";
 import { FavoriteCheckbox } from "./favoriteCheckbox";
 import { useKeyBoard } from "../../hooks/useKeyboard";
 import { EmptyListText } from "./emptyListText";
@@ -77,8 +77,15 @@ export function SectionHeaderList<T extends ItemType>({
 	const list = useRef<FlashListRef<any>>(null);
 
 	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
+	const [lastScrolledLetter, setLastScrolledLetter] = useState<string | null>(
+		null,
+	);
 
 	const keyboardIsVisble = useKeyBoard();
+
+	// Pre-calculate scale values to avoid worklet issues
+	const alphabetHeight = useMemo(() => alphabet.length * scale(16), []);
+	const letterHeight = useMemo(() => alphabetHeight / alphabet.length, [alphabetHeight]);
 
 	useShakeDetector(() => {
 		if (lastRemovedItem) {
@@ -141,35 +148,32 @@ export function SectionHeaderList<T extends ItemType>({
 		}
 	};
 
-	const onSwipeGesture = ({ nativeEvent }: GestureEvent<any>) => {
-		if (
-			nativeEvent.state === State.ACTIVE ||
-			nativeEvent.state === State.END
-		) {
-			const alphabetHeight = alphabet.length * scale(16);
-			const letterHeight = alphabetHeight / alphabet.length;
-			const swipePosition = nativeEvent.y;
+	const handleScrollToLetter = (letter: string) => {
+		scrollToLetter(letter);
+	};
+
+	const handleHaptic = () => {
+		triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
+	};
+
+	const panGesture = Gesture.Pan()
+		.onUpdate((event) => {
+			const swipePosition = event.y;
 			const letterIndex = Math.floor(swipePosition / letterHeight);
 
 			if (letterIndex >= 0 && letterIndex < alphabet.length) {
 				const letter = alphabet[letterIndex];
 
 				if (letter !== lastScrolledLetter) {
-					setLastScrolledLetter(letter);
-					scrollToLetter(letter);
-					triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
+					runOnJS(setLastScrolledLetter)(letter);
+					runOnJS(handleScrollToLetter)(letter);
+					runOnJS(handleHaptic)();
 				}
 			}
-		}
-
-		if (nativeEvent.state === State.END) {
-			setLastScrolledLetter(null);
-		}
-	};
-
-	const [lastScrolledLetter, setLastScrolledLetter] = useState<string | null>(
-		null,
-	);
+		})
+		.onEnd(() => {
+			runOnJS(setLastScrolledLetter)(null);
+		});
 
 	const renderItemCallback = ({ item }: { item: T }) => {
 		if (typeof item === "string") {
@@ -224,7 +228,7 @@ export function SectionHeaderList<T extends ItemType>({
 	return (
 		<View style={styles.listContainer}>
 			{sections.length > 0 && !keyboardIsVisble && (
-				<PanGestureHandler onGestureEvent={onSwipeGesture}>
+				<GestureDetector gesture={panGesture}>
 					<View style={styles.alphabetScroll}>
 						{alphabet.map((letter) => (
 							<TouchableOpacity
@@ -236,7 +240,7 @@ export function SectionHeaderList<T extends ItemType>({
 							</TouchableOpacity>
 						))}
 					</View>
-				</PanGestureHandler>
+				</GestureDetector>
 			)}
 
 			<FlashList
@@ -341,3 +345,4 @@ const styles = ScaledSheet.create({
 		color: "black",
 	},
 });
+
