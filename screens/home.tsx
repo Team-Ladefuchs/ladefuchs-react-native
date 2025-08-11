@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { type OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-export function HomeScreen(): JSX.Element {
+export function HomeScreen(): React.JSX.Element {
 	const router = useNavigation<OnboardingScreenNavigationProp>();
 
 	const { appError, showOnboarding } = useAppStore(

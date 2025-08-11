@@ -10,7 +10,7 @@ interface Props {
 	navigation: { goBack: () => void };
 }
 
-export function DetailHeader({ tariff, navigation }: Props): JSX.Element {
+export function DetailHeader({ tariff, navigation }: Props): React.JSX.Element {
 	return (
 		<View style={styles.container}>
 			<View
