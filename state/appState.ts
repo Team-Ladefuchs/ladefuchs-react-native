@@ -54,9 +54,33 @@ export const useAppStore = create<AppState>((set, get) => {
 		lastBannerChange: initialLastBannerChange,
 		setChargeConditions: async (appData): Promise<void> => {
 			const { operators } = appData;
-			let { operatorId } = get();
-			if (!operatorId) {
-				operatorId = operators[0]?.identifier ?? "";
+			// Current state before updating
+			const prevState = get();
+			let nextOperatorId = prevState.operatorId;
+
+			// If no operator selected yet, choose first available
+			if (!nextOperatorId) {
+				nextOperatorId = operators[0]?.identifier ?? "";
+			}
+
+			// Validate that the selected operator still exists in the incoming list
+			const existsInNew = operators.some(
+				(op) => op.identifier === nextOperatorId,
+			);
+			if (!existsInNew) {
+				// Try to pick the "nachrückende" operator preserving the previous index position
+				const prevIndex = prevState.operators.findIndex(
+					(op) => op.identifier === prevState.operatorId,
+				);
+				if (operators.length === 0) {
+					nextOperatorId = "";
+				} else if (prevIndex >= 0) {
+					const targetIndex = Math.min(prevIndex, operators.length - 1);
+					nextOperatorId = operators[targetIndex].identifier;
+				} else {
+					// Fallback to first if previous index is unknown
+					nextOperatorId = operators[0].identifier;
+				}
 			}
 
 			if (operators) {
@@ -64,7 +88,7 @@ export const useAppStore = create<AppState>((set, get) => {
 					...appData,
 					favoriteTariffIds: appData.favoriteTariffIds ?? new Set(),
 					operators: [...operators],
-					operatorId,
+					operatorId: nextOperatorId,
 				}));
 			}
 		},
