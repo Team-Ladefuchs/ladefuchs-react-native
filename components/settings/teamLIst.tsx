@@ -6,7 +6,10 @@ import {
 	TouchableWithoutFeedback,
 	Linking,
 	ImageSourcePropType,
+	Platform,
 } from "react-native";
+import Constants from "expo-constants";
+import * as Device from "expo-device";
 import { styles as appStyle } from "../../theme";
 import MailIcon from "@assets/about/icon_mail.svg";
 import MastodonIcon from "@assets/about/icon_mastodon.svg";
@@ -14,6 +17,21 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import { SvgProps } from "react-native-svg";
 import { Line } from "./line";
 import i18n from "@translations/translations";
+
+// Helper function to create mailto URL with device info
+const createMailtoWithDeviceInfo = (email: string): string => {
+	const platform = Platform.OS;
+	const platformVersion = Platform.Version;
+	const appVersion = Constants.expoConfig?.version || "3.4.0";
+	const deviceName = Device.deviceName || "Unknown Device";
+	const modelName = Device.modelName || "Unknown Model";
+	
+	const body = encodeURIComponent(
+		`\n\n---\nPlatform: ${platform} ${platformVersion}\nApp Version: ${appVersion}\nDevice: ${deviceName} (${modelName})`
+	);
+	
+	return `mailto:${email}?body=${body}`;
+};
 
 const activeMember = [
 	{
@@ -28,7 +46,7 @@ const activeMember = [
 			},
 			{
 				text: "malik@ladefuchs.app",
-				url: "mailto:malik@ladefuchs.app",
+				url: createMailtoWithDeviceInfo("malik@ladefuchs.app"),
 				icon: MailIcon,
 			},
 		],
@@ -45,7 +63,7 @@ const activeMember = [
 			},
 			{
 				text: "api@ladefuchs.app",
-				url: "mailto:api@ladefuchs.app",
+				url: createMailtoWithDeviceInfo("api@ladefuchs.app"),
 				icon: MailIcon,
 			},
 		],
@@ -82,7 +100,7 @@ const veteranMember = [
 			},
 			{
 				text: "android@ladefuchs.app",
-				url: "mailto:android@ladefuchs.app",
+				url: createMailtoWithDeviceInfo("android@ladefuchs.app"),
 				icon: MailIcon,
 			},
 		],

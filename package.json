@@ -25,6 +25,7 @@
     "expo": "^53.0.20",
     "expo-checkbox": "~4.1.4",
     "expo-constants": "^17.1.7",
+    "expo-device": "^7.1.4",
     "expo-haptics": "~14.1.4",
     "expo-image": "~2.4.0",
     "expo-localization": "~16.1.6",
