@@ -27,11 +27,13 @@ export function AppHeader(): JSX.Element {
 	}, [navigation]);
 
 	return (
-		<SafeAreaView style={styles.headerContainer}>
-			<StatusBar
-				barStyle="dark-content"
-				backgroundColor={colors.ladefuchsLightBackground}
-			/>
+		<SafeAreaView style={styles.headerContainer} edges={Platform.OS === 'android' ? ['top', 'left', 'right'] : undefined}>
+			{Platform.OS === 'ios' && (
+				<StatusBar
+					barStyle="dark-content"
+					backgroundColor={colors.ladefuchsLightBackground}
+				/>
+			)}
 
 			<View style={{ position: "absolute", top: scale(21) }}>
 				<TouchableOpacity
@@ -72,7 +74,7 @@ const styles = ScaledSheet.create({
 		height: "100@s",
 		...Platform.select({
 			ios: { marginTop: scale(14) },
-			android: { marginTop: scale(-34) },
+			android: { paddingTop: scale(14) },
 		}),
 	},
 	headerSettingsIcon: {
