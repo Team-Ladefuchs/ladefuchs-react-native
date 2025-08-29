@@ -52,6 +52,7 @@ interface Props<T extends { identifier: string }> {
 	}) => void;
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
+	ListHeaderComponent?: JSX.Element;
 }
 
 const isLetter = /[a-zA-Z]/;
@@ -73,6 +74,7 @@ export function SectionHeaderList<T extends ItemType>({
 	emptyText,
 	onFavoiteChange,
 	isFavorite,
+	ListHeaderComponent,
 }: Props<T>) {
 	const list = useRef<FlashListRef<any>>(null);
 
@@ -244,6 +246,7 @@ export function SectionHeaderList<T extends ItemType>({
 			)}
 
 			<FlashList
+				ListHeaderComponent={ListHeaderComponent}
 				getItemType={(item: T) => {
 					return typeof item === "string" ? "sectionHeader" : "row";
 				}}

@@ -40,6 +40,8 @@ import { useShallow } from "zustand/react/shallow";
 import { LoadingSpinner } from "../components/shared/loadingSpinner";
 import { useQueryChargeConditions } from "../hooks/useQueryChargeConditions";
 import i18n from "../translations/translations";
+import { Checkbox } from "../components/shared/checkBox";
+import { FavoriteCheckbox } from "../components/shared/favoriteCheckbox";
 
 import {
 	FilterType,
@@ -263,6 +265,79 @@ export function TariffList(): JSX.Element {
 		);
 	}, [allTariffsQuery.data, filterByMode, filterBySearch]);
 
+	// Build a map for quick lookup and compute Ad-hoc IDs
+	const tariffMap = useMemo(() => {
+		const map = new Map<string, Tariff>();
+		(allTariffsQuery.data ?? []).forEach((t) => map.set(t.identifier, t));
+		return map;
+	}, [allTariffsQuery.data]);
+
+	const adHocIds = useMemo(() => {
+		return (allTariffsQuery.data ?? [])
+			.filter((t) => adHocTariffRegex.test(t.name))
+			.map((t) => t.identifier);
+	}, [allTariffsQuery.data]);
+
+	const allAdhocFavorites = useMemo(() => {
+		if (adHocIds.length === 0) return false;
+		return adHocIds.every((id) => state.favoriteSet.has(id));
+	}, [adHocIds, state.favoriteSet]);
+
+	const allAdhocActive = useMemo(() => {
+		if (adHocIds.length === 0) return false;
+		return adHocIds.every((id) => {
+			const t = tariffMap.get(id);
+			if (!t) return false;
+			return (
+				(t.isStandard && !state.tariffsRemoveSet.has(id)) ||
+				state.tariffsAddSet.has(id)
+			);
+		});
+	}, [adHocIds, state.tariffsRemoveSet, state.tariffsAddSet, tariffMap]);
+
+	const toggleAdhocFavorites = useCallback(() => {
+		setState((prev) => {
+			const favoriteSet = new Set(prev.favoriteSet);
+			if (allAdhocFavorites) {
+				adHocIds.forEach((id) => favoriteSet.delete(id));
+			} else {
+				adHocIds.forEach((id) => favoriteSet.add(id));
+			}
+			return { ...prev, favoriteSet };
+		});
+	}, [allAdhocFavorites, adHocIds]);
+
+	const toggleAdhocActive = useCallback(() => {
+		setState((prev) => {
+			const tariffsAddSet = new Set(prev.tariffsAddSet);
+			const tariffsRemoveSet = new Set(prev.tariffsRemoveSet);
+			if (allAdhocActive) {
+				// Deactivate all: standard -> ensure in remove; non-standard -> ensure not in add
+				adHocIds.forEach((id) => {
+					const t = tariffMap.get(id);
+					if (!t) return;
+					if (t.isStandard) {
+						tariffsRemoveSet.add(id);
+					} else {
+						tariffsAddSet.delete(id);
+					}
+				});
+			} else {
+				// Activate all: standard -> ensure not in remove; non-standard -> ensure in add
+				adHocIds.forEach((id) => {
+					const t = tariffMap.get(id);
+					if (!t) return;
+					if (t.isStandard) {
+						tariffsRemoveSet.delete(id);
+					} else {
+						tariffsAddSet.add(id);
+					}
+				});
+			}
+			return { ...prev, tariffsAddSet, tariffsRemoveSet };
+		});
+	}, [allAdhocActive, adHocIds, tariffMap]);
+
 	const renderTariffItem = useCallback(
 		(tariff: Tariff) => <TariffItemView tariff={tariff} />,
 		[],
@@ -406,6 +481,45 @@ export function TariffList(): JSX.Element {
 						onRemove={handleRemove}
 						onAdd={handleAdd}
 						exists={existsCheck}
+						ListHeaderComponent={
+							<View style={[styles.headerRow, styles.listItemContainer]}>
+								<Checkbox
+									checked={allAdhocActive}
+									onValueChange={toggleAdhocActive}
+								/>
+								<View style={styles.headerFavoriteCheckbox}>
+									<FavoriteCheckbox
+										size={34}
+										checked={allAdhocFavorites}
+										onValueChange={toggleAdhocFavorites}
+									/>
+								</View>
+								<View style={styles.itemBody}>
+									<MemoizedCardImage
+										imageUrl={require("@assets/generic/allAdhoc.jpg")}
+										name={i18n.t("adHocPay", { defaultValue: "AD-HOC BEZAHLEN" })}
+										width={IMAGE_WIDTH}
+										hideFallBackText={false}
+									/>
+									<View>
+										<MemoizedText
+											style={styles.tariffText}
+											ellipsizeMode="tail"
+											numberOfLines={2}
+										>
+											{i18n.t("allAdHocTariffs", { defaultValue: "ALLE AD-HOC Tarife" })}
+										</MemoizedText>
+										<MemoizedText
+											style={styles.providerText}
+											ellipsizeMode="tail"
+											numberOfLines={1}
+										>
+											{i18n.t("adHocPay", { defaultValue: "AD-HOC BEZAHLEN" })}
+										</MemoizedText>
+									</View>
+								</View>
+							</View>
+						}
 					/>
 				)}
 			</View>
@@ -433,6 +547,62 @@ const styles = ScaledSheet.create({
 		paddingRight: "28@s",
 		height: "61@s",
 		gap: "5@s",
+	},
+	headerItem: {
+		paddingHorizontal: "16@s",
+		paddingVertical: "8@s",
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	headerRow: {
+		backgroundColor: colors.ladefuchsLightBackground,
+		flexDirection: "row",
+		display: "flex",
+		marginRight: "13@s",
+		alignItems: "center",
+	},
+	headerFavoriteCheckbox: {
+		marginRight: "3@s",
+		marginLeft: "3@s",
+		marginBottom: "2@s",
+	},
+	bulkLeftControls: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: "10@s",
+		marginLeft: "2@s",
+		marginRight: "6@s",
+	},
+	bulkRowContainer: {
+		paddingHorizontal: "16@s",
+		paddingVertical: "8@s",
+		backgroundColor: colors.ladefuchsLightBackground,
+	},
+	bulkTitle: {
+		fontFamily: "RobotoCondensed",
+		fontSize: "13@s",
+		textTransform: "uppercase",
+		color: colors.ladefuchsGrayTextColor,
+		marginBottom: "6@s",
+	},
+	bulkControls: {
+		flexDirection: "row",
+		gap: "20@s",
+		alignItems: "center",
+	},
+	bulkControl: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: "8@s",
+	},
+	bulkLabel: {
+		fontFamily: "RobotoCondensed",
+		fontSize: "13@s",
+		color: colors.ladefuchsGrayTextColor,
+	},
+	bulkLinkText: {
+		color: "#0057FF",
+		fontWeight: "600",
+		fontSize: "14@s",
 	},
 	itemBody: {
 		flexDirection: "row",
