@@ -20,15 +20,13 @@ import { colors } from "@theme";
 import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "@translations/translations";
-import {
-	Gesture,
-	GestureDetector,
-} from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
 import { FavoriteCheckbox } from "./favoriteCheckbox";
 import { useKeyBoard } from "../../hooks/useKeyboard";
 import { EmptyListText } from "./emptyListText";
 import { triggerHaptic } from "../../functions/util/haptics";
+import { useAutoDismissKeybaord } from "../../hooks/useAutoDismissKeybaord";
 
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
@@ -76,6 +74,7 @@ export function SectionHeaderList<T extends ItemType>({
 	isFavorite,
 	ListHeaderComponent,
 }: Props<T>) {
+	useAutoDismissKeybaord();
 	const list = useRef<FlashListRef<any>>(null);
 
 	const [lastRemovedItem, setLastRemovedItem] = useState<T | null>(null);
@@ -87,7 +86,10 @@ export function SectionHeaderList<T extends ItemType>({
 
 	// Pre-calculate scale values to avoid worklet issues
 	const alphabetHeight = useMemo(() => alphabet.length * scale(16), []);
-	const letterHeight = useMemo(() => alphabetHeight / alphabet.length, [alphabetHeight]);
+	const letterHeight = useMemo(
+		() => alphabetHeight / alphabet.length,
+		[alphabetHeight],
+	);
 
 	useShakeDetector(() => {
 		if (lastRemovedItem) {
@@ -348,4 +350,3 @@ const styles = ScaledSheet.create({
 		color: "black",
 	},
 });
-
