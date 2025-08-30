@@ -9,6 +9,7 @@ export interface Tariff {
 	imageUrl: string | null;
 	isCustomerOnly: false;
 	isStandard: boolean;
+	isAdHoc: boolean;
 	monthlyFee: number;
 	note?: string;
 	affiliateLinkUrl?: string;

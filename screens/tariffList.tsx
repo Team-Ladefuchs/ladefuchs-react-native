@@ -29,11 +29,7 @@ import {
 	CustomTariff,
 	useCustomTariffsOperators,
 } from "../hooks/useCustomTariffsOperators";
-import {
-	adHocTariffRegex,
-	formatTariffName,
-	getMinutes,
-} from "../functions/util";
+import { formatTariffName, getMinutes } from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useAppStore } from "../state/appState";
 import { useShallow } from "zustand/react/shallow";
@@ -248,7 +244,7 @@ export function TariffList(): JSX.Element {
 		(tariff: Tariff) => {
 			const searchTerm = search.toLowerCase();
 			if (searchTerm.startsWith("adhoc")) {
-				return adHocTariffRegex.test(tariff.name);
+				return tariff.isAdHoc === true;
 			}
 			return (
 				tariff.name.toLowerCase().includes(searchTerm) ||
@@ -260,9 +256,9 @@ export function TariffList(): JSX.Element {
 
 	const filteredTariffs = useMemo(() => {
 		const tariffs = allTariffsQuery.data ?? [];
-		return tariffs.filter(
-			(tariff) => filterByMode(tariff) && filterBySearch(tariff),
-		);
+		return tariffs
+			.filter((tariff) => !tariff.isAdHoc)
+			.filter((tariff) => filterByMode(tariff) && filterBySearch(tariff));
 	}, [allTariffsQuery.data, filterByMode, filterBySearch]);
 
 	// Build a map for quick lookup and compute Ad-hoc IDs
@@ -274,7 +270,7 @@ export function TariffList(): JSX.Element {
 
 	const adHocIds = useMemo(() => {
 		return (allTariffsQuery.data ?? [])
-			.filter((t) => adHocTariffRegex.test(t.name))
+			.filter((t) => t.isAdHoc === true)
 			.map((t) => t.identifier);
 	}, [allTariffsQuery.data]);
 
