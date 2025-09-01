@@ -27,6 +27,9 @@ export default function OperatorPicker(): React.JSX.Element {
     return operators.map((item) => ({ name: item.name, id: item.identifier }));
   }, [operators]);
 
+  // Memoize labels to keep a stable reference for Android WheelPicker
+  const optionLabels = useMemo(() => operatorList.map((item) => item.name), [operatorList]);
+
   // Hook immer aufrufen, um die Hook-Reihenfolge stabil zu halten
   const { containerProps, items, selectedValue, onValueChange } = useIOSPickerStabilizer(
     operatorList,
@@ -41,21 +44,30 @@ export default function OperatorPicker(): React.JSX.Element {
     }
   }, [operatorId, operators]);
 
+  // Ensure selected index is always within bounds when options change
+  useEffect(() => {
+    if (!optionLabels.length) return;
+    const maxIndex = optionLabels.length - 1;
+    if (operatorIndex > maxIndex) {
+      setOperatorIndex(maxIndex);
+    } else if (operatorIndex < 0) {
+      setOperatorIndex(0);
+    }
+  }, [optionLabels, operatorIndex]);
+
   if (!operators?.length || !operatorList?.length) {
     return <View style={styles.pickerContainer} />;
   }
 
   if (Platform.OS === "android") {
-    const optionLabels = operatorList.map((item) => item.name);
     return (
       <View style={[styles.pickerContainer, { marginBottom: scale(4) }]}>
         <WheelPicker
           options={optionLabels}
           selectedIndicatorStyle={{ backgroundColor: "#e9e4da" }}
-          selectedIndex={operatorIndex}
+          selectedIndex={Math.min(Math.max(operatorIndex, 0), Math.max(optionLabels.length - 1, 0))}
           itemTextStyle={{ fontSize: scale(19) }}
           itemHeight={scale(37)}
-          key={`wheel-picker-${operatorId}`}
           decelerationRate={"fast"}
           onChange={(index) => {
             if (operators[index]) {
