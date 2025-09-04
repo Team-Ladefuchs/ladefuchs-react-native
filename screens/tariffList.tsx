@@ -493,7 +493,7 @@ export function TariffList(): JSX.Element {
 								<View style={styles.itemBody}>
 									<MemoizedCardImage
 										imageUrl={require("@assets/generic/allAdhoc.jpg")}
-										name={i18n.t("adHocPay", { defaultValue: "AD-HOC BEZAHLEN" })}
+										name={i18n.t("adHocPay", { defaultValue: "Kreditkarte, Girokarte, etc." })}
 										width={IMAGE_WIDTH}
 										hideFallBackText={false}
 									/>
@@ -510,7 +510,7 @@ export function TariffList(): JSX.Element {
 											ellipsizeMode="tail"
 											numberOfLines={1}
 										>
-											{i18n.t("adHocPay", { defaultValue: "AD-HOC BEZAHLEN" })}
+											{i18n.t("adHocPay", { defaultValue: "Kreditkarte, Girokarte, etc." })}
 										</MemoizedText>
 									</View>
 								</View>

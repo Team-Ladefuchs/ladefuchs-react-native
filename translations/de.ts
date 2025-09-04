@@ -36,6 +36,8 @@ const de = {
 	tariffAlert: "Tarife zurücksetzen",
 	tariffAlertText:
 		"Deine Tarife werden zurückgesetzt. Bist du dir ganz sicher?",
+	allAdHocTariffs: "ALLE AD-HOC Tarife",
+	adHocPay: "Kreditkarte, Girokarte, etc.",
 	operatorAlert: "Anbieter zurücksetzen",
 	operatorAlertText:
 		"Deine Anbieter werden zurückgesetzt. Bist du dir ganz sicher?",

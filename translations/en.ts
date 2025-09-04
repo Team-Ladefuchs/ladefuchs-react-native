@@ -37,6 +37,8 @@ const en = {
 	tariffAlert: "Reset tariffs",
 	tariffAlertText:
 		"Your stored charging rates will be reset to defaults. Are you sure?",
+	allAdHocTariffs: "ALL AD-HOC TARIFFS",
+	adHocPay: "Credit card, debit card, etc.",
 	operatorAlert: "Reset provider",
 	operatorAlertText: "Your providers will be reset. Are you sure?",
 	cancel: "Cancel",
