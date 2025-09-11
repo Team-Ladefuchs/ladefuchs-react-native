@@ -146,9 +146,27 @@ export function SectionHeaderList<T extends ItemType>({
 		const index = sections
 			.map((item) => item as unknown as string)
 			.findIndex((itemLetter) => itemLetter === letter);
-		if (index >= 0 && list.current) {
-			list.current.scrollToIndex({ animated: false, index: index });
-			triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
+		if (index >= 0 && index < sections.length && list.current) {
+			try {
+				list.current.scrollToIndex({ 
+					animated: false, 
+					index: index,
+					viewPosition: 0
+				});
+				triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
+			} catch (error) {
+				console.warn("Failed to scroll to index:", error);
+				// Fallback to scrollToOffset if scrollToIndex fails
+				try {
+					const estimatedOffset = index * 66; // Approximate item height
+					list.current.scrollToOffset({ 
+						animated: false, 
+						offset: estimatedOffset 
+					});
+				} catch (fallbackError) {
+					console.warn("Fallback scroll also failed:", fallbackError);
+				}
+			}
 		}
 	};
 
@@ -259,10 +277,11 @@ export function SectionHeaderList<T extends ItemType>({
 				stickyHeaderHiddenOnScroll={false}
 				showsVerticalScrollIndicator={false}
 				automaticallyAdjustKeyboardInsets
+				removeClippedSubviews={true}
 				keyExtractor={(item: T, index: number) => {
 					return typeof item === "string"
-						? index.toString() + index
-						: item.identifier;
+						? `header-${index}-${item}`
+						: `item-${item.identifier}`;
 				}}
 				stickyHeaderIndices={stickyIndices}
 				ListEmptyComponent={() => (

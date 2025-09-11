@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, JSX } from "react";
+import React, { useState, useEffect, useMemo, useRef, JSX } from "react";
 import {
 	View,
 	Text,
@@ -35,6 +35,7 @@ const tabs = [
 
 export function OperatorList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
+	const isMounted = useRef(true);
 
 	const [operatorAddSet, setOperatorAddSet] = useState<Set<string>>(
 		new Set(),
@@ -91,29 +92,44 @@ export function OperatorList(): JSX.Element {
 
 	useEffect(() => {
 		const unsubscribe = navigator.addListener("beforeRemove", async () => {
-			if (!allOperatorsQuery.data) {
+			if (!isMounted.current || !allOperatorsQuery.data) {
 				return;
 			}
-			const allOperatorIds = new Set(
-				allOperatorsQuery.data.map((item) => item.identifier),
-			);
-			const filterValidIds = (ids: Set<string>) =>
-				Array.from(ids).filter((id) => allOperatorIds.has(id));
-			await saveCustomOperators({
-				add: filterValidIds(operatorAddSet),
-				remove: filterValidIds(operatorRemoveSet),
-			});
-			await manuelQueryChargeConditions.refetch();
+			
+			try {
+				const allOperatorIds = new Set(
+					allOperatorsQuery.data.map((item) => item.identifier),
+				);
+				const filterValidIds = (ids: Set<string>) =>
+					Array.from(ids).filter((id) => allOperatorIds.has(id));
+				await saveCustomOperators({
+					add: filterValidIds(operatorAddSet),
+					remove: filterValidIds(operatorRemoveSet),
+				});
+				await manuelQueryChargeConditions.refetch();
+			} catch (error) {
+				console.error("Error saving custom operators:", error);
+			}
 		});
 
-		return unsubscribe;
+		return () => {
+			unsubscribe();
+		};
 	}, [
 		navigator,
 		operatorAddSet,
 		operatorRemoveSet,
 		manuelQueryChargeConditions,
 		saveCustomOperators,
+		allOperatorsQuery.data,
 	]);
+
+	// Cleanup on unmount
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
 	const handleOperatorReset = () => {
 		Alert.alert(i18n.t("operatorAlert"), i18n.t("operatorAlertText"), [

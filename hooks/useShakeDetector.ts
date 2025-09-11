@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Accelerometer } from "expo-sensors";
 
 const SHAKE_THRESHOLD = 2; // Adjust based on sensitivity
@@ -6,9 +6,13 @@ const SHAKE_TIME_THRESHOLD = 500; // Time threshold in milliseconds to prevent m
 
 export function useShakeDetector(onShake: () => void) {
 	const [lastShake, setLastShake] = useState<number>(0);
+	const isMounted = useRef(true);
+	const subscriptionRef = useRef<any>(null);
 
 	const handleAccelerometerData = useCallback(
 		(data: { x: number; y: number; z: number }) => {
+			if (!isMounted.current) return;
+			
 			const { x, y, z } = data;
 			const acceleration = Math.sqrt(x * x + y * y + z * z);
 
@@ -18,17 +22,35 @@ export function useShakeDetector(onShake: () => void) {
 				now - lastShake > SHAKE_TIME_THRESHOLD
 			) {
 				setLastShake(now);
-				onShake();
+				try {
+					onShake();
+				} catch (error) {
+					console.warn("Error in shake handler:", error);
+				}
 			}
 		},
 		[lastShake, onShake],
 	);
 
 	useEffect(() => {
-		const subscription = Accelerometer.addListener(handleAccelerometerData);
+		isMounted.current = true;
+		
+		try {
+			subscriptionRef.current = Accelerometer.addListener(handleAccelerometerData);
+		} catch (error) {
+			console.warn("Failed to add accelerometer listener:", error);
+		}
 
 		return () => {
-			subscription.remove();
+			isMounted.current = false;
+			if (subscriptionRef.current) {
+				try {
+					subscriptionRef.current.remove();
+					subscriptionRef.current = null;
+				} catch (error) {
+					console.warn("Error removing accelerometer listener:", error);
+				}
+			}
 		};
 	}, [handleAccelerometerData]);
 }

@@ -1,33 +1,62 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Keyboard } from "react-native";
 
 export function useKeyBoard(): boolean {
 	const [keyboardStatus, setKeyboardStatus] = useState(false);
+	const isMounted = useRef(true);
+	const subscriptionsRef = useRef<any[]>([]);
+
 	useEffect(() => {
-		const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-			setKeyboardStatus(true);
-		});
-		const showSubscription2 = Keyboard.addListener(
-			"keyboardWillShow",
-			() => {
+		isMounted.current = true;
+		subscriptionsRef.current = [];
+
+		const createListener = (event: string, callback: () => void) => {
+			try {
+				const subscription = Keyboard.addListener(event, callback);
+				subscriptionsRef.current.push(subscription);
+				return subscription;
+			} catch (error) {
+				console.warn(`Failed to add keyboard listener for ${event}:`, error);
+				return null;
+			}
+		};
+
+		const showSubscription = createListener("keyboardDidShow", () => {
+			if (isMounted.current) {
 				setKeyboardStatus(true);
-			},
-		);
-		const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-			setKeyboardStatus(false);
+			}
 		});
-		const hideSubscription2 = Keyboard.addListener(
-			"keyboardWillHide",
-			() => {
+		
+		const showSubscription2 = createListener("keyboardWillShow", () => {
+			if (isMounted.current) {
+				setKeyboardStatus(true);
+			}
+		});
+		
+		const hideSubscription = createListener("keyboardDidHide", () => {
+			if (isMounted.current) {
 				setKeyboardStatus(false);
-			},
-		);
+			}
+		});
+		
+		const hideSubscription2 = createListener("keyboardWillHide", () => {
+			if (isMounted.current) {
+				setKeyboardStatus(false);
+			}
+		});
 
 		return () => {
-			showSubscription.remove();
-			showSubscription2.remove();
-			hideSubscription.remove();
-			hideSubscription2.remove();
+			isMounted.current = false;
+			subscriptionsRef.current.forEach(subscription => {
+				if (subscription) {
+					try {
+						subscription.remove();
+					} catch (error) {
+						console.warn("Error removing keyboard listener:", error);
+					}
+				}
+			});
+			subscriptionsRef.current = [];
 		};
 	}, []);
 
