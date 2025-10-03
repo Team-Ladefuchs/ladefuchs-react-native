@@ -146,7 +146,10 @@ export function chargeConditionToHashMap(
 
 // Works for other names like ÀÉÖ → aeo
 export function textToAscii(value: string) {
-	return value.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+	const normalized = value.normalize("NFD");
+	return /\p{Diacritic}/u.test(normalized)
+		? normalized.replace(/\p{Diacritic}/gu, "")
+		: value;
 }
 
 export function formatAndNormalizeTariffName(tariff: Tariff): string {

@@ -21,14 +21,14 @@ export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
 				<MagnifyingGlass width={scale(21)} height={scale(21)} />
 			</View>
 			<TextInput
-				style={styles.searchInput}
+				style={[styles.searchInput]}
 				autoCorrect={false}
-				// keyboardType="ascii-capable"
+				keyboardType="ascii-capable"
 				returnKeyType="search"
 				autoComplete="off"
 				clearButtonMode="always"
 				textContentType="none"
-				placeholderTextColor={"rgba(113, 107, 97, 0.65)"}
+				placeholderTextColor={"rgba(113, 107, 97, 0.15)"}
 				placeholder={placeHolder}
 				onChangeText={(text) => onChange(text.trim())}
 			/>

@@ -33,7 +33,6 @@ import {
 	formatAndNormalizeTariffName,
 	getMinutes,
 	isDebug,
-	textToAscii,
 } from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useAppStore } from "../state/appState";
