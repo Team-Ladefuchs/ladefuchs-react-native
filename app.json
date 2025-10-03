@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.5.1",
+    "version": "3.5.2",
     "newArchEnabled": true,
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
@@ -24,7 +24,7 @@
       "entitlements": { "aps-environment": "production" }
     },
     "android": {
-      "versionCode": 357,
+      "versionCode": 358,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"

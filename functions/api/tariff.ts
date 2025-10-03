@@ -2,27 +2,30 @@ import { Tariff, TariffResponse } from "../../types/tariff";
 import { apiUrl, authHeader } from "./base";
 import { deduplicate, defaultTimeout, fetchWithTimeout } from "../util";
 import { retrieveFromStorage, saveToStorage } from "../storage/storage";
-import { Operator } from "../../types/operator";
 
-export async function fetchAllTariffs({
-	writeCache,
-	operators,
-}: {
-	operators: Operator[];
-	writeCache: boolean;
-}): Promise<Tariff[]> {
+export async function fetchAllTariffs(
+	{
+		writeCache,
+	}: {
+		writeCache: boolean;
+	},
+	timeout = defaultTimeout,
+): Promise<Tariff[]> {
 	const storageKey = "allTariffsCache";
 
-	const operatorIds = operators.map(({ identifier }) => identifier);
-	const tariffs = await fetchTariffsCustom(
+	const response = await fetchWithTimeout(
+		`${apiUrl}/v3/tariffs`,
 		{
-			standard: false,
-			operatorIds,
-			add: [],
-			remove: [],
+			headers: {
+				...authHeader.headers,
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
 		},
-		defaultTimeout,
+		timeout,
 	);
+	const { tariffs } = (await response.json()) as TariffResponse;
+
 	if (!tariffs.length) {
 		const tariffs =
 			(await retrieveFromStorage<Tariff[] | null>(storageKey)) ?? [];
@@ -39,12 +42,12 @@ export async function fetchAllTariffs({
 interface TariffCustomRequest {
 	add: string[];
 	remove: string[];
-	operatorIds: string[];
+	operatorIds?: string[];
 	standard: boolean;
 }
 
 export async function fetchTariffsCustom(
-	{ add, remove }: TariffCustomRequest,
+	{ add, remove }: TariffCustomRequest, // operatorIds = []
 	timeout = defaultTimeout,
 ): Promise<Tariff[]> {
 	try {

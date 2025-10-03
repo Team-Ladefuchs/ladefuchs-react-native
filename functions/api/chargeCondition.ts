@@ -61,7 +61,6 @@ export async function getAllChargeConditions({
 	const operatorIds = deduplicate(operators.map((item) => item.identifier));
 	const tariffs = await fetchTariffsCustom({
 		...customTariffs,
-		operatorIds,
 		standard: true,
 	});
 

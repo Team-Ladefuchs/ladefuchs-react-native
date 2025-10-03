@@ -29,7 +29,7 @@ import {
 	CustomTariff,
 	useCustomTariffsOperators,
 } from "../hooks/useCustomTariffsOperators";
-import { formatTariffName, getMinutes } from "../functions/util";
+import { formatTariffName, getMinutes, isDebug } from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useAppStore } from "../state/appState";
 import { useShallow } from "zustand/react/shallow";
@@ -67,7 +67,7 @@ interface AlertButton {
 	onPress?: () => void;
 }
 
-const GC_TIME = getMinutes(12);
+const GC_TIME = isDebug ? 0 : getMinutes(12);
 const RETRY_DELAY = 100;
 const MAX_RETRIES = 3;
 const KEYBOARD_OFFSET = scale(110);
@@ -175,7 +175,6 @@ export function TariffList(): JSX.Element {
 
 			const tariffs = await fetchAllTariffs({
 				writeCache: !allTariffsQuery?.data,
-				operators,
 			});
 
 			return tariffs
@@ -478,7 +477,12 @@ export function TariffList(): JSX.Element {
 						onAdd={handleAdd}
 						exists={existsCheck}
 						ListHeaderComponent={
-							<View style={[styles.headerRow, styles.listItemContainer]}>
+							<View
+								style={[
+									styles.headerRow,
+									styles.listItemContainer,
+								]}
+							>
 								<Checkbox
 									checked={allAdhocActive}
 									onValueChange={toggleAdhocActive}
@@ -493,7 +497,10 @@ export function TariffList(): JSX.Element {
 								<View style={styles.itemBody}>
 									<MemoizedCardImage
 										imageUrl={require("@assets/generic/allAdhoc.jpg")}
-										name={i18n.t("adHocPay", { defaultValue: "Kreditkarte, Girokarte, etc." })}
+										name={i18n.t("adHocPay", {
+											defaultValue:
+												"Kreditkarte, Girokarte, etc.",
+										})}
 										width={IMAGE_WIDTH}
 										hideFallBackText={false}
 									/>
@@ -503,14 +510,20 @@ export function TariffList(): JSX.Element {
 											ellipsizeMode="tail"
 											numberOfLines={2}
 										>
-											{i18n.t("allAdHocTariffs", { defaultValue: "ALLE AD-HOC Tarife" })}
+											{i18n.t("allAdHocTariffs", {
+												defaultValue:
+													"ALLE AD-HOC Tarife",
+											})}
 										</MemoizedText>
 										<MemoizedText
 											style={styles.providerText}
 											ellipsizeMode="tail"
 											numberOfLines={1}
 										>
-											{i18n.t("adHocPay", { defaultValue: "Kreditkarte, Girokarte, etc." })}
+											{i18n.t("adHocPay", {
+												defaultValue:
+													"Kreditkarte, Girokarte, etc.",
+											})}
 										</MemoizedText>
 									</View>
 								</View>
