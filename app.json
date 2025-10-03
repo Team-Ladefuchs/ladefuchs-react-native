@@ -9,9 +9,8 @@
     "icon": "./assets/fuchs/app_icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "3",
+      "buildNumber": "4",
       "supportsTablet": false,
-      "jsEngine": "jsc",
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
         "CFBundleDevelopmentRegion": "de",

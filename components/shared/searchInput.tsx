@@ -1,10 +1,11 @@
-import React, { JSX } from "react";
-import { TextInput, View } from "react-native";
+import React, { type JSX } from "react";
+import { Keyboard, TextInput, View } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "@theme";
 
 import MagnifyingGlass from "@assets/generic/magnifyingglass.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useKeyBoard } from "../../hooks/useKeyboard";
 
 interface Props {
 	onChange: (value: string) => void;
@@ -12,12 +13,17 @@ interface Props {
 }
 
 export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
+	const keyboardIsVisble = useKeyBoard();
+
+	const safeAreaStyle = keyboardIsVisble ? { paddingBottom: -scale(20) } : {};
+
 	return (
 		<SafeAreaView
-			style={styles.searchContainer}
+			style={[styles.searchContainer, safeAreaStyle]}
 			edges={["right", "bottom", "left"]}
 		>
 			<View style={styles.iconContainer}>
+				{Keyboard.isVisible()}
 				<MagnifyingGlass width={scale(21)} height={scale(21)} />
 			</View>
 			<TextInput
