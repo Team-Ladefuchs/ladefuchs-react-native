@@ -144,13 +144,18 @@ export function chargeConditionToHashMap(
 	return map;
 }
 
-export const adHocTariffRegex = /(ad-hoc|adhoc)$/i;
+// Works for other names like ÀÉÖ → aeo
+export function textToAscii(value: string) {
+	return value.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+}
 
-export function formatTariffName({ name, providerName }: Tariff): string {
-	if (adHocTariffRegex.test(name)) {
-		return `${providerName} ad-hoc`;
+export function formatAndNormalizeTariffName(tariff: Tariff): string {
+	tariff.providerName = textToAscii(tariff.providerName);
+	tariff.name = textToAscii(tariff.name);
+	if (tariff.isAdHoc) {
+		return `${tariff.name} ad-hoc`;
 	}
-	return name;
+	return tariff.name;
 }
 
 export function getImageSource(

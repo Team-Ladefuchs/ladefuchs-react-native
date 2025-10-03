@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { TextInput, View } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "@theme";
@@ -23,7 +23,7 @@ export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
 			<TextInput
 				style={styles.searchInput}
 				autoCorrect={false}
-				keyboardType="ascii-capable"
+				// keyboardType="ascii-capable"
 				returnKeyType="search"
 				autoComplete="off"
 				clearButtonMode="always"
