@@ -21,10 +21,12 @@
         "TARGETED_DEVICE_FAMILY": [1],
         "category": "TRAVEL"
       },
-      "entitlements": { "aps-environment": "production" }
+      "entitlements": {
+        "aps-environment": "production"
+      }
     },
     "android": {
-      "versionCode": 358,
+      "versionCode": 359,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
@@ -57,9 +59,12 @@
             "targetSdkVersion": 35,
             "buildToolsVersion": "35.0.0"
           },
-          "ios": { "deploymentTarget": "16.0" }
+          "ios": {
+            "deploymentTarget": "16.0"
+          }
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }
