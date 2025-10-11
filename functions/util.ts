@@ -3,6 +3,7 @@ import { Tariff } from "../types/tariff";
 import type { ChargingCondition, TariffCondition } from "../types/conditions";
 import { ImageSourcePropType, Platform } from "react-native";
 import { authHeader } from "./api/base";
+import { scale } from "react-native-size-matters";
 
 export const isDebug = __DEV__;
 
@@ -152,13 +153,19 @@ export function textToAscii(value: string) {
 		: value;
 }
 
-export function formatAndNormalizeTariffName(tariff: Tariff): string {
+export function formatAndNormalizeTariffName(tariff: Tariff): Tariff {
 	tariff.providerName = textToAscii(tariff.providerName);
-	tariff.name = textToAscii(tariff.name);
+
 	if (tariff.isAdHoc) {
-		return `${tariff.name} ad-hoc`;
+		`${tariff.name} ad-hoc`;
+	} else {
+		tariff.name = textToAscii(tariff.name);
 	}
-	return tariff.name;
+	return tariff;
+}
+
+export function keyboardoffset() {
+	return scale(Platform.OS === "ios" ? 85 : 60);
 }
 
 export function getImageSource(

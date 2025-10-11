@@ -13,13 +13,11 @@ interface Props {
 }
 
 export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
-	const keyboardIsVisble = useKeyBoard();
-
-	const safeAreaStyle = keyboardIsVisble ? { paddingBottom: -scale(24) } : {};
+	// const keyboardIsVisble = useKeyBoard();
 
 	return (
 		<SafeAreaView
-			style={[styles.searchContainer, safeAreaStyle]}
+			style={[styles.searchContainer]}
 			edges={["right", "bottom", "left"]}
 		>
 			<View style={styles.iconContainer}>

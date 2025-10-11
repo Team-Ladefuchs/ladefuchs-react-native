@@ -18,7 +18,7 @@ import { SearchInput } from "../components/shared/searchInput";
 import { Operator } from "../types/operator";
 import { fetchAllOperators } from "../functions/api/operator";
 import { useCustomTariffsOperators } from "../hooks/useCustomTariffsOperators";
-import { getMinutes, isDebug } from "../functions/util";
+import { getMinutes, isDebug, keyboardoffset } from "../functions/util";
 import { useNavigation } from "@react-navigation/native";
 import { TabButtonGroup, TabItem } from "../components/shared/tabButtonGroup";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
@@ -95,7 +95,7 @@ export function OperatorList(): JSX.Element {
 			if (!isMounted.current || !allOperatorsQuery.data) {
 				return;
 			}
-			
+
 			try {
 				const allOperatorIds = new Set(
 					allOperatorsQuery.data.map((item) => item.identifier),
@@ -154,9 +154,9 @@ export function OperatorList(): JSX.Element {
 
 	return (
 		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "height" : undefined}
+			behavior={Platform.OS === "ios" ? "height" : "padding"}
 			style={styles.container}
-			keyboardVerticalOffset={scale(110)} // Adjust this value as needed
+			keyboardVerticalOffset={keyboardoffset()} // Adjust this value as needed
 		>
 			<ListerFilterHeader onReset={handleOperatorReset}>
 				<TabButtonGroup

@@ -21,7 +21,7 @@ import { Checkbox } from "./checkBox";
 import { useShakeDetector } from "../../hooks/useShakeDetector";
 import i18n from "@translations/translations";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { runOnJS } from "react-native-reanimated";
+import { runOnJS } from "react-native-worklets";
 import { FavoriteCheckbox } from "./favoriteCheckbox";
 import { useKeyBoard } from "../../hooks/useKeyboard";
 import { EmptyListText } from "./emptyListText";
@@ -125,6 +125,11 @@ export function SectionHeaderList<T extends ItemType>({
 			return [];
 		}
 
+		list.current?.scrollToOffset({
+			animated: false,
+			offset: 0,
+		});
+
 		if (specialList.length > 1) {
 			return [...items, ...specialList];
 		}
@@ -148,10 +153,10 @@ export function SectionHeaderList<T extends ItemType>({
 			.findIndex((itemLetter) => itemLetter === letter);
 		if (index >= 0 && index < sections.length && list.current) {
 			try {
-				list.current.scrollToIndex({ 
-					animated: false, 
+				list.current.scrollToIndex({
+					animated: false,
 					index: index,
-					viewPosition: 0
+					viewPosition: 0,
 				});
 				triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
 			} catch (error) {
@@ -159,9 +164,9 @@ export function SectionHeaderList<T extends ItemType>({
 				// Fallback to scrollToOffset if scrollToIndex fails
 				try {
 					const estimatedOffset = index * 66; // Approximate item height
-					list.current.scrollToOffset({ 
-						animated: false, 
-						offset: estimatedOffset 
+					list.current.scrollToOffset({
+						animated: false,
+						offset: estimatedOffset,
 					});
 				} catch (fallbackError) {
 					console.warn("Fallback scroll also failed:", fallbackError);

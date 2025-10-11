@@ -33,6 +33,7 @@ import {
 	formatAndNormalizeTariffName,
 	getMinutes,
 	isDebug,
+	keyboardoffset,
 } from "../functions/util";
 import { ListerFilterHeader } from "../components/shared/listFilterHeader";
 import { useAppStore } from "../state/appState";
@@ -74,7 +75,6 @@ interface AlertButton {
 const GC_TIME = isDebug ? 0 : getMinutes(12);
 const RETRY_DELAY = 100;
 const MAX_RETRIES = 3;
-const KEYBOARD_OFFSET = scale(110);
 const IMAGE_WIDTH = 72;
 
 // Memoized Components for better performance
@@ -182,12 +182,7 @@ export function TariffList(): JSX.Element {
 			});
 
 			return tariffs
-				.map((item) => {
-					return {
-						...item,
-						name: formatAndNormalizeTariffName(item),
-					};
-				})
+				.map(formatAndNormalizeTariffName)
 				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 	});
@@ -275,7 +270,7 @@ export function TariffList(): JSX.Element {
 
 	const adHocIds = useMemo(() => {
 		return (allTariffsQuery.data ?? [])
-			.filter((t) => t.isAdHoc === true)
+			.filter((t) => t.isAdHoc)
 			.map((t) => t.identifier);
 	}, [allTariffsQuery.data]);
 
@@ -460,9 +455,9 @@ export function TariffList(): JSX.Element {
 
 	return (
 		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "height" : undefined}
+			behavior={Platform.OS === "ios" ? "height" : "padding"}
 			style={styles.container}
-			keyboardVerticalOffset={KEYBOARD_OFFSET}
+			keyboardVerticalOffset={keyboardoffset()}
 		>
 			<ListerFilterHeader onReset={handleTariffReset}>
 				<MemoizedTariffFilter onFilterChanged={handleFilterChange} />
