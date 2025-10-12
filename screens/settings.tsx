@@ -1,7 +1,6 @@
-import React from "react";
+import React, { JSX } from "react";
 import { ScrollView, View, Text, Platform } from "react-native";
 import { colors } from "@theme";
-import { DatenView } from "../components/settings/dataView";
 import { PodcastView } from "../components/settings/podcastView";
 import { MemberView } from "../components/settings/teamLIst";
 import { Footer } from "../components/settings/footer";
@@ -36,6 +35,9 @@ export function SettingsScreen(): JSX.Element {
 							<View
 								style={{
 									left: scale(11),
+									marginRight: scale(
+										Platform.OS === "android" ? -16 : 0,
+									),
 								}}
 							>
 								<CardImage
@@ -61,7 +63,9 @@ export function SettingsScreen(): JSX.Element {
 								style={{
 									left: scale(7),
 									bottom: scale(2),
-									marginRight: scale(-9),
+									marginRight: scale(
+										Platform.OS === "android" ? -16 : -9,
+									),
 								}}
 							>
 								<OperatorImage
@@ -73,17 +77,17 @@ export function SettingsScreen(): JSX.Element {
 						}
 						screenKey={appRoutes.customerOperator.key}
 					/>
-										<View style={{ marginTop: scale(12) }}>
+					<View style={{ marginTop: scale(12) }}>
 						<Line />
 					</View>
-						
 
-				<HapticSettings /></View>	
+					<HapticSettings />
+				</View>
 				<View style={settingsStyle.separator}>
 					<Text style={settingsStyle.separatorText}>Infos</Text>
 				</View>
 				<View style={settingsStyle.innerContainer}>
-					<MemberView />					
+					<MemberView />
 					<Support />
 					<StartOnBoarding />
 					<Rating />

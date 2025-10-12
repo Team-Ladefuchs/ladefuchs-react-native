@@ -9,7 +9,7 @@
     "icon": "./assets/fuchs/app_icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1",
+      "buildNumber": "2",
       "supportsTablet": false,
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
@@ -25,7 +25,7 @@
       }
     },
     "android": {
-      "versionCode": 361,
+      "versionCode": 362,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"

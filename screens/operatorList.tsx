@@ -11,7 +11,10 @@ import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { OperatorImage } from "../components/shared/operatorImage";
 
-import { SectionHeaderList } from "../components/shared/sectionHeaderList";
+import {
+	SectionHeaderList,
+	SectionHeaderListRef,
+} from "../components/shared/sectionHeaderList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "@theme";
 import { SearchInput } from "../components/shared/searchInput";
@@ -36,6 +39,8 @@ const tabs = [
 export function OperatorList(): JSX.Element {
 	const [search, setSearch] = useDebounceInput();
 	const isMounted = useRef(true);
+
+	const listRef = useRef<SectionHeaderListRef>(null);
 
 	const [operatorAddSet, setOperatorAddSet] = useState<Set<string>>(
 		new Set(),
@@ -68,7 +73,7 @@ export function OperatorList(): JSX.Element {
 
 	const filteredOperators = useMemo(() => {
 		let operators = allOperatorsQuery.data ?? [];
-
+		listRef.current?.scrollToTop();
 		if (filterMode === "ownOperators") {
 			operators = operators.filter(({ isStandard, identifier }) => {
 				return (
@@ -172,6 +177,7 @@ export function OperatorList(): JSX.Element {
 					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
+						ref={listRef}
 						containerStyle={styles.listItemContainer}
 						data={filteredOperators}
 						onUndo={({ identifier, isStandard }: Operator) => {

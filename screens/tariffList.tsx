@@ -18,7 +18,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { CardImage } from "../components/shared/cardImage";
-import { SectionHeaderList } from "../components/shared/sectionHeaderList";
+import {
+	SectionHeaderList,
+	SectionHeaderListRef,
+} from "../components/shared/sectionHeaderList";
 import { useDebounceInput } from "../hooks/useDebounceInput";
 import { colors } from "@theme";
 import { SearchInput } from "../components/shared/searchInput";
@@ -135,6 +138,8 @@ interface FavoriteChangeParams {
 
 export function TariffList(): JSX.Element {
 	const isMounted = useRef(true);
+	const listRef = useRef<SectionHeaderListRef>(null);
+
 	const [search, setSearch] = useDebounceInput();
 	const [filterMode, setFilterMode] = useState<FilterType>("all");
 
@@ -243,6 +248,7 @@ export function TariffList(): JSX.Element {
 	const filterBySearch = useCallback(
 		(tariff: Tariff) => {
 			const searchTerm = search.toLowerCase();
+			listRef.current?.scrollToTop();
 			if (searchTerm.startsWith("adhoc")) {
 				return tariff.isAdHoc === true;
 			}
@@ -475,6 +481,7 @@ export function TariffList(): JSX.Element {
 						renderItem={renderTariffItem}
 						onUndo={handleUndo}
 						onRemove={handleRemove}
+						ref={listRef}
 						onAdd={handleAdd}
 						exists={existsCheck}
 						ListHeaderComponent={

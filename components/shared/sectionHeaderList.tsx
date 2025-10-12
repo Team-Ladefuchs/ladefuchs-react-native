@@ -1,4 +1,10 @@
-import React, { JSX, useMemo, useRef, useState } from "react";
+import React, {
+	JSX,
+	useImperativeHandle,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import {
 	StyleProp,
 	TouchableWithoutFeedback,
@@ -28,6 +34,10 @@ import { EmptyListText } from "./emptyListText";
 import { triggerHaptic } from "../../functions/util/haptics";
 import { useAutoDismissKeybaord } from "../../hooks/useAutoDismissKeybaord";
 
+export interface SectionHeaderListRef {
+	scrollToTop: () => void;
+}
+
 const alphabet = [
 	...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
 	"#",
@@ -51,6 +61,7 @@ interface Props<T extends { identifier: string }> {
 	onUndo: (item: T) => void;
 	emptyText?: string | null;
 	ListHeaderComponent?: JSX.Element;
+	ref?: React.Ref<SectionHeaderListRef>;
 }
 
 const isLetter = /[a-zA-Z]/;
@@ -73,6 +84,7 @@ export function SectionHeaderList<T extends ItemType>({
 	onFavoiteChange,
 	isFavorite,
 	ListHeaderComponent,
+	ref,
 }: Props<T>) {
 	useAutoDismissKeybaord();
 	const list = useRef<FlashListRef<any>>(null);
@@ -90,6 +102,10 @@ export function SectionHeaderList<T extends ItemType>({
 		() => alphabetHeight / alphabet.length,
 		[alphabetHeight],
 	);
+
+	useImperativeHandle(ref, () => ({
+		scrollToTop,
+	}));
 
 	useShakeDetector(() => {
 		if (lastRemovedItem) {
@@ -125,16 +141,15 @@ export function SectionHeaderList<T extends ItemType>({
 			return [];
 		}
 
-		list.current?.scrollToOffset({
-			animated: false,
-			offset: 0,
-		});
-
 		if (specialList.length > 1) {
 			return [...items, ...specialList];
 		}
 		return items;
 	}, [data]);
+
+	const scrollToTop = () => {
+		list.current?.scrollToTop();
+	};
 
 	const stickyIndices = useMemo(() => {
 		return sections
