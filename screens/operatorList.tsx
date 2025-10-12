@@ -278,5 +278,5 @@ const styles = ScaledSheet.create({
 		width: "94%",
 		marginLeft: scale(-6),
 	},
-	itemText: { flex: 2, fontSize: "16@s", fontWeight: "bold" },
+	itemText: { flex: 2, fontSize: "13@s", fontWeight: "bold" },
 });

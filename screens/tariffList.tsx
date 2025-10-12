@@ -485,57 +485,60 @@ export function TariffList(): JSX.Element {
 						onAdd={handleAdd}
 						exists={existsCheck}
 						ListHeaderComponent={
-							<View
-								style={[
-									styles.headerRow,
-									styles.listItemContainer,
-								]}
-							>
-								<Checkbox
-									checked={allAdhocActive}
-									onValueChange={toggleAdhocActive}
-								/>
-								<View style={styles.headerFavoriteCheckbox}>
-									<FavoriteCheckbox
-										size={34}
-										checked={allAdhocFavorites}
-										onValueChange={toggleAdhocFavorites}
+							search ? undefined : (
+								<View
+									style={[
+										styles.headerRow,
+										styles.listItemContainer,
+									]}
+								>
+									<Checkbox
+										checked={allAdhocActive}
+										onValueChange={toggleAdhocActive}
 									/>
-								</View>
-								<View style={styles.itemBody}>
-									<MemoizedCardImage
-										imageUrl={require("@assets/generic/allAdhoc.jpg")}
-										name={i18n.t("adHocPay", {
-											defaultValue:
-												"Kreditkarte, Girokarte, etc.",
-										})}
-										width={IMAGE_WIDTH}
-										hideFallBackText={false}
-									/>
-									<View>
-										<MemoizedText
-											style={styles.tariffText}
-											ellipsizeMode="tail"
-											numberOfLines={2}
-										>
-											{i18n.t("allAdHocTariffs", {
-												defaultValue:
-													"ALLE AD-HOC Tarife",
-											})}
-										</MemoizedText>
-										<MemoizedText
-											style={styles.providerText}
-											ellipsizeMode="tail"
-											numberOfLines={1}
-										>
-											{i18n.t("adHocPay", {
+									<View style={styles.headerFavoriteCheckbox}>
+										<FavoriteCheckbox
+											size={34}
+											checked={allAdhocFavorites}
+											onValueChange={toggleAdhocFavorites}
+										/>
+									</View>
+									<View style={styles.itemBody}>
+										<MemoizedCardImage
+											imageUrl={require("@assets/generic/allAdhoc.jpg")}
+											name={i18n.t("adHocPay", {
 												defaultValue:
 													"Kreditkarte, Girokarte, etc.",
 											})}
-										</MemoizedText>
+											width={IMAGE_WIDTH}
+											hideFallBackText={false}
+										/>
+
+										<View>
+											<MemoizedText
+												style={styles.tariffText}
+												ellipsizeMode="tail"
+												numberOfLines={2}
+											>
+												{i18n.t("allAdHocTariffs", {
+													defaultValue:
+														"ALLE AD-HOC Tarife",
+												})}
+											</MemoizedText>
+											<MemoizedText
+												style={styles.providerText}
+												ellipsizeMode="tail"
+												numberOfLines={1}
+											>
+												{i18n.t("adHocPay", {
+													defaultValue:
+														"Kreditkarte, Girokarte, etc.",
+												})}
+											</MemoizedText>
+										</View>
 									</View>
 								</View>
-							</View>
+							)
 						}
 					/>
 				)}
@@ -630,11 +633,11 @@ const styles = ScaledSheet.create({
 		paddingRight: "90@s",
 	},
 	tariffText: {
-		fontSize: "14@s",
+		fontSize: "13@s",
 		fontWeight: "bold",
 	},
 	providerText: {
 		color: "#605C54",
-		fontSize: "14@s",
+		fontSize: "13@s",
 	},
 });

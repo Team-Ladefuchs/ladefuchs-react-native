@@ -5,7 +5,6 @@ import { colors } from "@theme";
 
 import MagnifyingGlass from "@assets/generic/magnifyingglass.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useKeyBoard } from "../../hooks/useKeyboard";
 
 interface Props {
 	onChange: (value: string) => void;
@@ -13,8 +12,6 @@ interface Props {
 }
 
 export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
-	// const keyboardIsVisble = useKeyBoard();
-
 	return (
 		<SafeAreaView
 			style={[styles.searchContainer]}
