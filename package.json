@@ -8,9 +8,10 @@
     "ios": "expo run:ios",
     "build": "expo prebuild",
     "build:clean": "expo prebuild --clean",
-    "build:ios": "expo prebuild --clean --platform ios",
+    "build:ios": "expo prebuild --clean --platform ios && && npm run xcode",
     "build:android": "rm -rf android && expo prebuild --clean --platform android && npm run androidstudio",
     "androidstudio": "open /Applications/Android\\ Studio.app ",
+    "xcode": "open /Applications/Xcode.app",
     "license": "node generateLicenses.js",
     "lint": "expo lint"
   },
