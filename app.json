@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.5.3",
+    "version": "3.5.4",
     "newArchEnabled": true,
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
@@ -10,7 +10,7 @@
     "icon": "./assets/fuchs/app_icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "3",
+      "buildNumber": "1",
       "supportsTablet": false,
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
@@ -26,7 +26,7 @@
       }
     },
     "android": {
-      "versionCode": 363,
+      "versionCode": 364,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"

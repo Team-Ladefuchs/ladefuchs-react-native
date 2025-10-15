@@ -248,9 +248,13 @@ export function TariffList(): JSX.Element {
 	const filterBySearch = useCallback(
 		(tariff: Tariff) => {
 			const searchTerm = search.toLowerCase();
-			listRef.current?.scrollToTop();
+
 			if (searchTerm.startsWith("adhoc")) {
 				return tariff.isAdHoc === true;
+			}
+
+			if (search) {
+				listRef.current?.scrollToTop();
 			}
 			return (
 				tariff.name.toLowerCase().includes(searchTerm) ||

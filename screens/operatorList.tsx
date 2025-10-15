@@ -73,7 +73,9 @@ export function OperatorList(): JSX.Element {
 
 	const filteredOperators = useMemo(() => {
 		let operators = allOperatorsQuery.data ?? [];
-		listRef.current?.scrollToTop();
+		if (search) {
+			listRef.current?.scrollToTop();
+		}
 		if (filterMode === "ownOperators") {
 			operators = operators.filter(({ isStandard, identifier }) => {
 				return (
