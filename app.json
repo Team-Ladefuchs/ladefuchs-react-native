@@ -4,6 +4,9 @@
     "slug": "ladefuchs",
     "version": "3.5.4",
     "newArchEnabled": true,
+    "experiments": {
+      "reactCompiler": true
+    },
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
     "userInterfaceStyle": "light",

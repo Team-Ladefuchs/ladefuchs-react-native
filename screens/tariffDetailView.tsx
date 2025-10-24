@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import { View } from "react-native";
 import { colors } from "@theme";
 import { ChargeMode, TariffCondition } from "../types/conditions";
@@ -56,29 +56,18 @@ export function TariffDetailView({
 			]),
 		);
 
-	const operator = useMemo(() => {
-		return operators.find((item) => item.identifier === operatorId);
-	}, [operators, operatorId]);
+	const operator = operators.find((item) => item.identifier === operatorId);
 
-	const getTariffCondition = useCallback(
-		(chargeMode: ChargeMode) => {
-			return findTariffCondition({
-				tariffConditions,
-				chargeMode,
-				tariffId: tariff?.identifier,
-			});
-		},
-		[tariff?.identifier, tariffConditions],
-	);
+	const getTariffCondition = (chargeMode: ChargeMode) => {
+		return findTariffCondition({
+			tariffConditions,
+			chargeMode,
+			tariffId: tariff?.identifier,
+		});
+	};
 
-	const acTariffCondition = useMemo(
-		() => getTariffCondition("ac"),
-		[getTariffCondition],
-	);
-	const dcTariffCondition = useMemo(
-		() => getTariffCondition("dc"),
-		[getTariffCondition],
-	);
+	const acTariffCondition = getTariffCondition("ac");
+	const dcTariffCondition = getTariffCondition("dc");
 
 	return (
 		<View style={styles.detailView}>

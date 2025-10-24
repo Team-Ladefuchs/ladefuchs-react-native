@@ -1,4 +1,4 @@
-import React, { JSX, useCallback } from "react";
+import React, { JSX } from "react";
 import { View, TouchableOpacity, StatusBar, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
@@ -22,9 +22,9 @@ export function AppHeader(): JSX.Element {
 		(state) => state.setisFavoriteTariffOnly,
 	);
 
-	const handleSettingsPress = useCallback(() => {
+	const handleSettingsPress = () => {
 		navigation.navigate(appRoutes.settingsStack.key);
-	}, [navigation]);
+	};
 
 	return (
 		<SafeAreaView style={styles.headerContainer} edges={Platform.OS === 'android' ? ['top', 'left', 'right'] : undefined}>

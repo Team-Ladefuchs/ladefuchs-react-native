@@ -1,8 +1,6 @@
 import React, {
 	useState,
 	useEffect,
-	useMemo,
-	useCallback,
 	useRef,
 	JSX,
 } from "react";
@@ -80,45 +78,31 @@ const RETRY_DELAY = 100;
 const MAX_RETRIES = 3;
 const IMAGE_WIDTH = 72;
 
-// Memoized Components for better performance
-const MemoizedCardImage = React.memo(CardImage);
-const MemoizedSearchInput = React.memo(SearchInput);
-const MemoizedTariffFilter = React.memo(TariffFilter);
-const MemoizedLoadingSpinner = React.memo(LoadingSpinner);
-
-const MemoizedText = React.memo(({ style, children, ...props }: TextProps) => (
-	<Text style={style} {...props}>
-		{children}
-	</Text>
-));
-MemoizedText.displayName = "MemoizedText";
-
-const TariffItemView = React.memo(({ tariff }: TariffItemViewProps) => (
+const TariffItemView = ({ tariff }: TariffItemViewProps) => (
 	<View style={styles.itemBody}>
-		<MemoizedCardImage
+		<CardImage
 			imageUrl={tariff.imageUrl}
 			name={tariff.name}
 			width={IMAGE_WIDTH}
 		/>
 		<View>
-			<MemoizedText
+			<Text
 				style={styles.tariffText}
 				ellipsizeMode="tail"
 				numberOfLines={2}
 			>
 				{tariff.name}
-			</MemoizedText>
-			<MemoizedText
+			</Text>
+			<Text
 				style={styles.providerText}
 				ellipsizeMode="tail"
 				numberOfLines={1}
 			>
 				{tariff.providerName}
-			</MemoizedText>
+			</Text>
 		</View>
 	</View>
-));
-TariffItemView.displayName = "TariffItemView";
+);
 
 const ALERT_BUTTONS = (onReset: () => Promise<void>): AlertButton[] => [
 	{
@@ -216,82 +200,74 @@ export function TariffList(): JSX.Element {
 		return unsubscribe;
 	}, [navigator, state, queryChargeConditions, saveCustomTariffs]);
 
-	const filterByMode = useCallback(
-		(tariff: Tariff) => {
-			const { identifier, isStandard } = tariff;
-			const { tariffsAddSet, tariffsRemoveSet, favoriteSet } = state;
+	const filterByMode = (tariff: Tariff) => {
+		const { identifier, isStandard } = tariff;
+		const { tariffsAddSet, tariffsRemoveSet, favoriteSet } = state;
 
-			switch (filterMode) {
-				case "activeOrFavorite":
-					return (
-						!tariffsRemoveSet.has(identifier) &&
-						favoriteSet.has(identifier) &&
-						(isStandard || tariffsAddSet.has(identifier))
-					);
-				case "favorite":
-					return (
-						!tariffsRemoveSet.has(identifier) &&
-						favoriteSet.has(identifier)
-					);
-				case "active":
-					return (
-						(isStandard && !tariffsRemoveSet.has(identifier)) ||
-						tariffsAddSet.has(identifier)
-					);
-				default:
-					return true;
-			}
-		},
-		[filterMode, state],
-	);
+		switch (filterMode) {
+			case "activeOrFavorite":
+				return (
+					!tariffsRemoveSet.has(identifier) &&
+					favoriteSet.has(identifier) &&
+					(isStandard || tariffsAddSet.has(identifier))
+				);
+			case "favorite":
+				return (
+					!tariffsRemoveSet.has(identifier) &&
+					favoriteSet.has(identifier)
+				);
+			case "active":
+				return (
+					(isStandard && !tariffsRemoveSet.has(identifier)) ||
+					tariffsAddSet.has(identifier)
+				);
+			default:
+				return true;
+		}
+	};
 
-	const filterBySearch = useCallback(
-		(tariff: Tariff) => {
-			const searchTerm = search.toLowerCase();
+	const filterBySearch = (tariff: Tariff) => {
+		const searchTerm = search.toLowerCase();
 
-			if (searchTerm.startsWith("adhoc")) {
-				return tariff.isAdHoc === true;
-			}
+		if (searchTerm.startsWith("adhoc")) {
+			return tariff.isAdHoc === true;
+		}
 
-			if (search) {
-				listRef.current?.scrollToTop();
-			}
-			return (
-				tariff.name.toLowerCase().includes(searchTerm) ||
-				tariff.providerName.toLowerCase().includes(searchTerm)
-			);
-		},
-		[search],
-	);
+		if (search) {
+			listRef.current?.scrollToTop();
+		}
+		return (
+			tariff.name.toLowerCase().includes(searchTerm) ||
+			tariff.providerName.toLowerCase().includes(searchTerm)
+		);
+	};
 
-	const filteredTariffs = useMemo(() => {
+	const filteredTariffs = (() => {
 		const tariffs = allTariffsQuery.data ?? [];
 		return tariffs
 			.filter((tariff) => !tariff.isAdHoc)
 			.filter((tariff) => filterByMode(tariff) && filterBySearch(tariff));
-	}, [allTariffsQuery.data, filterByMode, filterBySearch]);
+	})();
 
 	// Build a map for quick lookup and compute Ad-hoc IDs
-	const tariffMap = useMemo(() => {
+	const tariffMap = (() => {
 		const map = new Map<string, Tariff>();
 		(allTariffsQuery.data ?? []).forEach((t) => map.set(t.identifier, t));
 		return map;
-	}, [allTariffsQuery.data]);
+	})();
 
-	const adHocIds = useMemo(() => {
-		return (allTariffsQuery.data ?? [])
-			.filter((t) => t.isAdHoc)
-			.map((t) => t.identifier);
-	}, [allTariffsQuery.data]);
+	const adHocIds = (allTariffsQuery.data ?? [])
+		.filter((t) => t.isAdHoc)
+		.map((t) => t.identifier);
 
-	const allAdhocFavorites = useMemo(() => {
+	const allAdhocFavorites = (() => {
 		if (adHocIds.length === 0) return false;
-		return adHocIds.every((id) => state.favoriteSet.has(id));
-	}, [adHocIds, state.favoriteSet]);
+		return adHocIds.every((id: string) => state.favoriteSet.has(id));
+	})();
 
-	const allAdhocActive = useMemo(() => {
+	const allAdhocActive = (() => {
 		if (adHocIds.length === 0) return false;
-		return adHocIds.every((id) => {
+		return adHocIds.every((id: string) => {
 			const t = tariffMap.get(id);
 			if (!t) return false;
 			return (
@@ -299,9 +275,9 @@ export function TariffList(): JSX.Element {
 				state.tariffsAddSet.has(id)
 			);
 		});
-	}, [adHocIds, state.tariffsRemoveSet, state.tariffsAddSet, tariffMap]);
+	})();
 
-	const toggleAdhocFavorites = useCallback(() => {
+	const toggleAdhocFavorites = () => {
 		setState((prev) => {
 			const favoriteSet = new Set(prev.favoriteSet);
 			if (allAdhocFavorites) {
@@ -311,9 +287,9 @@ export function TariffList(): JSX.Element {
 			}
 			return { ...prev, favoriteSet };
 		});
-	}, [allAdhocFavorites, adHocIds]);
+	};
 
-	const toggleAdhocActive = useCallback(() => {
+	const toggleAdhocActive = () => {
 		setState((prev) => {
 			const tariffsAddSet = new Set(prev.tariffsAddSet);
 			const tariffsRemoveSet = new Set(prev.tariffsRemoveSet);
@@ -342,26 +318,17 @@ export function TariffList(): JSX.Element {
 			}
 			return { ...prev, tariffsAddSet, tariffsRemoveSet };
 		});
-	}, [allAdhocActive, adHocIds, tariffMap]);
+	};
 
-	const renderTariffItem = useCallback(
-		(tariff: Tariff) => <TariffItemView tariff={tariff} />,
-		[],
-	);
+	const renderTariffItem = (tariff: Tariff) => <TariffItemView tariff={tariff} />;
 
-	const existsCheck = useCallback(
-		(item: Tariff) =>
-			state.tariffsAddSet.has(item.identifier) ||
-			(item.isStandard && !state.tariffsRemoveSet.has(item.identifier)),
-		[state],
-	);
+	const existsCheck = (item: Tariff) =>
+		state.tariffsAddSet.has(item.identifier) ||
+		(item.isStandard && !state.tariffsRemoveSet.has(item.identifier));
 
-	const favoriteCheck = useCallback(
-		(item: Tariff) => state.favoriteSet.has(item.identifier),
-		[state],
-	);
+	const favoriteCheck = (item: Tariff) => state.favoriteSet.has(item.identifier);
 
-	const handleTariffReset = useCallback(() => {
+	const handleTariffReset = () => {
 		Alert.alert(
 			i18n.t("tariffAlert"),
 			i18n.t("tariffAlertText"),
@@ -374,28 +341,25 @@ export function TariffList(): JSX.Element {
 				await resetCustomTariffs();
 			}),
 		);
-	}, [resetCustomTariffs]);
+	};
 
-	const handleFavoriteChange = useCallback(
-		({ value, action }: FavoriteChangeParams) => {
-			setState((prevState) => {
-				const newSet = new Set(prevState.favoriteSet);
-				if (action === "add") {
-					newSet.add(value.identifier);
-				} else {
-					newSet.delete(value.identifier);
-				}
-				return { ...prevState, favoriteSet: newSet };
-			});
-		},
-		[],
-	);
+	const handleFavoriteChange = ({ value, action }: FavoriteChangeParams) => {
+		setState((prevState) => {
+			const newSet = new Set(prevState.favoriteSet);
+			if (action === "add") {
+				newSet.add(value.identifier);
+			} else {
+				newSet.delete(value.identifier);
+			}
+			return { ...prevState, favoriteSet: newSet };
+		});
+	};
 
-	const handleFilterChange = useCallback((value: FilterType) => {
+	const handleFilterChange = (value: FilterType) => {
 		setFilterMode(value);
-	}, []);
+	};
 
-	const handleUndo = useCallback(({ identifier, isStandard }: Tariff) => {
+	const handleUndo = ({ identifier, isStandard }: Tariff) => {
 		if (isStandard) {
 			setState((prevState) => {
 				const newSet = new Set(prevState.tariffsRemoveSet);
@@ -409,59 +373,53 @@ export function TariffList(): JSX.Element {
 				return { ...prevState, tariffsAddSet: newSet };
 			});
 		}
-	}, []);
+	};
 
-	const handleRemove = useCallback(
-		({ isStandard, identifier }: Tariff) => {
-			if (isStandard) {
-				setState((prevState) => {
-					const newSet = new Set([
-						identifier,
-						...prevState.tariffsRemoveSet,
-					]);
-					return { ...prevState, tariffsRemoveSet: newSet };
-				});
-			}
+	const handleRemove = ({ isStandard, identifier }: Tariff) => {
+		if (isStandard) {
+			setState((prevState) => {
+				const newSet = new Set([
+					identifier,
+					...prevState.tariffsRemoveSet,
+				]);
+				return { ...prevState, tariffsRemoveSet: newSet };
+			});
+		}
 
-			if (state.tariffsAddSet.has(identifier)) {
-				setState((prevState) => {
-					const newSet = new Set(prevState.tariffsAddSet);
-					newSet.delete(identifier);
-					return { ...prevState, tariffsAddSet: newSet };
-				});
-			}
-		},
-		[state.tariffsAddSet],
-	);
+		if (state.tariffsAddSet.has(identifier)) {
+			setState((prevState) => {
+				const newSet = new Set(prevState.tariffsAddSet);
+				newSet.delete(identifier);
+				return { ...prevState, tariffsAddSet: newSet };
+			});
+		}
+	};
 
-	const handleAdd = useCallback(
-		({ identifier, isStandard }: Tariff) => {
-			if (!isStandard) {
-				setState((prevState) => {
-					const newSet = new Set([
-						identifier,
-						...prevState.tariffsAddSet,
-					]);
-					return { ...prevState, tariffsAddSet: newSet };
-				});
-			}
-			if (state.tariffsRemoveSet.has(identifier)) {
-				setState((prevState) => {
-					const newSet = new Set(prevState.tariffsRemoveSet);
-					newSet.delete(identifier);
-					return { ...prevState, tariffsRemoveSet: newSet };
-				});
-			}
-		},
-		[state.tariffsRemoveSet],
-	);
+	const handleAdd = ({ identifier, isStandard }: Tariff) => {
+		if (!isStandard) {
+			setState((prevState) => {
+				const newSet = new Set([
+					identifier,
+					...prevState.tariffsAddSet,
+				]);
+				return { ...prevState, tariffsAddSet: newSet };
+			});
+		}
+		if (state.tariffsRemoveSet.has(identifier)) {
+			setState((prevState) => {
+				const newSet = new Set(prevState.tariffsRemoveSet);
+				newSet.delete(identifier);
+				return { ...prevState, tariffsRemoveSet: newSet };
+			});
+		}
+	};
 
-	const emptyText = useMemo(() => {
+	const emptyText = (() => {
 		if (filterMode === "favorite") {
 			return i18n.t("chargingTariffsInfo2");
 		}
 		return null;
-	}, [filterMode]);
+	})();
 
 	return (
 		<KeyboardAvoidingView
@@ -470,11 +428,11 @@ export function TariffList(): JSX.Element {
 			keyboardVerticalOffset={keyboardoffset()}
 		>
 			<ListerFilterHeader onReset={handleTariffReset}>
-				<MemoizedTariffFilter onFilterChanged={handleFilterChange} />
+				<TariffFilter onFilterChanged={handleFilterChange} />
 			</ListerFilterHeader>
 			<View style={styles.listContainer}>
 				{allTariffsQuery.isLoading ? (
-					<MemoizedLoadingSpinner />
+					<LoadingSpinner />
 				) : (
 					<SectionHeaderList
 						containerStyle={styles.listItemContainer}
@@ -508,7 +466,7 @@ export function TariffList(): JSX.Element {
 										/>
 									</View>
 									<View style={styles.itemBody}>
-										<MemoizedCardImage
+										<CardImage
 											imageUrl={require("@assets/generic/allAdhoc.jpg")}
 											name={i18n.t("adHocPay", {
 												defaultValue:
@@ -519,7 +477,7 @@ export function TariffList(): JSX.Element {
 										/>
 
 										<View>
-											<MemoizedText
+											<Text
 												style={styles.tariffText}
 												ellipsizeMode="tail"
 												numberOfLines={2}
@@ -528,8 +486,8 @@ export function TariffList(): JSX.Element {
 													defaultValue:
 														"ALLE AD-HOC Tarife",
 												})}
-											</MemoizedText>
-											<MemoizedText
+											</Text>
+											<Text
 												style={styles.providerText}
 												ellipsizeMode="tail"
 												numberOfLines={1}
@@ -538,7 +496,7 @@ export function TariffList(): JSX.Element {
 													defaultValue:
 														"Kreditkarte, Girokarte, etc.",
 												})}
-											</MemoizedText>
+											</Text>
 										</View>
 									</View>
 								</View>
@@ -547,7 +505,7 @@ export function TariffList(): JSX.Element {
 					/>
 				)}
 			</View>
-			<MemoizedSearchInput
+			<SearchInput
 				onChange={setSearch}
 				placeHolder={i18n.t("tariffSearch")}
 			/>

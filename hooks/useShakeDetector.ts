@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Accelerometer } from "expo-sensors";
 
 const SHAKE_THRESHOLD = 2; // Adjust based on sensitivity
@@ -9,28 +9,25 @@ export function useShakeDetector(onShake: () => void) {
 	const isMounted = useRef(true);
 	const subscriptionRef = useRef<any>(null);
 
-	const handleAccelerometerData = useCallback(
-		(data: { x: number; y: number; z: number }) => {
-			if (!isMounted.current) return;
-			
-			const { x, y, z } = data;
-			const acceleration = Math.sqrt(x * x + y * y + z * z);
+	const handleAccelerometerData = (data: { x: number; y: number; z: number }) => {
+		if (!isMounted.current) return;
+		
+		const { x, y, z } = data;
+		const acceleration = Math.sqrt(x * x + y * y + z * z);
 
-			const now = Date.now();
-			if (
-				acceleration > SHAKE_THRESHOLD &&
-				now - lastShake > SHAKE_TIME_THRESHOLD
-			) {
-				setLastShake(now);
-				try {
-					onShake();
-				} catch (error) {
-					console.warn("Error in shake handler:", error);
-				}
+		const now = Date.now();
+		if (
+			acceleration > SHAKE_THRESHOLD &&
+			now - lastShake > SHAKE_TIME_THRESHOLD
+		) {
+			setLastShake(now);
+			try {
+				onShake();
+			} catch (error) {
+				console.warn("Error in shake handler:", error);
 			}
-		},
-		[lastShake, onShake],
-	);
+		}
+	};
 
 	useEffect(() => {
 		isMounted.current = true;

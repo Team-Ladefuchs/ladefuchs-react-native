@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, JSX } from "react";
+import React, { useState, useEffect, useRef, JSX } from "react";
 import {
 	View,
 	Text,
@@ -71,7 +71,7 @@ export function OperatorList(): JSX.Element {
 		},
 	});
 
-	const filteredOperators = useMemo(() => {
+	const filteredOperators = (() => {
 		let operators = allOperatorsQuery.data ?? [];
 		if (search) {
 			listRef.current?.scrollToTop();
@@ -89,13 +89,7 @@ export function OperatorList(): JSX.Element {
 				operator.name.toLowerCase().includes(search.toLowerCase()),
 			) ?? []
 		);
-	}, [
-		search,
-		allOperatorsQuery.data,
-		filterMode,
-		operatorAddSet,
-		operatorRemoveSet,
-	]);
+	})();
 
 	useEffect(() => {
 		const unsubscribe = navigator.addListener("beforeRemove", async () => {
