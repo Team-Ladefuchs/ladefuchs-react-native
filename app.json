@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.5.4",
+    "version": "3.5.5",
     "newArchEnabled": true,
     "experiments": {
       "reactCompiler": true
@@ -29,7 +29,7 @@
       }
     },
     "android": {
-      "versionCode": 364,
+      "versionCode": 365,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
