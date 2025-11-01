@@ -1,4 +1,4 @@
-import React, { JSX, useCallback, useEffect, useMemo, useRef } from "react";
+import React, { JSX, useEffect, useRef } from "react";
 import { View, LayoutRectangle } from "react-native";
 import { FlashListRef, ListRenderItem } from "@shopify/flash-list";
 import { TariffCondition } from "../../../types/conditions";
@@ -26,15 +26,13 @@ const evenRowStyle = { backgroundColor: colors.ladefuchsLightBackground };
 const oddRowStyle = { backgroundColor: colors.ladefuchsLightGrayBackground };
 
 // Pure Components for better performance
-const Divider = React.memo(() => <View style={styles.space} />);
-Divider.displayName = "Divider";
+const Divider = () => <View style={styles.space} />;
 
-const LoadingView = React.memo(() => (
+const LoadingView = () => (
 	<View style={styles.chargingTableContainer}>
 		<LoadingSpinner />
 	</View>
-));
-LoadingView.displayName = "LoadingView";
+);
 
 export function ChargeConditionTable(): JSX.Element {
 	const [allChargeConditionsQuery] = useQueryAppData();
@@ -52,14 +50,11 @@ export function ChargeConditionTable(): JSX.Element {
 		};
 	}, []);
 
-	const safeSetDimensions = useCallback(
-		(newDimensions: LayoutRectangle | null) => {
-			if (isMounted.current) {
-				setDimensions(newDimensions);
-			}
-		},
-		[],
-	);
+	const safeSetDimensions = (newDimensions: LayoutRectangle | null) => {
+		if (isMounted.current) {
+			setDimensions(newDimensions);
+		}
+	};
 
 	// Optimized State-Selector
 	const {
@@ -82,8 +77,8 @@ export function ChargeConditionTable(): JSX.Element {
 		})),
 	);
 
-	// Memoized Tariff-Conditions with early Return
-	const filteredTariffConditions = useMemo(() => {
+	// Filtered Tariff-Conditions with early Return
+	const filteredTariffConditions = (() => {
 		if (!operatorId || !chargingConditionsMap.has(operatorId))
 			return EMPTY_ARRAY;
 
@@ -91,15 +86,10 @@ export function ChargeConditionTable(): JSX.Element {
 		return isFavoriteTariffOnly
 			? conditions.filter((item) => favoriteTariffIds.has(item.tariffId))
 			: conditions;
-	}, [
-		operatorId,
-		chargingConditionsMap,
-		isFavoriteTariffOnly,
-		favoriteTariffIds,
-	]);
+	})();
 
-	// Optimized grouping with cache
-	const currentTariffConditions = useMemo(() => {
+	// Optimized grouping
+	const currentTariffConditions = (() => {
 		const acConditions = new Set<TariffCondition>();
 		const dcConditions = new Set<TariffCondition>();
 
@@ -114,10 +104,10 @@ export function ChargeConditionTable(): JSX.Element {
 			Array.from(dcConditions),
 		);
 		return zip(filledAc, filledDc);
-	}, [tariffConditions]);
+	})();
 
-	// Optimized scroll reset with abort controller
-	const resetScroll = useCallback(() => {
+	// Optimized scroll reset
+	const resetScroll = () => {
 		if (!isMounted.current) return;
 
 		if (currentTariffConditions.length && flatListRef.current) {
@@ -132,7 +122,7 @@ export function ChargeConditionTable(): JSX.Element {
 
 			return () => cancelAnimationFrame(animationFrame);
 		}
-	}, [currentTariffConditions.length]);
+	};
 
 	// Reset scroll when changing operator
 	useEffect(() => {
@@ -145,47 +135,41 @@ export function ChargeConditionTable(): JSX.Element {
 		}
 	}, [filteredTariffConditions, setTariffConditions]);
 
-	const onLayout = useCallback(
-		(event: { nativeEvent: { layout: LayoutRectangle } }) => {
-			safeSetDimensions(event.nativeEvent.layout);
-		},
-		[safeSetDimensions],
-	);
+	const onLayout = (event: { nativeEvent: { layout: LayoutRectangle } }) => {
+		safeSetDimensions(event.nativeEvent.layout);
+	};
 
-	// Memoized Render-Function
-	const renderItem: ListRenderItem<TariffPair> = useCallback(
-		({ item: [left, right], index }) => {
-			// Sichere Tarif-Zugriffe
-			const leftTariff = left?.tariffId
-				? tariffs.get(left.tariffId)
-				: undefined;
-			const rightTariff = right?.tariffId
-				? tariffs.get(right.tariffId)
-				: undefined;
+	// Render-Function
+	const renderItem: ListRenderItem<TariffPair> = ({ item: [left, right], index }) => {
+		// Sichere Tarif-Zugriffe
+		const leftTariff = left?.tariffId
+			? tariffs.get(left.tariffId)
+			: undefined;
+		const rightTariff = right?.tariffId
+			? tariffs.get(right.tariffId)
+			: undefined;
 
-			return (
-				<View
-					style={[
-						styles.priceLineContainer,
-						index % 2 === 0 ? evenRowStyle : oddRowStyle,
-					]}
-				>
-					<ChargeConditionRow
-						tariffCondition={left}
-						tariff={leftTariff}
-					/>
-					<Divider />
-					<ChargeConditionRow
-						tariffCondition={right}
-						tariff={rightTariff}
-					/>
-				</View>
-			);
-		},
-		[tariffs],
-	);
+		return (
+			<View
+				style={[
+					styles.priceLineContainer,
+					index % 2 === 0 ? evenRowStyle : oddRowStyle,
+				]}
+			>
+				<ChargeConditionRow
+					tariffCondition={left}
+					tariff={leftTariff}
+				/>
+				<Divider />
+				<ChargeConditionRow
+					tariffCondition={right}
+					tariff={rightTariff}
+				/>
+			</View>
+		);
+	};
 
-	const EmptyComponent = useCallback(() => {
+	const EmptyComponent = () => {
 		if (!allChargeConditionsQuery.data?.chargingConditions) return null;
 
 		const textKey = isFavoriteTariffOnly
@@ -197,15 +181,12 @@ export function ChargeConditionTable(): JSX.Element {
 				<EmptyListText text={i18n.t(textKey)} />
 			</View>
 		);
-	}, [
-		allChargeConditionsQuery.data?.chargingConditions,
-		isFavoriteTariffOnly,
-	]);
+	};
 
-	const keyExtractor = useCallback((item: TariffPair): string => {
+	const keyExtractor = (item: TariffPair): string => {
 		const [left, right] = item;
 		return conditionKey(left) + "-" + conditionKey(right);
-	}, []);
+	};
 
 	if (allChargeConditionsQuery.isLoading) {
 		return <LoadingView />;

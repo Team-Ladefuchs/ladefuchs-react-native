@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 interface UseCounterReturn {
 	value: number;
@@ -23,19 +23,19 @@ export function useCounter({
 }: UseCounterProps): UseCounterReturn {
 	const [value, setValue] = useState<number>(initialValue);
 
-	const increment = useCallback(() => {
+	const increment = () => {
 		setValue((prevValue) => {
 			const newValue = incrementFloatBy(prevValue, 1);
 			return newValue <= maxValue ? newValue : prevValue;
 		});
-	}, [maxValue]);
+	};
 
-	const decrement = useCallback(() => {
+	const decrement = () => {
 		setValue((prevValue) => {
 			const newValue = incrementFloatBy(prevValue, -1);
 			return newValue >= minValue ? newValue : prevValue;
 		});
-	}, [minValue]);
+	};
 
 	return {
 		value,
