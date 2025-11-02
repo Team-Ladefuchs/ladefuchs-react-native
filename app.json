@@ -2,18 +2,14 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.5.5",
+    "version": "3.5.2",
     "newArchEnabled": true,
-    "experiments": {
-      "reactCompiler": true
-    },
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
-    "userInterfaceStyle": "light",
     "icon": "./assets/fuchs/app_icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1",
+      "buildNumber": "5",
       "supportsTablet": false,
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {
@@ -22,20 +18,33 @@
         "AsyncStorage_db_size_in_MB": 8,
         "RCTAsyncStorageExcludeFromBackup": false,
         "TARGETED_DEVICE_FAMILY": [1],
-        "category": "TRAVEL"
+        "category": "TRAVEL",
+        "NSLocationWhenInUseUsageDescription": "Wir benötigen Zugriff auf deinen Standort, um Ladestationen in deiner Nähe anzuzeigen."
       },
       "entitlements": {
         "aps-environment": "production"
+      },
+      "config": {
+        "googleMapsApiKey": "DEIN_IOS_GOOGLE_MAPS_API_KEY"
       }
     },
     "android": {
-      "versionCode": 365,
+      "versionCode": 360,
       "adaptiveIcon": {
         "foregroundImage": "./assets/fuchs/android_logo.png",
         "backgroundColor": "#F3EEE2"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=app.ladefuchs.android",
-      "package": "app.ladefuchs.android"
+      "package": "app.ladefuchs.android",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "DEIN_ANDROID_GOOGLE_MAPS_API_KEY"
+        }
+      }
     },
     "plugins": [
       [
@@ -43,6 +52,10 @@
         {
           "image": "./assets/fuchs/ladefuchs.png",
           "backgroundColor": "#F3EEE2",
+          "dark": {
+            "image": "./assets/fuchs/ladefuchs.png",
+            "backgroundColor": "#000000"
+          },
           "resizeMode": "contain"
         }
       ],

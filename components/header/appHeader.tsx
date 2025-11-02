@@ -1,17 +1,19 @@
-import React, { JSX } from "react";
+import React, { JSX, useCallback } from "react";
 import { View, TouchableOpacity, StatusBar, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
 import { colors } from "@theme";
 import Zahnrad from "@assets/gearshape.svg";
+import MapIcon from "@assets/generic/magnifyingglass.svg";
+import BackIcon from "@assets/generic/magnifyingglass.svg";
 import { useAppStore } from "../../state/appState";
 import { ScaledSheet, scale } from "react-native-size-matters";
-import { SettingsScreenNavigationProp, appRoutes } from "../../appRoutes";
+import { RootNavigationProp, appRoutes } from "../../appRoutes";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export function AppHeader(): JSX.Element {
-	const navigation = useNavigation<SettingsScreenNavigationProp>();
+	const navigation = useNavigation<RootNavigationProp>();
 
 	// Separate selectors to prevent unnecessary re-renders
 	const reloadBanner = useAppStore((state) => state.reloadBanner);
@@ -21,10 +23,17 @@ export function AppHeader(): JSX.Element {
 	const setisFavoriteTariffOnly = useAppStore(
 		(state) => state.setisFavoriteTariffOnly,
 	);
+	const showMapView = useAppStore((state) => state.showMapView);
+	const setShowMapView = useAppStore((state) => state.setShowMapView);
 
-	const handleSettingsPress = () => {
+	const handleSettingsPress = useCallback(() => {
 		navigation.navigate(appRoutes.settingsStack.key);
-	};
+	}, [navigation]);
+
+	const handleMapPress = useCallback(() => {
+		// Toggle MapView Sichtbarkeit
+		setShowMapView(!showMapView);
+	}, [showMapView, setShowMapView]);
 
 	return (
 		<SafeAreaView style={styles.headerContainer} edges={Platform.OS === 'android' ? ['top', 'left', 'right'] : undefined}>
@@ -35,6 +44,20 @@ export function AppHeader(): JSX.Element {
 				/>
 			)}
 
+			<View style={styles.headerLeftIcon}>
+				<TouchableOpacity
+					activeOpacity={0.6}
+					hitSlop={scale(12)}
+					onPress={handleMapPress}
+				>
+					{showMapView ? (
+						<BackIcon width={scale(29)} height={scale(29)} color="#000" />
+					) : (
+						<MapIcon width={scale(29)} height={scale(29)} color="#000" />
+					)}
+				</TouchableOpacity>
+			</View>
+
 			<View style={{ position: "absolute", top: scale(21) }}>
 				<TouchableOpacity
 					activeOpacity={1}
@@ -44,6 +67,7 @@ export function AppHeader(): JSX.Element {
 					<AppLogo size={81} />
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.headerSettingsIcon}>
 				<FavoriteCheckbox
 					size={32}
@@ -76,6 +100,11 @@ const styles = ScaledSheet.create({
 			ios: { marginTop: scale(14) },
 			android: { paddingTop: scale(14) },
 		}),
+	},
+	headerLeftIcon: {
+		position: "absolute",
+		left: "15@s",
+		bottom: "15@s",
 	},
 	headerSettingsIcon: {
 		display: "flex",

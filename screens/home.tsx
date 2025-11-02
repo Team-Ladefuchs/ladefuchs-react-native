@@ -13,14 +13,16 @@ import i18n from "../translations/translations";
 import { useNavigation } from "@react-navigation/native";
 import { type OnboardingScreenNavigationProp, appRoutes } from "../appRoutes";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { MapViewScreen } from "./mapView";
 
 export function HomeScreen(): React.JSX.Element {
 	const router = useNavigation<OnboardingScreenNavigationProp>();
 
-	const { appError, showOnboarding } = useAppStore(
+	const { appError, showOnboarding, showMapView } = useAppStore(
 		useShallow((state) => ({
 			appError: state.appError,
 			showOnboarding: state.showOnboarding,
+			showMapView: state.showMapView,
 		})),
 	);
 
@@ -37,19 +39,24 @@ export function HomeScreen(): React.JSX.Element {
 	return (
 		<SafeAreaProvider>
 			<View style={{ flex: 1 }}>
-				<ChargingTableHeader />
-
-				<ChargeConditionTable />
-				<View style={styles.pickerBanner}>
-					<Text
-						style={styles.pickerBannerText}
-						allowFontScaling={false}
-					>
-						{i18n.t("pickerheader")}
-					</Text>
-				</View>
-				<OperatorPicker />
-				<AppBanner />
+				{showMapView ? (
+					<MapViewScreen />
+				) : (
+					<>
+						<ChargingTableHeader />
+						<ChargeConditionTable />
+						<View style={styles.pickerBanner}>
+							<Text
+								style={styles.pickerBannerText}
+								allowFontScaling={false}
+							>
+								{i18n.t("pickerheader")}
+							</Text>
+						</View>
+						<OperatorPicker />
+						<AppBanner />
+					</>
+				)}
 			</View>
 		</SafeAreaProvider>
 	);

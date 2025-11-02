@@ -94,3 +94,8 @@ export type TariffDetailScreenNavigationParams = RouteProp<
 	ModalStackParamList,
 	typeof appRoutes.detailScreen.key
 >;
+
+// Combined type for components that need to navigate to both stacks
+export type RootStackParamList = MainStackParamList & ModalStackParamList;
+
+export type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;

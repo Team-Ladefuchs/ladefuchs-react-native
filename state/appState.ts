@@ -45,6 +45,8 @@ export interface AppState extends AppData {
 	isHapticEnabled: boolean;
 	setHapticEnabled: (value: boolean) => void;
 	lastBannerChange: number;
+	showMapView: boolean;
+	setShowMapView: (value: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -174,6 +176,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		isHapticEnabled: true,
 		setHapticEnabled: (value: boolean) => {
 			set(() => ({ isHapticEnabled: value }));
+		},
+		showMapView: false,
+		setShowMapView: (value: boolean) => {
+			set(() => ({ showMapView: value }));
 		},
 	};
 });
