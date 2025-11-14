@@ -4,8 +4,12 @@
     "slug": "ladefuchs",
     "version": "3.6.0",
     "newArchEnabled": true,
+    "experiments": {
+      "reactCompiler": true
+    },
     "orientation": "portrait",
     "scheme": "com.ladefuchs.app",
+    "userInterfaceStyle": "light",
     "icon": "./assets/fuchs/app_icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
