@@ -13,7 +13,7 @@
     "icon": "./assets/fuchs/app_icon.png",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1",
+      "buildNumber": "3",
       "supportsTablet": false,
       "bundleIdentifier": "app.ladefuchs.Ladefuchs",
       "infoPlist": {

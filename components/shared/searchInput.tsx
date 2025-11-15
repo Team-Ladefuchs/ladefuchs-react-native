@@ -2,7 +2,7 @@ import React, { type JSX, useState } from "react";
 import { Keyboard, TextInput, View, useColorScheme, TouchableOpacity, Platform } from "react-native";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { colors } from "@theme";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path, Circle } from "react-native-svg";
 
 import MagnifyingGlass from "@assets/generic/magnifyingglass.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +17,9 @@ export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
 	const [text, setText] = useState("");
 	
 	const iconColor = colorScheme === "dark" ? "#FFFFFF" : colors.ladefuchsGrayTextColor;
-	const clearButtonColor = colorScheme === "dark" ? "rgba(0, 0, 0, 0.6)" : "rgba(0, 0, 0, 0.5)";
+	// Immer grauer Kreis mit weißem Kreuz für guten Kontrast
+	const circleColor = "rgba(142, 142, 147, 0.3)"; // iOS-ähnlicher grauer Kreis
+	const crossColor = "#FFFFFF"; // Immer weißes Kreuz
 
 	const handleChangeText = (value: string) => {
 		setText(value);
@@ -57,10 +59,11 @@ export function SearchInput({ onChange, placeHolder }: Props): JSX.Element {
 					hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
 					activeOpacity={0.6}
 				>
-					<Svg width={scale(16)} height={scale(16)} viewBox="0 0 320 512">
+					<Svg width={scale(25)} height={scale(25)} viewBox="0 0 22 22">
+						<Circle cx="12" cy="11" r="10" fill={circleColor} />
 						<Path
-							fill={clearButtonColor}
-							d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"
+							fill={crossColor}
+							d="M8 8L11 11L8 14L9 15L12 12L15 15L16 14L13 11L16 8L15 7L12 10L9 7L8 8Z"
 						/>
 					</Svg>
 				</TouchableOpacity>
