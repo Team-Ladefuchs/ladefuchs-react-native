@@ -1,0 +1,1 @@
+Dateien aus dem iOS Ordner müssen vor dem kompilieren mit Xcode in den den root des Projekts kopiert werden
