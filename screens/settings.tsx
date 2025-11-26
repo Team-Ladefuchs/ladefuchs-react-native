@@ -83,6 +83,8 @@ export function SettingsScreen(): JSX.Element {
 					</View>
 
 					<HapticSettings />
+					<Line />
+					<InfoModuleButton />
 				</View>
 				<View style={settingsStyle.separator}>
 					<Text style={settingsStyle.separatorText}>Infos</Text>
@@ -90,7 +92,6 @@ export function SettingsScreen(): JSX.Element {
 				<View style={settingsStyle.innerContainer}>
 					<MemberView />
 					<Support />
-					<InfoModuleButton />
 					<StartOnBoarding />
 					<Rating />
 					<PodcastView />

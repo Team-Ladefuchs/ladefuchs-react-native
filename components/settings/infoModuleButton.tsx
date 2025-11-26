@@ -12,12 +12,12 @@ export function InfoModuleButton(): JSX.Element {
 	}
 
 	return (
-		<View>
+		<View style={{ marginBottom: scale(16), marginLeft: scale(15) }}>
 			<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
 				<Text style={styles.headLine}>Swift Modul testen</Text>
 				<SwiftIcon width={scale(24)} height={scale(24)} />
 			</View>
-			<View style={{ marginTop: scale(8), gap: scale(8) }}>
+			<View style={{ marginTop: scale(8) }}>
 				<TouchableOpacity
 					activeOpacity={0.8}
 					hitSlop={scale(10)}
@@ -26,16 +26,8 @@ export function InfoModuleButton(): JSX.Element {
 				>
 					<Text style={styles.settingsLink}>Swift Module anzeigen</Text>
 				</TouchableOpacity>
-				<TouchableOpacity
-					activeOpacity={0.8}
-					hitSlop={scale(10)}
-					onPress={async () => await openSettings()}
-					style={{ marginTop: scale(1) }}
-				>
-					<Text style={styles.settingsLink}>iOS Settings öffnen</Text>
-				</TouchableOpacity>
+
 			</View>
-			<Line style={{ marginTop: scale(16) }} />
 		</View>
 	);
 }
