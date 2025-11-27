@@ -45,25 +45,28 @@ class InfoModule: NSObject {
   
   @objc
   func showHelloWorld(_ resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
-    DispatchQueue.main.async {
-      guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-            let rootViewController = windowScene.windows.first?.rootViewController else {
-        rejecter("VIEW_ERROR", "Konnte Root View Controller nicht finden", nil)
-        return
-      }
-      
-      let alert = UIAlertController(
-        title: "Swift Info",
-        message: "Hi Leute, wir switchen hier gerade auf Swift UIKit",
-        preferredStyle: .alert
-      )
-      
-      alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-        resolver(true)
-      })
-      
-      rootViewController.present(alert, animated: true)
-    }
-  }
+     DispatchQueue.main.async {
+       guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+             let rootViewController = windowScene.windows.first?.rootViewController else {
+         rejecter("VIEW_ERROR", "Konnte Root View Controller nicht finden", nil)
+         return
+       }
+       
+       let alert = UIAlertController(
+         title: "Ab hier läuft Swift UIKit",
+         message: "Dann könnte man den Ladefuch mit deren SDK verwenden",
+         preferredStyle: .alert
+       )
+       
+       alert.addAction(UIAlertAction(title: "Schau her", style: .default) { _ in
+         if let url = URL(string: "https://github.com/elvah-hub/charge-sdk-ios") {
+           UIApplication.shared.open(url, options: [:], completionHandler: nil)
+         }
+         resolver(true)
+       })
+       
+       rootViewController.present(alert, animated: true)
+     }
+   }
 }
 

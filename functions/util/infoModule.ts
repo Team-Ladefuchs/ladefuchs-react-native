@@ -8,7 +8,7 @@ interface InfoModuleInterface {
 }
 
 export const infoModule: InfoModuleInterface | null =
-  Platform.OS === "ios" && InfoModule ? InfoModule : null;
+  InfoModule ? InfoModule : null;
 
 export const openSettings = async (): Promise<void> => {
   if (!infoModule) {
