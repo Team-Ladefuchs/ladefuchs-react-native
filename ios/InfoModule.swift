@@ -20,6 +20,7 @@ class InfoModule: NSObject {
   // MARK: - Settings öffnen
   
   @objc
+  @MainActor
   func openSettings(_ resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
     DispatchQueue.main.async {
       guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
@@ -44,6 +45,7 @@ class InfoModule: NSObject {
   // MARK: - Hallo Welt anzeigen
   
   @objc
+  @MainActor
   func showHelloWorld(_ resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
      DispatchQueue.main.async {
        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
