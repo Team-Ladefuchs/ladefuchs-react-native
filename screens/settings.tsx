@@ -17,6 +17,7 @@ import { Support } from "../components/settings/support";
 import { StartOnBoarding } from "../components/settings/startOnboarding";
 import { Rating } from "../components/storeReview/storeRating";
 import { HapticSettings } from "../components/settings/hapticSettings";
+//import { InfoModuleButton } from "../components/settings/infoModuleButton";
 
 export function SettingsScreen(): JSX.Element {
 	return (
@@ -89,6 +90,7 @@ export function SettingsScreen(): JSX.Element {
 				<View style={settingsStyle.innerContainer}>
 					<MemberView />
 					<Support />
+					{/* <InfoModuleButton /> */}
 					<StartOnBoarding />
 					<Rating />
 					<PodcastView />
