@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, ActivityIndicator, StyleSheet, Platform } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet, Platform, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Callout, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import { colors } from "@theme";
@@ -49,7 +49,11 @@ interface ChargingStation {
 	GeneralComments: string | null;
 }
 
-export function MapViewScreen(): React.JSX.Element {
+interface MapViewScreenProps {
+	onLocationSelected?: (payload: { street: string | null; city: string | null }) => void;
+}
+
+export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React.JSX.Element {
 	const [location, setLocation] = useState<LocationCoords | null>(null);
 	const [errorMsg, setErrorMsg] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -129,6 +133,20 @@ export function MapViewScreen(): React.JSX.Element {
 			// Lade Ladestationen für den neuen Kartenmittelpunkt
 			fetchChargingStations(region.latitude, region.longitude);
 		}, DEBOUNCE_DELAY_MS);
+	};
+
+	const handleSelectStation = (station: ChargingStation) => {
+		// Fällt auf Titel zurück, falls keine Straße vorhanden ist
+		const street = station.AddressInfo.AddressLine1 || station.AddressInfo.Title || null;
+		const city =
+			station.AddressInfo.Town ||
+			station.AddressInfo.StateOrProvince ||
+			station.AddressInfo.Postcode ||
+			null;
+
+		if (onLocationSelected) {
+			onLocationSelected({ street, city });
+		}
 	};
 
 	// Cleanup für den Timer beim Unmount
@@ -213,10 +231,19 @@ export function MapViewScreen(): React.JSX.Element {
 							longitude: station.AddressInfo.Longitude,
 						}}
 						pinColor="green"
+						onCalloutPress={() => handleSelectStation(station)}
 					>
 						<Callout>
 							<View style={styles.calloutContainer}>
-							{station.OperatorInfo && (
+								<Text style={styles.calloutTitle}>
+									{station.AddressInfo.Title}
+								</Text>
+								{station.AddressInfo.AddressLine1 && (
+									<Text style={styles.calloutText}>
+										{station.AddressInfo.AddressLine1}
+									</Text>
+								)}
+								{station.OperatorInfo && (
 									<Text style={styles.calloutText}>
 										Betreiber: {station.OperatorInfo.Title}
 									</Text>
@@ -275,6 +302,13 @@ export function MapViewScreen(): React.JSX.Element {
 										ℹ️ {station.GeneralComments}
 									</Text>
 								)}
+								<TouchableOpacity
+									style={styles.calloutSelectButton}
+									onPress={() => handleSelectStation(station)}
+									activeOpacity={0.8}
+								>
+									<Text style={styles.calloutSelectButtonText}>Als Standort übernehmen</Text>
+								</TouchableOpacity>
 							</View>
 						</Callout>
 					</Marker>
@@ -369,6 +403,19 @@ const styles = StyleSheet.create({
 		paddingTop: scale(6),
 		borderTopWidth: 1,
 		borderTopColor: "#E0E0E0",
+	},
+	calloutSelectButton: {
+		marginTop: scale(10),
+		backgroundColor: colors.ladefuchsOrange,
+		paddingVertical: scale(8),
+		paddingHorizontal: scale(10),
+		borderRadius: scale(6),
+		alignItems: "center",
+	},
+	calloutSelectButtonText: {
+		color: "#fff",
+		fontFamily: "Roboto-Bold",
+		fontSize: scale(12),
 	},
 	loadingStationsOverlay: {
 		position: "absolute",

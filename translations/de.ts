@@ -98,6 +98,8 @@ const de = {
 	hapticFeedback: "APP EINSTELLUNGEN",
 	hapticFeedbackText: "Haptisches Feedback",
 	locationText: "Dein Standort: ",
+	selectedLocationText: "Gewählter Standort: ",
+	useCurrentLocation: "Aktuellen Standort nutzen",
 	showOnMap: "Standort wechseln",
 };
 

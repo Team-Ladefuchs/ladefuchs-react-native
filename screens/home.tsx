@@ -20,6 +20,21 @@ export function HomeScreen(): React.JSX.Element {
 	const router = useNavigation<OnboardingScreenNavigationProp>();
 	const [street, setStreet] = useState<string | null>(null);
 	const [city, setCity] = useState<string | null>(null);
+	const [initialStreet, setInitialStreet] = useState<string | null>(null);
+	const [initialCity, setInitialCity] = useState<string | null>(null);
+	const [locationLabel, setLocationLabel] = useState<string>(i18n.t("locationText"));
+	const handleLocationSelected = (payload: { street: string | null; city: string | null }) => {
+		setStreet(payload.street);
+		setCity(payload.city);
+		setLocationLabel(i18n.t("selectedLocationText"));
+		setShowMapView(false);
+	};
+
+	const handleUseCurrentLocation = () => {
+		setStreet(initialStreet);
+		setCity(initialCity);
+		setLocationLabel(i18n.t("locationText"));
+	};
 
 	const { appError, showOnboarding, showMapView, setShowMapView } = useAppStore(
 		useShallow((state) => ({
@@ -57,8 +72,12 @@ export function HomeScreen(): React.JSX.Element {
 
 				if (reverseGeocode && reverseGeocode.length > 0) {
 					const address = reverseGeocode[0];
-					setStreet(address.street || address.name || null);
-					setCity(address.city || address.region || null);
+					const resolvedStreet = address.street || address.name || null;
+					const resolvedCity = address.city || address.region || null;
+					setStreet(resolvedStreet);
+					setCity(resolvedCity);
+					setInitialStreet(resolvedStreet);
+					setInitialCity(resolvedCity);
 				}
 			} catch (error) {
 				console.error("Fehler beim Abrufen der Location:", error);
@@ -74,7 +93,7 @@ export function HomeScreen(): React.JSX.Element {
 		<SafeAreaProvider>
 			<View style={{ flex: 1 }}>
 				{showMapView ? (
-					<MapViewScreen />
+					<MapViewScreen onLocationSelected={handleLocationSelected} />
 				) : (
 					<>
 						<ChargingTableHeader />
@@ -91,18 +110,26 @@ export function HomeScreen(): React.JSX.Element {
 									<Text
 										style={styles.locationText}
 										allowFontScaling={false}
-									>{i18n.t("locationText")}
-										{[street, city].filter(Boolean).join(", ")}
+									>{locationLabel}
+										{[city].filter(Boolean).join(", ")}
 									</Text>
 									<TouchableOpacity
-										onPress={() => setShowMapView(true)}
+										onPress={() => {
+											if (locationLabel === i18n.t("selectedLocationText")) {
+												handleUseCurrentLocation();
+											} else {
+												setShowMapView(true);
+											}
+										}}
 										activeOpacity={0.7}
 									>
 										<Text
 											style={styles.mapLinkText}
 											allowFontScaling={false}
 										>
-											{i18n.t("showOnMap")}
+											{locationLabel === i18n.t("selectedLocationText")
+												? i18n.t("useCurrentLocation")
+												: i18n.t("showOnMap")}
 										</Text>
 									</TouchableOpacity>
 								</View>
