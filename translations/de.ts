@@ -97,6 +97,8 @@ const de = {
 	offlineMessage: "Sorry, du bist offline.",
 	hapticFeedback: "APP EINSTELLUNGEN",
 	hapticFeedbackText: "Haptisches Feedback",
+	locationText: "Dein Standort: ",
+	showOnMap: "Standort wechseln",
 };
 
 export default de;

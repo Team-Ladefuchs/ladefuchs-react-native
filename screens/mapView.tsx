@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, Text, ActivityIndicator, StyleSheet, Platform } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Callout } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Callout, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import { colors } from "@theme";
 import { scale } from "react-native-size-matters";
@@ -24,13 +24,13 @@ interface ChargingStation {
 		Longitude: number;
 		Distance: number;
 	};
-	Connections: Array<{
+	Connections: {
 		ID: number;
 		ConnectionTypeID: number;
 		PowerKW: number | null;
 		CurrentTypeID: number | null;
 		Quantity: number | null;
-	}>;
+	}[];
 	NumberOfPoints: number | null;
 	StatusType: {
 		IsOperational: boolean;
@@ -55,9 +55,12 @@ export function MapViewScreen(): React.JSX.Element {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [chargingStations, setChargingStations] = useState<ChargingStation[]>([]);
 	const [loadingStations, setLoadingStations] = useState<boolean>(false);
+	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+	const mapRef = useRef<MapView | null>(null);
 
 	const OPENCHARGEMAP_API_KEY = "df7f6a4f-eac3-48e4-9576-aeb839d9d134";
 	const SEARCH_RADIUS_KM = 10;
+	const DEBOUNCE_DELAY_MS = 500; // 500ms Verzögerung vor dem Nachladen
 
 	useEffect(() => {
 		(async () => {
@@ -115,6 +118,28 @@ export function MapViewScreen(): React.JSX.Element {
 		}
 	};
 
+	const handleRegionChangeComplete = (region: Region) => {
+		// Lösche vorherigen Timer, falls vorhanden
+		if (debounceTimerRef.current) {
+			clearTimeout(debounceTimerRef.current);
+		}
+
+		// Setze neuen Timer für Debouncing
+		debounceTimerRef.current = setTimeout(() => {
+			// Lade Ladestationen für den neuen Kartenmittelpunkt
+			fetchChargingStations(region.latitude, region.longitude);
+		}, DEBOUNCE_DELAY_MS);
+	};
+
+	// Cleanup für den Timer beim Unmount
+	useEffect(() => {
+		return () => {
+			if (debounceTimerRef.current) {
+				clearTimeout(debounceTimerRef.current);
+			}
+		};
+	}, []);
+
 	if (loading) {
 		return (
 			<View style={styles.container}>
@@ -156,6 +181,7 @@ export function MapViewScreen(): React.JSX.Element {
 	return (
 		<View style={styles.container}>
 			<MapView
+				ref={mapRef}
 				style={styles.map}
 				provider={Platform.OS === "android" ? PROVIDER_GOOGLE : undefined}
 				initialRegion={{
@@ -167,6 +193,7 @@ export function MapViewScreen(): React.JSX.Element {
 				showsUserLocation={true}
 				showsMyLocationButton={true}
 				showsCompass={true}
+				onRegionChangeComplete={handleRegionChangeComplete}
 			>
 				<Marker
 					coordinate={{
@@ -189,14 +216,12 @@ export function MapViewScreen(): React.JSX.Element {
 					>
 						<Callout>
 							<View style={styles.calloutContainer}>
-								<Text style={styles.calloutTitle}>
-									{station.AddressInfo.Title}
-								</Text>
-								{station.AddressInfo.AddressLine1 && (
+							{station.OperatorInfo && (
 									<Text style={styles.calloutText}>
-										{station.AddressInfo.AddressLine1}
+										Betreiber: {station.OperatorInfo.Title}
 									</Text>
 								)}
+
 								{station.AddressInfo.Town && (
 									<Text style={styles.calloutText}>
 										{station.AddressInfo.Postcode} {station.AddressInfo.Town}
@@ -210,11 +235,7 @@ export function MapViewScreen(): React.JSX.Element {
 										Ladepunkte: {station.NumberOfPoints}
 									</Text>
 								)}
-								{station.OperatorInfo && (
-									<Text style={styles.calloutText}>
-										Betreiber: {station.OperatorInfo.Title}
-									</Text>
-								)}
+
 								{station.StatusType && (
 									<Text 
 										style={[
