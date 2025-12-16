@@ -47,6 +47,8 @@ export interface AppState extends AppData {
 	lastBannerChange: number;
 	showMapView: boolean;
 	setShowMapView: (value: boolean) => void;
+	locationEnabled: boolean;
+	setLocationEnabled: (value: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -180,6 +182,10 @@ export const useAppStore = create<AppState>((set, get) => {
 		showMapView: false,
 		setShowMapView: (value: boolean) => {
 			set(() => ({ showMapView: value }));
+		},
+		locationEnabled: true,
+		setLocationEnabled: (value: boolean) => {
+			set(() => ({ locationEnabled: value }));
 		},
 	};
 });

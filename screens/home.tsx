@@ -36,12 +36,13 @@ export function HomeScreen(): React.JSX.Element {
 		setLocationLabel(i18n.t("locationText"));
 	};
 
-	const { appError, showOnboarding, showMapView, setShowMapView } = useAppStore(
+	const { appError, showOnboarding, showMapView, setShowMapView, locationEnabled } = useAppStore(
 		useShallow((state) => ({
 			appError: state.appError,
 			showOnboarding: state.showOnboarding,
 			showMapView: state.showMapView,
 			setShowMapView: state.setShowMapView,
+			locationEnabled: state.locationEnabled,
 		})),
 	);
 
@@ -51,8 +52,18 @@ export function HomeScreen(): React.JSX.Element {
 		}
 	}, [showOnboarding, router]);
 
-	// Location abrufen für Stadt und Straße
+	// Location abrufen für Stadt und Straße - nur wenn locationEnabled aktiv ist
 	useEffect(() => {
+		if (!locationEnabled) {
+			// Wenn Standort deaktiviert, Location-Daten zurücksetzen
+			setStreet(null);
+			setCity(null);
+			setInitialStreet(null);
+			setInitialCity(null);
+			setShowMapView(false);
+			return;
+		}
+
 		(async () => {
 			try {
 				const { status } =
@@ -83,7 +94,7 @@ export function HomeScreen(): React.JSX.Element {
 				console.error("Fehler beim Abrufen der Location:", error);
 			}
 		})();
-	}, []);
+	}, [locationEnabled, setShowMapView]);
 
 	if (appError) {
 		return <OfflineView />;
@@ -105,7 +116,7 @@ export function HomeScreen(): React.JSX.Element {
 							>
 								{i18n.t("pickerheader")}
 							</Text>
-							{(street || city) && (
+							{locationEnabled && (street || city) && (
 								<View style={styles.locationContainer}>
 									<Text
 										style={styles.locationText}

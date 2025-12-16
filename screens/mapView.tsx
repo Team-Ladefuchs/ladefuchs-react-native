@@ -61,10 +61,14 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 	const [loadingStations, setLoadingStations] = useState<boolean>(false);
 	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const mapRef = useRef<MapView | null>(null);
+	const lastRegionRef = useRef<Region | null>(null);
+	const isMountedRef = useRef<boolean>(true);
+	const isLoadingRef = useRef<boolean>(false);
 
 	const OPENCHARGEMAP_API_KEY = "df7f6a4f-eac3-48e4-9576-aeb839d9d134";
-	const SEARCH_RADIUS_KM = 10;
-	const DEBOUNCE_DELAY_MS = 500; // 500ms Verzögerung vor dem Nachladen
+	const SEARCH_RADIUS_KM = 100;
+	const DEBOUNCE_DELAY_MS = 1000; // 1 Sekunde Verzögerung vor dem Nachladen
+	const MIN_DISTANCE_CHANGE_KM = 50; // Mindestdistanz in km, bevor neu geladen wird
 
 	useEffect(() => {
 		(async () => {
@@ -92,6 +96,14 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 				setLocation(coords);
 				setLoading(false);
 				
+				// Setze initiale Region
+				lastRegionRef.current = {
+					latitude: coords.latitude,
+					longitude: coords.longitude,
+					latitudeDelta: coords.latitudeDelta,
+					longitudeDelta: coords.longitudeDelta,
+				};
+				
 				// Lade Ladestationen in der Nähe
 				fetchChargingStations(coords.latitude, coords.longitude);
 			} catch (error) {
@@ -102,7 +114,25 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 		})();
 	}, []);
 
+	// Berechnet die Distanz zwischen zwei Koordinaten in Kilometern (Haversine-Formel)
+	const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+		const R = 6371; // Radius der Erde in km
+		const dLat = (lat2 - lat1) * (Math.PI / 180);
+		const dLon = (lon2 - lon1) * (Math.PI / 180);
+		const a =
+			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(lat1 * (Math.PI / 180)) *
+				Math.cos(lat2 * (Math.PI / 180)) *
+				Math.sin(dLon / 2) *
+				Math.sin(dLon / 2);
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		return R * c;
+	};
+
 	const fetchChargingStations = async (lat: number, lon: number) => {
+		if (!isMountedRef.current || isLoadingRef.current) return;
+		
+		isLoadingRef.current = true;
 		setLoadingStations(true);
 		try {
 			const url = `https://api.openchargemap.io/v3/poi/?output=json&latitude=${lat}&longitude=${lon}&distance=${SEARCH_RADIUS_KM}&distanceunit=km&maxresults=50&compact=false&verbose=false&key=${OPENCHARGEMAP_API_KEY}`;
@@ -113,25 +143,51 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 			}
 			
 			const data: ChargingStation[] = await response.json();
-			setChargingStations(data);
-			console.log(`${data.length} Ladestationen gefunden`);
+			if (isMountedRef.current) {
+				setChargingStations(data);
+				console.log(`${data.length} Ladestationen gefunden`);
+			}
 		} catch (error) {
 			console.error("Fehler beim Laden der Ladestationen:", error);
 		} finally {
-			setLoadingStations(false);
+			isLoadingRef.current = false;
+			if (isMountedRef.current) {
+				setLoadingStations(false);
+			}
 		}
 	};
 
 	const handleRegionChangeComplete = (region: Region) => {
+		if (!isMountedRef.current || isLoadingRef.current) return;
+
+		// Prüfe, ob sich die Region signifikant geändert hat
+		if (lastRegionRef.current) {
+			const distance = calculateDistance(
+				lastRegionRef.current.latitude,
+				lastRegionRef.current.longitude,
+				region.latitude,
+				region.longitude
+			);
+
+			// Nur neu laden, wenn sich die Region um mindestens MIN_DISTANCE_CHANGE_KM geändert hat
+			if (distance < MIN_DISTANCE_CHANGE_KM) {
+				return;
+			}
+		}
+
 		// Lösche vorherigen Timer, falls vorhanden
 		if (debounceTimerRef.current) {
 			clearTimeout(debounceTimerRef.current);
+			debounceTimerRef.current = null;
 		}
 
 		// Setze neuen Timer für Debouncing
 		debounceTimerRef.current = setTimeout(() => {
-			// Lade Ladestationen für den neuen Kartenmittelpunkt
-			fetchChargingStations(region.latitude, region.longitude);
+			if (isMountedRef.current && !isLoadingRef.current) {
+				lastRegionRef.current = region;
+				// Lade Ladestationen für den neuen Kartenmittelpunkt
+				fetchChargingStations(region.latitude, region.longitude);
+			}
 		}, DEBOUNCE_DELAY_MS);
 	};
 
@@ -151,9 +207,12 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 
 	// Cleanup für den Timer beim Unmount
 	useEffect(() => {
+		isMountedRef.current = true;
 		return () => {
+			isMountedRef.current = false;
 			if (debounceTimerRef.current) {
 				clearTimeout(debounceTimerRef.current);
+				debounceTimerRef.current = null;
 			}
 		};
 	}, []);
@@ -235,19 +294,17 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 					>
 						<Callout>
 							<View style={styles.calloutContainer}>
-								<Text style={styles.calloutTitle}>
-									{station.AddressInfo.Title}
-								</Text>
-								{station.AddressInfo.AddressLine1 && (
+							{station.OperatorInfo && (
+									<Text style={styles.calloutText}>
+										{station.OperatorInfo.Title}
+									</Text>
+								)}
+								{/*{station.AddressInfo.AddressLine1 && (
 									<Text style={styles.calloutText}>
 										{station.AddressInfo.AddressLine1}
 									</Text>
-								)}
-								{station.OperatorInfo && (
-									<Text style={styles.calloutText}>
-										Betreiber: {station.OperatorInfo.Title}
-									</Text>
-								)}
+								)}*/}
+
 
 								{station.AddressInfo.Town && (
 									<Text style={styles.calloutText}>
@@ -284,24 +341,7 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 										💰 {station.UsageCost}
 									</Text>
 								)}
-								{station.UsageType && (
-									<View style={styles.usageTypeContainer}>
-										<Text style={styles.calloutText}>
-											{station.UsageType.Title}
-										</Text>
-										{station.UsageType.IsMembershipRequired && (
-											<Text style={styles.usageNote}>🔑 Mitgliedschaft erforderlich</Text>
-										)}
-										{station.UsageType.IsAccessKeyRequired && (
-											<Text style={styles.usageNote}>🔐 Zugangskarte erforderlich</Text>
-										)}
-									</View>
-								)}
-								{station.GeneralComments && (
-									<Text style={styles.calloutComments}>
-										ℹ️ {station.GeneralComments}
-									</Text>
-								)}
+								
 								<TouchableOpacity
 									style={styles.calloutSelectButton}
 									onPress={() => handleSelectStation(station)}

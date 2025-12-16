@@ -4,13 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import { AppLogo } from "./appLogo";
 import { colors } from "@theme";
 import Zahnrad from "@assets/gearshape.svg";
-import MapIcon from "@assets/generic/magnifyingglass.svg";
-import BackIcon from "@assets/generic/magnifyingglass.svg";
 import { useAppStore } from "../../state/appState";
 import { ScaledSheet, scale } from "react-native-size-matters";
 import { RootNavigationProp, appRoutes } from "../../appRoutes";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Checkbox } from "../shared/checkBox";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation<RootNavigationProp>();
@@ -23,17 +22,24 @@ export function AppHeader(): JSX.Element {
 	const setisFavoriteTariffOnly = useAppStore(
 		(state) => state.setisFavoriteTariffOnly,
 	);
-	const showMapView = useAppStore((state) => state.showMapView);
+	const locationEnabled = useAppStore((state) => state.locationEnabled);
+	const setLocationEnabled = useAppStore((state) => state.setLocationEnabled);
 	const setShowMapView = useAppStore((state) => state.setShowMapView);
 
 	const handleSettingsPress = useCallback(() => {
 		navigation.navigate(appRoutes.settingsStack.key);
 	}, [navigation]);
 
-	const handleMapPress = useCallback(() => {
-		// Toggle MapView Sichtbarkeit
-		setShowMapView(!showMapView);
-	}, [showMapView, setShowMapView]);
+	const handleLocationToggle = useCallback(
+		(value: boolean) => {
+			setLocationEnabled(value);
+			// Wenn Standort deaktiviert wird, sofort zu Home wechseln
+			if (!value) {
+				setShowMapView(false);
+			}
+		},
+		[setLocationEnabled, setShowMapView]
+	);
 
 	return (
 		<SafeAreaView style={styles.headerContainer} edges={Platform.OS === 'android' ? ['top', 'left', 'right'] : undefined}>
@@ -45,17 +51,11 @@ export function AppHeader(): JSX.Element {
 			)}
 
 			<View style={styles.headerLeftIcon}>
-				<TouchableOpacity
-					activeOpacity={0.6}
-					hitSlop={scale(12)}
-					onPress={handleMapPress}
-				>
-					{showMapView ? (
-						<BackIcon width={scale(29)} height={scale(29)} color="#000" />
-					) : (
-						<MapIcon width={scale(29)} height={scale(29)} color="#000" />
-					)}
-				</TouchableOpacity>
+				<Checkbox
+					checked={locationEnabled}
+					onValueChange={handleLocationToggle}
+					size={scale(29)}
+				/>
 			</View>
 
 			<View style={{ position: "absolute", top: scale(21) }}>
