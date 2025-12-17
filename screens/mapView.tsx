@@ -200,6 +200,19 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 			station.AddressInfo.Postcode ||
 			null;
 
+		// Logging der gewählten Location aus dem MapView
+		const selectedLocationData = {
+			latitude: station.AddressInfo.Latitude,
+			longitude: station.AddressInfo.Longitude,
+			street: street,
+			city: city,
+			postcode: station.AddressInfo.Postcode || "Unbekannt",
+			distance: station.AddressInfo.Distance ? `${station.AddressInfo.Distance.toFixed(2)} km` : "Unbekannt",
+			operator: station.OperatorInfo?.Title || "Unbekannt",
+			stationId: station.ID,
+		};
+		console.log("Gewählte Location aus MapView:", selectedLocationData);
+
 		if (onLocationSelected) {
 			onLocationSelected({ street, city });
 		}

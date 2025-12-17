@@ -1,11 +1,10 @@
-import React, { JSX, useEffect } from "react";
+import React, { JSX } from "react";
 import { AppStateStatus, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	StackNavigationOptions,
 	createStackNavigator,
 } from "@react-navigation/stack";
-import * as Location from "expo-location";
 
 import { SettingsScreen } from "./screens/settings";
 import { HomeScreen } from "./screens/home";
@@ -66,69 +65,6 @@ function AppWrapper(): JSX.Element {
 
 	useQueryAppData();
 	useAopMetrics();
-
-	// Location beim App-Start abrufen und ins Log schreiben
-	useEffect(() => {
-		(async () => {
-			try {
-				// Berechtigungen für Location anfordern
-				const { status } =
-					await Location.requestForegroundPermissionsAsync();
-				if (status !== "granted") {
-					console.log(
-						"Location-Berechtigung wurde verweigert. Status:",
-						status
-					);
-					return;
-				}
-
-				// Aktuellen Standort abrufen
-				const currentLocation = await Location.getCurrentPositionAsync({
-					accuracy: Location.Accuracy.Balanced,
-				});
-
-				const locationData = {
-					latitude: currentLocation.coords.latitude,
-					longitude: currentLocation.coords.longitude,
-					accuracy: currentLocation.coords.accuracy,
-					altitude: currentLocation.coords.altitude,
-					heading: currentLocation.coords.heading,
-					speed: currentLocation.coords.speed,
-					timestamp: currentLocation.timestamp,
-				};
-
-				// Reverse Geocoding für Stadt und Straße
-				try {
-					const reverseGeocode = await Location.reverseGeocodeAsync({
-						latitude: currentLocation.coords.latitude,
-						longitude: currentLocation.coords.longitude,
-					});
-
-					if (reverseGeocode && reverseGeocode.length > 0) {
-						const address = reverseGeocode[0];
-						locationData.street =
-							address.street || address.name || "Unbekannt";
-						locationData.city =
-							address.city ||
-							address.locality ||
-							address.subAdministrativeArea ||
-							"Unbekannt";
-						locationData.postalCode = address.postalCode || "Unbekannt";
-						locationData.country = address.country || "Unbekannt";
-					}
-				} catch (geocodeError) {
-					console.error(
-						"Fehler beim Reverse Geocoding:",
-						geocodeError
-					);
-				}
-
-				console.log("Aktuelle Location beim App-Start:", locationData);
-			} catch (error) {
-				console.error("Fehler beim Abrufen der Location:", error);
-			}
-		})();
-	}, []);
 
 	if (!fontLoaded) {
 		return <View />;
