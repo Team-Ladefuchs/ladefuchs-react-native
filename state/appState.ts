@@ -183,7 +183,7 @@ export const useAppStore = create<AppState>((set, get) => {
 		setShowMapView: (value: boolean) => {
 			set(() => ({ showMapView: value }));
 		},
-		locationEnabled: true,
+		locationEnabled: false,
 		setLocationEnabled: (value: boolean) => {
 			set(() => ({ locationEnabled: value }));
 		},

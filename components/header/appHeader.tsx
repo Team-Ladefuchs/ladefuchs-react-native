@@ -9,7 +9,7 @@ import { ScaledSheet, scale } from "react-native-size-matters";
 import { RootNavigationProp, appRoutes } from "../../appRoutes";
 import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Checkbox } from "../shared/checkBox";
+import { LocationToggle } from "../shared/locationToggle";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation<RootNavigationProp>();
@@ -51,10 +51,10 @@ export function AppHeader(): JSX.Element {
 			)}
 
 			<View style={styles.headerLeftIcon}>
-				<Checkbox
+				<LocationToggle
 					checked={locationEnabled}
 					onValueChange={handleLocationToggle}
-					size={scale(29)}
+					size={29}
 				/>
 			</View>
 
