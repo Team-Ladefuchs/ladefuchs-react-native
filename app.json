@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ladefuchs",
     "slug": "ladefuchs",
-    "version": "3.6.0",
+    "version": "4.0.0",
     "newArchEnabled": true,
     "experiments": {
       "reactCompiler": true
