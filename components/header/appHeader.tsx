@@ -11,6 +11,7 @@ import { FavoriteCheckbox } from "../shared/favoriteCheckbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LocationToggle } from "../shared/locationToggle";
 import * as Location from "expo-location";
+import { sendLocationToAPI } from "../../utils/locationAPI";
 
 export function AppHeader(): JSX.Element {
 	const navigation = useNavigation<RootNavigationProp>();
@@ -92,6 +93,12 @@ export function AppHeader(): JSX.Element {
 					}
 
 					console.log("Aktuelle Location beim Aktivieren von LocationToggle:", locationData);
+
+					// Location an API senden
+					await sendLocationToAPI({
+						latitude: currentLocation.coords.latitude,
+						longitude: currentLocation.coords.longitude,
+					});
 				} catch (error) {
 					console.error("Fehler beim Abrufen der Location:", error);
 				}

@@ -4,6 +4,7 @@ import MapView, { Marker, PROVIDER_GOOGLE, Callout, Region } from "react-native-
 import * as Location from "expo-location";
 import { colors } from "@theme";
 import { scale } from "react-native-size-matters";
+import { sendLocationToAPI } from "../utils/locationAPI";
 
 interface LocationCoords {
 	latitude: number;
@@ -212,6 +213,12 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 			stationId: station.ID,
 		};
 		console.log("Gewählte Location aus MapView:", selectedLocationData);
+
+		// Location an API senden
+		sendLocationToAPI({
+			latitude: station.AddressInfo.Latitude,
+			longitude: station.AddressInfo.Longitude,
+		});
 
 		if (onLocationSelected) {
 			onLocationSelected({ street, city });
