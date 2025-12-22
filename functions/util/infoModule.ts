@@ -4,6 +4,7 @@ const { InfoModule } = NativeModules;
 
 interface InfoModuleInterface {
   openSettings: () => Promise<boolean>;
+  showLocationPermissionHint: () => Promise<boolean>;
   showHelloWorld: () => Promise<boolean>;
 }
 
@@ -19,6 +20,18 @@ export const openSettings = async (): Promise<void> => {
     await infoModule.openSettings();
   } catch (error) {
     console.error("Fehler beim Öffnen der Settings:", error);
+  }
+};
+
+export const showLocationPermissionHint = async (): Promise<void> => {
+  if (!infoModule) {
+    console.warn("InfoModule ist nicht verfügbar");
+    return;
+  }
+  try {
+    await infoModule.showLocationPermissionHint();
+  } catch (error) {
+    console.error("Fehler beim Anzeigen des Standortfreigabe-Hinweises:", error);
   }
 };
 

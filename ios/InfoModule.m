@@ -11,6 +11,10 @@
 RCT_EXTERN_METHOD(openSettings:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter)
 
+// Standortfreigabe Hinweis
+RCT_EXTERN_METHOD(showLocationPermissionHint:(RCTPromiseResolveBlock)resolver
+                  rejecter:(RCTPromiseRejectBlock)rejecter)
+
 // Hallo Welt anzeigen
 RCT_EXTERN_METHOD(showHelloWorld:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter)

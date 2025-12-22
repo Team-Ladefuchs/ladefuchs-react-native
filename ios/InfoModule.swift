@@ -42,6 +42,32 @@ class InfoModule: NSObject {
     }
   }
   
+  // MARK: - Standortfreigabe Hinweis
+  
+  @objc
+  @MainActor
+  func showLocationPermissionHint(_ resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
+    DispatchQueue.main.async {
+      guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let rootViewController = windowScene.windows.first?.rootViewController else {
+        rejecter("VIEW_ERROR", "Konnte Root View Controller nicht finden", nil)
+        return
+      }
+      
+      let alert = UIAlertController(
+        title: "Standortfreigabe für dynamische Preise",
+        message: "Um dir die besten Preise für Ladestationen in deiner Nähe anzuzeigen, benötigen wir Zugriff auf deinen Standort. Die Standortdaten werden nur lokal verwendet und nicht gespeichert.",
+        preferredStyle: .alert
+      )
+      
+      alert.addAction(UIAlertAction(title: "Verstanden", style: .default) { _ in
+        resolver(true)
+      })
+      
+      rootViewController.present(alert, animated: true)
+    }
+  }
+  
   // MARK: - Hallo Welt anzeigen
   
   @objc
