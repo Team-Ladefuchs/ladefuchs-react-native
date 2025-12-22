@@ -56,7 +56,7 @@ class InfoModule: NSObject {
        
        let alert = UIAlertController(
          title: "Ab hier läuft Swift UIKit",
-         message: "Dann könnte man den Ladefuch mit deren SDK verwenden",
+         message: "Wir könnten den Ladefuchs mit deren SDK verbinden",
          preferredStyle: .alert
        )
        
@@ -64,6 +64,10 @@ class InfoModule: NSObject {
          if let url = URL(string: "https://github.com/elvah-hub/charge-sdk-ios") {
            UIApplication.shared.open(url, options: [:], completionHandler: nil)
          }
+         resolver(true)
+       })
+       
+       alert.addAction(UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
          resolver(true)
        })
        

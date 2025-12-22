@@ -1,9 +1,7 @@
 import React, { JSX } from "react";
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import { styles } from "../../theme";
-import { Line } from "./line";
 import { scale } from "react-native-size-matters";
-import { openSettings, showHelloWorld } from "../../functions/util/infoModule";
 import SwiftIcon from "../../assets/generic/swift.svg";
 
 export function InfoModuleButton(): JSX.Element {
@@ -18,7 +16,7 @@ export function InfoModuleButton(): JSX.Element {
 		<View style={{ marginBottom: scale(16), marginLeft: scale(15) }}>
 			<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
 				<Text style={styles.headLine}>
-					{isIOS ? "Swift Modul testen" : "Kotlin Modul testen"}
+					{isIOS ? "elvah Swift SDK" : "elvah Kotlin SDK"}
 				</Text>
 				{isIOS && <SwiftIcon width={scale(24)} height={scale(24)} />}
 			</View>
