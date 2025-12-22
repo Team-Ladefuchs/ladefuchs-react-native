@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Platform } from "react-native";
 import { styles } from "../../theme";
 import { scale } from "react-native-size-matters";
 import SwiftIcon from "../../assets/generic/swift.svg";
+import { showHelloWorld } from "../../functions/util/infoModule";
 
 export function InfoModuleButton(): JSX.Element {
 	const isIOS = Platform.OS === "ios";
