@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, ActivityIndicator, StyleSheet, Platform, TouchableOpacity } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Callout, Region } from "react-native-maps";
+import { View, Text, ActivityIndicator, StyleSheet, Platform } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import { colors } from "@theme";
 import { scale } from "react-native-size-matters";
 import { sendLocationToAPI } from "../functions/api/locationAPI";
+import Svg, { Path, Circle } from "react-native-svg";
+import { LocationToggle } from "../components/shared/locationToggle";
 
 interface LocationCoords {
 	latitude: number;
@@ -145,8 +147,25 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 			
 			const data: ChargingStation[] = await response.json();
 			if (isMountedRef.current) {
-				setChargingStations(data);
-				console.log(`${data.length} Ladestationen gefunden`);
+				// Filtere "Business owner at location" Standorte heraus
+				const filteredData = data.filter((station) => {
+					const usageTypeTitle = station.UsageType?.Title?.toLowerCase() || "";
+					const operatorTitle = station.OperatorInfo?.Title?.toLowerCase() || "";
+					const addressTitle = station.AddressInfo?.Title?.toLowerCase() || "";
+					
+					// Prüfe verschiedene Varianten und Felder
+					const isBusinessOwner = 
+						usageTypeTitle.includes("business owner at location") ||
+						usageTypeTitle.includes("business owner") ||
+						operatorTitle.includes("business owner at location") ||
+						operatorTitle.includes("business owner") ||
+						addressTitle.includes("business owner at location") ||
+						addressTitle.includes("business owner");
+					
+					return !isBusinessOwner;
+				});
+				setChargingStations(filteredData);
+				console.log(`${filteredData.length} Ladestationen gefunden (${data.length - filteredData.length} Business Owner Standorte ausgeblendet)`);
 			}
 		} catch (error) {
 			console.error("Fehler beim Laden der Ladestationen:", error);
@@ -302,77 +321,110 @@ export function MapViewScreen({ onLocationSelected }: MapViewScreenProps): React
 					pinColor={colors.ladefuchsOrange}
 				/>
 				
-				{chargingStations.map((station) => (
-					<Marker
-						key={station.ID}
-						coordinate={{
-							latitude: station.AddressInfo.Latitude,
-							longitude: station.AddressInfo.Longitude,
-						}}
-						pinColor="green"
-						onCalloutPress={() => handleSelectStation(station)}
-					>
-						<Callout>
-							<View style={styles.calloutContainer}>
-							{station.OperatorInfo && (
-									<Text style={styles.calloutText}>
-										{station.OperatorInfo.Title}
-									</Text>
-								)}
-								{/*{station.AddressInfo.AddressLine1 && (
-									<Text style={styles.calloutText}>
-										{station.AddressInfo.AddressLine1}
-									</Text>
-								)}*/}
+				{chargingStations.map((station) => {
+					const maxPower = station.Connections.length > 0
+						? Math.max(
+								...station.Connections
+									.map((conn) => conn.PowerKW || 0)
+									.filter((power) => power > 0)
+							)
+						: 0;
 
-
-								{station.AddressInfo.Town && (
-									<Text style={styles.calloutText}>
-										{station.AddressInfo.Postcode} {station.AddressInfo.Town}
-									</Text>
-								)}
-								<Text style={styles.calloutDistance}>
-									{station.AddressInfo.Distance.toFixed(2)} km entfernt
-								</Text>
-								{station.NumberOfPoints && (
-									<Text style={styles.calloutText}>
-										Ladepunkte: {station.NumberOfPoints}
-									</Text>
-								)}
-
-								{station.StatusType && (
-									<Text 
-										style={[
-											styles.calloutText,
-											{ color: station.StatusType.IsOperational ? "green" : "red" }
-										]}
-									>
-										Status: {station.StatusType.Title}
-									</Text>
-								)}
-								{station.Connections.length > 0 && (
-									<Text style={styles.calloutText}>
-										Anschlüsse: {station.Connections.length}
-										{station.Connections[0].PowerKW && ` (${station.Connections[0].PowerKW} kW)`}
-									</Text>
-								)}
-								{station.UsageCost && station.UsageCost !== "None" && (
-									<Text style={styles.calloutPrice}>
-										💰 {station.UsageCost}
-									</Text>
-								)}
-								
-								<TouchableOpacity
-									style={styles.calloutSelectButton}
-									onPress={() => handleSelectStation(station)}
-									activeOpacity={0.8}
-								>
-									<Text style={styles.calloutSelectButtonText}>Als Standort übernehmen</Text>
-								</TouchableOpacity>
+					return (
+						<Marker
+							key={station.ID}
+							coordinate={{
+								latitude: station.AddressInfo.Latitude,
+								longitude: station.AddressInfo.Longitude,
+							}}
+							anchor={{ x: 0.5, y: 0.5 }}
+							tracksViewChanges={false}
+						>
+							<View style={styles.markerCalloutContainer}>
+								<View style={styles.calloutSingleRow}>
+									{station.OperatorInfo && (
+										<Text style={styles.calloutTitle} numberOfLines={1}>
+											{station.OperatorInfo.Title}
+										</Text>
+									)}
+									{station.Connections.length > 0 && (
+										<View style={styles.connectionsRingContainer}>
+											<Svg width={scale(28)} height={scale(28)} viewBox="0 0 28 28">
+												<Circle
+													cx="14"
+													cy="14"
+													r="10"
+													fill="#E0E0E0"
+												/>
+												{Array.from({ length: station.Connections.length }).map((_, index) => {
+													const totalConnections = station.Connections.length;
+													const gapAngle = 0.15; // Abstand zwischen Segmenten in Radiant
+													const anglePerSegment = (2 * Math.PI) / totalConnections - gapAngle;
+													const startAngle = index * (2 * Math.PI / totalConnections) + gapAngle / 2 - Math.PI / 2;
+													const endAngle = startAngle + anglePerSegment;
+													
+													const centerX = 14;
+													const centerY = 14;
+													const innerRadius = 8;
+													const outerRadius = 12;
+													
+													const x1 = centerX + innerRadius * Math.cos(startAngle);
+													const y1 = centerY + innerRadius * Math.sin(startAngle);
+													const x2 = centerX + outerRadius * Math.cos(startAngle);
+													const y2 = centerY + outerRadius * Math.sin(startAngle);
+													const x3 = centerX + outerRadius * Math.cos(endAngle);
+													const y3 = centerY + outerRadius * Math.sin(endAngle);
+													const x4 = centerX + innerRadius * Math.cos(endAngle);
+													const y4 = centerY + innerRadius * Math.sin(endAngle);
+													
+													const largeArcFlag = anglePerSegment > Math.PI ? 1 : 0;
+													
+													const pathData = [
+														`M ${x1} ${y1}`,
+														`L ${x2} ${y2}`,
+														`A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x3} ${y3}`,
+														`L ${x4} ${y4}`,
+														`A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x1} ${y1}`,
+														`Z`,
+													].join(" ");
+													
+													return (
+														<Path
+															key={index}
+															d={pathData}
+															fill={colors.ladefuchsOrange}
+															stroke="#fff"
+															strokeWidth={1.5}
+														/>
+													);
+												})}
+											</Svg>
+											{maxPower > 0 && (
+												<View style={styles.ringCenterText}>
+													<Text style={styles.ringCenterTextValue}>{maxPower}</Text>
+													<Text style={styles.ringCenterTextUnit}>kW</Text>
+												</View>
+											)}
+										</View>
+									)}
+									<LocationToggle
+										checked={true}
+										onValueChange={() => handleSelectStation(station)}
+										size={20}
+									/>
+								</View>
+								<View style={styles.markerTriangle}>
+									<Svg width={scale(8)} height={scale(6)} viewBox="0 0 8 6">
+										<Path
+											d="M 0 0 L 4 6 L 8 0 Z"
+											fill="rgba(255, 255, 255, 0.9)"
+										/>
+									</Svg>
+								</View>
 							</View>
-						</Callout>
-					</Marker>
-				))}
+						</Marker>
+					);
+				})}
 			</MapView>
 			{loadingStations && (
 				<View style={styles.loadingStationsOverlay}>
@@ -412,15 +464,90 @@ const styles = StyleSheet.create({
 		fontFamily: "Roboto",
 		textAlign: "center",
 	},
+	markerCalloutContainer: {
+		backgroundColor: "rgba(255, 255, 255, 0.9)",
+		padding: scale(5),
+		borderRadius: scale(4),
+		alignSelf: "flex-start",
+		position: "relative",
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 1 },
+		shadowOpacity: 0.25,
+		shadowRadius: 2,
+		elevation: 3,
+	},
+	markerTriangle: {
+		position: "absolute",
+		bottom: scale(-6),
+		left: "50%",
+		marginLeft: scale(-4),
+		alignItems: "center",
+		justifyContent: "center",
+	},
 	calloutContainer: {
 		padding: scale(10),
 		minWidth: scale(200),
 	},
+	calloutHeaderRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginBottom: scale(4),
+		gap: scale(4),
+	},
+	calloutSingleRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: scale(6),
+	},
 	calloutTitle: {
 		fontFamily: "Roboto-Bold",
-		fontSize: scale(14),
-		marginBottom: scale(4),
+		fontSize: scale(10),
 		color: colors.text,
+	},
+	calloutInfoRow: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		marginBottom: scale(2),
+	},
+	calloutInfoText: {
+		fontFamily: "Roboto",
+		fontSize: scale(9),
+		color: colors.text,
+	},
+	connectionsVisual: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: scale(4),
+	},
+	connectionsRingContainer: {
+		width: scale(28),
+		height: scale(28),
+		alignItems: "center",
+		justifyContent: "center",
+		position: "relative",
+	},
+	ringCenterText: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	ringCenterTextValue: {
+		fontFamily: "Roboto-Bold",
+		fontSize: scale(7),
+		color: colors.text,
+		lineHeight: scale(8),
+	},
+	ringCenterTextUnit: {
+		fontFamily: "Roboto",
+		fontSize: scale(5),
+		color: colors.text,
+		lineHeight: scale(6),
 	},
 	calloutText: {
 		fontFamily: "Roboto",
@@ -465,17 +592,18 @@ const styles = StyleSheet.create({
 		borderTopColor: "#E0E0E0",
 	},
 	calloutSelectButton: {
-		marginTop: scale(10),
 		backgroundColor: colors.ladefuchsOrange,
-		paddingVertical: scale(8),
-		paddingHorizontal: scale(10),
-		borderRadius: scale(6),
+		padding: scale(4),
+		borderRadius: scale(3),
 		alignItems: "center",
+		justifyContent: "center",
+		minWidth: scale(20),
+		minHeight: scale(20),
 	},
 	calloutSelectButtonText: {
 		color: "#fff",
 		fontFamily: "Roboto-Bold",
-		fontSize: scale(12),
+		fontSize: scale(10),
 	},
 	loadingStationsOverlay: {
 		position: "absolute",
@@ -495,7 +623,7 @@ const styles = StyleSheet.create({
 	loadingStationsText: {
 		marginLeft: scale(8),
 		fontFamily: "Roboto",
-		fontSize: scale(12),
+		fontSize: scale(10),
 		color: colors.text,
 	},
 });

@@ -42,6 +42,32 @@ class InfoModule: NSObject {
     }
   }
   
+  // MARK: - Standortfreigabe Hinweis
+  
+  @objc
+  @MainActor
+  func showLocationPermissionHint(_ resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
+    DispatchQueue.main.async {
+      guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let rootViewController = windowScene.windows.first?.rootViewController else {
+        rejecter("VIEW_ERROR", "Konnte Root View Controller nicht finden", nil)
+        return
+      }
+      
+      let alert = UIAlertController(
+        title: "Standortfreigabe für dynamische Preise",
+        message: "Um dir die besten Preise für Ladestationen in deiner Nähe anzuzeigen, benötigen wir Zugriff auf deinen Standort. Die Standortdaten werden nur auf deinem Gerät verwendet und nicht gespeichert.",
+        preferredStyle: .alert
+      )
+      
+      alert.addAction(UIAlertAction(title: "Verstanden", style: .default) { _ in
+        resolver(true)
+      })
+      
+      rootViewController.present(alert, animated: true)
+    }
+  }
+  
   // MARK: - Hallo Welt anzeigen
   
   @objc
@@ -56,7 +82,7 @@ class InfoModule: NSObject {
        
        let alert = UIAlertController(
          title: "Ab hier läuft Swift UIKit",
-         message: "Dann könnte man den Ladefuch mit deren SDK verwenden",
+         message: "Wir könnten den Ladefuchs mit deren SDK verbinden",
          preferredStyle: .alert
        )
        
@@ -67,7 +93,12 @@ class InfoModule: NSObject {
          resolver(true)
        })
        
+       alert.addAction(UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
+         resolver(true)
+       })
+       
        rootViewController.present(alert, animated: true)
      }
    }
 }
+
