@@ -6,6 +6,8 @@
 import Foundation
 import React
 import UIKit
+import SwiftUI
+import ElvahCharge
 
 @objc(InfoModule)
 class InfoModule: NSObject {
@@ -56,7 +58,7 @@ class InfoModule: NSObject {
       
       let alert = UIAlertController(
         title: "Standortfreigabe für dynamische Preise",
-        message: "Um dir die besten Preise für Ladestationen in deiner Nähe anzuzeigen, benötigen wir Zugriff auf deinen Standort. Die Standortdaten werden nur lokal verwendet und nicht gespeichert.",
+        message: "Um dir die besten Preise für Ladestationen in deiner Nähe anzuzeigen, benötigen wir Zugriff auf deinen Standort. Die Standortdaten werden nur auf deinem Gerät verwendet und nicht gespeichert.",
         preferredStyle: .alert
       )
       
@@ -68,7 +70,7 @@ class InfoModule: NSObject {
     }
   }
   
-  // MARK: - Hallo Welt anzeigen
+  // MARK: - ContentView anzeigen (elvah SDK)
   
   @objc
   @MainActor
@@ -80,25 +82,36 @@ class InfoModule: NSObject {
          return
        }
        
-       let alert = UIAlertController(
-         title: "Ab hier läuft Swift UIKit",
-         message: "Wir könnten den Ladefuchs mit deren SDK verbinden",
-         preferredStyle: .alert
+       // Elvah SDK initialisieren, falls noch nicht geschehen
+       Elvah.initialize(with: .simulator)
+       
+       // ContentView als SwiftUI View erstellen
+       let contentView = ContentView()
+       let hostingController = UIHostingController(rootView: contentView)
+       
+       // Navigation Controller für bessere Präsentation
+       let navigationController = UINavigationController(rootViewController: hostingController)
+       
+       // Schließen-Button hinzufügen
+       hostingController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+         systemItem: .close,
+         primaryAction: UIAction { [weak self] _ in
+           navigationController.dismiss(animated: true) {
+             resolver(true)
+           }
+         }
        )
        
-       alert.addAction(UIAlertAction(title: "Schau her", style: .default) { _ in
-         if let url = URL(string: "https://github.com/elvah-hub/charge-sdk-ios") {
-           UIApplication.shared.open(url, options: [:], completionHandler: nil)
-         }
-         resolver(true)
-       })
+       // Modal präsentieren
+       navigationController.modalPresentationStyle = .pageSheet
+       if let sheet = navigationController.sheetPresentationController {
+         sheet.detents = [.large()]
+         sheet.prefersGrabberVisible = true
+       }
        
-       alert.addAction(UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
-         resolver(true)
-       })
-       
-       rootViewController.present(alert, animated: true)
+       rootViewController.present(navigationController, animated: true)
      }
    }
+  
 }
 
