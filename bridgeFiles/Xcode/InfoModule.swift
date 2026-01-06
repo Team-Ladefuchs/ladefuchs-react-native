@@ -95,7 +95,7 @@ class InfoModule: NSObject {
        // Schließen-Button hinzufügen
        hostingController.navigationItem.leftBarButtonItem = UIBarButtonItem(
          systemItem: .close,
-         primaryAction: UIAction { _ in
+         primaryAction: UIAction { [weak self] _ in
            navigationController.dismiss(animated: true) {
              resolver(true)
            }

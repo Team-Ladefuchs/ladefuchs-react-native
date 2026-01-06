@@ -29,7 +29,7 @@ export function InfoModuleButton(): JSX.Element {
 					style={{ marginTop: scale(1) }}
 				>
 					<Text style={styles.settingsLink}>
-						{isIOS ? "Swift Module anzeigen" : "Kotlin Module anzeigen"}
+						{isIOS ? "elvah charge SDK" : "Kelvah charge SDK"}
 					</Text>
 				</TouchableOpacity>
 
