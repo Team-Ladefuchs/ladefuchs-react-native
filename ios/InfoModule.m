@@ -15,6 +15,11 @@ RCT_EXTERN_METHOD(openSettings:(RCTPromiseResolveBlock)resolver
 RCT_EXTERN_METHOD(showLocationPermissionHint:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter)
 
+// API-Key setzen für SDK-Initialisierung
+RCT_EXTERN_METHOD(setAPIKey:(NSString *)apiKey
+                  resolver:(RCTPromiseResolveBlock)resolver
+                  rejecter:(RCTPromiseRejectBlock)rejecter)
+
 // Hallo Welt anzeigen
 RCT_EXTERN_METHOD(showHelloWorld:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter)

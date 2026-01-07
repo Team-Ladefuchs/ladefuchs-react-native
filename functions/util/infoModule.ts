@@ -5,6 +5,7 @@ const { InfoModule } = NativeModules;
 interface InfoModuleInterface {
   openSettings: () => Promise<boolean>;
   showLocationPermissionHint: () => Promise<boolean>;
+  setAPIKey: (apiKey: string) => Promise<boolean>;
   showHelloWorld: () => Promise<boolean>;
 }
 
@@ -32,6 +33,23 @@ export const showLocationPermissionHint = async (): Promise<void> => {
     await infoModule.showLocationPermissionHint();
   } catch (error) {
     console.error("Fehler beim Anzeigen des Standortfreigabe-Hinweises:", error);
+  }
+};
+
+export const setElvahAPIKey = async (apiKey: string): Promise<void> => {
+  if (!infoModule) {
+    console.warn("InfoModule ist nicht verfügbar");
+    return;
+  }
+  if (!apiKey || apiKey.trim() === "") {
+    throw new Error("API-Key darf nicht leer sein");
+  }
+  try {
+    await infoModule.setAPIKey(apiKey);
+    console.log("elvah API-Key erfolgreich gesetzt");
+  } catch (error) {
+    console.error("Fehler beim Setzen des API-Keys:", error);
+    throw error;
   }
 };
 

@@ -12,11 +12,41 @@ import ElvahCharge
 @objc(InfoModule)
 class InfoModule: NSObject {
   
+  // MARK: - Properties
+  
+  private static var apiKey: String?
+  private static var isInitialized = false
+  
   // MARK: - RCTBridgeModule
   
   @objc
   static func requiresMainQueueSetup() -> Bool {
     return false
+  }
+  
+  // MARK: - SDK Initialisierung mit API-Key
+  
+  @objc
+  @MainActor
+  func setAPIKey(_ apiKey: String, resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
+    DispatchQueue.main.async {
+      guard !apiKey.isEmpty else {
+        rejecter("INIT_ERROR", "API-Key darf nicht leer sein", nil)
+        return
+      }
+      
+      InfoModule.apiKey = apiKey
+      
+      // SDK neu initialisieren, falls bereits initialisiert
+      if InfoModule.isInitialized {
+        // SDK mit neuem API-Key neu initialisieren
+        // Erstelle ein Configuration-Objekt mit dem API-Key
+        let configuration = Elvah.Configuration(apiKey: apiKey)
+        Elvah.initialize(with: configuration)
+      }
+      
+      resolver(true)
+    }
   }
   
   // MARK: - Settings öffnen
@@ -82,8 +112,20 @@ class InfoModule: NSObject {
          return
        }
        
-       // Elvah SDK initialisieren, falls noch nicht geschehen
-       Elvah.initialize(with: .simulator)
+       // Elvah SDK initialisieren
+       // Verwende API-Key falls gesetzt, sonst Simulator
+       if !InfoModule.isInitialized {
+         if let apiKey = InfoModule.apiKey, !apiKey.isEmpty {
+           // Initialisierung mit API-Key
+           // Erstelle ein Configuration-Objekt mit dem API-Key
+           let configuration = Elvah.Configuration(apiKey: apiKey)
+           Elvah.initialize(with: configuration)
+         } else {
+           // Fallback: Simulator-Modus (für Entwicklung)
+           Elvah.initialize(with: .simulator)
+         }
+         InfoModule.isInitialized = true
+       }
        
        // ContentView als SwiftUI View erstellen
        let contentView = ContentView()
@@ -95,7 +137,7 @@ class InfoModule: NSObject {
        // Schließen-Button hinzufügen
        hostingController.navigationItem.leftBarButtonItem = UIBarButtonItem(
          systemItem: .close,
-         primaryAction: UIAction { _ in
+         primaryAction: UIAction { [weak self] _ in
            navigationController.dismiss(animated: true) {
              resolver(true)
            }
@@ -114,4 +156,3 @@ class InfoModule: NSObject {
    }
   
 }
-

@@ -37,6 +37,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { InfoModal } from "./components/InfoModal";
 import { useAnounncement } from "./hooks/useAnnoucement";
 import { useLocationPermissionHint } from "./hooks/useLocationPermissionHint";
+import { useElvahSDK } from "./hooks/useElvahSDK";
 
 const queryClient = new QueryClient();
 const RootStack = createStackNavigator();
@@ -67,6 +68,7 @@ function AppWrapper(): JSX.Element {
 	useQueryAppData();
 	useAopMetrics();
 	useLocationPermissionHint();
+	useElvahSDK();
 
 	if (!fontLoaded) {
 		return <View />;
