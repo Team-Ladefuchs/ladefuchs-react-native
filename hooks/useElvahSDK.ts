@@ -4,23 +4,7 @@ import { setElvahAPIKey } from "../functions/util/infoModule";
 
 // API-Key aus Umgebungsvariable lesen
 // Für Produktion: In .env Datei speichern: ELVAH_API_KEY=dein-api-key-hier
-const ELVAH_API_KEY_RAW = process.env.ELVAH_API_KEY || "";
-
-// API-Key aus dem String extrahieren (falls der vollständige String übergeben wurde)
-function extractAPIKey(rawKey: string): string {
-	if (!rawKey || rawKey.trim() === "") {
-		return "";
-	}
-	// Prüfe, ob der String den vollständigen Format enthält
-	const apiKeyMatch = rawKey.match(/api-key=([^\s]+)/);
-	if (apiKeyMatch && apiKeyMatch[1]) {
-		return apiKeyMatch[1];
-	}
-	// Falls nicht, verwende den String direkt (bereits nur der API-Key)
-	return rawKey;
-}
-
-const ELVAH_API_KEY = extractAPIKey(ELVAH_API_KEY_RAW);
+const ELVAH_API_KEY = process.env.ELVAH_API_KEY || "";
 
 /**
  * Hook zur Initialisierung des elvah SDK mit API-Key beim App-Start
@@ -38,16 +22,19 @@ export function useElvahSDK() {
 		}
 
 		// Prüfen, ob API-Key vorhanden ist
-		if (!ELVAH_API_KEY || ELVAH_API_KEY.trim() === "") {
+		const trimmedKey = ELVAH_API_KEY?.trim() || "";
+		if (!trimmedKey) {
 			console.warn(
 				"ELVAH_API_KEY ist nicht gesetzt. SDK wird im Simulator-Modus laufen. Bitte in .env Datei eintragen: ELVAH_API_KEY=dein-api-key-hier"
 			);
 			return;
 		}
 
-		// API-Key setzen
+		// API-Key setzen (mit Debugging)
 		console.log("useElvahSDK: Setze API-Key...");
-		setElvahAPIKey(ELVAH_API_KEY)
+		console.log("useElvahSDK: API-Key Länge:", trimmedKey.length);
+		console.log("useElvahSDK: API-Key Start:", trimmedKey.substring(0, 10) + "...");
+		setElvahAPIKey(trimmedKey)
 			.then(() => {
 				console.log("useElvahSDK: API-Key erfolgreich gesetzt");
 			})

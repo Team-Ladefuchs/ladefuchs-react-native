@@ -41,14 +41,22 @@ export const setElvahAPIKey = async (apiKey: string): Promise<void> => {
     console.warn("InfoModule ist nicht verfügbar");
     return;
   }
-  if (!apiKey || apiKey.trim() === "") {
+  const trimmedKey = apiKey?.trim() || "";
+  if (!trimmedKey) {
     throw new Error("API-Key darf nicht leer sein");
   }
   try {
-    await infoModule.setAPIKey(apiKey);
+    console.log("setElvahAPIKey: Übergebe API-Key an Native Module...");
+    console.log("setElvahAPIKey: API-Key Länge:", trimmedKey.length);
+    await infoModule.setAPIKey(trimmedKey);
     console.log("elvah API-Key erfolgreich gesetzt");
   } catch (error) {
     console.error("Fehler beim Setzen des API-Keys:", error);
+    console.error("API-Key Details:", {
+      length: trimmedKey.length,
+      start: trimmedKey.substring(0, 10),
+      isEmpty: trimmedKey === "",
+    });
     throw error;
   }
 };

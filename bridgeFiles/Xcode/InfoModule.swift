@@ -30,19 +30,26 @@ class InfoModule: NSObject {
   @MainActor
   func setAPIKey(_ apiKey: String, resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
     DispatchQueue.main.async {
-      guard !apiKey.isEmpty else {
+      let trimmedKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+      
+      guard !trimmedKey.isEmpty else {
         rejecter("INIT_ERROR", "API-Key darf nicht leer sein", nil)
         return
       }
       
-      InfoModule.apiKey = apiKey
+      // Debugging: Log API-Key Info (ohne vollständigen Key zu loggen)
+      print("InfoModule.setAPIKey: API-Key empfangen, Länge: \(trimmedKey.count)")
+      print("InfoModule.setAPIKey: API-Key Start: \(String(trimmedKey.prefix(10)))...")
+      
+      InfoModule.apiKey = trimmedKey
       
       // SDK neu initialisieren, falls bereits initialisiert
       if InfoModule.isInitialized {
         // SDK mit neuem API-Key neu initialisieren
         // Erstelle ein Configuration-Objekt mit dem API-Key
-        let configuration = Elvah.Configuration(apiKey: apiKey)
+        let configuration = Elvah.Configuration(apiKey: trimmedKey)
         Elvah.initialize(with: configuration)
+        print("InfoModule.setAPIKey: SDK mit neuem API-Key neu initialisiert")
       }
       
       resolver(true)

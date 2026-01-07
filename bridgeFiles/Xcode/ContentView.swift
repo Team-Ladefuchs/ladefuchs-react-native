@@ -66,8 +66,21 @@ struct ContentView: View {
         if locationManager.authorizationStatus != .authorizedWhenInUse {
             Task {
                 locationManager.requestPermission()
+                // Warte kurz, damit die Berechtigung verarbeitet werden kann
+                try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 Sekunden
                 if locationManager.authorizationStatus == .authorizedWhenInUse {
                     locationManager.startUpdatingLocation()
+                    // Warte auf Location-Update
+                    try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 Sekunde
+                    if let currentLocation = locationManager.currentLocation {
+                        chargeBannerSource = .remote(near: currentLocation.coordinate)
+                    } else {
+                        // Fallback: Demo‑Koordinaten
+                        chargeBannerSource = .remote(near: demoCoordinate)
+                    }
+                } else {
+                    // Fallback: Demo‑Koordinaten wenn keine Berechtigung
+                    chargeBannerSource = .remote(near: demoCoordinate)
                 }
             }
             return
