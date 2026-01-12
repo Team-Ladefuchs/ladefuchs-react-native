@@ -20,6 +20,11 @@ RCT_EXTERN_METHOD(setAPIKey:(NSString *)apiKey
                   resolver:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter)
 
+// Simulator-Modus aktivieren/deaktivieren
+RCT_EXTERN_METHOD(setSimulatorMode:(BOOL)useSimulator
+                  resolver:(RCTPromiseResolveBlock)resolver
+                  rejecter:(RCTPromiseRejectBlock)rejecter)
+
 // Hallo Welt anzeigen
 RCT_EXTERN_METHOD(showHelloWorld:(RCTPromiseResolveBlock)resolver
                   rejecter:(RCTPromiseRejectBlock)rejecter)

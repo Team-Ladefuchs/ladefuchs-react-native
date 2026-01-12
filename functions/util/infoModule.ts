@@ -6,6 +6,7 @@ interface InfoModuleInterface {
   openSettings: () => Promise<boolean>;
   showLocationPermissionHint: () => Promise<boolean>;
   setAPIKey: (apiKey: string) => Promise<boolean>;
+  setSimulatorMode: (useSimulator: boolean) => Promise<boolean>;
   showHelloWorld: () => Promise<boolean>;
 }
 
@@ -57,6 +58,21 @@ export const setElvahAPIKey = async (apiKey: string): Promise<void> => {
       start: trimmedKey.substring(0, 10),
       isEmpty: trimmedKey === "",
     });
+    throw error;
+  }
+};
+
+export const setElvahSimulatorMode = async (useSimulator: boolean): Promise<void> => {
+  if (!infoModule) {
+    console.warn("InfoModule ist nicht verfügbar");
+    return;
+  }
+  try {
+    console.log(`setElvahSimulatorMode: ${useSimulator ? "Aktiviere" : "Deaktiviere"} Simulator-Modus...`);
+    await infoModule.setSimulatorMode(useSimulator);
+    console.log(`elvah Simulator-Modus ${useSimulator ? "aktiviert" : "deaktiviert"}`);
+  } catch (error) {
+    console.error("Fehler beim Setzen des Simulator-Modus:", error);
     throw error;
   }
 };
